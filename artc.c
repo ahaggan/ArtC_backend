@@ -18,7 +18,7 @@ typedef struct action{
 
 
 
-action* create_struct_array(void);
+void create_struct_array(action *actions);
 void clear_buffer(void);
 void get_input(char *first_input, char *second_input);
 
@@ -26,10 +26,10 @@ int main() {
 
 	char first_input[20];
 	char second_input[20];
-	action *actions;
+	action actions[FIRST_WORD_SIZE];
 
-	action = create_struct_array();
-	create_struct_array(&actions[0]);
+	create_struct_array(actions);
+	//create_struct_array(&actions[0]);
 
 	printf("\nstruct word:%s\n", actions[0].name);
 	get_input(first_input,second_input);
@@ -77,20 +77,22 @@ void get_input(char *first_input, char *second_input) {
 }
 
 void clear_buffer(void){
-	
-	while (getchar() != '\n'){
 
+	while (getchar() != '\n'){
 	}
+	
 }
 
-void create_struct_array(action *actions[FIRST_WORD_SIZE])
+void create_struct_array(action *actions)
 {
 	int i;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
+	
 	for(i = 0; i < FIRST_WORD_SIZE; i++){
-		actions[i]->name = (char*)malloc(sizeof(char[strlen(first_word[i])]));
-		actions[i]->name = first_word[i];
+		actions[i].name = (char*)malloc(1 * sizeof(char[strlen(first_word[i])]));
+		actions[i].name = first_word[i];
 	}
+	
 }
 
 
