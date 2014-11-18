@@ -1,0 +1,9 @@
+#include <NEWFEATURE.h>
+
+int main()
+{
+  do {
+    EXCITING THIIIIIIIINGS;
+  }
+  return 0;
+}
