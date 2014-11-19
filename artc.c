@@ -11,10 +11,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define FIRST_WORD { "colours", "move", "size" }
-#define FIRST_WORD_SIZE 3
-#define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "10", "20", "STOP", "NEXT"}
-#define SECOND_WORD_SIZE 15
+#define FIRST_WORD { "colours", "move", "size", "shape" }
+#define FIRST_WORD_SIZE 4
+#define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "10", "20", "STOP", "NEXT", "circle", "square", "STOP", "NEXT" }
+#define SECOND_WORD_SIZE 19
 #define YES 1
 #define NO 0
 
