@@ -36,7 +36,6 @@ void SDL_Events(SDL_Win *w, char *composition) {
        switch (event.type) {
           case SDL_TEXTINPUT:
           //add new text onto the end of our text
-            printf("%s", event.text.text);
             strcat(composition, event.text.text);
             break;
           /*
@@ -44,7 +43,7 @@ void SDL_Events(SDL_Win *w, char *composition) {
           //Update the composition text. 
           //Update the cursor pos. 
           //Update the selection length (if any).
-            composition = event.edit.text;
+            main_text = event.edit.text;
             cursor = event.edit.start;
             selection_len = event.edit.length;
             break;

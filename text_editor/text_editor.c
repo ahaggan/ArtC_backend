@@ -19,8 +19,9 @@ int main(void) {
 	    SDL_RenderPresent(w.renderer);
 	    SDL_UpdateWindowSurface(w.win); 
 		SDL_Events(&w, composition);	
+		
 	}while(!w.finished);
-	
+	printf("%s", composition);
 	SDL_StopTextInput();
 	atexit(SDL_Quit);
 }
