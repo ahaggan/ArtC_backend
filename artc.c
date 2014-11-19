@@ -1,6 +1,8 @@
 /* Checks two word user input. Also creates an array of action structures,
 *  as many as there are words in the FIRST_WORD array. 
 *  It then assigns each structure's name element with a word from said array
+*  It also assigns, for each action in turn, the corresponding attributes.
+*  When the NEXT word is found, the assignment is moved to the next action.
 */
 
 #include <stdio.h>
@@ -9,8 +11,8 @@
 #include <ctype.h>
 #define FIRST_WORD { "colours", "move", "size" }
 #define FIRST_WORD_SIZE 3
-#define SECOND_WORD { "10", "20", "red", "green", "blue", "up", "down", "left", "right" }
-#define SECOND_WORD_SIZE 9
+#define SECOND_WORD { "red", "green", "blue", "NEXT", "up", "down", "left", "right", "NEXT", "10", "20", "NEXT"}
+#define SECOND_WORD_SIZE 12
 #define YES 1
 #define NO 0
 
@@ -34,7 +36,8 @@ int main() {
 	create_struct_array(actions);
 	//create_struct_array(&actions[0]);
 
-	printf("\nstruct word:%s\n", actions[0].name);
+	printf("\nstruct word: %s\n", actions[0].name);
+	printf("\nFirst instruction: %s\n", actions[0].instruction[0]);
 	get_input(first_input,second_input);
 	printf("From main: %s %s\n", first_input, second_input);
 
@@ -88,14 +91,33 @@ void clear_buffer(void){
 
 void create_struct_array(action *actions)
 {
-	int i;
+	int i, j, k, l, cnt = 0, array_cnt = 0;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
+	char *second_word[SECOND_WORD_SIZE]= SECOND_WORD;
 	
-	for(i = 0; i < FIRST_WORD_SIZE; i++){
+	for(i = 0; i < FIRST_WORD_SIZE && array_cnt < SECOND_WORD_SIZE; i++){
 		actions[i].name = (char*)malloc(1 * sizeof(char[strlen(first_word[i])]));
 		actions[i].name = first_word[i];
-	}
 	
+		for(j = array_cnt; strcmp(second_word[j], "NEXT") != 0; j++){
+				printf("\nSecond word: %s\n", second_word[j]);
+				cnt += 1;
+		}
+		array_cnt += cnt;
+		
+		actions[i].instruction = (char**)malloc(cnt * sizeof(char*));
+		
+		for(k = array_cnt - cnt; k < array_cnt; k++){
+		
+			actions[i].instruction[k] = (char*)malloc(strlen(second_word[k]) * sizeof(char));
+			
+			for(l = 0; l < strlen(second_word[k]); l++){
+				actions[i].instruction[k][l] = second_word[k][l];
+			}
+		}
+		cnt = 0;
+		array_cnt += 1;
+	}	
 }
 
 
