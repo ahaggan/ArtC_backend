@@ -29,15 +29,17 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
    SDL_RenderPresent(w->renderer);
 }
 
-void SDL_Events(SDL_Win *w) {
+void SDL_Events(SDL_Win *w, char *composition) {
    SDL_Event event;
+   
    while(SDL_PollEvent(&event)) {      
        switch (event.type) {
-          /*
           case SDL_TEXTINPUT:
           //add new text onto the end of our text
-            strcat(text, event.text.text);
+            printf("%s", event.text.text);
+            strcat(composition, event.text.text);
             break;
+          /*
           case SDL_TEXTEDITING:
           //Update the composition text. 
           //Update the cursor pos. 
