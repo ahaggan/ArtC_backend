@@ -1,4 +1,7 @@
-// File containing back end code
+/* Checks two word user input. Also creates an array of action structures,
+*  as many as there are words in the FIRST_WORD array. 
+*  It then assigns each structure's name element with a word from said array
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
