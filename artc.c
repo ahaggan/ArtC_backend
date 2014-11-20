@@ -5,14 +5,17 @@
 *  When the NEXT word is found, the assignment is moved to the next action.
 *  Uses the structures to validate user inputs, making sure action linked to
 *  attribute.
-*/ 
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define FIRST_WORD { "colours", "move", "size", "shape" }
+#define FIRST_WORD { "colour", "move", "size", "shape" }
+enum action_word{ colour, move, size, shape};
+typedef enum action_word action_word;
 #define FIRST_WORD_SIZE 4
+//STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
 #define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "10", "20", "STOP", "NEXT", "circle", "square", "STOP", "NEXT" }
 #define SECOND_WORD_SIZE 19
 #define YES 1
@@ -23,42 +26,89 @@ typedef struct action{
 	char **instruction;
 } action;
 
+typedef struct draw{
+	char* colour;
+	char* move;
+	int size;
+	char* shape;
+}draw;
 
 
 void create_struct_array(action *actions);
 void clear_buffer(void);
 void get_input(action *actions, char *first_input, char *second_input);
+void update_values(draw *object, char *first_input, char *second_input);
+void assign_value(draw *object, action_word i, char *input);
+
 
 int main() {
 
 	char first_input[20];
 	char second_input[20];
 	action actions[FIRST_WORD_SIZE];
-	
+	draw object;
 	create_struct_array(actions);
 	//create_struct_array(&actions[0]);
-	
+	printf("Structure word: %d\n", object.size);
 	get_input(actions,first_input,second_input);
 	printf("From main: %s %s\n", first_input, second_input);
-
+	update_values(&object, first_input, second_input);
+	printf("Structure word: %d\n", object.size);
 	return 0;
 }
+
+void update_values(draw *object, char *first_input, char *second_input){
+	int i;
+	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
+	for(i = 0; i < FIRST_WORD_SIZE; i++){
+		if(strcmp(first_word[i], first_input) == 0){
+			printf("\nStrings match.\n");
+			assign_value(object, i, second_input);
+		}	
+	}
+}
+
+void assign_value(draw *object, action_word i, char* input){
+	
+	switch(i){
+		case colour:
+			printf("\nFound colour.\n");
+			object->colour = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(object->colour, input);
+			break;
+		case move:
+			object->move = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(object->move, input);
+			break;
+		case size:
+			object->size = atoi(input);
+			break;
+		case shape:
+			object->shape = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(object->shape, input);
+			break;
+	}
+}
+
 
 void get_input(action * actions, char *first_input, char *second_input) {
 	
 	//char *first_word[] = FIRST_WORD;
 	//char *second_word[] = SECOND_WORD;
-	int found_first;
-	int found_second;
-	int which_action;
+	int found_first = NO;
+	int found_second = NO;
+	int which_action = 0;
 	int i;
+	FILE *fp;
+	if((fp = fopen("instruction.txt", "r")) == NULL)
+	{
+		fprintf(stderr, "\nCouldn't open file!\n");
+		return;
+	}
 	do {
-
-		if (scanf("%s %s", first_input, second_input) != 2 ) {
-
+		if (fscanf(fp, "%s %s", first_input, second_input) != 2 ) {
 			printf("You have entered the wrong number of instructions");
 		}
-		
 		else {
 			for(i = 0, found_first = NO; i<FIRST_WORD_SIZE && found_first == NO; i++){
 				if (strcmp(first_input, actions[i].name) == 0 ) {
@@ -66,23 +116,26 @@ void get_input(action * actions, char *first_input, char *second_input) {
 					which_action = i;
 				}
 			}
+			
 			if(found_first == NO){
 				printf("Your first word is not a valid function\n");
 			}
-
-			for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == YES; i++){
-				if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
-					found_second = YES;
+				for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == YES; i++){
+					if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
+						found_second = YES;
+					}
 				}
-			}
-			if(found_first == YES && found_second == NO){
-				printf("Your second word is not valid with your chosen action\n");
-			}
-			printf("\n\n%s %s\n\n\n", first_input,second_input);
+				if(found_first == YES && found_second == NO){
+					printf("Your second word is not valid with your chosen action\n");
+				}
+				printf("\n\n%s %s\n\n\n", first_input,second_input);
 		}
-		clear_buffer();
+			//clear_buffer();
 	} while (found_first == NO || found_second == NO);
+	fclose(fp);
 }
+
+	
 
 void clear_buffer(void){
 
@@ -102,7 +155,6 @@ void create_struct_array(action *actions)
 		actions[i].name = first_word[i];
 	
 		for(j = array_cnt; strcmp(second_word[j], "NEXT") != 0; j++){
-				
 				
 				cnt += 1;
 		}
