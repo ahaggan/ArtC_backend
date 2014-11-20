@@ -9,30 +9,24 @@ int main(void) {
   	TTF_Font *font;
     font = TTF_OpenFont("FreeSans.ttf", 24);	
 
-	int block_X = WIN_WIDTH/2;
-	int block_Y = IN_HEIGHT/2;
+	SDL_Rect tux_pos;
+	tux_pos.x = 0;
+	tux_pos.y = 0;
+	tux_pos.w = WIN_WIDTH;
+	tux_pos.h = WIN_HEIGHT;
 
-	SDL_Rect block;
-	
+	SDL_Surface* tux_surface = SDL_LoadBMP("sam.bmp");
+	SDL_Texture* tux_texture = SDL_CreateTextureFromSurface(w.renderer, tux_surface);
+
+	SDL_FreeSurface(tux_surface);
+
 	do {		 
 		//Blank screen
-		SDL_SetRenderDrawColor(w.renderer, 255, 255, 255, 255);
 		SDL_RenderClear(w.renderer);
-
-		//Draw blue rectangle outline
-		SDL_SetRenderDrawColor(w.renderer, 0, 0, 255, 255);
-		block.x = block_X
-		block.y = block_Y
-		block.w = 200;
-		block.h = 200;
-
-		SDL_RenderDrawRect(w.renderer, &block);
-
-
-		//Fill blue rectangle
-		SDL_RenderFillRect(w.renderer, &block);
+		SDL_RenderCopy(w.renderer, tux_texture, NULL, &tux_pos);
 		SDL_RenderPresent(w.renderer);
 		SDL_Events(&w);
+
 	}while(!w.finished);
 
 	TTF_CloseFont(font);
