@@ -74,7 +74,7 @@ void SDL_TTF_Init() {
 }
 
 TTF_Font* SDL_Load_Font(char font_path[30], int font_size) {
-    TTF_Font *font = TTF_OpenFont(font_path, 24);
+    TTF_Font *font = TTF_OpenFont(font_path, font_size);
     if (font == NULL) {
         fprintf(stderr, "\nTTF_OpenFont could not open the font:  %s\n", SDL_GetError());
         TTF_Quit();
