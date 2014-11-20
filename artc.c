@@ -7,6 +7,8 @@
 *  attribute.
 *
 *  
+* Updated the original values of the structure
+
 */
 
 #include <stdio.h>
@@ -122,7 +124,7 @@ void get_input(action * actions, char *first_input, char *second_input) {
 			if(found_first == NO){
 				printf("Your first word is not a valid function\n");
 			}
-				for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == 					YES; i++){
+				for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == YES; i++){
 					if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
 						found_second = YES;
 					}
