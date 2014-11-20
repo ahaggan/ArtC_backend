@@ -2,7 +2,7 @@
 
 #include "artc_sdl2.h"
 
-void SDL_Win_Init(SDL_Win *w, SDL_Surface *display, char win_name[20]) {
+void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
  
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
       fprintf(stderr, "\nUnable to initialize SDL:  %s\n", SDL_GetError());
@@ -38,8 +38,6 @@ void SDL_Win_Init(SDL_Win *w, SDL_Surface *display, char win_name[20]) {
   //call RenderPresent to make the drawing take effect.
   SDL_RenderPresent(w->renderer);
 
-  //Tie the display surface to the window
-  display = SDL_GetWindowSurface(w->win);
 }
 
 
