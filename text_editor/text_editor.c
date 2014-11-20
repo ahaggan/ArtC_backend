@@ -15,7 +15,7 @@ int main(void) {
 	tux_pos.w = WIN_WIDTH;
 	tux_pos.h = WIN_HEIGHT;
 
-	SDL_Surface* tux_surface = SDL_LoadBMP("tux.bmp");
+	SDL_Surface* tux_surface = SDL_LoadBMP("sam.bmp");
 	SDL_Texture* tux_texture = SDL_CreateTextureFromSurface(w.renderer, tux_surface);
 
 	SDL_FreeSurface(tux_surface);
