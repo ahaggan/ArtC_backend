@@ -1,4 +1,4 @@
-/* Checks two word user input from file. Also creates an array of action structures,
+/* Checks two word user input. Also creates an array of action structures,
 *  as many as there are words in the FIRST_WORD array. 
 *  It then assigns each structure's name element with a word from said array
 *  It also assigns, for each action in turn, the corresponding attributes.
@@ -6,7 +6,7 @@
 *  Uses the structures to validate user inputs, making sure action linked to
 *  attribute.
 
-* Updates the values of the original structure
+* Updated the original values of the structure
 */
 
 #include <stdio.h>
@@ -122,8 +122,7 @@ void get_input(action * actions, char *first_input, char *second_input) {
 			if(found_first == NO){
 				printf("Your first word is not a valid function\n");
 			}
-				for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO 
-					&& found_first == YES; i++){
+				for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == YES; i++){
 					if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
 						found_second = YES;
 					}
