@@ -4,8 +4,7 @@ int main(void) {
 	char composition[1000];
 	SDL_Win w;
 	SDL_Win_Init(&w, "ArtC Text Editor");
-	TTF_Init(); 
-
+	SDL_TTF_Init();
 	SDL_Rect text_editor;
 	text_editor.w = WIN_WIDTH;
     text_editor.h = WIN_HEIGHT;

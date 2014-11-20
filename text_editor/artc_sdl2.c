@@ -54,6 +54,14 @@ void SDL_Events(SDL_Win *w, char *composition) {
     }
 }
 
+void SDL_TTF_Init() {
+  if (TTF_Init() != 0) {
+      fprintf(stderr, "\nUnable to initialize TTF:  %s\n", SDL_GetError());
+      SDL_Quit();
+      exit(1);
+   }
+}
+
 // Wrapper to avoid complexities of renderer & alpha channels
 void SDL_SetDrawColour(SDL_Win *w, Uint8 r, Uint8 g, Uint8 b) {
    SDL_SetRenderDrawColor(w->renderer, r, g, b, SDL_ALPHA_OPAQUE);
