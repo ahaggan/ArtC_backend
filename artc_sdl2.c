@@ -84,6 +84,12 @@ TTF_Font* SDL_Load_Font(char font_path[30], int font_size) {
     return font;
 }
 
+SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
+  SDL_Texture* text;
+  text = SDL_CreateTextureFromSurface(w->renderer, surface);
+  SDL_FreeSurface(surface);
+  return text;
+}
 
 /*
 void SDL_TTF_Quit(TTF_Font *font) {

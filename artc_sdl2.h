@@ -17,3 +17,4 @@ void SDL_Renderer_Init(SDL_Win *w);
 void SDL_Events(SDL_Win *w);
 void SDL_TTF_Init();
 TTF_Font* SDL_Load_Font(char font_path[30], int font_size);
+SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w);
