@@ -5,6 +5,7 @@ int main(void) {
 	SDL_Win w;
 	SDL_Win_Init(&w, "ArtC Text Editor");
 	SDL_TTF_Init();
+	SDL_Load_Font();
 	SDL_Rect text_editor;
 	text_editor.w = WIN_WIDTH;
     text_editor.h = WIN_HEIGHT;
@@ -23,5 +24,6 @@ int main(void) {
 	}while(!w.finished);
 	printf("%s", composition);
 	SDL_StopTextInput();
+	TTF_Quit();
 	atexit(SDL_Quit);
 }

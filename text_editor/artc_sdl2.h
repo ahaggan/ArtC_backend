@@ -15,4 +15,5 @@ typedef struct SDL_Win SDL_Win;
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Events(SDL_Win *w, char *composition);
 void SDL_TTF_Init();
+void SDL_Load_Font();
 void SDL_SetDrawColour(SDL_Win *w, Uint8 r, Uint8 g, Uint8 b);

@@ -62,6 +62,19 @@ void SDL_TTF_Init() {
    }
 }
 
+
+void SDL_Load_Font() {
+   TTF_Font *font;
+   font = TTF_OpenFont("font/FreeSans.ttf", 24);
+   if (font == NULL)
+   {
+      fprintf(stderr, "\nTTF_OpenFont could not open the font:  %s\n", SDL_GetError());
+      TTF_Quit();
+      SDL_Quit();
+      exit(1);
+   }
+}
+
 // Wrapper to avoid complexities of renderer & alpha channels
 void SDL_SetDrawColour(SDL_Win *w, Uint8 r, Uint8 g, Uint8 b) {
    SDL_SetRenderDrawColor(w->renderer, r, g, b, SDL_ALPHA_OPAQUE);
