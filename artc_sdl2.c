@@ -36,6 +36,7 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
   //call RenderPresent to make the drawing take effect.
   SDL_RenderPresent(w->renderer);
+
 }
 
 
@@ -90,4 +91,6 @@ void SDL_TTF_Quit(TTF_Font *font) {
 }
 */
 
+
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
+
