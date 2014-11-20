@@ -5,7 +5,7 @@
 *  When the NEXT word is found, the assignment is moved to the next action.
 *  Uses the structures to validate user inputs, making sure action linked to
 *  attribute.
-*/
+*/ 
 
 #include <stdio.h>
 #include <stdlib.h>
