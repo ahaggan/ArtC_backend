@@ -48,14 +48,6 @@ void SDL_Events(SDL_Win *w) {
    
    while(SDL_PollEvent(&event)) {      
        switch (event.type) {
-          case SDLK_RIGHT:
-            break;
-          case SDLK_LEFT:
-            break;
-          case SDLK_DOWN:
-            break;
-          case SDLK_UP:
-            break;
       /*
           case SDL_TEXTINPUT:
           //add new text onto the end of our text
@@ -84,7 +76,6 @@ void SDL_TTF_Init() {
       exit(1);
    }
 }
-
 
 void SDL_Load_Font(char font_path[30]) {
    TTF_Font *font;
