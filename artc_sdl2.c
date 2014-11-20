@@ -73,16 +73,17 @@ void SDL_TTF_Init() {
     }
 }
 
-void SDL_Load_Font(char font_path[30]) {
-    TTF_Font *font;
-    font = TTF_OpenFont(font_path, 24);
+TTF_Font* SDL_Load_Font(char font_path[30], int font_size) {
+    TTF_Font *font = TTF_OpenFont(font_path, 24);
     if (font == NULL) {
         fprintf(stderr, "\nTTF_OpenFont could not open the font:  %s\n", SDL_GetError());
         TTF_Quit();
         SDL_Quit();
         exit(1);
     }
+    return font;
 }
+
 
 /*
 void SDL_TTF_Quit(TTF_Font *font) {
