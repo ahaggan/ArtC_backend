@@ -1,10 +1,12 @@
-/* Checks two word user input. Also creates an array of action structures,
+/* Checks two word user input from file. Also creates an array of action structures,
 *  as many as there are words in the FIRST_WORD array. 
 *  It then assigns each structure's name element with a word from said array
 *  It also assigns, for each action in turn, the corresponding attributes.
 *  When the NEXT word is found, the assignment is moved to the next action.
 *  Uses the structures to validate user inputs, making sure action linked to
 *  attribute.
+
+* Updates the values of the original structure
 */
 
 #include <stdio.h>
@@ -16,7 +18,8 @@ enum action_word{ colour, move, size, shape};
 typedef enum action_word action_word;
 #define FIRST_WORD_SIZE 4
 //STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
-#define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "10", "20", "STOP", "NEXT", "circle", "square", "STOP", "NEXT" }
+#define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", 
+"10", "20", "STOP", "NEXT", "circle", "square", "STOP", "NEXT" }
 #define SECOND_WORD_SIZE 19
 #define YES 1
 #define NO 0
@@ -120,7 +123,8 @@ void get_input(action * actions, char *first_input, char *second_input) {
 			if(found_first == NO){
 				printf("Your first word is not a valid function\n");
 			}
-				for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == 					YES; i++){
+				for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO 
+					&& found_first == YES; i++){
 					if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
 						found_second = YES;
 					}
