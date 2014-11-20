@@ -41,12 +41,12 @@ int main()
     SDL_RenderFillRect(win.renderer, &drawbutton);
 
     SDL_Color generatecolour = {64,255,64,255};
-    SDL_Surface* generate = TTF_RenderText_solid(font, "GENERATE", generatecolour);
+    SDL_Surface* generate = TTF_RenderText_Solid(font, "GENERATE", generatecolour);
     SDL_Texture* solid_texture = SurfaceToTexture(generate, &win);
     SDL_QueryTexture(solid_texture, NULL, NULL, &drawbutton.w, &drawbutton.h);
 
     SDL_RenderClear(win.renderer);
-    SDL_RenderCopy(win. renderer);
+    SDL_RenderCopy(win.renderer, solid_texture, NULL, &drawbutton);
     SDL_RenderPresent(win.renderer);
     SDL_UpdateWindowSurface(win.win);
 
