@@ -29,6 +29,7 @@ typedef struct action{
 } action;
 
 
+
 void create_struct_array(action *actions);
 void clear_buffer(void);
 void get_input(action *actions, char *first_input, char *second_input, draw *object);
@@ -44,18 +45,18 @@ int main() {
 	char second_input[MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
 	draw object;
-	
+	printf("\nstart");
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
-	make_default(&object);
+	//make_default(&object);
 	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
-
+    printf("\nColour: %s", object.colour);
 	draw_sdl(&object);
 	
 	return 0;
 }
 
 void make_default(draw *object){
-
+    printf("\ndefault");
 	strcpy(object->colour, "red"); 
 	strcpy(object->move, "up");
 	object->size = 10;
@@ -66,7 +67,7 @@ void get_input(action *actions, char *first_input, char *second_input, draw *obj
 	
 	//char *first_word[] = FIRST_WORD;
 	//char *second_word[] = SECOND_WORD;
-	
+	printf("\ninput");
 	char c = 'f';
 	FILE *fp;
 	if((fp = fopen("instruction.txt", "r")) == NULL)
@@ -92,7 +93,7 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 	int found_second = NO;
 	int which_action = 0;
 	int i, j;
-	
+	printf("\nfile line");
 	if ((j = fscanf(fp, "%s%s", first_input, second_input)) != 2 ) {
 		if(j != -1){
 			printf("\nYou have entered %d instructions, you need 2.\n", j);
@@ -129,6 +130,7 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 void update_values(draw *object, char *first_input, char *second_input){
 	int i;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
+	printf("\nupdate");
 	for(i = 0; i < FIRST_WORD_SIZE; i++){
 		if(strcmp(first_word[i], first_input) == 0){
 			printf("\nStrings match.\n");
@@ -174,6 +176,7 @@ void clear_buffer(void){
 
 void create_struct_array(action *actions)
 {
+    printf("\ncreate");
 	int i, j, k, l, cnt = 0, array_cnt = 0;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
 	char *second_word[SECOND_WORD_SIZE]= SECOND_WORD;
@@ -203,5 +206,6 @@ void create_struct_array(action *actions)
 		cnt = 0;
 		array_cnt += 1;
 	}	
+	printf("\nend ");
 }
 
