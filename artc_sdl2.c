@@ -2,7 +2,7 @@
 
 #include "artc_sdl2.h"
 
-void SDL_Win_Init(SDL_Win *w, SDL_Surface *display, char win_name[20]) {
+void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
  
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
       fprintf(stderr, "\nUnable to initialize SDL:  %s\n", SDL_GetError());
@@ -25,7 +25,6 @@ void SDL_Win_Init(SDL_Win *w, SDL_Surface *display, char win_name[20]) {
     exit(1);
   }
   
-  
   // Set resolution (size) of renderer to the same as window
   SDL_RenderSetLogicalSize(w->renderer, WIN_WIDTH, WIN_HEIGHT); 
 
@@ -38,14 +37,11 @@ void SDL_Win_Init(SDL_Win *w, SDL_Surface *display, char win_name[20]) {
   //call RenderPresent to make the drawing take effect.
   SDL_RenderPresent(w->renderer);
 
-  //Tie the display surface to the window
-  display = SDL_GetWindowSurface(w->win);
 }
 
 
 void SDL_Events(SDL_Win *w) {
    SDL_Event event;
-   
    while(SDL_PollEvent(&event)) {      
        switch (event.type) {
       /*
@@ -70,23 +66,29 @@ void SDL_Events(SDL_Win *w) {
 }
 
 void SDL_TTF_Init() {
-  if (TTF_Init() != 0) {
-      fprintf(stderr, "\nUnable to initialize TTF:  %s\n", SDL_GetError());
-      SDL_Quit();
-      exit(1);
-   }
+    if (TTF_Init() != 0) {
+        fprintf(stderr, "\nUnable to initialize TTF:  %s\n", SDL_GetError());
+        SDL_Quit();
+        exit(1);
+    }
 }
 
-void SDL_Load_Font(char font_path[30]) {
-   TTF_Font *font;
-   font = TTF_OpenFont(font_path, 24);
-   if (font == NULL)
-   {
-      fprintf(stderr, "\nTTF_OpenFont could not open the font:  %s\n", SDL_GetError());
-      TTF_Quit();
-      SDL_Quit();
-      exit(1);
-   }
+TTF_Font* SDL_Load_Font(char font_path[30], int font_size) {
+    TTF_Font *font = TTF_OpenFont(font_path, font_size);
+    if (font == NULL) {
+        fprintf(stderr, "\nTTF_OpenFont could not open the font:  %s\n", SDL_GetError());
+        TTF_Quit();
+        SDL_Quit();
+        exit(1);
+    }
+    return font;
+}
+
+SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
+  SDL_Texture* text;
+  text = SDL_CreateTextureFromSurface(w->renderer, surface);
+  SDL_FreeSurface(surface);
+  return text;
 }
 
 /*
@@ -95,3 +97,7 @@ void SDL_TTF_Quit(TTF_Font *font) {
   TTF_Quit();
 }
 */
+
+
+//Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
+
