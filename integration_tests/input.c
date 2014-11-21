@@ -28,13 +28,6 @@ typedef struct action{
 	char **instruction;
 } action;
 
-typedef struct draw{
-	char* colour;
-	char* move;
-	int size;
-	char* shape;
-}draw;
-
 
 void create_struct_array(action *actions);
 void clear_buffer(void);
@@ -43,7 +36,7 @@ void update_values(draw *object, char *first_input, char *second_input);
 void assign_value(draw *object, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(draw *object);
-void draw(draw *object);
+void draw_sdl(draw *object);
 
 int main() {
 
@@ -55,6 +48,8 @@ int main() {
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
 	make_default(&object);
 	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
+
+	draw_sdl(&object);
 	
 	return 0;
 }

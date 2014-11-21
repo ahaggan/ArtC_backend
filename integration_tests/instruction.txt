@@ -1,0 +1,4 @@
+size 10
+colour blue
+move up
+shape square
