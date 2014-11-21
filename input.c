@@ -41,6 +41,7 @@ void get_input(action *actions, char *first_input, char *second_input, draw *obj
 void update_values(draw *object, char *first_input, char *second_input);
 void assign_value(draw *object, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
+void make_default(draw *object);
 
 int main() {
 
@@ -50,10 +51,18 @@ int main() {
 	draw object;
 	
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
-	
+	make_default(&object);
 	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
 	
 	return 0;
+}
+
+void make_default(draw *object){
+
+	strcpy(object->colour, "red"); 
+	strcpy(object->move, "up");
+	object->size = 10;
+	strcpy(object->shape, "square");
 }
 
 void get_input(action *actions, char *first_input, char *second_input, draw *object) {
