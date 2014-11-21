@@ -1,8 +1,8 @@
-CFLAGS = `sdl2-config --cflags` -Wall -pedantic -std=c99 -lm
-INCS = neillsdl2.h 
+CFLAGS = -Wall -pedantic -std=c99 -lm
+INCS = artc_sdl2.h 
 TARGET = input
-SOURCES =  neillsdl2.c $(TARGET).c displaytest.c
-LIBS =  `sdl2-config --libs`
+SOURCES =  artc_sdl2.c $(TARGET).c displaytest.c
+LIBS =  -lSDL2
 CC = gcc
 
 

@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "neillsdl2.h"
+#include "artc_sdl2.h"
 #define FIRST_WORD { "colour", "move", "size", "shape" }
 enum action_word{ colour, move, size, shape};
 typedef enum action_word action_word;

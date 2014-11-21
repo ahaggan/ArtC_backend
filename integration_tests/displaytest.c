@@ -1,29 +1,31 @@
-#include "neillsdl2.h"
+#include "artc_sdl2.h"
 
 void draw_sdl(draw *object)
 {
 
-    SDL_Simplewin sw;
+    SDL_Win sw;
     int x, y;
-    x=(WWIDTH / 2) - (object->size / 2);
-    y=(WHEIGHT / 2) - (object->size / 2);
+    char win_name[20];
+    x=(WIN_WIDTH / 2) - (object->size / 2);
+    y=(WIN_HEIGHT / 2) - (object->size / 2);
+    win_name[0] = 'I';
+    win_name[1] = ' ';
 
-
-    Neill_SDL_Init(&sw);
+    SDL_Win_Init(&sw, win_name);
 
     if (strcmp(object->colour, "blue") == 0)
     {
-        Neill_SDL_SetDrawColour(&sw, 0, 0, 255, 50);
+        SDL_SetRenderDrawColor(sw.renderer, 0, 0, 255, 50);
     }
 
     else if (strcmp(object->colour, "red") == 0)
     {
-        Neill_SDL_SetDrawColour(&sw, 255, 0, 0, 50);
+        SDL_SetRenderDrawColor(sw.renderer, 255, 0, 0, 50);
     }
 
     else if (strcmp(object->colour, "green") == 0)
     {
-        Neill_SDL_SetDrawColour(&sw, 0, 255, 0, 50);
+        SDL_SetRenderDrawColor(sw.renderer, 0, 255, 0, 50);
     }
 
 
@@ -40,7 +42,7 @@ void draw_sdl(draw *object)
 
     else if (strcmp(object->shape, "circle") == 0)
     {
-        Neill_SDL_RenderFillCircle(sw.renderer, x, y, object->size, 1);
+        SDL_RenderFillCircle(sw.renderer, x, y, object->size, 1);
 
     }
 
@@ -52,7 +54,7 @@ void draw_sdl(draw *object)
     while (!sw.finished)
     {
 
-        Neill_SDL_Events(&sw);
+        SDL_Events(&sw);
     }
 
 }
