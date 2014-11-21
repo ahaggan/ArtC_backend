@@ -40,8 +40,18 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
 void SDL_Events(SDL_Win *w, char *composition) {
     SDL_Event event;
+    int composition_len = SDL_strlen(composition);
     while(SDL_PollEvent(&event)) {      
         switch (event.type) {
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) {
+                    case SDLK_BACKSPACE:
+                        composition[composition_len - 1] = '\0';
+                        break;
+                    case SDLK_RETURN:
+                        printf("%s\n", "enter");
+                }
+                break;
             case SDL_TEXTINPUT:
                 strcat(composition, event.text.text);
                 break;

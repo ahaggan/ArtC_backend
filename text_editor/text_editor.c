@@ -5,7 +5,6 @@ SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w);
 int main(void) {
 	char composition[1000] = "ARTC";
 
-	
 	SDL_Win w;
 	SDL_Win_Init(&w, "ARTC Text Editor");
 
