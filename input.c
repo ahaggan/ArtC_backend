@@ -20,6 +20,7 @@ typedef enum action_word action_word;
 #define SECOND_WORD_SIZE 19
 #define YES 1
 #define NO 0
+#define MAX_LENGTH 20
 
 typedef struct action{
 	char *name;
@@ -43,23 +44,15 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 
 int main() {
 
-	char first_input[20];
-	char second_input[20];
+	char first_input[MAX_LENGTH];
+	char second_input[MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
 	draw object;
-	create_struct_array(actions);
-	//create_struct_array(&actions[0]);
-	printf("Structure word: %d\n", object.size);
-	printf("Structure word: %s\n", object.colour);
-	printf("Structure word: %s\n", object.move);
-	printf("Structure word: %s\n", object.shape);
-	get_input(actions,first_input,second_input, &object);
-	//printf("From main: %s %s\n", first_input, second_input);
 	
-	printf("Structure word: %d\n", object.size);
-	printf("Structure word: %s\n", object.colour);
-	printf("Structure word: %s\n", object.move);
-	printf("Structure word: %s\n", object.shape);
+	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
+	
+	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
+	
 	return 0;
 }
 
@@ -96,10 +89,10 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 	
 	if ((j = fscanf(fp, "%s%s", first_input, second_input)) != 2 ) {
 		if(j != -1){
-			printf("\nYou have entered %d instructions\n", j);
+			printf("\nYou have entered %d instructions, you need 2.\n", j);
 			return NO;
 		}
-		printf("Reached end of file.");
+		printf("\nReached end of file.\n");
 	return NO;
 	}
 	else {
