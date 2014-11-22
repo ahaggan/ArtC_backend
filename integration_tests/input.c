@@ -14,13 +14,13 @@
 #include <string.h>
 #include <ctype.h>
 #include "artc_sdl2.h"
-#define FIRST_WORD { "colour", "move", "size", "shape", "startx", "starty"}
-enum action_word{ colour, move, size, shape, startx, starty};
+#define FIRST_WORD { "colour", "move", "size", "shape", "startx", "starty", "endx", "endy"}
+enum action_word{ colour, move, size, shape, startx, starty, endx, endy};
 typedef enum action_word action_word;
-#define FIRST_WORD_SIZE 6
+#define FIRST_WORD_SIZE 8
 //STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
-#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT"}
-#define SECOND_WORD_SIZE 27
+#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT"}
+#define SECOND_WORD_SIZE 33
 #define YES 1
 #define NO 0
 #define MAX_LENGTH 20
@@ -68,6 +68,8 @@ void make_default(draw *object){
 	strcpy(object->shape, "square");
 	object->startx = WIN_WIDTH/2 - 10;
 	object->starty = WIN_HEIGHT/2 - 10;
+	object->endx = WIN_WIDTH/2 + 10;
+	object->endy = WIN_HEIGHT/2 + 10; 
 }
 
 void get_input(action *actions, char *first_input, char *second_input, draw *object) {
@@ -174,7 +176,14 @@ void assign_value(draw *object, action_word i, char* input){
 		    break;
 		case starty:
 		    object->starty = atoi(input);
+		    break; 
+		case endx:
+		    object->endx = atoi(input);
+		    break; 
+		case endy:
+		    object->endy = atoi(input);
 		    break;  
+		
 	}
 	printf("\nENd assign\n");
 }

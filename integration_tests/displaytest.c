@@ -58,10 +58,9 @@ void draw_sdl(draw *object)
 
     else if (strcmp(object->shape, "line") == 0)
     {
-        SDL_RenderDrawLine(sw.renderer, object->startx, object->starty, x + (object->size) , WIN_HEIGHT / 2);
+        SDL_RenderDrawLine(sw.renderer, object->startx, object->starty, object->endx, object->endy);
 
     }
-
 
     SDL_RenderPresent(sw.renderer);
     SDL_UpdateWindowSurface(sw.win);

@@ -19,6 +19,10 @@ typedef struct draw{
   char* move;
   int size;
   char* shape;
+  int startx;
+  int starty;
+  int endx;
+  int endy;
 }draw;
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
