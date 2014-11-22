@@ -1,5 +1,4 @@
 //Keep all 'display' information within the display module. Pass around a display object.
-
 #include "artc_sdl2.h"
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
@@ -59,6 +58,38 @@ void SDL_Events(SDL_Win *w, char *composition) {
                 w->finished = 1;
         }
     }
+}
+
+// Filled Circle centred at (cx,cy) of radius r, see :
+// http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
+void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a)
+{
+
+   for (double dy = 1; dy <= r; dy += 1.0) {
+        double dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
+        SDL_RenderDrawLine(rend, cx-dx, cy+r-dy, cx+dx, cy+r-dy);
+        SDL_RenderDrawLine(rend, cx-dx, cy-r+dy, cx+dx, cy-r+dy);
+   }
+
+}
+
+// Circle centred at (cx,cy) of radius r, see :
+// http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
+void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a)
+{
+
+   double dx, dy;
+   dx = floor(sqrt((2.0 * r ) ));
+   SDL_RenderDrawLine(rend, cx-dx, cy+r, cx+dx, cy+r);
+   SDL_RenderDrawLine(rend, cx-dx, cy-r, cx+dx, cy-r);
+   for (dy = 1; dy <= r; dy += 1.0) {
+        dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
+        SDL_RenderDrawPoint(rend, cx+dx, cy+r-dy);
+        SDL_RenderDrawPoint(rend, cx+dx, cy-r+dy);
+        SDL_RenderDrawPoint(rend, cx-dx, cy+r-dy);
+        SDL_RenderDrawPoint(rend, cx-dx, cy-r+dy);
+   }
+
 }
 
 void SDL_TTF_Init() {

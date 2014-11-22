@@ -3,7 +3,7 @@
 SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w);
 
 int main(void) {
-	char composition[1000] = "ARTC";
+	char composition[1000] = "Type...";
 
 	SDL_Win w;
 	SDL_Win_Init(&w, "ARTC Text Editor");
@@ -17,7 +17,8 @@ int main(void) {
 
 	//Create text texture
 	SDL_Rect text_rect;
-	text_rect.h = text_rect.w = 100;
+	text_rect.w = WIN_WIDTH;
+	text_rect.h = WIN_HEIGHT;
 	SDL_Surface* text_surface = TTF_RenderText_Solid(font, composition, text_colour);
 	SDL_Texture* text_editor = SurfaceToTexture(text_surface, &w);
 	SDL_QueryTexture(text_editor, NULL, NULL, &text_rect.w, &text_rect.h);
