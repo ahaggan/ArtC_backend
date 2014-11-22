@@ -49,7 +49,7 @@ int main() {
 	draw object;
 	printf("\nstart");
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
-	//make_default(&object);
+	make_default(&object);
 	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
     printf("\nColour: %s", object.colour);
 	draw_sdl(&object);
@@ -59,9 +59,12 @@ int main() {
 
 void make_default(draw *object){
     printf("\ndefault");
+    object->colour = (char*)malloc(4*sizeof(char));
 	strcpy(object->colour, "red"); 
+	object->move = (char*)malloc(3*sizeof(char));
 	strcpy(object->move, "up");
 	object->size = 10;
+	object->shape = (char*)malloc(7*sizeof(char));
 	strcpy(object->shape, "square");
 }
 
@@ -116,12 +119,13 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 			printf("Your first word is not a valid function\n");
 		}
 			for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == YES; i++){
-			    if (atoi(second_input) != 0){       //Will allow user to enter any integer, for any attribute that would be an integer
-			        found_second = YES;
-			    }
-				if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
+			    if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
 					found_second = YES;
 				}
+			    else if (atoi(second_input) != 0){       //Will allow user to enter any integer, for any attribute that would be an integer
+			        found_second = YES;
+			    }
+				
 			}
 		if(found_first == YES && found_second == NO){
 			printf("Your second word is not valid with your chosen action\n");
