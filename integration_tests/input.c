@@ -14,13 +14,13 @@
 #include <string.h>
 #include <ctype.h>
 #include "artc_sdl2.h"
-#define FIRST_WORD { "colour", "move", "size", "shape"}
-enum action_word{ colour, move, size, shape};
+#define FIRST_WORD { "colour", "move", "size", "shape", "startx", "starty"}
+enum action_word{ colour, move, size, shape, startx, starty};
 typedef enum action_word action_word;
-#define FIRST_WORD_SIZE 4
+#define FIRST_WORD_SIZE 6
 //STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
-#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT" }
-#define SECOND_WORD_SIZE 21
+#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT"}
+#define SECOND_WORD_SIZE 27
 #define YES 1
 #define NO 0
 #define MAX_LENGTH 20
@@ -66,6 +66,8 @@ void make_default(draw *object){
 	object->size = 10;
 	object->shape = (char*)malloc(7*sizeof(char));
 	strcpy(object->shape, "square");
+	object->startx = WIN_WIDTH/2 - 10;
+	object->starty = WIN_HEIGHT/2 - 10;
 }
 
 void get_input(action *actions, char *first_input, char *second_input, draw *object) {
@@ -167,6 +169,12 @@ void assign_value(draw *object, action_word i, char* input){
 			object->shape = (char*)malloc(strlen(input)*sizeof(char));
 			strcpy(object->shape, input);
 			break;
+		case startx:
+		    object->startx = atoi(input);
+		    break;
+		case starty:
+		    object->starty = atoi(input);
+		    break;  
 	}
 	printf("\nENd assign\n");
 }
