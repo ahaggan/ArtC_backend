@@ -19,8 +19,8 @@ enum action_word{ colour, move, size, shape};
 typedef enum action_word action_word;
 #define FIRST_WORD_SIZE 4
 //STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
-#define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT" }
-#define SECOND_WORD_SIZE 19
+#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT" }
+#define SECOND_WORD_SIZE 21
 #define YES 1
 #define NO 0
 #define MAX_LENGTH 20
