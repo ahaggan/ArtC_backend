@@ -37,12 +37,20 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
 }
 
-void SDL_Events(SDL_Win *w, char *composition) {
+void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button) {
     SDL_Event event;
     int composition_len = SDL_strlen(composition);
+    int x;
+    int y;
+    int mouse_inside = 1;
     while(SDL_PollEvent(&event)) {      
         switch (event.type) {
+            //User requests quit
+            case SDL_QUIT:
+                w->finished = 1;
+            //User presses a key
             case SDL_KEYDOWN:
+                //Select actions based on key press
                 switch (event.key.keysym.sym) {
                     case SDLK_BACKSPACE:
                         composition[composition_len - 1] = '\0';
@@ -54,30 +62,37 @@ void SDL_Events(SDL_Win *w, char *composition) {
             case SDL_TEXTINPUT:
                 strcat(composition, event.text.text);
                 break;
-            case SDL_QUIT:
-                w->finished = 1;
+            case SDL_MOUSEMOTION:
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP:
+                SDL_GetMouseState(&x, &y);
+
+                //mouse left of button x < but_x
+                //mouse right of button x > but_x + but_width
+                //mouse above button y < but_y
+                //mouse below button y > but_y + but_height
+
+                //if !inside
+                //button_state = button_mouse_out
+                printf("%d %d\n", x, y );
+                break;
         }
     }
 }
 
 // Filled Circle centred at (cx,cy) of radius r, see :
 // http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
-void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a)
-{
-
+void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a) {
    for (double dy = 1; dy <= r; dy += 1.0) {
         double dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
         SDL_RenderDrawLine(rend, cx-dx, cy+r-dy, cx+dx, cy+r-dy);
         SDL_RenderDrawLine(rend, cx-dx, cy-r+dy, cx+dx, cy-r+dy);
    }
-
 }
 
 // Circle centred at (cx,cy) of radius r, see :
 // http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
-void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a)
-{
-
+void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a) {
    double dx, dy;
    dx = floor(sqrt((2.0 * r ) ));
    SDL_RenderDrawLine(rend, cx-dx, cy+r, cx+dx, cy+r);
@@ -89,7 +104,6 @@ void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a)
         SDL_RenderDrawPoint(rend, cx-dx, cy+r-dy);
         SDL_RenderDrawPoint(rend, cx-dx, cy-r+dy);
    }
-
 }
 
 void SDL_TTF_Init() {
@@ -112,10 +126,10 @@ TTF_Font* SDL_Load_Font(char font_path[30], int font_size) {
 }
 
 SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
-    SDL_Texture* text;
-    text = SDL_CreateTextureFromSurface(w->renderer, surface);
+    SDL_Texture* texture;
+    texture = SDL_CreateTextureFromSurface(w->renderer, surface);
     SDL_FreeSurface(surface);
-    return text;
+    return texture;
 }
 
 void SDL_TTF_Quit(TTF_Font *font) {
