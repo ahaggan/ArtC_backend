@@ -5,6 +5,8 @@
 *  When the NEXT word is found, the assignment is moved to the next action.
 *  Uses the structures to validate user inputs, making sure action linked to
 *  attribute.
+*
+*   It creates a draw structure to then pass to the SDL draw function
 */
 
 #include <stdio.h>
@@ -12,13 +14,13 @@
 #include <string.h>
 #include <ctype.h>
 #include "artc_sdl2.h"
-#define FIRST_WORD { "colour", "move", "size", "shape" }
+#define FIRST_WORD { "colour", "move", "size", "shape"}
 enum action_word{ colour, move, size, shape};
 typedef enum action_word action_word;
 #define FIRST_WORD_SIZE 4
 //STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
-#define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "10", "20", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT" }
-#define SECOND_WORD_SIZE 20
+#define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT" }
+#define SECOND_WORD_SIZE 19
 #define YES 1
 #define NO 0
 #define MAX_LENGTH 20
@@ -100,7 +102,7 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 			return NO;
 		}
 		printf("\nReached end of file.\n");
-	return NO;
+	    return NO;
 	}
 	else {
 		for(i = 0, found_first = NO; i<FIRST_WORD_SIZE && found_first == NO; i++){
@@ -114,6 +116,9 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 			printf("Your first word is not a valid function\n");
 		}
 			for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == YES; i++){
+			    if (atoi(second_input) != 0){       //Will allow user to enter any integer, for any attribute that would be an integer
+			        found_second = YES;
+			    }
 				if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
 					found_second = YES;
 				}
