@@ -67,10 +67,12 @@ void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button) {
             case SDL_MOUSEBUTTONUP:
                 SDL_GetMouseState(&x, &y);
 
-                //mouse left of button x < but_x
-                //mouse right of button x > but_x + but_width
-                //mouse above button y < but_y
-                //mouse below button y > but_y + but_height
+                /*if(x>=button.x && x<=button.x+button.w &&
+                     y>=button.y && y<=button.y+button.h) {
+                    GENERATE FRACTAL();
+                    SDL_RenderPresent(w->renderer);
+                    SDL_UpdateWindowSurface(w->win);
+                */
 
                 //if !inside
                 //button_state = button_mouse_out

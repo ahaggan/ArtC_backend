@@ -18,6 +18,7 @@ int main()
     make_rect(&win, &canvas, texteditor.w, menubar.h, WIN_WIDTH/2, WIN_HEIGHT-menubar.h-30, 255, 255, 255);
     // coloured white.
     make_rect(&win, &gbutton, texteditor.w-100-5, WIN_HEIGHT-25-5, 100, 25, 255, 0, 0);
+    // width 100, height 25, positioned underneath text editor.
 
     SDL_Color textcolour = {64,255,64,255};
     SDL_Surface* textsurface = TTF_RenderText_Solid(font, "GENERATE", textcolour);
@@ -27,10 +28,11 @@ int main()
     SDL_RenderPresent(win.renderer);
     SDL_UpdateWindowSurface(win.win);
 
-    // Pass texteditor rect to texteditor module so it knows where it is.
+    // Pass rects around so respective modules know where they are.
 
     while(!win.finished) {
-        SDL_Events(&win);
+        SDL_Events(&win, composition, gbutton);
+        /* Composition stuff needs to be integrated */
     }
     return 0;
 }
