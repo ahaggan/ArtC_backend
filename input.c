@@ -5,20 +5,22 @@
 *  When the NEXT word is found, the assignment is moved to the next action.
 *  Uses the structures to validate user inputs, making sure action linked to
 *  attribute.
+*
+*   It creates a draw structure to then pass to the SDL draw function
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "neillsdl2.h"
-#define FIRST_WORD { "colour", "move", "size", "shape" }
-enum action_word{ colour, move, size, shape};
+#include "artc_sdl2.h"
+#define FIRST_WORD { "colour", "move", "size", "shape", "startx", "starty", "endx", "endy"}
+enum action_word{ colour, move, size, shape, startx, starty, endx, endy};
 typedef enum action_word action_word;
-#define FIRST_WORD_SIZE 4
+#define FIRST_WORD_SIZE 8
 //STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
-#define SECOND_WORD { "red", "green", "blue", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "10", "20", "STOP", "NEXT", "circle", "square", "STOP", "NEXT" }
-#define SECOND_WORD_SIZE 19
+#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT", "ALLOW_CHECK", "STOP", "NEXT"}
+#define SECOND_WORD_SIZE 33
 #define YES 1
 #define NO 0
 #define MAX_LENGTH 20
@@ -28,12 +30,6 @@ typedef struct action{
 	char **instruction;
 } action;
 
-typedef struct draw{
-	char* colour;
-	char* move;
-	int size;
-	char* shape;
-}draw;
 
 
 void create_struct_array(action *actions);
@@ -43,7 +39,7 @@ void update_values(draw *object, char *first_input, char *second_input);
 void assign_value(draw *object, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(draw *object);
-void draw(draw *object);
+void draw_sdl(draw *object);
 
 int main() {
 
@@ -51,27 +47,36 @@ int main() {
 	char second_input[MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
 	draw object;
-	
+	printf("\nstart");
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
 	make_default(&object);
 	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
+    printf("\nColour: %s", object.colour);
+	draw_sdl(&object);
 	
 	return 0;
 }
 
 void make_default(draw *object){
-
+    printf("\ndefault");
+    object->colour = (char*)malloc(4*sizeof(char));
 	strcpy(object->colour, "red"); 
+	object->move = (char*)malloc(3*sizeof(char));
 	strcpy(object->move, "up");
 	object->size = 10;
+	object->shape = (char*)malloc(7*sizeof(char));
 	strcpy(object->shape, "square");
+	object->startx = WIN_WIDTH/2 - 10;
+	object->starty = WIN_HEIGHT/2 - 10;
+	object->endx = WIN_WIDTH/2 + 10;
+	object->endy = WIN_HEIGHT/2 + 10; 
 }
 
 void get_input(action *actions, char *first_input, char *second_input, draw *object) {
 	
 	//char *first_word[] = FIRST_WORD;
 	//char *second_word[] = SECOND_WORD;
-	
+	printf("\ninput");
 	char c = 'f';
 	FILE *fp;
 	if((fp = fopen("instruction.txt", "r")) == NULL)
@@ -97,14 +102,14 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 	int found_second = NO;
 	int which_action = 0;
 	int i, j;
-	
+	printf("\nfile line");
 	if ((j = fscanf(fp, "%s%s", first_input, second_input)) != 2 ) {
 		if(j != -1){
 			printf("\nYou have entered %d instructions, you need 2.\n", j);
 			return NO;
 		}
 		printf("\nReached end of file.\n");
-	return NO;
+	    return NO;
 	}
 	else {
 		for(i = 0, found_first = NO; i<FIRST_WORD_SIZE && found_first == NO; i++){
@@ -118,9 +123,13 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 			printf("Your first word is not a valid function\n");
 		}
 			for(i = 0, found_second = NO; strcmp(actions[which_action].instruction[i], "STOP") != 0 && found_second == NO && found_first == YES; i++){
-				if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
+			    if (strcmp(second_input, actions[which_action].instruction[i]) == 0 ) {
 					found_second = YES;
 				}
+			    else if (atoi(second_input) != 0){       //Will allow user to enter any integer, for any attribute that would be an integer
+			        found_second = YES;
+			    }
+				
 			}
 		if(found_first == YES && found_second == NO){
 			printf("Your second word is not valid with your chosen action\n");
@@ -134,6 +143,7 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 void update_values(draw *object, char *first_input, char *second_input){
 	int i;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
+	printf("\nupdate");
 	for(i = 0; i < FIRST_WORD_SIZE; i++){
 		if(strcmp(first_word[i], first_input) == 0){
 			printf("\nStrings match.\n");
@@ -161,6 +171,19 @@ void assign_value(draw *object, action_word i, char* input){
 			object->shape = (char*)malloc(strlen(input)*sizeof(char));
 			strcpy(object->shape, input);
 			break;
+		case startx:
+		    object->startx = atoi(input);
+		    break;
+		case starty:
+		    object->starty = atoi(input);
+		    break; 
+		case endx:
+		    object->endx = atoi(input);
+		    break; 
+		case endy:
+		    object->endy = atoi(input);
+		    break;  
+		
 	}
 	printf("\nENd assign\n");
 }
@@ -179,6 +202,7 @@ void clear_buffer(void){
 
 void create_struct_array(action *actions)
 {
+    printf("\ncreate");
 	int i, j, k, l, cnt = 0, array_cnt = 0;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
 	char *second_word[SECOND_WORD_SIZE]= SECOND_WORD;
@@ -208,5 +232,6 @@ void create_struct_array(action *actions)
 		cnt = 0;
 		array_cnt += 1;
 	}	
+	printf("\nend ");
 }
 

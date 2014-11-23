@@ -105,7 +105,7 @@ void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a) {
         SDL_RenderDrawPoint(rend, cx-dx, cy-r+dy);
    }
 }
-
+/*
 void SDL_TTF_Init() {
     if (TTF_Init() != 0) {
         fprintf(stderr, "\nUnable to initialize TTF:  %s\n", SDL_GetError());
@@ -124,16 +124,16 @@ TTF_Font* SDL_Load_Font(char font_path[30], int font_size) {
     }
     return font;
 }
-
+*/
 SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
     SDL_Texture* texture;
     texture = SDL_CreateTextureFromSurface(w->renderer, surface);
     SDL_FreeSurface(surface);
     return texture;
 }
-
+/*
 void SDL_TTF_Quit(TTF_Font *font) {
     TTF_CloseFont(font);
     TTF_Quit();
-}
+}*/
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
