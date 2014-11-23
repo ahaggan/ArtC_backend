@@ -23,12 +23,13 @@ typedef struct draw{
   int starty;
   int endx;
   int endy;
+  char* fractal;
 }draw;
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
 void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button);
-
+void draw_sdl(draw *object);
 void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
 void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
 
