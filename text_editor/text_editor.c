@@ -15,8 +15,7 @@ int main(void) {
 	SDL_TTF_Init();
     TTF_Font* font = SDL_Load_Font("font/FreeSans.ttf", 50);
 
-	TTF_SetFontStyle(font, TTF_STYLE_ITALIC);
-	SDL_Color text_colour = {255, 255, 255, 255}; // white
+	SDL_Color text_colour = {0, 0, 0, 255}; // black
 	
 	SDL_Color button_colour = {255, 0, 0, 255};
 	area.ping.colour = button_colour; // red

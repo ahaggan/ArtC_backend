@@ -27,7 +27,7 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
     SDL_RenderSetLogicalSize(w->renderer, WIN_WIDTH, WIN_HEIGHT); 
 
     //Set screen to white
-    SDL_SetRenderDrawColor(w->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(w->renderer, 255, 255, 255, 255);
     
     //call RenderClear at the beginning on every frame to clear the screen and make it ready for more stuff.
     SDL_RenderClear(w->renderer);
@@ -84,6 +84,7 @@ void SDL_Events(SDL_Win *w, Interface* area) {
                     break;
             }
         }
+
         switch (event.type) {
             //User requests quit
             case SDL_QUIT:
@@ -106,8 +107,7 @@ void SDL_Events(SDL_Win *w, Interface* area) {
             //case SDL_MOUSEMOTION:
             //case SDL_MOUSEBUTTONUP:
             case SDL_MOUSEBUTTONDOWN:
-                SDL_GetMouseState(&x, &y);
-
+ 
                 if(x >= area->gbutton.rect.x && x <= area->gbutton.rect.x + area->gbutton.rect.w &&
                      y >= area->gbutton.rect.y && y <= area->gbutton.rect.y + area->gbutton.rect.h) {
                     printf("GENERATE!\n\n");

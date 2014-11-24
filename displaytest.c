@@ -2,7 +2,6 @@
 
 void draw_sdl(draw *object)
 {
-
     SDL_Win sw;
 
     Interface area; //Arbitrary struct to make events function work!
@@ -65,10 +64,11 @@ void draw_sdl(draw *object)
         }
 
         SDL_RenderPresent(sw.renderer);
-        SDL_UpdateWindowSurface(sw.win);
       
         SDL_Events(&sw, &area);
     }while (!sw.finished);
 
+    //calls SDL_Quit when the program terminates
+    atexit(SDL_Quit);
 }
 
