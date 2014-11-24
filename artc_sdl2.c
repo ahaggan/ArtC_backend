@@ -65,8 +65,7 @@ void SDL_Events(SDL_Win *w, Interface* area) {
             mouse_inside = 0;
         }
         
-        printf("%d %d Inside:%d\n", x, y, mouse_inside);
-            
+        
         //default button appearance
         if (mouse_inside != 1) {
             area->ping.colour.r = 255; area->ping.colour.g = 0; area->ping.colour.b = 0;
@@ -125,7 +124,7 @@ void SDL_Events(SDL_Win *w, Interface* area) {
 
                 //if !inside
                 //button_state = button_mouse_out
-                printf("%d %d\n", x, y );
+            
                 break;
             break;
         }

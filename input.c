@@ -204,7 +204,7 @@ void assign_value(draw *object, action_word i, char* input){
 			break;		
 
 	}
-	printf("\nENd assign\n");
+	printf("\nEnd assign\n");
 }
 
 

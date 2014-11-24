@@ -5,7 +5,6 @@ SOURCES =  artc_sdl2.c $(TARGET).c displaytest.c fractals.c
 LIBS =  -lSDL2 -lSDL2_ttf
 CC = gcc
 
-
 all: $(TARGET)
 
 $(TARGET): $(SOURCES) $(INCS)
