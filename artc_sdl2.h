@@ -14,6 +14,13 @@ struct SDL_Win {
 };
 typedef struct SDL_Win SDL_Win;
 
+typedef struct interface {
+    SDL_Rect menubar;
+    SDL_Rect texteditor;
+    SDL_Rect canvas;
+    SDL_Rect gbutton;
+} interface;
+
 typedef struct draw{
   char* colour;
   char* move;
@@ -28,7 +35,7 @@ typedef struct draw{
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
-void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button);
+void SDL_Events(SDL_Win *w, char *composition, interface area);
 void draw_sdl(draw *object);
 void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
 void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);

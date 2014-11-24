@@ -37,7 +37,7 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
 }
 
-void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button) {
+void SDL_Events(SDL_Win *w, char *composition, interface area) {
     SDL_Event event;
     int composition_len = SDL_strlen(composition);
     int x;
@@ -62,17 +62,22 @@ void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button) {
             case SDL_TEXTINPUT:
                 strcat(composition, event.text.text);
                 break;
-            case SDL_MOUSEMOTION:
+            //case SDL_MOUSEMOTION:
+            //case SDL_MOUSEBUTTONUP:
             case SDL_MOUSEBUTTONDOWN:
-            case SDL_MOUSEBUTTONUP:
                 SDL_GetMouseState(&x, &y);
 
-                /*if(x>=button.x && x<=button.x+button.w &&
-                     y>=button.y && y<=button.y+button.h) {
-                    GENERATE FRACTAL();
-                    SDL_RenderPresent(w->renderer);
-                    SDL_UpdateWindowSurface(w->win);
-                */
+                if(x>=area.gbutton.x && x<=area.gbutton.x+area.gbutton.w &&
+                     y>=area.gbutton.y && y<=area.gbutton.y+area.gbutton.h) {
+                    printf("GENERATE!\n\n");
+                }
+                if(x>=area.menubar.x && x<=area.menubar.x+area.menubar.w &&
+                   y>=area.menubar.y && y<=area.menubar.y+area.menubar.h) {
+                      printf("Challenge accepted.\n\n");
+                    //SDL_RenderPresent(w->renderer);
+                    //SDL_UpdateWindowSurface(w->win);
+                }
+                break;
 
                 //if !inside
                 //button_state = button_mouse_out
@@ -107,7 +112,7 @@ void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a) {
         SDL_RenderDrawPoint(rend, cx-dx, cy-r+dy);
    }
 }
-/*
+
 void SDL_TTF_Init() {
     if (TTF_Init() != 0) {
         fprintf(stderr, "\nUnable to initialize TTF:  %s\n", SDL_GetError());
@@ -126,16 +131,16 @@ TTF_Font* SDL_Load_Font(char font_path[30], int font_size) {
     }
     return font;
 }
-*/
+
 SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
     SDL_Texture* texture;
     texture = SDL_CreateTextureFromSurface(w->renderer, surface);
     SDL_FreeSurface(surface);
     return texture;
 }
-/*
+
 void SDL_TTF_Quit(TTF_Font *font) {
     TTF_CloseFont(font);
     TTF_Quit();
-}*/
+}
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
