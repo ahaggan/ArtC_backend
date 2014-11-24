@@ -4,6 +4,7 @@ void draw_sdl(draw *object)
 {
 
     SDL_Win sw;
+
     Interface area; //Arbitrary struct to make events function work!
 
     int x, y;
@@ -70,7 +71,8 @@ void draw_sdl(draw *object)
 
     while (!sw.finished)
     {
-        SDL_Events(&sw,"composition", &area );
+        SDL_Events(&sw, &area );
+
     }
 
 }

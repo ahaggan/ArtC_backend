@@ -37,6 +37,7 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
 }
 
+
 void SDL_Events(SDL_Win *w, Interface* area) {
     SDL_Event event;
     int composition_len = SDL_strlen(area->composition);
@@ -114,10 +115,17 @@ void SDL_Events(SDL_Win *w, Interface* area) {
                 }
                 if(x >= area->menubar.x && x <= area->menubar.x + area->menubar.w &&
                    y >= area->menubar.y && y <= area->menubar.y + area->menubar.h) {
+
                       printf("Challenge accepted.\n\n");
                     //SDL_RenderPresent(w->renderer);
                     //SDL_UpdateWindowSurface(w->win);
                 }
+
+                break;
+
+                //if !inside
+                //button_state = button_mouse_out
+                printf("%d %d\n", x, y );
                 break;
             break;
         }

@@ -42,6 +42,7 @@ void update_values(draw *object, char *first_input, char *second_input);
 void assign_value(draw *object, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(draw *object);
+
 void draw_sdl(draw *object);
 void triangle(draw *object);
 
