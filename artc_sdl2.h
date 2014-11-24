@@ -5,6 +5,8 @@
 #define WIN_WIDTH 1024		
 #define WIN_HEIGHT 768
 
+#define MAX_TEXT 1000
+
 #define SDL_8BITCOLOUR 256
 
 struct SDL_Win {
@@ -13,6 +15,20 @@ struct SDL_Win {
    SDL_Renderer *renderer;
 };
 typedef struct SDL_Win SDL_Win;
+
+typedef struct button {
+  SDL_Rect rect;
+  SDL_Color colour;
+} Button;
+
+typedef struct interface {
+    SDL_Rect menubar;
+    SDL_Rect texteditor;
+    char composition[MAX_TEXT];
+    SDL_Rect canvas;
+    Button gbutton;
+    Button ping;
+} Interface;
 
 typedef struct draw{
   char* colour;
@@ -23,11 +39,14 @@ typedef struct draw{
   int starty;
   int endx;
   int endy;
+  char* fractal;
 }draw;
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
-void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button, SDL_Color *b_colour);
+
+void SDL_Events(SDL_Win *w, Interface* area);
+void draw_sdl(draw *object);
 
 void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
 void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);

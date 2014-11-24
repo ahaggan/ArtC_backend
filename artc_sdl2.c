@@ -37,9 +37,9 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
 }
 
-void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button, SDL_Color *button_colour) {
+void SDL_Events(SDL_Win *w, Interface* area) {
     SDL_Event event;
-    int composition_len = SDL_strlen(composition);
+    int composition_len = SDL_strlen(area->composition);
     int x;
     int y;
     int mouse_inside = 1;
@@ -48,19 +48,19 @@ void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button, SDL_Color *butto
         //Mouse events
         SDL_GetMouseState(&x, &y);
         //mouse left of button
-        if (x < button.x) {
+        if (x < area->ping.rect.x) {
             mouse_inside = 0;
         }
         //mouse right of button
-        else if (x > button.x + button.w) {
+        else if (x > area->ping.rect.x + area->ping.rect.w) {
             mouse_inside = 0;
         }
         //mouse above of button
-        else if (y < button.y) {
+        else if (y < area->ping.rect.y) {
             mouse_inside = 0;
         }
         //mouse below button
-        else if (y > button.y + button.h) {
+        else if (y > area->ping.rect.y + area->ping.rect.h) {
             mouse_inside = 0;
         }
         
@@ -68,19 +68,19 @@ void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button, SDL_Color *butto
             
         //default button appearance
         if (mouse_inside != 1) {
-            button_colour->r = 255; button_colour->g = 0; button_colour->b = 0;
+            area->ping.colour.r = 255; area->ping.colour.g = 0; area->ping.colour.b = 0;
         }  
         else {
             switch (event.type) {
                 case SDL_MOUSEMOTION: 
-                    button_colour->r = 122; button_colour->g = 0; button_colour->b = 0;
+                    area->ping.colour.r = 122; area->ping.colour.g = 0; area->ping.colour.b = 0;
                     break;
                 case SDL_MOUSEBUTTONDOWN:
-                    button_colour->r = 0; button_colour->g = 255; button_colour->b = 0;
+                    area->ping.colour.r = 0; area->ping.colour.g = 255; area->ping.colour.b = 0;
                     printf("%c", '\a');
                     break;
                 case SDL_MOUSEBUTTONUP: 
-                    button_colour->r = 122; button_colour->g = 0; button_colour->b = 0;
+                    area->ping.colour.r = 122; area->ping.colour.g = 0; area->ping.colour.b = 0;
                     break;
             }
         }
@@ -93,17 +93,32 @@ void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button, SDL_Color *butto
                 //Select actions based on key press
                 switch (event.key.keysym.sym) {
                     case SDLK_BACKSPACE:
-                        composition[composition_len - 1] = '\0';
+                        area->composition[composition_len - 1] = '\0';
                         break;
                     case SDLK_RETURN:
                         printf("%s\n", "enter");
                 }
                 break;
             case SDL_TEXTINPUT:
-                strcat(composition, event.text.text);
+                strcat(area->composition, event.text.text);
                 break;
 
+            //case SDL_MOUSEMOTION:
+            //case SDL_MOUSEBUTTONUP:
+            case SDL_MOUSEBUTTONDOWN:
+                SDL_GetMouseState(&x, &y);
 
+                if(x >= area->gbutton.rect.x && x <= area->gbutton.rect.x + area->gbutton.rect.w &&
+                     y >= area->gbutton.rect.y && y <= area->gbutton.rect.y + area->gbutton.rect.h) {
+                    printf("GENERATE!\n\n");
+                }
+                if(x >= area->menubar.x && x <= area->menubar.x + area->menubar.w &&
+                   y >= area->menubar.y && y <= area->menubar.y + area->menubar.h) {
+                      printf("Challenge accepted.\n\n");
+                    //SDL_RenderPresent(w->renderer);
+                    //SDL_UpdateWindowSurface(w->win);
+                }
+                break;
             break;
         }
     }
