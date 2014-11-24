@@ -1,5 +1,5 @@
-#include "SDL.h"
-#include "SDL_ttf.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #include <math.h>
 
 #define WIN_WIDTH 1024		
@@ -27,7 +27,7 @@ typedef struct draw{
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
-void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button);
+void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button, SDL_Color *b_colour);
 
 void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
 void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);

@@ -37,13 +37,53 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
 }
 
-void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button) {
+void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button, SDL_Color *button_colour) {
     SDL_Event event;
     int composition_len = SDL_strlen(composition);
     int x;
     int y;
     int mouse_inside = 1;
-    while(SDL_PollEvent(&event)) {      
+
+    while(SDL_PollEvent(&event)) { 
+        //Mouse events
+        SDL_GetMouseState(&x, &y);
+        //mouse left of button
+        if (x < button.x) {
+            mouse_inside = 0;
+        }
+        //mouse right of button
+        else if (x > button.x + button.w) {
+            mouse_inside = 0;
+        }
+        //mouse above of button
+        else if (y < button.y) {
+            mouse_inside = 0;
+        }
+        //mouse below button
+        else if (y > button.y + button.h) {
+            mouse_inside = 0;
+        }
+        
+        printf("%d %d Inside:%d\n", x, y, mouse_inside);
+            
+        //default button appearance
+        if (mouse_inside != 1) {
+            button_colour->r = 255; button_colour->g = 0; button_colour->b = 0;
+        }  
+        else {
+            switch (event.type) {
+                case SDL_MOUSEMOTION: 
+                    button_colour->r = 122; button_colour->g = 0; button_colour->b = 0;
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    button_colour->r = 0; button_colour->g = 255; button_colour->b = 0;
+                    printf("%c", '\a');
+                    break;
+                case SDL_MOUSEBUTTONUP: 
+                    button_colour->r = 122; button_colour->g = 0; button_colour->b = 0;
+                    break;
+            }
+        }
         switch (event.type) {
             //User requests quit
             case SDL_QUIT:
@@ -62,20 +102,9 @@ void SDL_Events(SDL_Win *w, char *composition, SDL_Rect button) {
             case SDL_TEXTINPUT:
                 strcat(composition, event.text.text);
                 break;
-            case SDL_MOUSEMOTION:
-            case SDL_MOUSEBUTTONDOWN:
-            case SDL_MOUSEBUTTONUP:
-                SDL_GetMouseState(&x, &y);
 
-                //mouse left of button x < but_x
-                //mouse right of button x > but_x + but_width
-                //mouse above button y < but_y
-                //mouse below button y > but_y + but_height
 
-                //if !inside
-                //button_state = button_mouse_out
-                printf("%d %d\n", x, y );
-                break;
+            break;
         }
     }
 }
