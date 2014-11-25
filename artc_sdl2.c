@@ -108,7 +108,7 @@ void SDL_Events(SDL_Win *w, Interface* area) {
                         break;
                     case SDLK_v:
                         if (SDL_GetModState() & KMOD_CTRL) {
-                           strcpy(area->composition, SDL_GetClipboardText());
+                           strcat(area->composition, SDL_GetClipboardText());
                         }
                         break;
                 }
@@ -143,6 +143,8 @@ void SDL_Events(SDL_Win *w, Interface* area) {
         }
     }
 }
+
+
 
 // Filled Circle centred at (cx,cy) of radius r, see :
 // http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
@@ -195,6 +197,7 @@ SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
     SDL_FreeSurface(surface);
     return texture;
 }
+
 
 void SDL_TTF_Quit(TTF_Font *font) {
     TTF_CloseFont(font);

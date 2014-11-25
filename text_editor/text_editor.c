@@ -8,7 +8,10 @@ FILE* open_file(char *file_name);
 int main(void) {
 	Interface area;
 
-	open_file("test_file2.txt");
+	FILE* test_file = open_file("test_file2.txt");
+	
+	//Copy initial file contents into the text editor.
+
 	strcpy(area.composition, "Enter text:");
 
 	SDL_Win w;
@@ -75,6 +78,8 @@ int main(void) {
 	
 	//calls SDL_Quit when the program terminates
 	atexit(SDL_Quit);
+	//closes test file
+	fclose(test_file);
 }
 
 FILE* open_file(char *file_name) {
