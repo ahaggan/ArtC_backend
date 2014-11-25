@@ -4,7 +4,7 @@
 #include <math.h>
 
 #define WIN_WIDTH 1024		
-#define WIN_HEIGHT 768
+#define WIN_HEIGHT 600
 
 #define MAX_TEXT 1000
 
@@ -41,3 +41,4 @@ SDL_RWops* SDL_Open_File(char *file_name);
 
 void make_rect(SDL_Win *win, SDL_Rect *rect, 
                 int x, int y, int w, int h, int r, int g, int b);
+void sierpinski(SDL_Win *w, Interface interface, int limit);

@@ -44,6 +44,11 @@ void draw_sdl(draw *object, SDL_Win *sw, Interface interface) {
     else if (strcmp(object->shape, "line") == 0) {
         SDL_RenderDrawLine(sw->renderer, object->startx, object->starty, object->endx, object->endy);
     }
+
+    else if (strcmp(object->shape, "sierpinski") == 0) {
+        sierpinski(sw, interface, object->size);
+    }
+
     SDL_RenderPresent(sw->renderer);
     SDL_UpdateWindowSurface(sw->win);
 }
