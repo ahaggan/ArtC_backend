@@ -123,7 +123,7 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
  
                 if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
                      y >= interface->gbutton.rect.y && y <= interface->gbutton.rect.y + interface->gbutton.rect.h) {
-                     input(w, interface);
+                     input(w, *interface);
                 }
                 if(x >= interface->menubar.x && x <= interface->menubar.x + interface->menubar.w &&
                    y >= interface->menubar.y && y <= interface->menubar.y + interface->menubar.h) {

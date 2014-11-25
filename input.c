@@ -46,7 +46,10 @@ void make_default(draw *object);
 void draw_sdl(draw *object);
 void triangle(draw *object);
 
-int main() {
+int input(SDL_Win *sw, Interface interface);
+
+
+int input(SDL_Win *sw, Interface interface) {
 
 	char first_input[MAX_LENGTH];
 	char second_input[MAX_LENGTH];
@@ -61,7 +64,7 @@ int main() {
         triangle(&object);
     }
     else{
-        draw_sdl(&object);
+        draw_sdl(&object, sw, interface);
 	}
 
 	return 0;

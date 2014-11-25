@@ -1,4 +1,4 @@
 size 10
-colour blue
+colour red
 move up
 shape square
