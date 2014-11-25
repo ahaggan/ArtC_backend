@@ -3,9 +3,12 @@
 int BUTTON_WIDTH = 300;
 int BUTTON_HEIGHT = 200;
 
+FILE* open_file(char *file_name);
+
 int main(void) {
 	Interface area;
 
+	open_file("test_file2.txt");
 	strcpy(area.composition, "Enter text:");
 
 	SDL_Win w;
@@ -73,3 +76,21 @@ int main(void) {
 	//calls SDL_Quit when the program terminates
 	atexit(SDL_Quit);
 }
+
+FILE* open_file(char *file_name) {
+	//Attempt to open file for reading and writing
+	FILE *input_file = fopen(file_name, "r+");
+	if (input_file == NULL) {
+		printf("Warning: unable to open file.\n");
+		//Attempt to create new file for writing
+		input_file = fopen(file_name, "w");
+		if (input_file != NULL) {
+            printf("New file created!\n");
+        }  
+        else {
+            printf("Error: unable to create file!");
+            exit(1);
+        }
+	}
+	return input_file;
+} 
