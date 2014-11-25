@@ -201,6 +201,9 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_Quit();
 }
 
+
+//Actually, since we only need to save text data, not game states or binary or anything
+//let's keep it simple and just use <stdio.h> functions!
 SDL_RWops* SDL_Open_File(char *file_name) {
     SDL_RWops* file = SDL_RWFromFile(file_name, "r+");
     //If no such file:
