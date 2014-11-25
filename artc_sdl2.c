@@ -200,4 +200,22 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_CloseFont(font);
     TTF_Quit();
 }
+
+SDL_RWops* SDL_Open_File(char *file_name) {
+    SDL_RWops* file = SDL_RWFromFile(file_name, "r+");
+    //If no such file:
+    if (file == NULL) {
+        printf("Warning: unable to open file! SDL Error: %s\n", SDL_GetError());
+        //Create one!
+        file = SDL_RWFromFile(file_name, "w+");
+        if (file != NULL) {
+            printf("New file created!\n");
+        }  
+        else {
+            printf("Error: unable to create file! SDL Error: %s\n", SDL_GetError());
+            exit(1);
+        }
+    }
+    return file;
+}
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/

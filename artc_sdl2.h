@@ -55,3 +55,5 @@ void SDL_TTF_Init();
 TTF_Font* SDL_Load_Font(char font_path[30], int font_size);
 SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w);
 void SDL_TTF_Quit(TTF_Font *font);
+
+SDL_RWops* SDL_Open_File(char *file_name);
