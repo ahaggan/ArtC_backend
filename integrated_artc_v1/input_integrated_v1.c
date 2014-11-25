@@ -8,7 +8,7 @@ int input(SDL_Win *sw, Interface interface) {
 	draw object;
 	printf("\nstart");
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
-	make_default(&object);
+	//make_default(&object);
 	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
 
 	/*
@@ -127,7 +127,7 @@ void assign_value(draw *object, action_word i, char* input){
 	printf("\nIn assign\n");
 	switch(i){
 		case colour:
-			printf("\nFound colour.\n");
+			printf("\nFound colour: %s\n", input);
 			object->colour = (char*)malloc(strlen(input)*sizeof(char));
 			strcpy(object->colour, input);
 			break;

@@ -1,4 +1,4 @@
-size 10
-colour red
+size 100
+colour pink
 move up
 shape square
