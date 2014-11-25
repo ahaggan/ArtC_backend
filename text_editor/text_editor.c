@@ -6,7 +6,7 @@ int BUTTON_HEIGHT = 200;
 int main(void) {
 	Interface area;
 
-	strcpy(area.composition, "Type...");
+	strcpy(area.composition, "Enter text:");
 
 	SDL_Win w;
 	SDL_Win_Init(&w, "ARTC Text Editor");

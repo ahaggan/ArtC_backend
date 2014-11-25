@@ -94,10 +94,23 @@ void SDL_Events(SDL_Win *w, Interface* area) {
                 //Select actions based on key press
                 switch (event.key.keysym.sym) {
                     case SDLK_BACKSPACE:
-                        area->composition[composition_len - 1] = '\0';
+                        if (composition_len > 0) {
+                            area->composition[composition_len - 1] = '\0';
+                        }
                         break;
                     case SDLK_RETURN:
                         printf("%s\n", "enter");
+                        break;
+                    case SDLK_c:
+                        if (SDL_GetModState() & KMOD_CTRL) {
+                            SDL_SetClipboardText(area->composition);
+                        }
+                        break;
+                    case SDLK_v:
+                        if (SDL_GetModState() & KMOD_CTRL) {
+                           strcpy(area->composition, SDL_GetClipboardText());
+                        }
+                        break;
                 }
                 break;
             case SDL_TEXTINPUT:
