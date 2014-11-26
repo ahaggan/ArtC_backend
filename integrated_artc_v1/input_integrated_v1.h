@@ -58,6 +58,7 @@ typedef struct draw{
   int endx;
   int endy;
   char* fractal;
+  int iterations;
 }draw;
 
 void create_struct_array(action *actions);

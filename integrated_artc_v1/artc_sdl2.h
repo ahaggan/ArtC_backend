@@ -9,6 +9,7 @@
 #define MAX_TEXT 1000
 
 #define SDL_8BITCOLOUR 256
+#define SDL_DELAY 1000
 
 struct SDL_Win {
    SDL_bool finished;
