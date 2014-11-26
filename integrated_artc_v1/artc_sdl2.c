@@ -43,48 +43,8 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
     int composition_len = SDL_strlen(interface->composition);
     int x;
     int y;
-    int mouse_inside = 1;
-
+    SDL_GetMouseState(&x, &y);
     while(SDL_PollEvent(&event)) { 
-        //Mouse events
-        SDL_GetMouseState(&x, &y);
-        //mouse left of button
-        if (x < interface->ping.rect.x) {
-            mouse_inside = 0;
-        }
-        //mouse right of button
-        else if (x > interface->ping.rect.x + interface->ping.rect.w) {
-            mouse_inside = 0;
-        }
-        //mouse above of button
-        else if (y < interface->ping.rect.y) {
-            mouse_inside = 0;
-        }
-        //mouse below button
-        else if (y > interface->ping.rect.y + interface->ping.rect.h) {
-            mouse_inside = 0;
-        }
-        
-        
-        //default button appearance
-        if (mouse_inside != 1) {
-            interface->ping.colour.r = 255; interface->ping.colour.g = 0; interface->ping.colour.b = 0;
-        }  
-        else {
-            switch (event.type) {
-                case SDL_MOUSEMOTION: 
-                    interface->ping.colour.r = 122; interface->ping.colour.g = 0; interface->ping.colour.b = 0;
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    interface->ping.colour.r = 0; interface->ping.colour.g = 255; interface->ping.colour.b = 0;
-                    printf("%c", '\a');
-                    break;
-                case SDL_MOUSEBUTTONUP: 
-                    interface->ping.colour.r = 122; interface->ping.colour.g = 0; interface->ping.colour.b = 0;
-                    break;
-            }
-        }
-
         switch (event.type) {
             //User requests quit
             case SDL_QUIT:
@@ -119,6 +79,7 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
 
             //case SDL_MOUSEMOTION:
             //case SDL_MOUSEBUTTONUP:
+           
             case SDL_MOUSEBUTTONDOWN:
  
                 if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
@@ -133,14 +94,10 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
                     //SDL_RenderPresent(w->renderer);
                     //SDL_UpdateWindowSurface(w->win);
                 }
-
                 break;
 
                 //if !inside
                 //button_state = button_mouse_out
-            
-                break;
-            break;
         }
     }
 }

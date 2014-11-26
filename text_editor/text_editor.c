@@ -23,9 +23,6 @@ int main(void) {
 
 	SDL_Color text_colour = {0, 0, 0, 255}; // black
 	
-	SDL_Color button_colour = {255, 0, 0, 255};
-	interface.ping.colour = button_colour; // red
-
 	//Create text texture
 	
 	interface.texteditor.w = WIN_WIDTH;
@@ -34,16 +31,6 @@ int main(void) {
 	SDL_Texture* text_editor = SurfaceToTexture(text_surface, &w);
 	SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.w, &interface.texteditor.h);
 	interface.texteditor.x = interface.texteditor.y = 0;
-
-	//Create button texture
-	
-	interface.ping.rect.w = BUTTON_WIDTH;
-	interface.ping.rect.y = BUTTON_HEIGHT;
-	SDL_Surface* button_surface = TTF_RenderText_Shaded(font, "Ping", text_colour, interface.ping.colour);
-	SDL_Texture* ping_button = SurfaceToTexture(button_surface, &w);
-	SDL_QueryTexture(ping_button, NULL, NULL, &interface.ping.rect.w, &interface.ping.rect.h);
-	interface.ping.rect.x = WIN_WIDTH / 2;
-	interface.ping.rect.y = WIN_WIDTH / 2;
 
 	//Sets text_rect to type text inputs.
 	SDL_SetTextInputRect(&interface.texteditor);
@@ -55,18 +42,12 @@ int main(void) {
 		SDL_Events(&w, &interface);
 
 		SDL_DestroyTexture(text_editor);
-		SDL_DestroyTexture(ping_button);
 
 		SDL_Surface* text_surface = TTF_RenderText_Solid(font, interface.composition, text_colour);
 		SDL_Texture* text_editor = SurfaceToTexture(text_surface, &w);
 		SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.w, &interface.texteditor.h);
-		
-		SDL_Surface* button_surface = TTF_RenderText_Shaded(font, "Ping", text_colour, interface.ping.colour);
-		SDL_Texture* ping_button = SurfaceToTexture(button_surface, &w);
-		SDL_QueryTexture(ping_button, NULL, NULL, &interface.ping.rect.w, &interface.ping.rect.h);
 
 		SDL_RenderCopy(w.renderer, text_editor, NULL, &interface.texteditor);
-		SDL_RenderCopy(w.renderer, ping_button, NULL, &interface.ping.rect);
 		SDL_RenderPresent(w.renderer);
 	}while(!w.finished);
 
