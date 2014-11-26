@@ -40,12 +40,13 @@ typedef struct area {
 } Area;
 
 typedef struct interface {
-    Area menubar;
-    Area texteditor;
-    char composition[MAX_TEXT];
-    Area canvas;
-    Area gbutton;
-    Area ch1button;
+  Area menubar;
+  Area texteditor;
+  char composition[MAX_TEXT];
+  Area canvas;
+  Area gbutton;
+  Area ch1button;
+  TTF_Font *font;
 } Interface;
 
 typedef struct draw{

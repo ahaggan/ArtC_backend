@@ -6,8 +6,8 @@ int main() {
     SDL_Win_Init(&win, "ARTC interface");
     SDL_TTF_Init();
     TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
-
-    draw_interface(&win, &artc, font);
+    artc.font = font;
+    draw_interface(&win, &artc);
 
     SDL_Color editor_text_colour = {0,0,0,255};
     //Sets text_rect to type text inputs.
@@ -30,15 +30,17 @@ int main() {
     return 0;
 }
 
-void draw_interface(SDL_Win *win, Interface *artc, TTF_Font *font)
+void draw_interface(SDL_Win *win, Interface *artc)
 {
-    make_rect(win, &artc->menubar, 0, 0, WIN_WIDTH, 50, 255, 64, 64);
-    make_rect(win, &artc->texteditor, 0, artc->menubar.rect.h, WIN_WIDTH/2, WIN_HEIGHT-artc->menubar.rect.h-30, 128, 128, 128);
-    make_rect(win, &artc->canvas, artc->texteditor.rect.w, artc->menubar.rect.h, WIN_WIDTH/2, WIN_HEIGHT-artc->menubar.rect.h-30, 255, 255, 255);
-    make_rect(win, &artc->gbutton, artc->texteditor.rect.w-100-5, WIN_HEIGHT-25-5, 100, 25, 255, 0, 0);
-    make_text(win, &artc->gbutton.rect, 64, 255, 64, font, "GENERATE!");
+    int x, y;
+    SDL_GetWindowSize(win->win, &x, &y);
+    make_rect(win, &artc->menubar, 0, 0, x, y / 12, 255, 64, 64);
+    make_rect(win, &artc->texteditor, 0, artc->menubar.rect.h, x/2, y-artc->menubar.rect.h-25, 128, 128, 128);
+    make_rect(win, &artc->canvas, artc->texteditor.rect.w, artc->menubar.rect.h, x/2, y-artc->menubar.rect.h-25, 255, 255, 255);
+    make_rect(win, &artc->gbutton, 0, y-25, x/10, 25, 255, 0, 0);
+    make_text(win, &artc->gbutton.rect, 64, 255, 64, artc->font, "GENERATE!");
     make_rect(win, &artc->ch1button, 5, 5, 100, 40, 0, 0, 255);
-    make_text(win, &artc->ch1button.rect, 192, 192, 255, font, "Challenge 1");
+    make_text(win, &artc->ch1button.rect, 192, 192, 255, artc->font, "Challenge 1");
 }
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b)
