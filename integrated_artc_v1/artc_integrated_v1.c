@@ -12,7 +12,7 @@ int main() {
     SDL_TTF_Init();
     TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
     
-    strcpy(artc.composition, "Enter text:");
+  
 
     make_rect(&win, &artc.menubar, 0, 0, WIN_WIDTH, 50, 255, 64, 64);
     // Height of 50, coloured red.
@@ -44,20 +44,21 @@ int main() {
     SDL_SetTextInputRect(&artc.texteditor.rect);
     //Start accepting text input events
     SDL_StartTextInput();
-
+      strcpy(artc.composition, "Enter text:");
     SDL_RenderPresent(win.renderer);
     SDL_UpdateWindowSurface(win.win);
 
     // Pass rects around so respective modules know where they are.
     while(!win.finished) {
-        /* Composition stuff bugs - lots of flickering, no backspace*/    
+        /* Composition stuff bugs - lots of flickering, no backspace  */
         SDL_DestroyTexture(texttexture);
         SDL_Surface* text_surface = TTF_RenderText_Solid(font, artc.composition, editor_text_colour);
         SDL_Texture* text_editor = SurfaceToTexture(text_surface, &win);
         SDL_QueryTexture(text_editor, NULL, NULL, &artc.texteditor.rect.w, &artc.texteditor.rect.h);
         SDL_RenderCopy(win.renderer, text_editor, NULL, &artc.texteditor.rect);
-        SDL_RenderPresent(win.renderer);
         SDL_Events(&win, &artc);
+                SDL_RenderPresent(win.renderer);
+        SDL_UpdateWindowSurface(win.win);
     }
     return 0;
 }
