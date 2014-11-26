@@ -37,20 +37,18 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 }
 
 void SDL_Window_Events(SDL_Win *w, SDL_Event event, Interface* interface) {
- //Window event occured 
-    if (event.type == SDL_WINDOWEVENT) {
-        switch(event.window.event) {
-            //Get new dimensions and repaint on window size change.
-            case SDL_WINDOWEVENT_SIZE_CHANGED:
-                SDL_SetWindowSize(w->win, event.window.data1, event.window.data2);
-                SDL_RenderPresent(w->renderer);
+    switch(event.window.event) {
+        //Get new dimensions and repaint on window size change.
+        case SDL_WINDOWEVENT_SIZE_CHANGED:
+            SDL_SetWindowSize(w->win, event.window.data1, event.window.data2);
+            SDL_RenderPresent(w->renderer);
             break;
-            //exposed means that the window was obscured in some way, and now is not obscured.
-            case SDL_WINDOWEVENT_EXPOSED:
-                //SDLRenderPresent(Renderer)
-                break;
-        }    
-    }
+        //exposed means that the window was obscured in some way, and now is not obscured.
+        case SDL_WINDOWEVENT_EXPOSED:
+            SDL_RenderPresent(w->renderer);
+            break;
+    }    
+
 }
 
 
@@ -61,10 +59,15 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
     int y;
     SDL_GetMouseState(&x, &y);
     while(SDL_PollEvent(&event)) { 
+        SDL_Window_Events(w, event, interface);
         switch (event.type) {
             //User requests quit
             case SDL_QUIT:
                 w->finished = 1;
+            //window is altered
+            case SDL_WINDOWEVENT:
+                SDL_Window_Events(w, event, interface);
+                break;
             //User presses a key
             case SDL_KEYDOWN:
                 //Select actions based on key press
