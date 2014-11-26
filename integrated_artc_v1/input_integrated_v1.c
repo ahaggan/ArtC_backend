@@ -8,17 +8,17 @@ int input(SDL_Win *sw, Interface interface) {
 	draw object;
 	printf("\nstart");
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
-	//make_default(&object);
+	make_default(&object);
 	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
 
-	/*
+	
     if(strcmp(object.fractal, "triangle") == 0){
-        triangle(&object);
+        triangle(&object, sw, interface);
     }
     else{
+        draw_sdl(&object, sw, interface);
 	}
-	*/
-    draw_sdl(&object, sw, interface);
+    
 	
 
 	return 0;

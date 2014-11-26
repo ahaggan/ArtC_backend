@@ -69,6 +69,5 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 void make_default(draw *object);
 void clear_area(SDL_Win *sw, Area area);
 void draw_sdl(draw *object, SDL_Win *sw, Interface interface);
-void triangle(draw *object);
 
 int input(SDL_Win *sw, Interface interface);
