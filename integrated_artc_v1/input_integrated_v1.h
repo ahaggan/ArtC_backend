@@ -62,7 +62,7 @@ void update_values(draw *object, char *first_input, char *second_input);
 void assign_value(draw *object, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(draw *object);
-void clear_canvas(SDL_Win *sw, Interface interface);
+void clear_area(SDL_Win *sw, SDL_Rect area);
 void draw_sdl(draw *object, SDL_Win *sw, Interface interface);
 void triangle(draw *object);
 

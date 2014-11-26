@@ -8,9 +8,11 @@ int main() {
     &window.canvas = malloc(sizeof(SDL_Rect));
     &window.gbutton = malloc(sizeof(SDL_Rect));*/
     SDL_Win win;
-    SDL_Win_Init(&win, "Art-C interface");
+    SDL_Win_Init(&win, "ARTC interface");
     SDL_TTF_Init();
     TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
+    
+    strcpy(artc.composition, "Enter text:");
 
     Button ch1button;
 
@@ -35,15 +37,29 @@ int main() {
     texttexture = SurfaceToTexture(textsurface, &win);
     SDL_RenderCopy(win.renderer, texttexture, NULL, &ch1button.rect);
 
+    SDL_Color editor_text_colour = {0,0,0,255};
+    textsurface = TTF_RenderText_Solid(font, artc.composition, editor_text_colour);
+    texttexture = SurfaceToTexture(textsurface, &win);
+    SDL_RenderCopy(win.renderer, texttexture, NULL, &artc.texteditor);
+
+    //Sets text_rect to type text inputs.
+    SDL_SetTextInputRect(&artc.texteditor);
+    //Start accepting text input events
+    SDL_StartTextInput();
+
     SDL_RenderPresent(win.renderer);
     SDL_UpdateWindowSurface(win.win);
 
     // Pass rects around so respective modules know where they are.
     while(!win.finished) {
-
-
+        /* Composition stuff bugs - lots of flickering, no backspace*/    
+        SDL_DestroyTexture(texttexture);
+        SDL_Surface* text_surface = TTF_RenderText_Solid(font, artc.composition, editor_text_colour);
+        SDL_Texture* text_editor = SurfaceToTexture(text_surface, &win);
+        SDL_QueryTexture(text_editor, NULL, NULL, &artc.texteditor.w, &artc.texteditor.h);
+        SDL_RenderCopy(win.renderer, text_editor, NULL, &artc.texteditor);
+        SDL_RenderPresent(win.renderer);
         SDL_Events(&win, &artc);
-        /* Composition stuff needs to be integrated */
     }
     return 0;
 }

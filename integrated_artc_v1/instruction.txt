@@ -1,4 +1,4 @@
-size 100
-colour pink
+size 10
+colour purple
 move up
-shape square
+shape sierpinski

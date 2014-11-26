@@ -73,8 +73,10 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
                 //Select actions based on key press
                 switch (event.key.keysym.sym) {
                     case SDLK_BACKSPACE:
+                       clear_area(w, interface->texteditor);
                         if (composition_len > 0) {
                             interface->composition[composition_len - 1] = '\0';
+                            //
                         }
                         break;
                     case SDLK_RETURN:
@@ -103,7 +105,7 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
  
                 if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
                      y >= interface->gbutton.rect.y && y <= interface->gbutton.rect.y + interface->gbutton.rect.h) {
-                     clear_canvas(w, *interface);
+                     clear_area(w, interface->canvas);
                      input(w, *interface);
                 }
                 if(x >= interface->menubar.x && x <= interface->menubar.x + interface->menubar.w &&

@@ -1,12 +1,13 @@
 #include "artc_sdl2.h"
 
-void clear_canvas(SDL_Win *sw, Interface interface)
+void clear_area(SDL_Win *sw, SDL_Rect area)
 {
     SDL_SetRenderDrawColor(sw->renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(sw->renderer, &interface.canvas);
+    SDL_RenderFillRect(sw->renderer, &area);
     SDL_RenderPresent(sw->renderer);
     SDL_UpdateWindowSurface(sw->win);
 }
+
 
 void draw_sdl(draw *object, SDL_Win *sw, Interface interface) {
     int x, y;
