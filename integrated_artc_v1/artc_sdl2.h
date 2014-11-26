@@ -26,6 +26,7 @@ typedef struct button {
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
+void SDL_Window_Events(SDL_Win *w, SDL_Event event, Interface* interface);
 
 void SDL_Events(SDL_Win *w, Interface* interface);
 

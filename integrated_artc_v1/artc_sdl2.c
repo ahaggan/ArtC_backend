@@ -9,7 +9,7 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
     } 
     w->finished = 0;
    
-    w->win= SDL_CreateWindow(win_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN);
+    w->win= SDL_CreateWindow(win_name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (w->win == NULL) {
         fprintf(stderr, "\nUnable to initialize SDL Win:  %s\n", SDL_GetError());
         SDL_Quit();
@@ -34,7 +34,14 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
     //call RenderPresent to make the drawing take effect.
     SDL_RenderPresent(w->renderer);
+}
 
+void SDL_Window_Events(SDL_Win *w, SDL_Event event, Interface* interface) {
+ //Window event occured 
+    switch(event.type) {
+        case SDL_WINDOWEVENT:
+            break
+    }
 }
 
 
@@ -101,8 +108,6 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
         }
     }
 }
-
-
 
 // Filled Circle centred at (cx,cy) of radius r, see :
 // http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
