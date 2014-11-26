@@ -2,17 +2,10 @@
 
 int main() {
     Interface artc;
-    //&window = (int *)malloc(sizeof(interface));
-    /*&window.menubar = malloc(sizeof(SDL_Rect));
-    &window.texteditor = malloc(sizeof(SDL_Rect));
-    &window.canvas = malloc(sizeof(SDL_Rect));
-    &window.gbutton = malloc(sizeof(SDL_Rect));*/
     SDL_Win win;
     SDL_Win_Init(&win, "ARTC interface");
     SDL_TTF_Init();
     TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
-    
-  
 
     make_rect(&win, &artc.menubar, 0, 0, WIN_WIDTH, 50, 255, 64, 64);
     // Height of 50, coloured red.
@@ -36,10 +29,6 @@ int main() {
     SDL_RenderCopy(win.renderer, texttexture, NULL, &artc.ch1button.rect);
 
     SDL_Color editor_text_colour = {0,0,0,255};
-    textsurface = TTF_RenderText_Solid(font, artc.composition, editor_text_colour);
-    texttexture = SurfaceToTexture(textsurface, &win);
-    SDL_RenderCopy(win.renderer, texttexture, NULL, &artc.texteditor.rect);
-
     //Sets text_rect to type text inputs.
     SDL_SetTextInputRect(&artc.texteditor.rect);
     //Start accepting text input events
@@ -48,16 +37,14 @@ int main() {
     SDL_RenderPresent(win.renderer);
     SDL_UpdateWindowSurface(win.win);
 
-    // Pass rects around so respective modules know where they are.
     while(!win.finished) {
-        /* Composition stuff bugs - lots of flickering, no backspace  */
         SDL_DestroyTexture(texttexture);
         SDL_Surface* text_surface = TTF_RenderText_Solid(font, artc.composition, editor_text_colour);
         SDL_Texture* text_editor = SurfaceToTexture(text_surface, &win);
         SDL_QueryTexture(text_editor, NULL, NULL, &artc.texteditor.rect.w, &artc.texteditor.rect.h);
         SDL_RenderCopy(win.renderer, text_editor, NULL, &artc.texteditor.rect);
         SDL_Events(&win, &artc);
-                SDL_RenderPresent(win.renderer);
+        SDL_RenderPresent(win.renderer);
         SDL_UpdateWindowSurface(win.win);
     }
     return 0;
