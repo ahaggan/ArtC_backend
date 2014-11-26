@@ -1,9 +1,9 @@
 #include "artc_sdl2.h"
 
-void clear_area(SDL_Win *sw, SDL_Rect area)
+void clear_area(SDL_Win *sw, Area area)
 {
-    SDL_SetRenderDrawColor(sw->renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(sw->renderer, &area);
+    SDL_SetRenderDrawColor(sw->renderer, area.colour.r, area.colour.g, area.colour.b, 255);
+    SDL_RenderFillRect(sw->renderer, &area.rect);
     SDL_RenderPresent(sw->renderer);
     SDL_UpdateWindowSurface(sw->win);
 }
@@ -11,8 +11,8 @@ void clear_area(SDL_Win *sw, SDL_Rect area)
 
 void draw_sdl(draw *object, SDL_Win *sw, Interface interface) {
     int x, y;
-    x = (interface.canvas.x + (interface.canvas.w / 2)) - (object->size / 2);
-    y = (interface.canvas.y + (interface.canvas.h / 2)) - (object->size / 2);
+    x = (interface.canvas.rect.x + (interface.canvas.rect.w / 2)) - (object->size / 2);
+    y = (interface.canvas.rect.y + (interface.canvas.rect.h / 2)) - (object->size / 2);
 
     if (strcmp(object->colour, "blue") == 0) {
         SDL_SetRenderDrawColor(sw->renderer, 0, 0, 255, 50);

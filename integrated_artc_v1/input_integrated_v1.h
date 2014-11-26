@@ -34,13 +34,18 @@ typedef struct action{
 	char **instruction;
 } action;
 
+typedef struct area {
+  SDL_Rect rect;
+  SDL_Color colour;
+} Area;
+
 typedef struct interface {
-    SDL_Rect menubar;
-    SDL_Rect texteditor;
+    Area menubar;
+    Area texteditor;
     char composition[MAX_TEXT];
-    SDL_Rect canvas;
-    Button gbutton;
-    Button ping;
+    Area canvas;
+    Area gbutton;
+    Area ch1button;
 } Interface;
 
 typedef struct draw{
@@ -62,7 +67,7 @@ void update_values(draw *object, char *first_input, char *second_input);
 void assign_value(draw *object, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(draw *object);
-void clear_area(SDL_Win *sw, SDL_Rect area);
+void clear_area(SDL_Win *sw, Area area);
 void draw_sdl(draw *object, SDL_Win *sw, Interface interface);
 void triangle(draw *object);
 

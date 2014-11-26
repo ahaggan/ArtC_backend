@@ -17,11 +17,6 @@ struct SDL_Win {
 };
 typedef struct SDL_Win SDL_Win;
 
-typedef struct button {
-  SDL_Rect rect;
-  SDL_Color colour;
-} Button;
-
 #include "input_integrated_v1.h"
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
@@ -40,6 +35,6 @@ void SDL_TTF_Quit(TTF_Font *font);
 
 SDL_RWops* SDL_Open_File(char *file_name);
 
-void make_rect(SDL_Win *win, SDL_Rect *rect, 
+void make_rect(SDL_Win *win, Area *area, 
                 int x, int y, int w, int h, int r, int g, int b);
 void sierpinski(SDL_Win *w, Interface interface, int limit);

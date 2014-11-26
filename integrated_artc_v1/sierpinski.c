@@ -5,9 +5,9 @@ void makesquare(SDL_Rect *square, int x, int y, int size);
 
 void sierpinski(SDL_Win *w, Interface interface, int limit)
 {
-    int x=interface.canvas.x, y=interface.canvas.y, size, iterations=0;
-    size = (interface.canvas.w < interface.canvas.h ? 
-            interface.canvas.w : interface.canvas.h);
+    int x=interface.canvas.rect.x, y=interface.canvas.rect.y, size, iterations=0;
+    size = (interface.canvas.rect.w < interface.canvas.rect.h ? 
+            interface.canvas.rect.w : interface.canvas.rect.h);
 
     printf("Sierpinski Limit: %d\n", limit);
 

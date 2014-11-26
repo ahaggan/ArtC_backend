@@ -108,8 +108,8 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
                      clear_area(w, interface->canvas);
                      input(w, *interface);
                 }
-                if(x >= interface->menubar.x && x <= interface->menubar.x + interface->menubar.w &&
-                   y >= interface->menubar.y && y <= interface->menubar.y + interface->menubar.h) {
+                if(x >= interface->menubar.rect.x && x <= interface->menubar.rect.x + interface->menubar.rect.w &&
+                   y >= interface->menubar.rect.y && y <= interface->menubar.rect.y + interface->menubar.rect.h) {
 
                       printf("Challenge accepted.\n\n");
                     //SDL_RenderPresent(w->renderer);
