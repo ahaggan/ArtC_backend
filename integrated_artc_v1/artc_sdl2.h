@@ -35,6 +35,9 @@ void SDL_TTF_Quit(TTF_Font *font);
 
 SDL_RWops* SDL_Open_File(char *file_name);
 
+void draw_interface(SDL_Win *win, Interface *artc, TTF_Font *font);
 void make_rect(SDL_Win *win, Area *area, 
                 int x, int y, int w, int h, int r, int g, int b);
+void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
+
 void sierpinski(SDL_Win *w, Interface interface, int limit);
