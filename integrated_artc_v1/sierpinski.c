@@ -12,8 +12,8 @@ void makeshape(shape *shape, int x, int y, int size);
 void sierpinski(Draw *fractal, Interface interface, int limit)
 {
     shape shape;
-    shape.x=fractal->startx;
-    shape.y=fractal->starty;
+    shape.x=fractal->startx - fractal->size/2;
+    shape.y=fractal->starty - fractal->size/2;
     shape.size=fractal->size;
     int iterations=0;
 
