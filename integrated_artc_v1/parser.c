@@ -1,6 +1,6 @@
 #include "parser.h"
 
-int input(SDL_Win *sw, Interface interface) {
+int input(SDL_Win *sw, Interface interface, draw fractal) {
 
 	char first_input[MAX_LENGTH];
 	char second_input[MAX_LENGTH];
@@ -12,13 +12,13 @@ int input(SDL_Win *sw, Interface interface) {
 	get_input(actions,first_input,second_input, &fractal);  //Takes values from file and puts them in the fractal structure
 
 	
-    if(strcmp(fractal.type, "triangle") == 0){
+/*    if(strcmp(fractal.type, "triangle") == 0){
         triangle(&fractal, sw, interface);
     }
     else{
         draw_sdl(&fractal, sw, interface);
 	}
-    
+*/ 
 	
 
 	return 0;

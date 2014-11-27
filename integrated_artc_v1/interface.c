@@ -23,7 +23,11 @@ int main() {
         SDL_Texture* text_editor = SurfaceToTexture(text_surface, &win);
         SDL_QueryTexture(text_editor, NULL, NULL, &artc.texteditor.rect.w, &artc.texteditor.rect.h);
         SDL_RenderCopy(win.renderer, text_editor, NULL, &artc.texteditor.rect);
-        SDL_Events(&win, &artc);
+        if(SDL_Events(&win, &artc)==1) {
+          clear_area(w, interface->canvas);
+          input(w, *interface);
+          draw_sdl(fractal, sw, interface);
+        }        
         SDL_RenderPresent(win.renderer);
         SDL_UpdateWindowSurface(win.win);
     }

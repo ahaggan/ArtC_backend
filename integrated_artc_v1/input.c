@@ -1,6 +1,6 @@
 #include "display.h"
 
-void SDL_Events(SDL_Win *w, Interface* interface) {
+int SDL_Events(SDL_Win *w, Interface* interface) {
     SDL_Event event;
     int composition_len = SDL_strlen(interface->composition);
     int x;
@@ -53,8 +53,7 @@ void SDL_Events(SDL_Win *w, Interface* interface) {
  
                 if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
                      y >= interface->gbutton.rect.y && y <= interface->gbutton.rect.y + interface->gbutton.rect.h) {
-                     clear_area(w, interface->canvas);
-                     input(w, *interface);
+                     return 1;
                 }
                 if(x >= interface->menubar.rect.x && x <= interface->menubar.rect.x + interface->menubar.rect.w &&
                    y >= interface->menubar.rect.y && y <= interface->menubar.rect.y + interface->menubar.rect.h) {
