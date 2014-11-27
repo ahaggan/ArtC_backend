@@ -6,8 +6,6 @@ int SDL_Events(Interface* interface) {
     
     int composition_len = SDL_strlen(interface->composition);
 
- 
-    printf("\n");
     //printf("%s\n", interface->composition);
     int x, y;
     SDL_GetMouseState(&x, &y);
