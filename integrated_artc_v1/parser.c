@@ -1,6 +1,6 @@
 #include "parser.h"
 
-int input(Interface interface, draw *fractal) {
+int input(Interface interface, Draw *fractal) {
 
 	char first_input[MAX_LENGTH];
 	char second_input[MAX_LENGTH];
@@ -23,7 +23,7 @@ int input(Interface interface, draw *fractal) {
 	return 0;
 }
 
-void make_default(draw *fractal){
+void make_default(Draw *fractal){
     printf("\ndefault");
     fractal->colour = (char*)malloc(4*sizeof(char));
 	strcpy(fractal->colour, "red"); 
@@ -42,7 +42,7 @@ void make_default(draw *fractal){
 
 }
 
-void get_input(action *actions, char *first_input, char *second_input, draw *fractal) {
+void get_input(action *actions, char *first_input, char *second_input, Draw *fractal) {
 	
 	//char *first_word[] = FIRST_WORD;
 	//char *second_word[] = SECOND_WORD;
@@ -110,7 +110,7 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 	}
 }
 
-void update_values(draw *fractal, char *first_input, char *second_input){
+void update_values(Draw *fractal, char *first_input, char *second_input){
 	int i;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
 	printf("\nupdate");
@@ -122,7 +122,7 @@ void update_values(draw *fractal, char *first_input, char *second_input){
 	}
 }
 
-void assign_value(draw *fractal, action_word i, char* input){
+void assign_value(Draw *fractal, action_word i, char* input){
 	printf("\nIn assign\n");
 	switch(i){
 		case colour:
