@@ -7,7 +7,6 @@ void clear_area(SDL_Win *window, Area area) {
     SDL_UpdateWindowSurface(window->win);
 }
 
-
 void draw_sdl(Draw *fractal, Interface interface) {
     int x, y;
     x = (interface.canvas.rect.x + (interface.canvas.rect.w / 2)) - (fractal->size / 2);
