@@ -32,8 +32,6 @@ typedef struct SDL_Win {
    SDL_Renderer *renderer;
 } SDL_Win;
 
-
-
 typedef struct interface {
   SDL_Win window;
   Area menubar;
