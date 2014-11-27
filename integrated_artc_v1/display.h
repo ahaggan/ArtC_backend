@@ -10,9 +10,6 @@
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
 
-int SDL_Events(Interface* interface);
-void SDL_Window_Events(SDL_Event event, Interface* interface);
-
 void draw_interface(Interface *artc);
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
