@@ -10,17 +10,17 @@ int SDL_Events(Interface* interface) {
     SDL_GetMouseState(&x, &y);
 
     while(SDL_PollEvent(&event)) { 
-        SDL_Window_Events(interface->window, event, interface);
+        SDL_Window_Events(event, interface);
         switch (event.type) {
 
             //user requests quit
             case SDL_QUIT:
-                interface->window->finished = 1;
+                interface->window.finished = 1;
                 break;
 
             //user changes window
             case SDL_WINDOWEVENT:
-                SDL_Window_Events(interface->window, event, interface);
+                SDL_Window_Events(event, interface);
                 break;
 
             //user presses a key
@@ -32,7 +32,7 @@ int SDL_Events(Interface* interface) {
                     //backspace deletes the previous character
                     case SDLK_BACKSPACE:
                        //!!CALL TO DISPLAY.C!!//
-                       clear_area(interface->window, interface->texteditor);
+                       clear_area(&interface->window, interface->texteditor);
                         if (composition_len > 0) {
                             interface->composition[composition_len - 1] = '\0';
                         }
