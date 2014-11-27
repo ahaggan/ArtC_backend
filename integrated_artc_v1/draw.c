@@ -53,7 +53,9 @@ printf("fractal colour: %s\n", fractal->colour);
     }
 printf("fractal type: %s\n", fractal->type);
     if (strcmp(fractal->type, "sierpinski") == 0) {
-        sierpinski(interface, fractal->size);
+        for(int i=1; i<fractal->size; i++) {
+            sierpinski(interface, fractal->size)
+        }
     }
 
     SDL_RenderPresent(interface.window.renderer);
