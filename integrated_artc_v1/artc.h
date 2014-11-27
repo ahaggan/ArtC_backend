@@ -4,6 +4,8 @@
 
 #define WIN_WIDTH 1024		
 #define WIN_HEIGHT 600
+
+#define MAX_TEXT 1000
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
 typedef struct draw{
@@ -17,7 +19,7 @@ typedef struct draw{
   int endy;
   char* type;
   int iterations;
-} draw;
+} Draw;
 
 typedef struct area {
   SDL_Rect rect;
@@ -30,7 +32,7 @@ typedef struct SDL_Win {
    SDL_Renderer *renderer;
 } SDL_Win;
 
-#define MAX_TEXT 1000
+
 
 typedef struct interface {
   SDL_Win window;
