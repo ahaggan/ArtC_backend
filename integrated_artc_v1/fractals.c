@@ -35,9 +35,7 @@ int triangle(draw *object, SDL_Win *sw, Interface interface){
     
     
     
-    do{
-        
-    }while(!sw->finished);
+    
     return 0;
 }
 
