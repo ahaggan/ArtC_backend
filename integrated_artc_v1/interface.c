@@ -26,10 +26,10 @@ int main() {
         SDL_Texture* text_editor = SurfaceToTexture(text_surface, &interface.window);
         SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.rect.w, &interface.texteditor.rect.h);
         SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.texteditor.rect);
-        if(SDL_Events(&interface.window, &interface)==1) {
+        if(SDL_Events(&interface) == 1) {
           clear_area(&interface.window, interface.canvas);
-          input(&interface.window, interface);
-          draw_sdl(fractal, interface);
+          input(interface);
+          draw_sdl(&fractal, interface);
         }        
         SDL_RenderPresent(interface.window.renderer);
         SDL_UpdateWindowSurface(interface.window.win);
@@ -37,17 +37,16 @@ int main() {
     return 0;
 }
 
-void draw_interface(SDL_Win *win, Interface *artc)
-{
+void draw_interface(Interface *interface) {
     int x, y;
-    SDL_GetWindowSize(win->win, &x, &y);
-    make_rect(win, &interface->menubar, 0, 0, x, y / 12, 255, 64, 64);
-    make_rect(win, &interface->texteditor, 0, interface->menubar.rect.h, x/2, y-interface->menubar.rect.h-25, 128, 128, 128);
-    make_rect(win, &interface->canvas, interface->texteditor.rect.w, interface->menubar.rect.h, x/2, y- interface->menubar.rect.h-25, 255, 255, 255);
-    make_rect(win, &interface->gbutton, 0, y-25, x/10, 25, 255, 0, 0);
-    make_text(win, &interface->gbutton.rect, 64, 255, 64, interface->font, "GENERATE!");
-    make_rect(win, &interface->ch1button, 5, 5, 100, 40, 0, 0, 255);
-    make_text(win, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
+    SDL_GetWindowSize(interface->window.win, &x, &y);
+    make_rect(&interface->window, &interface->menubar, 0, 0, x, y / 12, 255, 64, 64);
+    make_rect(&interface->window, &interface->texteditor, 0, interface->menubar.rect.h, x/2, y-interface->menubar.rect.h-25, 128, 128, 128);
+    make_rect(&interface->window, &interface->canvas, interface->texteditor.rect.w, interface->menubar.rect.h, x/2, y- interface->menubar.rect.h-25, 255, 255, 255);
+    make_rect(&interface->window, &interface->gbutton, 0, y-25, x/10, 25, 255, 0, 0);
+    make_text(&interface->window, &interface->gbutton.rect, 64, 255, 64, interface->font, "GENERATE!");
+    make_rect(&interface->window, &interface->ch1button, 5, 5, 100, 40, 0, 0, 255);
+    make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
 }
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b)

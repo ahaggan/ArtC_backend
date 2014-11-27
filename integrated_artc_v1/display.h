@@ -27,7 +27,7 @@ TTF_Font* SDL_Load_Font(char font_path[30], int font_size);
 SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w);
 void SDL_TTF_Quit(TTF_Font *font);
 
-void clear_area(SDL_Win *sw, Area area);
+void clear_area(SDL_Win *window, Area area);
 
 void draw_sdl(Draw *object, Interface interface);
 int input(Interface interface);

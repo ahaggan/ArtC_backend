@@ -1,6 +1,6 @@
 #include "display.h"
 
-int iterate(SDL_Rect square, int iterations, int limit);
+int iterate(SDL_Win *w, SDL_Rect square, int iterations, int limit);
 void makesquare(SDL_Rect *square, int x, int y, int size);
 
 void sierpinski(Interface interface, int limit)
@@ -14,11 +14,11 @@ void sierpinski(Interface interface, int limit)
     SDL_Rect square;
     makesquare(&square, x, y, size);
     
-    iterations = iterate(interface->w, square, iterations+1, limit);
+    iterations = iterate(&interface.window, square, iterations+1, limit);
     printf("Sierpinski completed with %d iterations.\n", iterations);
 
-    SDL_RenderPresent(interface->w->renderer);
-    SDL_UpdateWindowSurface(interface->w->win);
+    SDL_RenderPresent(interface.window.renderer);
+    SDL_UpdateWindowSurface(interface.window.win);
 }
 
 int iterate(SDL_Win *w, SDL_Rect square, int iterations, int limit)
