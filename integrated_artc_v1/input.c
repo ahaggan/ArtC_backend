@@ -9,7 +9,12 @@ int SDL_Events(Interface* interface) {
     //printf("%s\n", interface->composition);
     int x, y;
     SDL_GetMouseState(&x, &y);
-    
+
+    for (int i = 0; i < composition_len; i++) {
+    printf("%d ", interface->composition[i]);
+     }
+    printf("\n");
+    printf("%s\n", interface->composition);
     while(SDL_PollEvent(&event)) { 
         SDL_Window_Events(event, interface);
         switch (event.type) {
@@ -32,7 +37,7 @@ int SDL_Events(Interface* interface) {
                     //backspace deletes the previous character
                     case SDLK_BACKSPACE:
                         if (composition_len > 0) {
-                            interface->composition[composition_len - 1] = '\0';
+                            interface->composition[composition_len - 2] = '\0';
                         }
                         return 2;
                         break;
@@ -59,13 +64,12 @@ int SDL_Events(Interface* interface) {
             
             //any other keyboard input? add it on to the current text.
             case SDL_TEXTINPUT:
+                printf("%s", event.text.text);
                 strcat(interface->composition, event.text.text);
                 break;
                 
             //user clicks somewhere
             case SDL_MOUSEBUTTONDOWN:
- 
-
                 if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
                      y >= interface->gbutton.rect.y && y <= interface->gbutton.rect.y + interface->gbutton.rect.h) {
                      return 1;

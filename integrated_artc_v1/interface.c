@@ -1,47 +1,55 @@
 #include "input.h"
 
 int main() {
-    Interface interface;
+  Interface interface;
     
-    SDL_Win_Init(&interface.window, "ARTC interface");
-    SDL_TTF_Init();
-    TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
+  SDL_Win_Init(&interface.window, "ARTC");
+  SDL_TTF_Init();
+  TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
+  interface.font = font;
+  //strcpy(interface.composition, "Enter text:");
+  SDL_Color editor_text_colour = {0,0,0,255};
+  //Sets text_rect to type text inputs.
+  SDL_SetTextInputRect(&interface.texteditor.rect);
+  //Start accepting text input events
+  SDL_StartTextInput();
+  
+  draw_interface(&interface);
+  Draw fractal;
 
-    interface.font = font;
-    draw_interface(&interface);
-    Draw fractal;
+  SDL_RenderPresent(interface.window.renderer);
+  SDL_UpdateWindowSurface(interface.window.win);
 
+  while(!interface.window.finished) {
+    SDL_Surface* text_surface = TTF_RenderText_Solid(font, interface.composition, editor_text_colour);
+    SDL_Texture* text_editor = SurfaceToTexture(text_surface, &interface.window);
+    SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.rect.w, &interface.texteditor.rect.h);
+    SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.texteditor.rect);
 
-    SDL_Color editor_text_colour = {0,0,0,255};
-    //Sets text_rect to type text inputs.
-    SDL_SetTextInputRect(&interface.texteditor.rect);
-    //Start accepting text input events
-    SDL_StartTextInput();
-    strcpy(interface.composition, "Enter text:");
+    if (SDL_Events(&interface) == 1) {
+      clear_area(&interface.window, interface.canvas);
+      input(interface, &fractal);
+      printf("\nafter input");
+      draw_sdl(&fractal, interface);
+    }        
+    else if(SDL_Events(&interface) == 2) {
+      clear_area(&interface.window, interface.texteditor);
+    }
     SDL_RenderPresent(interface.window.renderer);
     SDL_UpdateWindowSurface(interface.window.win);
 
-    while(!interface.window.finished) {
-      SDL_Surface* text_surface = TTF_RenderText_Solid(font, interface.composition, editor_text_colour);
-      SDL_Texture* text_editor = SurfaceToTexture(text_surface, &interface.window);
-      SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.rect.w, &interface.texteditor.rect.h);
-      SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.texteditor.rect);
+    SDL_DestroyTexture(text_editor);
+  }
 
-      if (SDL_Events(&interface) == 1) {
-        clear_area(&interface.window, interface.canvas);
-        input(interface, &fractal);
-        printf("\nafter input");
-        draw_sdl(&fractal, interface);
-      }        
-      else if(SDL_Events(&interface) == 2) {
-        clear_area(&interface.window, interface.texteditor);
-      }
-      SDL_RenderPresent(interface.window.renderer);
-      SDL_UpdateWindowSurface(interface.window.win);
+  //Stop accepting text input events
+  SDL_StopTextInput();
 
-      SDL_DestroyTexture(text_editor);
-    }
-    return 0;
+  //Close font and SDL_TTF library
+  SDL_TTF_Quit(font);
+  
+  //calls SDL_Quit when the program terminates
+  atexit(SDL_Quit);
+  return 0;
 }
 
 void draw_interface(Interface *interface) {
