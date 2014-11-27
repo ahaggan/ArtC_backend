@@ -22,17 +22,23 @@ int main() {
     SDL_UpdateWindowSurface(interface.window.win);
 
     while(!interface.window.finished) {
-        SDL_Surface* text_surface = TTF_RenderText_Solid(font, interface.composition, editor_text_colour);
-        SDL_Texture* text_editor = SurfaceToTexture(text_surface, &interface.window);
-        SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.rect.w, &interface.texteditor.rect.h);
-        SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.texteditor.rect);
-        if(SDL_Events(&interface) == 1) {
-          clear_area(&interface.window, interface.canvas);
-          input(interface);
-          draw_sdl(&fractal, interface);
-        }        
-        SDL_RenderPresent(interface.window.renderer);
-        SDL_UpdateWindowSurface(interface.window.win);
+      SDL_Surface* text_surface = TTF_RenderText_Solid(font, interface.composition, editor_text_colour);
+      SDL_Texture* text_editor = SurfaceToTexture(text_surface, &interface.window);
+      SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.rect.w, &interface.texteditor.rect.h);
+      SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.texteditor.rect);
+
+      if (SDL_Events(&interface) == 1) {
+        clear_area(&interface.window, interface.canvas);
+        input(interface);
+        draw_sdl(&fractal, interface);
+      }        
+      else if(SDL_Events(&interface) == 2) {
+        clear_area(&interface.window, interface.texteditor);
+      }
+      SDL_RenderPresent(interface.window.renderer);
+      SDL_UpdateWindowSurface(interface.window.win);
+
+      SDL_DestroyTexture(text_editor);
     }
     return 0;
 }

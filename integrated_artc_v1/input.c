@@ -5,14 +5,16 @@ int SDL_Events(Interface* interface) {
     SDL_Event event;
     
     int composition_len = SDL_strlen(interface->composition);
-    
+
+ 
+    printf("\n");
+    //printf("%s\n", interface->composition);
     int x, y;
     SDL_GetMouseState(&x, &y);
-
+    
     while(SDL_PollEvent(&event)) { 
         SDL_Window_Events(event, interface);
         switch (event.type) {
-
             //user requests quit
             case SDL_QUIT:
                 interface->window.finished = 1;
@@ -24,18 +26,17 @@ int SDL_Events(Interface* interface) {
                 break;
 
             //user presses a key
-            case SDL_TEXTINPUT:
+            case SDL_KEYDOWN:
 
                 //based on the key pressed...
                 switch (event.key.keysym.sym) {
 
                     //backspace deletes the previous character
                     case SDLK_BACKSPACE:
-                       //!!CALL TO DISPLAY.C!!//
-                       clear_area(&interface->window, interface->texteditor);
                         if (composition_len > 0) {
                             interface->composition[composition_len - 1] = '\0';
                         }
+                        return 2;
                         break;
 
                     //enter will move the cursor to the next line
@@ -56,12 +57,12 @@ int SDL_Events(Interface* interface) {
                            strcat(interface->composition, SDL_GetClipboardText());
                         }
                         break;
-
-                    //any other keyboard input? add it on to the current text.
-                    case SDL_TEXTINPUT:
-                        strcat(interface->composition, event.text.text);
-                        break;
                 }
+            
+            //any other keyboard input? add it on to the current text.
+            case SDL_TEXTINPUT:
+                strcat(interface->composition, event.text.text);
+                break;
                 
             //user clicks somewhere
             case SDL_MOUSEBUTTONDOWN:
