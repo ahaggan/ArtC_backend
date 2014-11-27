@@ -8,6 +8,7 @@ int main() {
     TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
     artc.font = font;
     draw_interface(&win, &artc);
+    draw fractal;
 
     SDL_Color editor_text_colour = {0,0,0,255};
     //Sets text_rect to type text inputs.
@@ -25,7 +26,7 @@ int main() {
         SDL_RenderCopy(win.renderer, text_editor, NULL, &artc.texteditor.rect);
         if(SDL_Events(&win, &artc)==1) {
           clear_area(w, interface->canvas);
-          input(w, *interface);
+          input(w, *interface, fractal);
           draw_sdl(fractal, sw, interface);
         }        
         SDL_RenderPresent(win.renderer);
