@@ -5,13 +5,12 @@ void clear_area(SDL_Win *window, Area area) {
     SDL_RenderFillRect(window->renderer, &area.rect);
     SDL_RenderPresent(window->renderer);
     SDL_UpdateWindowSurface(window->win);
+printf("area cleared.\n");
 }
 
-void draw_sdl(Draw *fractal, Interface interface) {
-    int x, y;
-    x = (interface.canvas.rect.x + (interface.canvas.rect.w / 2)) - (fractal->size / 2);
-    y = (interface.canvas.rect.y + (interface.canvas.rect.h / 2)) - (fractal->size / 2);
-printf("fractal colour: %s\n", fractal->colour);
+void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size) 
+{
+
     if (strcmp(fractal->colour, "blue") == 0) {
         SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 255, 50);
     }
@@ -35,8 +34,8 @@ printf("fractal colour: %s\n", fractal->colour);
 
     if (strcmp(fractal->shape, "square") == 0) {
         SDL_Rect rectangle;
-        rectangle.w = fractal->size;
-        rectangle.h = fractal->size;
+        rectangle.w = size;
+        rectangle.h = size;
         rectangle.x = x;
         rectangle.y = y;
         SDL_RenderFillRect(interface.window.renderer, &rectangle);
@@ -44,21 +43,16 @@ printf("fractal colour: %s\n", fractal->colour);
     }
 
     else if (strcmp(fractal->shape, "circle") == 0) {
-        SDL_RenderFillCircle(interface.window.renderer, x, y, fractal->size / 2, 1);
+        SDL_RenderFillCircle(interface.window.renderer, x, y, size / 2, 1);
 
     }
 
     else if (strcmp(fractal->shape, "line") == 0) {
         SDL_RenderDrawLine(interface.window.renderer, fractal->startx, fractal->starty, fractal->endx, fractal->endy);
     }
-printf("fractal type: %s\n", fractal->type);
-    if (strcmp(fractal->type, "sierpinski") == 0) {
-        for(int i=1; i<fractal->size; i++) {
-            sierpinski(interface, i);
-        }
-    }
 
-    SDL_RenderPresent(interface.window.renderer);
-    SDL_UpdateWindowSurface(interface.window.win);
+
+ //   SDL_RenderPresent(interface.window.renderer);
+ //   SDL_UpdateWindowSurface(interface.window.win);
 }
 

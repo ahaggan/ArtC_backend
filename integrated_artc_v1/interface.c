@@ -31,7 +31,7 @@ int main() {
         clear_area(&interface.window, interface.canvas);
         input(interface, &fractal);
         printf("\nafter input");
-        draw_sdl(&fractal, interface);
+        generate_fractal(&fractal, interface);
       }        
       else if(SDL_Events(&interface) == 2) {
         clear_area(&interface.window, interface.texteditor);

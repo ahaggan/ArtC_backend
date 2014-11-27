@@ -19,6 +19,17 @@ void top(tri *info, Interface interface, Draw *fractal);
 void left(tri *info, Interface interface, Draw *fractal);
 void right(tri *info, Interface interface, Draw *fractal);
 
+void generate_fractal(Draw *fractal, Interface interface) 
+{
+printf("fractal type: %s\n", fractal->type);
+    if (strcmp(fractal->type, "sierpinski") == 0) {
+        for(int i=1; i<fractal->iterations; i++) {
+            clear_area(&interface.window, interface.canvas);
+            sierpinski(fractal, interface, i);
+        }
+    }
+}
+/*
 int triangle(Draw *fractal, Interface interface){
     
     tri info;
@@ -56,7 +67,7 @@ void draw_iterations(tri *info, Interface interface, Draw *fractal){
         top(info, interface, fractal);
         left(info, interface, fractal);
         right(info, interface, fractal);
-        /*
+        //
         info->height = info->height/2;
         info->width = info->width/2;
         info->x1 = info->width/2;
@@ -64,7 +75,7 @@ void draw_iterations(tri *info, Interface interface, Draw *fractal){
         info->y2 = info->height;
         info->x2 = info->x1 + info->width;
         draw_triangle(interface->window, info);
-        */
+        
     }
 }
 
@@ -146,7 +157,7 @@ void draw_triangle(tri *info, Interface interface, Draw *fractal){
         }
     }
 }
-/*
+
 void triangle(draw *object)
 {
     object->startx = 0;
