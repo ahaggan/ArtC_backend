@@ -54,7 +54,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size)
 printf("fractal type: %s\n", fractal->type);
     if (strcmp(fractal->type, "sierpinski") == 0) {
         for(int i=1; i<fractal->size; i++) {
-            sierpinski(interface, i);   
+            sierpinski(fractal, interface, 10);   
         }
     }
 

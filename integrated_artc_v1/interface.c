@@ -7,7 +7,7 @@ int main() {
   SDL_TTF_Init();
   TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
   interface.font = font;
-  //strcpy(interface.composition, "Enter text:");
+  strcpy(interface.composition, "Enter text:");
   SDL_Color editor_text_colour = {0,0,0,255};
   //Sets text_rect to type text inputs.
   SDL_SetTextInputRect(&interface.texteditor.rect);
@@ -30,39 +30,17 @@ int main() {
       clear_area(&interface.window, interface.canvas);
       input(interface, &fractal);
       printf("\nafter input");
-      draw_sdl(&fractal, interface);
+      draw_sdl(interface, &fractal, 50, 50, 5);
     }        
     else if(SDL_Events(&interface) == 2) {
       clear_area(&interface.window, interface.texteditor);
     }
+
     SDL_RenderPresent(interface.window.renderer);
     SDL_UpdateWindowSurface(interface.window.win);
 
     SDL_DestroyTexture(text_editor);
   }
-
-<<<<<<< HEAD
-  //Stop accepting text input events
-  SDL_StopTextInput();
-=======
-      if (SDL_Events(&interface) == 1) {
-        clear_area(&interface.window, interface.canvas);
-        input(interface, &fractal);
-        printf("\nafter input");
-        generate_fractal(&fractal, interface);
-      }        
-      else if(SDL_Events(&interface) == 2) {
-        clear_area(&interface.window, interface.texteditor);
-      }
-      SDL_RenderPresent(interface.window.renderer);
-      SDL_UpdateWindowSurface(interface.window.win);
->>>>>>> FETCH_HEAD
-
-  //Close font and SDL_TTF library
-  SDL_TTF_Quit(font);
-  
-  //calls SDL_Quit when the program terminates
-  atexit(SDL_Quit);
   return 0;
 }
 
