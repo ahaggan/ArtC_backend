@@ -19,6 +19,9 @@ void sierpinski(Interface interface, int limit)
 
     SDL_RenderPresent(interface.window.renderer);
     SDL_UpdateWindowSurface(interface.window.win);
+    SDL_Delay(SDL_DELAY);
+    clear_area(&interface.window, interface.canvas);
+    SDL_SetRenderDrawColor(interface.window.renderer, 255,0,0,255);
 }
 
 int iterate(SDL_Win *w, SDL_Rect square, int iterations, int limit)
