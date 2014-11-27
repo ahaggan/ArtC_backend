@@ -18,7 +18,7 @@ struct SDL_Win {
 };
 typedef struct SDL_Win SDL_Win;
 
-#include "input_integrated_v1.h"
+#include "parser.h"
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);

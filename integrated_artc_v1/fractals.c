@@ -1,4 +1,4 @@
-#include "artc_sdl2.h"
+#include "display.h"
 
 #define SMALLEST_SIZE 40
 typedef struct triangle{

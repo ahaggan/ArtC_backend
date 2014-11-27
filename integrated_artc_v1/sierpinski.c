@@ -1,4 +1,4 @@
-#include "artc_sdl2.h"
+#include "display.h"
 
 int iterate(SDL_Win *w, SDL_Rect square, int iterations, int limit);
 void makesquare(SDL_Rect *square, int x, int y, int size);

@@ -1,4 +1,4 @@
-#include "artc_sdl2.h"
+#include "display.h"
 
 int main() {
     Interface artc;

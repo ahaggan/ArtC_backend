@@ -1,4 +1,4 @@
-#include "artc_sdl2.h"
+#include "display.h"
 
 void clear_area(SDL_Win *sw, Area area)
 {
