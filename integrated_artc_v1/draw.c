@@ -12,7 +12,7 @@ void draw_sdl(Draw *fractal, Interface interface) {
     int x, y;
     x = (interface.canvas.rect.x + (interface.canvas.rect.w / 2)) - (fractal->size / 2);
     y = (interface.canvas.rect.y + (interface.canvas.rect.h / 2)) - (fractal->size / 2);
-
+printf("fractal colour: %s\n", fractal->colour);
     if (strcmp(fractal->colour, "blue") == 0) {
         SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 255, 50);
     }
@@ -52,7 +52,7 @@ void draw_sdl(Draw *fractal, Interface interface) {
     else if (strcmp(fractal->shape, "line") == 0) {
         SDL_RenderDrawLine(interface.window.renderer, fractal->startx, fractal->starty, fractal->endx, fractal->endy);
     }
-
+printf("fractal type: %s\n", fractal->type);
     if (strcmp(fractal->type, "sierpinski") == 0) {
         sierpinski(interface, fractal->size);
     }
