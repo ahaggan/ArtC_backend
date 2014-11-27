@@ -1,15 +1,14 @@
 #include "parser.h"
 
-int input(SDL_Win *sw, Interface interface, draw fractal) {
+int input(Interface interface, draw *fractal) {
 
 	char first_input[MAX_LENGTH];
 	char second_input[MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
-	draw fractal;
 	printf("\nstart");
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
-	make_default(&fractal);
-	get_input(actions,first_input,second_input, &fractal);  //Takes values from file and puts them in the fractal structure
+	make_default(fractal);
+	get_input(actions,first_input,second_input, fractal);  //Takes values from file and puts them in the fractal structure
 
 	
 /*    if(strcmp(fractal.type, "triangle") == 0){

@@ -13,13 +13,13 @@ typedef struct triangle{
     struct triangle *three;
 }tri;
 
-void draw_iterations(SDL_Win *sw, tri *info, Interface interface, draw *object);
-void draw_triangle(SDL_Win *sw, tri *info, Interface interface, draw *object);
-void top(SDL_Win *sw, tri *info, Interface interface, draw *object);
-void left(SDL_Win *sw, tri *info, Interface interface, draw *object);
-void right(SDL_Win *sw, tri *info, Interface interface, draw *object);
+void draw_iterations(tri *info, Interface interface, draw *object);
+void draw_triangle(tri *info, Interface interface, draw *object);
+void top(tri *info, Interface interface, draw *object);
+void left(tri *info, Interface interface, draw *object);
+void right(tri *info, Interface interface, draw *object);
 
-int triangle(draw *object, SDL_Win *sw, Interface interface){
+int triangle(draw *object, Interface interface){
     
     tri info;
     
@@ -31,7 +31,7 @@ int triangle(draw *object, SDL_Win *sw, Interface interface){
     info.x2 = info.width + info.width/2;
     info.y2 = 0.0;
     
-    draw_iterations(sw, &info, interface, object);
+    draw_iterations(interface->window, &info, interface, object);
     
     
     
@@ -39,8 +39,8 @@ int triangle(draw *object, SDL_Win *sw, Interface interface){
     return 0;
 }
 
-void draw_iterations(SDL_Win *sw, tri *info, Interface interface, draw *object){
-    SDL_SetRenderDrawColor(sw->renderer, rand()%255, rand()%255, rand()%255, SDL_ALPHA_OPAQUE);
+void draw_iterations(tri *info, Interface interface, draw *object){
+    SDL_SetRenderDrawColor(interface->window->renderer, rand()%255, rand()%255, rand()%255, SDL_ALPHA_OPAQUE);
     tri one, two, three;
     info->one = &one;
     info->two = &two;
@@ -49,13 +49,13 @@ void draw_iterations(SDL_Win *sw, tri *info, Interface interface, draw *object){
     double start;
     start = info->x1;
     if(info->width < SMALLEST_SIZE || info->height < SMALLEST_SIZE){
-        draw_triangle(sw, info, interface, object);
+        draw_triangle(interface->window, info, interface, object);
     }
     else{
-        //draw_triangle(sw, info);
-        top(sw, info, interface, object);
-        left(sw, info, interface, object);
-        right(sw, info, interface, object);
+        //draw_triangle(interface->window, info);
+        top(interface->window, info, interface, object);
+        left(interface->window, info, interface, object);
+        right(interface->window, info, interface, object);
         /*
         info->height = info->height/2;
         info->width = info->width/2;
@@ -63,12 +63,12 @@ void draw_iterations(SDL_Win *sw, tri *info, Interface interface, draw *object){
         info->y1 = info->height;
         info->y2 = info->height;
         info->x2 = info->x1 + info->width;
-        draw_triangle(sw, info);
+        draw_triangle(interface->window, info);
         */
     }
 }
 
-void top(SDL_Win *sw, tri *info, Interface interface, draw *object){
+void top(tri *info, Interface interface, draw *object){
    
     info->one->height = info->height/2;
     info->one->width = info->width/2;
@@ -76,10 +76,10 @@ void top(SDL_Win *sw, tri *info, Interface interface, draw *object){
     info->one->y1 = info->y1 - info->one->height;
     info->one->x2 = info->x2;
     info->one->y2 = info->y2;
-    draw_iterations(sw, info->one, interface, object);
+    draw_iterations(interface->window, info->one, interface, object);
     
 }
-void left(SDL_Win *sw, tri *info, Interface interface, draw *object){
+void left(tri *info, Interface interface, draw *object){
     
     
     info->two->height = info->height/2;
@@ -88,9 +88,9 @@ void left(SDL_Win *sw, tri *info, Interface interface, draw *object){
     info->two->y1 = info->y1;
     info->two->x2 = info->x1 + info->two->width/2;
     info->two->y2 = info->y1 - info->two->height;
-    draw_iterations(sw, info->two, interface, object);
+    draw_iterations(interface->window, info->two, interface, object);
 }
-void right(SDL_Win *sw, tri *info, Interface interface, draw *object){
+void right(tri *info, Interface interface, draw *object){
     
     
     info->three->height = info->height/2;
@@ -99,12 +99,12 @@ void right(SDL_Win *sw, tri *info, Interface interface, draw *object){
     info->three->y1 = info->y1;
     info->three->x2 = info->three->x1 + info->three->width/2;
     info->three->y2 = info->y2 + info->three->height;
-    draw_iterations(sw, info->three, interface, object);
+    draw_iterations(interface->window, info->three, interface, object);
 }
-void draw_triangle(SDL_Win *sw, tri *info, Interface interface, draw *object){
+void draw_triangle(tri *info, Interface interface, draw *object){
 
     
-    if(sw->finished == 1){
+    if(interface->window->finished == 1){
         return;
     }
     double gradient, starty, startx;
@@ -123,7 +123,7 @@ void draw_triangle(SDL_Win *sw, tri *info, Interface interface, draw *object){
             object->starty = info->y1;
             object->endx = info->x2;
             object->endy = info->y2;
-            draw_sdl(object, sw, interface);
+            draw_sdl(object, interface->window, interface);
             
             info->x1 += gradient;
             info->x2 -= gradient;
@@ -139,7 +139,7 @@ void draw_triangle(SDL_Win *sw, tri *info, Interface interface, draw *object){
             object->starty = info->y1;
             object->endx = info->x2;
             object->endy = info->y2;
-            draw_sdl(object, sw, interface);
+            draw_sdl(object, interface->window, interface);
             info->x1 += 2 * gradient;
             info->x2 += gradient;
             info->y2 += 1;

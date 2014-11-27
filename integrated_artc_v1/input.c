@@ -82,4 +82,5 @@ int SDL_Events(Interface* interface) {
                 break;
         }
     }
+    return 0;
 }

@@ -6,8 +6,11 @@ int main() {
     SDL_Win_Init(&interface.window, "ARTC interface");
     SDL_TTF_Init();
     TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
+
     interface.font = font;
-    draw_interface(&interface.window, &interface);
+    draw_interface(&interface);
+    draw fractal;
+
 
     SDL_Color editor_text_colour = {0,0,0,255};
     //Sets text_rect to type text inputs.
