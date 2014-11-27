@@ -36,27 +36,6 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
     SDL_RenderPresent(w->renderer);
 }
 
-void SDL_Window_Events(SDL_Event event, Interface* interface) {
-    int x, y;
-    switch(event.window.event) {
-        //Get new dimensions and repaint on window size change.
-        case SDL_WINDOWEVENT_SIZE_CHANGED: 
-            
-            SDL_GetWindowSize(interface->window.win, &x, &y);
-            SDL_SetWindowSize(interface->window.win, event.window.data1, event.window.data2);
-            draw_interface(interface);
-            // Set resolution (size) of renderer to the same as window
-            SDL_RenderSetLogicalSize(interface->window.renderer, x, y); 
-            SDL_RenderPresent(interface->window.renderer);
-            break;
-        //exposed means that the window was obscured in some way, and now is not obscured.
-        case SDL_WINDOWEVENT_EXPOSED:
-            SDL_RenderPresent(interface->window.renderer);
-            break;
-    }    
-
-}
-
 // Filled Circle centred at (cx,cy) of radius r, see :
 // http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
 void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a) {

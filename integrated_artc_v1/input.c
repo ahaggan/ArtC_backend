@@ -82,3 +82,24 @@ int SDL_Events(Interface* interface) {
     }
     return 0;
 }
+
+void SDL_Window_Events(SDL_Event event, Interface* interface) {
+    int x, y;
+    switch(event.window.event) {
+        //Get new dimensions and repaint on window size change.
+        case SDL_WINDOWEVENT_SIZE_CHANGED: 
+            
+            SDL_GetWindowSize(interface->window.win, &x, &y);
+            SDL_SetWindowSize(interface->window.win, event.window.data1, event.window.data2);
+            draw_interface(interface);
+            // Set resolution (size) of renderer to the same as window
+            SDL_RenderSetLogicalSize(interface->window.renderer, x, y); 
+            SDL_RenderPresent(interface->window.renderer);
+            break;
+        //exposed means that the window was obscured in some way, and now is not obscured.
+        case SDL_WINDOWEVENT_EXPOSED:
+            SDL_RenderPresent(interface->window.renderer);
+            break;
+    }    
+
+}

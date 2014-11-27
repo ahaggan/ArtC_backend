@@ -28,8 +28,8 @@ int input(Interface interface, Draw *fractal) {
 }
 
 void make_default(Draw *fractal){
-    printf("\ndefault");
-    fractal->colour = (char*)malloc(4*sizeof(char));
+  printf("\ndefault");
+  fractal->colour = (char*)malloc(4*sizeof(char));
 	strcpy(fractal->colour, "red"); 
 	fractal->move = (char*)malloc(3*sizeof(char));
 	strcpy(fractal->move, "up");
