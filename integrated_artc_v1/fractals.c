@@ -31,7 +31,7 @@ int triangle(Draw *fractal, Interface interface){
     info.x2 = info.width + info.width/2;
     info.y2 = 0.0;
     
-    draw_iterations(interface->window, &info, interface, fractal);
+    draw_iterations(&info, interface, fractal);
     
     
     
@@ -40,22 +40,22 @@ int triangle(Draw *fractal, Interface interface){
 }
 
 void draw_iterations(tri *info, Interface interface, Draw *fractal){
-    SDL_SetRenderDrawColor(interface->window->renderer, rand()%255, rand()%255, rand()%255, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(interface.window.renderer, rand()%255, rand()%255, rand()%255, SDL_ALPHA_OPAQUE);
     tri one, two, three;
     info->one = &one;
     info->two = &two;
     info->three = &three;
     
-    double start;
-    start = info->x1;
+    //double start;
+    //start = info->x1;
     if(info->width < SMALLEST_SIZE || info->height < SMALLEST_SIZE){
-        draw_triangle(interface->window, info, interface, fractal);
+        draw_triangle(info, interface, fractal);
     }
     else{
         //draw_triangle(interface->window, info);
-        top(interface->window, info, interface, fractal);
-        left(interface->window, info, interface, fractal);
-        right(interface->window, info, interface, fractal);
+        top(info, interface, fractal);
+        left(info, interface, fractal);
+        right(info, interface, fractal);
         /*
         info->height = info->height/2;
         info->width = info->width/2;
@@ -76,7 +76,7 @@ void top(tri *info, Interface interface, Draw *fractal){
     info->one->y1 = info->y1 - info->one->height;
     info->one->x2 = info->x2;
     info->one->y2 = info->y2;
-    draw_iterations(interface.window, info->one, interface, fractal);
+    draw_iterations(info->one, interface, fractal);
     
 }
 void left(tri *info, Interface interface, Draw *fractal){
@@ -88,7 +88,7 @@ void left(tri *info, Interface interface, Draw *fractal){
     info->two->y1 = info->y1;
     info->two->x2 = info->x1 + info->two->width/2;
     info->two->y2 = info->y1 - info->two->height;
-    draw_iterations(interface.window, info->two, interface, fractal);
+    draw_iterations(info->two, interface, fractal);
 }
 void right(tri *info, Interface interface, Draw *fractal){
     
@@ -99,12 +99,12 @@ void right(tri *info, Interface interface, Draw *fractal){
     info->three->y1 = info->y1;
     info->three->x2 = info->three->x1 + info->three->width/2;
     info->three->y2 = info->y2 + info->three->height;
-    draw_iterations(interface.window, info->three, interface, fractal);
+    draw_iterations(info->three, interface, fractal);
 }
 void draw_triangle(tri *info, Interface interface, Draw *fractal){
 
     
-    if(interface->window->finished == 1){
+    if(interface.window.finished == 1){
         return;
     }
     double gradient, starty, startx;
@@ -118,12 +118,12 @@ void draw_triangle(tri *info, Interface interface, Draw *fractal){
     if (info->y1 == info->y2){
         while(info->y1 < starty + info->height && info->y2 < starty + info->height){
             SDL_Delay(1);
-            object->shape = "line";
-            object->startx = info->x1;
-            object->starty = info->y1;
-            object->endx = info->x2;
-            object->endy = info->y2;
-            draw_sdl(fractal, interface->window, interface);
+            fractal->shape = "line";
+            fractal->startx = info->x1;
+            fractal->starty = info->y1;
+            fractal->endx = info->x2;
+            fractal->endy = info->y2;
+            draw_sdl(fractal, interface);
             
             info->x1 += gradient;
             info->x2 -= gradient;
@@ -134,12 +134,12 @@ void draw_triangle(tri *info, Interface interface, Draw *fractal){
     else{
         while(info->x1 < startx + info->width + 1){
             SDL_Delay(5);
-            object->shape = "line";
-            object->startx = info->x1;
-            object->starty = info->y1;
-            object->endx = info->x2;
-            object->endy = info->y2;
-            draw_sdl(fractal, interface->window, interface);
+            fractal->shape = "line";
+            fractal->startx = info->x1;
+            fractal->starty = info->y1;
+            fractal->endx = info->x2;
+            fractal->endy = info->y2;
+            draw_sdl(fractal, interface);
             info->x1 += 2 * gradient;
             info->x2 += gradient;
             info->y2 += 1;
