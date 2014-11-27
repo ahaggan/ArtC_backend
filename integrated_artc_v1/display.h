@@ -22,9 +22,7 @@ typedef struct SDL_Win SDL_Win;
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
-void SDL_Window_Events(SDL_Win *w, SDL_Event event, Interface* interface);
 
-void SDL_Events(SDL_Win *w, Interface* interface);
 int triangle(draw *object, SDL_Win *sw, Interface interface);
 void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
 void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
