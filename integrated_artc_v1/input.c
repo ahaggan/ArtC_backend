@@ -1,6 +1,4 @@
 #include "input.h"
-#include "artc.h"
-#include "display.h"
 
 int SDL_Events(Interface* interface) {
 

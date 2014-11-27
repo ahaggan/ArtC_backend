@@ -6,7 +6,7 @@
 *  Uses the structures to validate user inputs, making sure action linked to
 *  attribute.
 *
-*   It creates a draw structure to then pass to the SDL draw function
+*   It creates a Draw structure to then pass to the SDL Draw function
 */
 
 #include "artc.h"
@@ -36,8 +36,12 @@ typedef struct action{
 
 void create_struct_array(action *actions);
 void clear_buffer(void);
+
 void get_input(action *actions, char *first_input, char *second_input, draw *fractal);
 void update_values(Draw *fractal, char *first_input, char *second_input);
 void assign_value(Draw *fractal, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(Draw *fractal);
+
+
+

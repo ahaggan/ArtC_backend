@@ -15,7 +15,7 @@ int input(Interface interface, Draw *fractal) {
         triangle(&fractal, sw, interface);
     }
     else{
-        draw_sdl(&fractal, sw, interface);
+        Draw_sdl(&fractal, sw, interface);
 	}
 */ 
 	
