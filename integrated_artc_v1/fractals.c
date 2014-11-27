@@ -76,7 +76,7 @@ void top(tri *info, Interface interface, Draw *fractal){
     info->one->y1 = info->y1 - info->one->height;
     info->one->x2 = info->x2;
     info->one->y2 = info->y2;
-    draw_iterations(interface->window, info->one, interface, fractal);
+    draw_iterations(interface.window, info->one, interface, fractal);
     
 }
 void left(tri *info, Interface interface, Draw *fractal){
@@ -88,7 +88,7 @@ void left(tri *info, Interface interface, Draw *fractal){
     info->two->y1 = info->y1;
     info->two->x2 = info->x1 + info->two->width/2;
     info->two->y2 = info->y1 - info->two->height;
-    draw_iterations(interface->window, info->two, interface, fractal);
+    draw_iterations(interface.window, info->two, interface, fractal);
 }
 void right(tri *info, Interface interface, Draw *fractal){
     
@@ -99,7 +99,7 @@ void right(tri *info, Interface interface, Draw *fractal){
     info->three->y1 = info->y1;
     info->three->x2 = info->three->x1 + info->three->width/2;
     info->three->y2 = info->y2 + info->three->height;
-    draw_iterations(interface->window, info->three, interface, fractal);
+    draw_iterations(interface.window, info->three, interface, fractal);
 }
 void draw_triangle(tri *info, Interface interface, Draw *fractal){
 
