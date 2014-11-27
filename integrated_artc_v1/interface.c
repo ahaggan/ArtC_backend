@@ -29,7 +29,8 @@ int main() {
 
       if (SDL_Events(&interface) == 1) {
         clear_area(&interface.window, interface.canvas);
-        input(interface);
+        input(interface, &fractal);
+        printf("\nafter input");
         draw_sdl(&fractal, interface);
       }        
       else if(SDL_Events(&interface) == 2) {

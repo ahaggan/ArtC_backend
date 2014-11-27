@@ -17,7 +17,7 @@ typedef struct draw{
   int endx;
   int endy;
   char* type;
-  int iterations;
+  //int iterations;
 } Draw;
 
 typedef struct area {
