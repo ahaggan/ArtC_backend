@@ -36,22 +36,22 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
     SDL_RenderPresent(w->renderer);
 }
 
-void SDL_Window_Events(SDL_Win *w, SDL_Event event, Interface* interface) {
+void SDL_Window_Events(SDL_Event event, Interface* interface) {
     int x, y;
     switch(event.window.event) {
         //Get new dimensions and repaint on window size change.
         case SDL_WINDOWEVENT_SIZE_CHANGED: 
             
-            SDL_GetWindowSize(w->win, &x, &y);
-            SDL_SetWindowSize(w->win, event.window.data1, event.window.data2);
+            SDL_GetWindowSize(interface->window.win, &x, &y);
+            SDL_SetWindowSize(interface->window.win, event.window.data1, event.window.data2);
             draw_interface(interface);
             // Set resolution (size) of renderer to the same as window
-            SDL_RenderSetLogicalSize(w->renderer, x, y); 
-            SDL_RenderPresent(w->renderer);
+            SDL_RenderSetLogicalSize(interface->window.renderer, x, y); 
+            SDL_RenderPresent(interface->window.renderer);
             break;
         //exposed means that the window was obscured in some way, and now is not obscured.
         case SDL_WINDOWEVENT_EXPOSED:
-            SDL_RenderPresent(w->renderer);
+            SDL_RenderPresent(interface->window.renderer);
             break;
     }    
 

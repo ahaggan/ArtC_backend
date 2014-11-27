@@ -1,4 +1,4 @@
-#include "display.h"
+#include "input.h"
 
 int main() {
     Interface interface;
