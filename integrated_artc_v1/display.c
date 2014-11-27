@@ -1,5 +1,5 @@
 //Keep all 'display' information within the display module. Pass around a display object.
-#include "display.h"
+#include "input.h"
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -44,7 +44,7 @@ void SDL_Window_Events(SDL_Win *w, SDL_Event event, Interface* interface) {
             
             SDL_GetWindowSize(w->win, &x, &y);
             SDL_SetWindowSize(w->win, event.window.data1, event.window.data2);
-            draw_interface(w, interface);
+            draw_interface(interface);
             // Set resolution (size) of renderer to the same as window
             SDL_RenderSetLogicalSize(w->renderer, x, y); 
             SDL_RenderPresent(w->renderer);
