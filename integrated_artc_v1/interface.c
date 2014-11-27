@@ -9,7 +9,7 @@ int main() {
 
     interface.font = font;
     draw_interface(&interface);
-    draw fractal;
+    Draw fractal;
 
 
     SDL_Color editor_text_colour = {0,0,0,255};
