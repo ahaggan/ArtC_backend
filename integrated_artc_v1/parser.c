@@ -16,10 +16,13 @@ int input(Interface interface, Draw *fractal) {
     }
     else{
         Draw_sdl(&fractal, sw, interface);
-	}
-*/ 
-	
-
+	}*/
+	printf("\nIn main:");
+	printf("\nColour: %s", fractal->colour);
+    printf("\nColour: %s", fractal->colour);
+	printf("\nshape: %s", fractal->shape);
+	printf("\nsize: %d", fractal->size);
+    printf("\nType: %s", fractal->type);
 	return 0;
 }
 
@@ -79,7 +82,7 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 			return NO;
 		}
 		printf("\nReached end of file.\n");
-	    return NO;
+	    return YES;
 	}
 	else {
 		for(i = 0, found_first = NO; i<FIRST_WORD_SIZE && found_first == NO; i++){
