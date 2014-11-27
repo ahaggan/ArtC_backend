@@ -44,7 +44,7 @@ void make_default(Interface interface, Draw *fractal){
 	fractal->type = (char*)malloc(9*sizeof(char));
 	strcpy(fractal->type, "triangle");
 	printf("\nType: %s", fractal->type);
-    fractal->iterations = 5;
+    fractal->iterations = 1;
 }
 
 void get_input(action *actions, char *first_input, char *second_input, Draw *fractal) {

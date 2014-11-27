@@ -23,7 +23,7 @@ void generate_fractal(Draw *fractal, Interface interface)
 {
 printf("fractal type: %s\n", fractal->type);
     if (strcmp(fractal->type, "sierpinski") == 0) {
-        for(int i=1; i<fractal->iterations; i++) {
+        for(int i=1; i<=fractal->iterations; i++) {
             clear_area(&interface.window, interface.canvas);
             sierpinski(fractal, interface, i);
         }

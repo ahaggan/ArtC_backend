@@ -15,11 +15,11 @@ void sierpinski(Draw *fractal, Interface interface, int limit)
     shape.x=fractal->startx - fractal->size/2;
     shape.y=fractal->starty - fractal->size/2;
     shape.size=fractal->size;
-    int iterations=0;
+    int iterations=1; // One iteration is just the shape.
 
     printf("Sierpinski Limit: %d\n", limit);
 
-    iterations = iterate(fractal, interface, shape, iterations+1, limit);
+    iterations = iterate(fractal, interface, shape, iterations, limit);
     printf("Sierpinski completed with %d iterations.\n", iterations);
 
     SDL_RenderPresent(interface.window.renderer);
