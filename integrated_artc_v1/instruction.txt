@@ -1,4 +1,6 @@
-size 10
-colour purple
+size 600
+colour pink
 move up
-fractal sierpinski
+shape circle
+type sierpinski
+iterations 7

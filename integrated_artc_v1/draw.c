@@ -36,8 +36,8 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size)
         SDL_Rect rectangle;
         rectangle.w = size;
         rectangle.h = size;
-        rectangle.x = x;
-        rectangle.y = y;
+        rectangle.x = x - size/2;
+        rectangle.y = y - size/2;
         SDL_RenderFillRect(interface.window.renderer, &rectangle);
 
     }
