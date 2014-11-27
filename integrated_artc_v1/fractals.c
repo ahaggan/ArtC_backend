@@ -13,13 +13,13 @@ typedef struct triangle{
     struct triangle *three;
 }tri;
 
-void draw_iterations(tri *info, Interface interface, draw *object);
-void draw_triangle(tri *info, Interface interface, draw *object);
-void top(tri *info, Interface interface, draw *object);
-void left(tri *info, Interface interface, draw *object);
-void right(tri *info, Interface interface, draw *object);
+void draw_iterations(tri *info, Interface interface, Draw *fractal);
+void draw_triangle(tri *info, Interface interface, Draw *fractal);
+void top(tri *info, Interface interface, Draw *fractal);
+void left(tri *info, Interface interface, Draw *fractal);
+void right(tri *info, Interface interface, Draw *fractal);
 
-int triangle(draw *object, Interface interface){
+int triangle(Draw *fractal, Interface interface){
     
     tri info;
     
@@ -31,7 +31,7 @@ int triangle(draw *object, Interface interface){
     info.x2 = info.width + info.width/2;
     info.y2 = 0.0;
     
-    draw_iterations(interface->window, &info, interface, object);
+    draw_iterations(interface->window, &info, interface, fractal);
     
     
     
@@ -39,7 +39,7 @@ int triangle(draw *object, Interface interface){
     return 0;
 }
 
-void draw_iterations(tri *info, Interface interface, draw *object){
+void draw_iterations(tri *info, Interface interface, Draw *fractal){
     SDL_SetRenderDrawColor(interface->window->renderer, rand()%255, rand()%255, rand()%255, SDL_ALPHA_OPAQUE);
     tri one, two, three;
     info->one = &one;
@@ -49,13 +49,13 @@ void draw_iterations(tri *info, Interface interface, draw *object){
     double start;
     start = info->x1;
     if(info->width < SMALLEST_SIZE || info->height < SMALLEST_SIZE){
-        draw_triangle(interface->window, info, interface, object);
+        draw_triangle(interface->window, info, interface, fractal);
     }
     else{
         //draw_triangle(interface->window, info);
-        top(interface->window, info, interface, object);
-        left(interface->window, info, interface, object);
-        right(interface->window, info, interface, object);
+        top(interface->window, info, interface, fractal);
+        left(interface->window, info, interface, fractal);
+        right(interface->window, info, interface, fractal);
         /*
         info->height = info->height/2;
         info->width = info->width/2;
@@ -68,7 +68,7 @@ void draw_iterations(tri *info, Interface interface, draw *object){
     }
 }
 
-void top(tri *info, Interface interface, draw *object){
+void top(tri *info, Interface interface, Draw *fractal){
    
     info->one->height = info->height/2;
     info->one->width = info->width/2;
@@ -76,10 +76,10 @@ void top(tri *info, Interface interface, draw *object){
     info->one->y1 = info->y1 - info->one->height;
     info->one->x2 = info->x2;
     info->one->y2 = info->y2;
-    draw_iterations(interface->window, info->one, interface, object);
+    draw_iterations(interface->window, info->one, interface, fractal);
     
 }
-void left(tri *info, Interface interface, draw *object){
+void left(tri *info, Interface interface, Draw *fractal){
     
     
     info->two->height = info->height/2;
@@ -88,9 +88,9 @@ void left(tri *info, Interface interface, draw *object){
     info->two->y1 = info->y1;
     info->two->x2 = info->x1 + info->two->width/2;
     info->two->y2 = info->y1 - info->two->height;
-    draw_iterations(interface->window, info->two, interface, object);
+    draw_iterations(interface->window, info->two, interface, fractal);
 }
-void right(tri *info, Interface interface, draw *object){
+void right(tri *info, Interface interface, Draw *fractal){
     
     
     info->three->height = info->height/2;
@@ -99,9 +99,9 @@ void right(tri *info, Interface interface, draw *object){
     info->three->y1 = info->y1;
     info->three->x2 = info->three->x1 + info->three->width/2;
     info->three->y2 = info->y2 + info->three->height;
-    draw_iterations(interface->window, info->three, interface, object);
+    draw_iterations(interface->window, info->three, interface, fractal);
 }
-void draw_triangle(tri *info, Interface interface, draw *object){
+void draw_triangle(tri *info, Interface interface, Draw *fractal){
 
     
     if(interface->window->finished == 1){
@@ -123,7 +123,7 @@ void draw_triangle(tri *info, Interface interface, draw *object){
             object->starty = info->y1;
             object->endx = info->x2;
             object->endy = info->y2;
-            draw_sdl(object, interface->window, interface);
+            draw_sdl(fractal, interface->window, interface);
             
             info->x1 += gradient;
             info->x2 -= gradient;
@@ -139,7 +139,7 @@ void draw_triangle(tri *info, Interface interface, draw *object){
             object->starty = info->y1;
             object->endx = info->x2;
             object->endy = info->y2;
-            draw_sdl(object, interface->window, interface);
+            draw_sdl(fractal, interface->window, interface);
             info->x1 += 2 * gradient;
             info->x2 += gradient;
             info->y2 += 1;
