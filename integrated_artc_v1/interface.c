@@ -41,8 +41,22 @@ int main() {
     SDL_DestroyTexture(text_editor);
   }
 
+<<<<<<< HEAD
   //Stop accepting text input events
   SDL_StopTextInput();
+=======
+      if (SDL_Events(&interface) == 1) {
+        clear_area(&interface.window, interface.canvas);
+        input(interface, &fractal);
+        printf("\nafter input");
+        generate_fractal(&fractal, interface);
+      }        
+      else if(SDL_Events(&interface) == 2) {
+        clear_area(&interface.window, interface.texteditor);
+      }
+      SDL_RenderPresent(interface.window.renderer);
+      SDL_UpdateWindowSurface(interface.window.win);
+>>>>>>> FETCH_HEAD
 
   //Close font and SDL_TTF library
   SDL_TTF_Quit(font);
