@@ -1,22 +1,22 @@
-#include "display.h"
+#include "parser.h"
 
 int input(SDL_Win *sw, Interface interface) {
 
 	char first_input[MAX_LENGTH];
 	char second_input[MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
-	draw object;
+	draw fractal;
 	printf("\nstart");
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
-	make_default(&object);
-	get_input(actions,first_input,second_input, &object);  //Takes values from file and puts them in the object structure
+	make_default(&fractal);
+	get_input(actions,first_input,second_input, &fractal);  //Takes values from file and puts them in the fractal structure
 
 	
-    if(strcmp(object.fractal, "triangle") == 0){
-        triangle(&object, sw, interface);
+    if(strcmp(fractal.type, "triangle") == 0){
+        triangle(&fractal, sw, interface);
     }
     else{
-        draw_sdl(&object, sw, interface);
+        draw_sdl(&fractal, sw, interface);
 	}
     
 	
@@ -24,26 +24,26 @@ int input(SDL_Win *sw, Interface interface) {
 	return 0;
 }
 
-void make_default(draw *object){
+void make_default(draw *fractal){
     printf("\ndefault");
-    object->colour = (char*)malloc(4*sizeof(char));
-	strcpy(object->colour, "red"); 
-	object->move = (char*)malloc(3*sizeof(char));
-	strcpy(object->move, "up");
-	object->size = 10;
-	object->shape = (char*)malloc(7*sizeof(char));
-	strcpy(object->shape, "square");
-	object->startx = WIN_WIDTH/2 - 10;
-	object->starty = WIN_HEIGHT/2 - 10;
-	object->endx = WIN_WIDTH/2 + 10;
-	object->endy = WIN_HEIGHT/2 + 10; 
+    fractal->colour = (char*)malloc(4*sizeof(char));
+	strcpy(fractal->colour, "red"); 
+	fractal->move = (char*)malloc(3*sizeof(char));
+	strcpy(fractal->move, "up");
+	fractal->size = 10;
+	fractal->shape = (char*)malloc(7*sizeof(char));
+	strcpy(fractal->shape, "square");
+	fractal->startx = WIN_WIDTH/2 - 10;
+	fractal->starty = WIN_HEIGHT/2 - 10;
+	fractal->endx = WIN_WIDTH/2 + 10;
+	fractal->endy = WIN_HEIGHT/2 + 10; 
 
-	object->fractal = (char*)malloc(9*sizeof(char));
-	strcpy(object->fractal, "triangle");
+	fractal->type = (char*)malloc(9*sizeof(char));
+	strcpy(fractal->type, "triangle");
 
 }
 
-void get_input(action *actions, char *first_input, char *second_input, draw *object) {
+void get_input(action *actions, char *first_input, char *second_input, draw *fractal) {
 	
 	//char *first_word[] = FIRST_WORD;
 	//char *second_word[] = SECOND_WORD;
@@ -58,7 +58,7 @@ void get_input(action *actions, char *first_input, char *second_input, draw *obj
 	while(c != EOF){
 		if(read_file_line(fp, actions, first_input, second_input) ==YES)
 		{
-			update_values(object, first_input, second_input);
+			update_values(fractal, first_input, second_input);
 	
 		}
 		c = getc(fp);
@@ -111,53 +111,53 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 	}
 }
 
-void update_values(draw *object, char *first_input, char *second_input){
+void update_values(draw *fractal, char *first_input, char *second_input){
 	int i;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
 	printf("\nupdate");
 	for(i = 0; i < FIRST_WORD_SIZE; i++){
 		if(strcmp(first_word[i], first_input) == 0){
 			printf("\nStrings match.\n");
-			assign_value(object, i, second_input);
+			assign_value(fractal, i, second_input);
 		}	
 	}
 }
 
-void assign_value(draw *object, action_word i, char* input){
+void assign_value(draw *fractal, action_word i, char* input){
 	printf("\nIn assign\n");
 	switch(i){
 		case colour:
 			printf("\nFound colour: %s\n", input);
-			object->colour = (char*)malloc(strlen(input)*sizeof(char));
-			strcpy(object->colour, input);
+			fractal->colour = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(fractal->colour, input);
 			break;
 		case move:
-			object->move = (char*)malloc(strlen(input)*sizeof(char));
-			strcpy(object->move, input);
+			fractal->move = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(fractal->move, input);
 			break;
 		case size:
-			object->size = atoi(input);
+			fractal->size = atoi(input);
 			break;
 		case shape:
-			object->shape = (char*)malloc(strlen(input)*sizeof(char));
-			strcpy(object->shape, input);
+			fractal->shape = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(fractal->shape, input);
 			break;
 		case startx:
-		    object->startx = atoi(input);
+		    fractal->startx = atoi(input);
 		    break;
 		case starty:
-		    object->starty = atoi(input);
+		    fractal->starty = atoi(input);
 		    break; 
 		case endx:
-		    object->endx = atoi(input);
+		    fractal->endx = atoi(input);
 		    break; 
 		case endy:
-		    object->endy = atoi(input);
+		    fractal->endy = atoi(input);
 		    break;  
 
-		case fractal:
-		    object->fractal = (char*)malloc(strlen(input)*sizeof(char));
-			strcpy(object->shape, input);
+		case type:
+		    fractal->type = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(fractal->type, input);
 			break;		
 
 	}
