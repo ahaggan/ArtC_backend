@@ -30,6 +30,6 @@ void SDL_TTF_Quit(TTF_Font *font);
 void clear_area(SDL_Win *window, Area area);
 
 void draw_sdl(Draw *fractal, Interface interface);
-int input(Interface interface);
+int input(Interface interface, Draw *fractal);
 
 void sierpinski(Interface interface, int limit);

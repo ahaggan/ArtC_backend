@@ -28,7 +28,8 @@ int main() {
         SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.texteditor.rect);
         if(SDL_Events(&interface) == 1) {
           clear_area(&interface.window, interface.canvas);
-          input(interface);
+          input(interface, &fractal);
+          printf("\nafter input");
           draw_sdl(&fractal, interface);
         }        
         SDL_RenderPresent(interface.window.renderer);

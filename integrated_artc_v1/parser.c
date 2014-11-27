@@ -18,11 +18,12 @@ int input(Interface interface, Draw *fractal) {
         Draw_sdl(&fractal, sw, interface);
 	}*/
 	printf("\nIn main:");
+	printf("\nType: %s", fractal->type);
 	printf("\nColour: %s", fractal->colour);
     printf("\nColour: %s", fractal->colour);
 	printf("\nshape: %s", fractal->shape);
-	printf("\nsize: %d", fractal->size);
-    printf("\nType: %s", fractal->type);
+	
+    
 	return 0;
 }
 
@@ -39,9 +40,10 @@ void make_default(Draw *fractal){
 	fractal->starty = WIN_HEIGHT/2 - 10;
 	fractal->endx = WIN_WIDTH/2 + 10;
 	fractal->endy = WIN_HEIGHT/2 + 10; 
-
+    //strdup(fractal->type, "triangle");
 	fractal->type = (char*)malloc(9*sizeof(char));
 	strcpy(fractal->type, "triangle");
+	printf("\nType: %s", fractal->type);
 
 }
 
@@ -156,8 +158,8 @@ void assign_value(Draw *fractal, action_word i, char* input){
 		case endy:
 		    fractal->endy = atoi(input);
 		    break;  
-
 		case type:
+		    printf("\nIn case type");
 		    fractal->type = (char*)malloc(strlen(input)*sizeof(char));
 			strcpy(fractal->type, input);
 			break;		
