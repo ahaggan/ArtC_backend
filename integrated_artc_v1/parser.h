@@ -37,7 +37,7 @@ typedef struct action{
 void create_struct_array(action *actions);
 void clear_buffer(void);
 
-void get_input(action *actions, char *first_input, char *second_input, draw *fractal);
+void get_input(action *actions, char *first_input, char *second_input, Draw *fractal);
 void update_values(Draw *fractal, char *first_input, char *second_input);
 void assign_value(Draw *fractal, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
