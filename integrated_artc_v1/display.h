@@ -30,4 +30,6 @@ void clear_area(SDL_Win *window, Area area);
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size);
 int input(Interface interface, Draw *fractal);
 
+void generate_fractal(Draw *fractal, Interface interface);
+
 void sierpinski(Draw *fractal, Interface interface, int limit);

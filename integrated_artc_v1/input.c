@@ -11,12 +11,6 @@ int SDL_Events(Interface* interface) {
 
     SDL_GetMouseState(&x, &y);
 
-    for (int i = 0; i < composition_len; i++) {
-    printf("%d ", interface->composition[i]);
-     }
-    printf("\n");
-    printf("%s\n", interface->composition);
-
     while(SDL_PollEvent(&event)) { 
         SDL_Window_Events(event, interface);
         switch (event.type) {
@@ -30,7 +24,7 @@ int SDL_Events(Interface* interface) {
                 SDL_Window_Events(event, interface);
                 break;
 
-
+            //textinput case MUST be before keydown; otherwise a weird soh enters the string.
             case SDL_TEXTINPUT:
                 strcat(interface->composition, event.text.text);
                 break;
@@ -66,6 +60,7 @@ int SDL_Events(Interface* interface) {
                         }
                         break;
                 }
+            break;
             
             //any other keyboard input? add it on to the current text.
 

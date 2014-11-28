@@ -3,4 +3,4 @@ colour pink
 move up
 shape circle
 type sierpinski
-iterations 7
+iterations 3
