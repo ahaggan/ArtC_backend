@@ -8,6 +8,7 @@ void clear_area(SDL_Win *window, Area area) {
 printf("area cleared.\n");
 }
 
+
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size) 
 {
 
@@ -43,7 +44,9 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size)
     }
 
     else if (strcmp(fractal->shape, "circle") == 0) {
-        SDL_RenderFillCircle(interface.window.renderer, x, y, size / 2, 1);
+
+        SDL_RenderFillCircle(interface.window.renderer, x+(fractal->size / 2), y+(fractal->size / 2), fractal->size / 2, 1);
+
 
     }
 
@@ -51,15 +54,19 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size)
         SDL_RenderDrawLine(interface.window.renderer, fractal->startx, fractal->starty, fractal->endx, fractal->endy);
     }
 
-printf("fractal type: %s\n", fractal->type);
+    //printf("fractal type: %s\n", fractal->type);
+    
     if (strcmp(fractal->type, "sierpinski") == 0) {
         for(int i=1; i<fractal->size; i++) {
             sierpinski(fractal, interface, 10);   
         }
     }
 
-
  //   SDL_RenderPresent(interface.window.renderer);
  //   SDL_UpdateWindowSurface(interface.window.win);
+
+    SDL_RenderPresent(interface.window.renderer);
+    SDL_UpdateWindowSurface(interface.window.win);
+
 }
 
