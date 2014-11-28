@@ -27,7 +27,6 @@ int SDL_Events(Interface* interface) {
             //textinput case MUST be before keydown; otherwise a weird soh enters the string.
             case SDL_TEXTINPUT:
                 strcat(interface->composition, event.text.text);
-                return 2;
                 break;
             //user presses a key
             case SDL_KEYDOWN:

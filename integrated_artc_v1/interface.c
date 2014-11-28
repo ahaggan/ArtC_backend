@@ -2,7 +2,8 @@
 
 int main() {
   Interface interface;
-    
+  int event_type = 0;
+
   SDL_Win_Init(&interface.window, "ARTC");
   SDL_TTF_Init();
   TTF_Font *font = SDL_Load_Font("font/FreeSans.ttf", 24);
@@ -26,13 +27,15 @@ int main() {
     SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.rect.w, &interface.texteditor.rect.h);
     SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.texteditor.rect);
 
-    if (SDL_Events(&interface) == 1) {
+    event_type = SDL_Events(&interface);
+
+    if (event_type == 1) {
       clear_area(&interface.window, interface.canvas);
       input(interface, &fractal);
       printf("\nafter input");
       generate_fractal(&fractal, interface);
     }        
-    else if(SDL_Events(&interface) == 2) {
+    else if(event_type == 2) {
       clear_area(&interface.window, interface.texteditor);
     }
 
