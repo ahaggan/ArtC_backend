@@ -5,7 +5,7 @@
 #define WIN_HEIGHT 600
 
 #define SDL_8BITCOLOUR 256
-<<<<<<< HEAD
+
 #define SDL_DELAY 300
 #define MENU_OFFSET 12
 
@@ -19,9 +19,6 @@ typedef struct txt_node {
 	//if selected == 1, display cursor
 	int selected;
 } Txt_node;
-=======
-#define SDL_DELAY 1000
->>>>>>> parent of 08de448... Merge branch 'master' of https://github.com/D-F-Boon/art-c
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);

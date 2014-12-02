@@ -1,14 +1,6 @@
-<<<<<<< Updated upstream
 size 600
 colour pink
 move up
 shape circle
 type sierpinski
 iterations 7
-=======
-size 100
-colour green
-shape square
-move right
-type triangle
->>>>>>> Stashed changes

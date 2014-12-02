@@ -94,7 +94,6 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_Quit();
 }
 
-<<<<<<< HEAD
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
   area->rect.w = w;
   area->rect.h = h;
@@ -164,7 +163,3 @@ void draw_interface(Interface *interface) {
 
   //Cursor
 }
-
-=======
->>>>>>> parent of 08de448... Merge branch 'master' of https://github.com/D-F-Boon/art-c
-//Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
