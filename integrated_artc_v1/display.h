@@ -8,15 +8,6 @@
  #define M_PI  3.14159265358979323846
  #endif  
 
-typedef struct txt_node {
-	struct txt_node* previous;
-	struct txt_node* next;
-	//I have a feeling this needs to be a string
-	char* character;
-	//if selected == 1, display cursor
-	int selected;
-} Txt_node;
-
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
 
@@ -41,3 +32,5 @@ int input(Interface interface, Draw *fractal);
 void generate_fractal(Draw *fractal, Interface interface);
 
 void sierpinski(Draw *fractal, Interface interface, int limit);
+
+TextNode* allocate_text_node(char* c, TextNode* previous_node, TextNode* next_node, Interface* interface, int x, int y);

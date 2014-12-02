@@ -31,10 +31,21 @@ typedef struct SDL_Win {
    SDL_Renderer *renderer;
 } SDL_Win;
 
+typedef struct text_node {
+  struct text_node* previous;
+  struct text_node* next;
+  //I have a feeling this needs to be a string
+  char* character;
+  Area box;
+  //if selected == 1, display cursor
+  int selected;
+} TextNode;
+
 typedef struct interface {
   SDL_Win window;
   Area menubar;
-  Area texteditor;
+  Area text_editor_panel;
+  TextNode text_editor[10][10];
   char composition[MAX_TEXT];
   Area text_cursor;
   Area canvas;
