@@ -1,11 +1,5 @@
 #include "display.h"
 
-void clear_area(SDL_Win *window, Area area) {
-    SDL_SetRenderDrawColor(window->renderer, area.colour.r, area.colour.g, area.colour.b, 255);
-    SDL_RenderFillRect(window->renderer, &area.rect);
-    printf("area cleared.\n");
-}
-
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size) 
 {
 

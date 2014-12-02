@@ -15,8 +15,13 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
         SDL_Quit();
         exit(1);
     }
+
+
+    //a little birdy told me that we could have multiple renderers (so we could renderclear
+    //and renderpresent for separate areas on the interface. let's look into it!
+
     //SDL_CreateRenderer(window that the renderer will be attached to, which rendering driver to use (-1 means first we find),
-    w->renderer = SDL_CreateRenderer(w->win, -1, SDL_RENDERER_ACCELERATED);
+    w->renderer = SDL_CreateRenderer(w->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
     if (w->renderer == NULL) {
         fprintf(stderr, "\nUnable to initialize SDL Renderer: %s\n", SDL_GetError());
         SDL_Quit();
@@ -35,6 +40,11 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
     //call RenderPresent to make the drawing take effect.
     SDL_RenderPresent(w->renderer);
 
+}
+
+void clear_area(SDL_Win *window, Area area) {
+    SDL_SetRenderDrawColor(window->renderer, area.colour.r, area.colour.g, area.colour.b, 255);
+    SDL_RenderFillRect(window->renderer, &area.rect);
 }
 
 // Filled Circle centred at (cx,cy) of radius r, see :

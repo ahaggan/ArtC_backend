@@ -20,10 +20,9 @@ int input(Interface interface, Draw *fractal) {
 	printf("\nIn main:");
 	printf("\nType: %s", fractal->type);
 	printf("\nColour: %s", fractal->colour);
-    printf("\nColour: %s", fractal->colour);
+   printf("\nColour: %s", fractal->colour);
 	printf("\nshape: %s", fractal->shape);
 	
-    
 	return 0;
 }
 

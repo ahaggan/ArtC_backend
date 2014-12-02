@@ -1,6 +1,6 @@
-size 600
-colour pink
+size 500
+colour orange;
 move up
-shape circle
+shape square
 type sierpinski
-iterations 3
+iterations 9

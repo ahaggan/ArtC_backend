@@ -5,7 +5,7 @@
 #define WIN_HEIGHT 600
 
 #define SDL_8BITCOLOUR 256
-#define SDL_DELAY 1000
+#define SDL_DELAY 300
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
