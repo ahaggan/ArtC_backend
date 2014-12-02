@@ -5,20 +5,7 @@
 #define WIN_HEIGHT 600
 
 #define SDL_8BITCOLOUR 256
-
-#define SDL_DELAY 300
-#define MENU_OFFSET 12
-
-#define FONT_SIZE 20
-
-typedef struct txt_node {
-	struct txt_node* previous;
-	struct txt_node* next;
-	//I have a feeling this needs to be a string
-	char* character;
-	//if selected == 1, display cursor
-	int selected;
-} Txt_node;
+#define SDL_DELAY 1000
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
