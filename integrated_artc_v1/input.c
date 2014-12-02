@@ -11,6 +11,12 @@ int SDL_Events(Interface* interface) {
 
     SDL_GetMouseState(&x, &y);
 
+    for (int i = 0; i < composition_len; i++) {
+    printf("%d ", interface->composition[i]);
+     }
+    printf("\n");
+    printf("%s\n", interface->composition);
+
     while(SDL_PollEvent(&event)) { 
         SDL_Window_Events(event, interface);
         switch (event.type) {
@@ -24,7 +30,7 @@ int SDL_Events(Interface* interface) {
                 SDL_Window_Events(event, interface);
                 break;
 
-            //textinput case MUST be before keydown; otherwise a weird soh enters the string.
+
             case SDL_TEXTINPUT:
                 strcat(interface->composition, event.text.text);
                 break;
@@ -60,19 +66,14 @@ int SDL_Events(Interface* interface) {
                         }
                         break;
                 }
-            break;
             
             //any other keyboard input? add it on to the current text.
 
 
             //user clicks somewhere
             case SDL_MOUSEBUTTONDOWN:
-                printf("x:%d y:%d\n", x, y);
-                printf("gbuttonx:%d gbuttony:%d gbuttonw:%d gbuttonh:%d\n", interface->gbutton.rect.x, interface->gbutton.rect.y, interface->gbutton.rect.w, interface->gbutton.rect.h);
-                printf("menubarx:%d menubary:%d menubarw:%d menubarh%d\n", interface->menubar.rect.x, interface->menubar.rect.y, interface->menubar.rect.w, interface->menubar.rect.h);
                 if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
                      y >= interface->gbutton.rect.y && y <= interface->gbutton.rect.y + interface->gbutton.rect.h) {
-                     printf("Generate!\n");
                      return 1;
                 }
 
@@ -92,10 +93,12 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
     switch(event.window.event) {
         //Get new dimensions and repaint on window size change.
         case SDL_WINDOWEVENT_SIZE_CHANGED: 
+            
             SDL_GetWindowSize(interface->window.win, &x, &y);
+            SDL_SetWindowSize(interface->window.win, event.window.data1, event.window.data2);
+            draw_interface(interface);
             // Set resolution (size) of renderer to the same as window
             SDL_RenderSetLogicalSize(interface->window.renderer, x, y); 
-            draw_interface(interface);
             SDL_RenderPresent(interface->window.renderer);
             break;
         //exposed means that the window was obscured in some way, and now is not obscured.

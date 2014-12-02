@@ -1,8 +1,9 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 
-#define WIN_WIDTH 1024    
-#define WIN_HEIGHT 768
+#define WIN_WIDTH 1024		
+#define WIN_HEIGHT 600
+
 #define MAX_TEXT 1000
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
@@ -35,7 +36,6 @@ typedef struct interface {
   Area menubar;
   Area texteditor;
   char composition[MAX_TEXT];
-  Area text_cursor;
   Area canvas;
   Area gbutton;
   Area ch1button;
