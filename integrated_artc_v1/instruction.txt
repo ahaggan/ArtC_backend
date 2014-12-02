@@ -1,15 +1,9 @@
-<<<<<<< HEAD
 <<<<<<< Updated upstream
 size 600
 colour pink
-=======
-size 500
-colour orange;
->>>>>>> FETCH_HEAD
 move up
-shape square
+shape circle
 type sierpinski
-<<<<<<< HEAD
 iterations 7
 =======
 size 100
@@ -18,6 +12,3 @@ shape square
 move right
 type triangle
 >>>>>>> Stashed changes
-=======
-iterations 9
->>>>>>> FETCH_HEAD

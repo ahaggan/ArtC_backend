@@ -4,19 +4,18 @@ typedef struct shape {
     int x;
     int y;
     int size;
-} Shape;
+} shape;
 
-int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit);
-void make_shape(Shape *shape, int x, int y, int size);
+int iterate(Draw *fractal, Interface interface, shape shape, int iterations, int limit);
+void makeshape(shape *shape, int x, int y, int size);
 
-void sierpinski(Draw *fractal, Interface interface, int limit) {
-    Shape shape;
-    //Create shape based on information assigned to the fractal structure.
-    shape.x = fractal->startx;
-    shape.y = fractal->starty;
-    shape.size = fractal->size;
-
-    int iterations = 1; //One iteration is just the shape.
+void sierpinski(Draw *fractal, Interface interface, int limit)
+{
+    shape shape;
+    shape.x=fractal->startx;
+    shape.y=fractal->starty;
+    shape.size=fractal->size;
+    int iterations=1; // One iteration is just the shape.
 
     printf("Sierpinski Limit: %d\n", limit);
 
@@ -29,26 +28,26 @@ void sierpinski(Draw *fractal, Interface interface, int limit) {
 
 }
 
-int iterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit) {
-    //If the fractal shapes reach a size smaller than 2 pixels, or if we reach the desired no. of iterations
-    if (current.size < 2 || iterations == limit) {
-        draw_sdl(interface, fractal, current.x, current.y, current.size);
+int iterate(Draw *fractal, Interface interface, shape oldshape, int iterations, int limit)
+{
+    if(oldshape.size<2 || iterations == limit) {
+        draw_sdl(interface, fractal, oldshape.x, oldshape.y, oldshape.size);
         return iterations;
     }
 
-    Shape top, left, right;
-    make_shape(&top, current.x, current.y - (current.size / 4), current.size / 2);
-    make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2);
-    make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2);
+    shape top, left, right;
 
-    iterations++;
+    makeshape(&top, oldshape.x, oldshape.y - (oldshape.size/4), oldshape.size/2);
+    makeshape(&left, oldshape.x-(oldshape.size/4), oldshape.y+(oldshape.size/4), oldshape.size/2);
+    makeshape(&right, oldshape.x+(oldshape.size/4), oldshape.y+(oldshape.size/4), oldshape.size/2);
 
-    iterate(fractal, interface, top, iterations, limit);
-    iterate(fractal, interface, left, iterations, limit);
-    return iterate(fractal, interface, right, iterations, limit);
+    iterate(fractal, interface, top, iterations+1, limit);
+    iterate(fractal, interface, left, iterations+1, limit);
+    return iterate(fractal, interface, right, iterations+1, limit);
 }
 
-void make_shape(Shape *shape, int x, int y, int size) {
+void makeshape(shape *shape, int x, int y, int size)
+{
     shape->x = x;
     shape->y = y;
     shape->size = size;

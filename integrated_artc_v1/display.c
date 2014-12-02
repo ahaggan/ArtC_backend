@@ -15,9 +15,8 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
         SDL_Quit();
         exit(1);
     }
-
     //SDL_CreateRenderer(window that the renderer will be attached to, which rendering driver to use (-1 means first we find),
-    w->renderer = SDL_CreateRenderer(w->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
+    w->renderer = SDL_CreateRenderer(w->win, -1, SDL_RENDERER_ACCELERATED);
     if (w->renderer == NULL) {
         fprintf(stderr, "\nUnable to initialize SDL Renderer: %s\n", SDL_GetError());
         SDL_Quit();
@@ -36,11 +35,6 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
     //call RenderPresent to make the drawing take effect.
     SDL_RenderPresent(w->renderer);
 
-}
-
-void clear_area(SDL_Win *window, Area area) {
-    SDL_SetRenderDrawColor(window->renderer, area.colour.r, area.colour.g, area.colour.b, 255);
-    SDL_RenderFillRect(window->renderer, &area.rect);
 }
 
 // Filled Circle centred at (cx,cy) of radius r, see :
@@ -100,6 +94,7 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_Quit();
 }
 
+<<<<<<< HEAD
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
   area->rect.w = w;
   area->rect.h = h;
@@ -170,4 +165,6 @@ void draw_interface(Interface *interface) {
   //Cursor
 }
 
+=======
+>>>>>>> parent of 08de448... Merge branch 'master' of https://github.com/D-F-Boon/art-c
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
