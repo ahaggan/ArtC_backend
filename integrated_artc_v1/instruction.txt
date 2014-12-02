@@ -3,4 +3,4 @@ size 500
 colour blue
 move up
 type sierpinski
-iterations 5
+iterations 10

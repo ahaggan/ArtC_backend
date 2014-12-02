@@ -101,8 +101,7 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_Quit();
 }
 
-void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b)
-{
+void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
   area->rect.w = w;
   area->rect.h = h;
   area->rect.x = x;
@@ -114,8 +113,7 @@ void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int 
   SDL_RenderFillRect(win->renderer, &area->rect);
 }
 
-void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text)
-{
+void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text) {
     SDL_Color textcolour = {r,g,b,255};
     SDL_Surface* textsurface = TTF_RenderText_Solid(font, text, textcolour);
     SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
@@ -129,6 +127,7 @@ void draw_interface(Interface *interface) {
   int canvas_x, canvas_y, canvas_w, canvas_h;
   int gbutton_x, gbutton_y, gbutton_w, gbutton_h;
   int ch1button_x, ch1button_y, ch1button_w, ch1button_h;
+  int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
   SDL_GetWindowSize(interface->window.win, &x, &y);
 
   menu_x = menu_y = texted_x = gbutton_x = 0;
@@ -147,6 +146,11 @@ void draw_interface(Interface *interface) {
   ch1button_y = 5;
   ch1button_w = 100;
   ch1button_h = 40;
+
+  textcurs_x = texted_x;
+  textcurs_y = texted_y + FONT_SIZE / 10;
+  textcurs_w = FONT_SIZE / 10;
+  textcurs_h = FONT_SIZE;
 
   //Panels
   make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 255, 64, 64);
