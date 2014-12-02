@@ -16,10 +16,6 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
         exit(1);
     }
 
-
-    //a little birdy told me that we could have multiple renderers (so we could renderclear
-    //and renderpresent for separate areas on the interface. let's look into it!
-
     //SDL_CreateRenderer(window that the renderer will be attached to, which rendering driver to use (-1 means first we find),
     w->renderer = SDL_CreateRenderer(w->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
     if (w->renderer == NULL) {
@@ -104,5 +100,27 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_CloseFont(font);
     TTF_Quit();
 }
+
+void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b)
+{
+  area->rect.w = w;
+  area->rect.h = h;
+  area->rect.x = x;
+  area->rect.y = y;
+  area->colour.r = r;
+  area->colour.g = g;
+  area->colour.b = b;
+  SDL_SetRenderDrawColor(win->renderer, r, g, b, 255);
+  SDL_RenderFillRect(win->renderer, &area->rect);
+}
+
+void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text)
+{
+    SDL_Color textcolour = {r,g,b,255};
+    SDL_Surface* textsurface = TTF_RenderText_Solid(font, text, textcolour);
+    SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
+    SDL_RenderCopy(win->renderer, texttexture, NULL, location);
+}
+
 
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/

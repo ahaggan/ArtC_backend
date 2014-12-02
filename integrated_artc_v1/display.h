@@ -1,9 +1,6 @@
 #include "artc.h"
 #include <math.h>
 
-#define WIN_WIDTH 1024		
-#define WIN_HEIGHT 600
-
 #define SDL_8BITCOLOUR 256
 #define SDL_DELAY 300
 
@@ -14,7 +11,6 @@ void draw_interface(Interface *interface);
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
-
 
 int triangle(Draw *fractal, Interface interface);
 void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
