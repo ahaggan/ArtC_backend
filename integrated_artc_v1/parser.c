@@ -1,6 +1,6 @@
 #include "parser.h"
 
-int input(Interface interface, Draw *fractal) {
+int parse(Interface interface, Draw *fractal) {
 
 	char first_input[MAX_LENGTH];
 	char second_input[MAX_LENGTH];
@@ -8,9 +8,7 @@ int input(Interface interface, Draw *fractal) {
 	printf("\nstart");
 	create_struct_array(actions);	//Creates an array of structures containing the actions and relevant attributes of #defined arrays above 
 	make_default(interface, fractal);
-	get_input(actions,first_input,second_input, fractal);  //Takes values from file and puts them in the fractal structure
-
-	
+	get_input(actions,first_input,second_input, fractal);  //Takes values from file and puts them in the fractal structure	
 /*    if(strcmp(fractal.type, "triangle") == 0){
         triangle(&fractal, sw, interface);
     }
@@ -20,10 +18,9 @@ int input(Interface interface, Draw *fractal) {
 	printf("\nIn main:");
 	printf("\nType: %s", fractal->type);
 	printf("\nColour: %s", fractal->colour);
-    printf("\nColour: %s", fractal->colour);
+   printf("\nColour: %s", fractal->colour);
 	printf("\nshape: %s", fractal->shape);
 	
-    
 	return 0;
 }
 
