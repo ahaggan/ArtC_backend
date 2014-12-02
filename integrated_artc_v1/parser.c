@@ -212,3 +212,4 @@ void create_struct_array(action *actions)
 	}	
 	printf("\nend ");
 }
+

@@ -30,8 +30,8 @@ colour, move, size, shape, startx, starty, endx, endy, type, iterations
 #define MAX_LENGTH 20
 
 typedef struct action{
-  char *name;
-  char **instruction;
+	char *name;
+	char **instruction;
 } action;
 
 void create_struct_array(action *actions);
@@ -43,3 +43,6 @@ void update_values(Draw *fractal, char *first_input, char *second_input);
 void assign_value(Draw *fractal, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(Interface interface, Draw *fractal);
+
+
+
