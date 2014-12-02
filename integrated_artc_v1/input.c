@@ -67,8 +67,12 @@ int SDL_Events(Interface* interface) {
 
             //user clicks somewhere
             case SDL_MOUSEBUTTONDOWN:
+                printf("x:%d y:%d\n", x, y);
+                printf("gbuttonx:%d gbuttony:%d gbuttonw:%d gbuttonh:%d\n", interface->gbutton.rect.x, interface->gbutton.rect.y, interface->gbutton.rect.w, interface->gbutton.rect.h);
+                printf("menubarx:%d menubary:%d menubarw:%d menubarh%d\n", interface->menubar.rect.x, interface->menubar.rect.y, interface->menubar.rect.w, interface->menubar.rect.h);
                 if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
                      y >= interface->gbutton.rect.y && y <= interface->gbutton.rect.y + interface->gbutton.rect.h) {
+                     printf("Generate!\n");
                      return 1;
                 }
 
@@ -78,6 +82,7 @@ int SDL_Events(Interface* interface) {
                       printf("Challenge accepted.\n\n");
                 }
                 break;
+            
         }
     }
     return 0;
@@ -89,7 +94,6 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
         //Get new dimensions and repaint on window size change.
         case SDL_WINDOWEVENT_SIZE_CHANGED: 
             SDL_GetWindowSize(interface->window.win, &x, &y);
-            SDL_SetWindowSize(interface->window.win, event.window.data1, event.window.data2);
             // Set resolution (size) of renderer to the same as window
             SDL_RenderSetLogicalSize(interface->window.renderer, x, y); 
             draw_interface(interface);
