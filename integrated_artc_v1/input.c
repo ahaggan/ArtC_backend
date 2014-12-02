@@ -82,7 +82,6 @@ int SDL_Events(Interface* interface) {
                       printf("Challenge accepted.\n\n");
                 }
                 break;
-            
         }
     }
     return 0;

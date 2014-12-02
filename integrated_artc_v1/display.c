@@ -122,5 +122,43 @@ void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *
     SDL_RenderCopy(win->renderer, texttexture, NULL, location);
 }
 
+void draw_interface(Interface *interface) {
+  int x, y;
+  int menu_x, menu_y, menu_w, menu_h;
+  int texted_x, texted_y, texted_w, texted_h;
+  int canvas_x, canvas_y, canvas_w, canvas_h;
+  int gbutton_x, gbutton_y, gbutton_w, gbutton_h;
+  int ch1button_x, ch1button_y, ch1button_w, ch1button_h;
+  SDL_GetWindowSize(interface->window.win, &x, &y);
+
+  menu_x = menu_y = texted_x = gbutton_x = 0;
+  menu_w = x;
+  menu_h = y / MENU_OFFSET;
+
+  texted_y = canvas_y = menu_h;
+  texted_w = canvas_x = canvas_w = x / 2;
+  texted_h = canvas_h = y - menu_h - 25;
+
+  gbutton_y = y - 25;
+  gbutton_w = x / 10;
+  gbutton_h = 25;
+
+  ch1button_x = 5;
+  ch1button_y = 5;
+  ch1button_w = 100;
+  ch1button_h = 40;
+
+  //Panels
+  make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 255, 64, 64);
+  make_rect(&interface->window, &interface->texteditor, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
+  make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
+
+  //Buttons
+  make_rect(&interface->window, &interface->gbutton, gbutton_x, gbutton_y, gbutton_w, gbutton_h, 255, 0, 0);
+  make_text(&interface->window, &interface->gbutton.rect, 64, 255, 64, interface->font, "GENERATE!");
+
+  make_rect(&interface->window, &interface->ch1button, ch1button_x, ch1button_y, ch1button_w, ch1button_h, 0, 0, 255);
+  make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
+}
 
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/

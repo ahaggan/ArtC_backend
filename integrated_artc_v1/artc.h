@@ -35,6 +35,7 @@ typedef struct interface {
   Area menubar;
   Area texteditor;
   char composition[MAX_TEXT];
+  Area text_cursor;
   Area canvas;
   Area gbutton;
   Area ch1button;
