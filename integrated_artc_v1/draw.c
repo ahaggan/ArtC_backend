@@ -1,13 +1,5 @@
 #include "display.h"
 
-void clear_area(SDL_Win *window, Area area) {
-    SDL_SetRenderDrawColor(window->renderer, area.colour.r, area.colour.g, area.colour.b, 255);
-    SDL_RenderFillRect(window->renderer, &area.rect);
-    SDL_RenderPresent(window->renderer);
-    SDL_UpdateWindowSurface(window->win);
-printf("area cleared.\n");
-}
-
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size) 
 {
 
@@ -50,19 +42,5 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size)
     else if (strcmp(fractal->shape, "line") == 0) {
         SDL_RenderDrawLine(interface.window.renderer, fractal->startx, fractal->starty, fractal->endx, fractal->endy);
     }
-
-
-printf("fractal type: %s\n", fractal->type);
-
-    if (strcmp(fractal->type, "sierpinski") == 0) {
-        for(int i=1; i<fractal->size; i++) {
-            sierpinski(fractal, interface, 10);   
-        }
-    }
-
-
-
-    SDL_RenderPresent(interface.window.renderer);
-    SDL_UpdateWindowSurface(interface.window.win);
 }
 
