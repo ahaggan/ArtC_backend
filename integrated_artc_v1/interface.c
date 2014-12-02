@@ -34,7 +34,7 @@ int main() {
 
     if (event_type == generate_clicked) {
       //clear_area(&interface.window, interface.canvas);
-      input(interface, &fractal);
+      parse(interface, &fractal);
       printf("\nafter input");
       generate_fractal(&fractal, interface);
     }        
