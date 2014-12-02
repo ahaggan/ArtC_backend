@@ -1,6 +1,21 @@
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> parent of 08de448... Merge branch 'master' of https://github.com/D-F-Boon/art-c
 size 600
 colour pink
 move up
 shape circle
 type sierpinski
+<<<<<<< HEAD
 iterations 7
+=======
+iterations 7
+=======
+size 100
+colour green
+shape square
+move right
+type triangle
+>>>>>>> Stashed changes
+>>>>>>> parent of 08de448... Merge branch 'master' of https://github.com/D-F-Boon/art-c
