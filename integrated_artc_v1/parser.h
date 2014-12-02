@@ -37,7 +37,6 @@ typedef struct action{
 void create_struct_array(action *actions);
 void clear_buffer(void);
 
-int parse(Interface interface, Draw *fractal);
 void get_input(action *actions, char *first_input, char *second_input, Draw *fractal);
 void update_values(Draw *fractal, char *first_input, char *second_input);
 void assign_value(Draw *fractal, action_word i, char *input);
