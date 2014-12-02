@@ -5,6 +5,8 @@
 #define SDL_DELAY 300
 #define MENU_OFFSET 12
 
+#define FONT_SIZE 20
+
 typedef struct txt_node {
 	struct txt_node* previous;
 	struct txt_node* next;

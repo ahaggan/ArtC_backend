@@ -95,14 +95,12 @@ SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
     return texture;
 }
 
-
 void SDL_TTF_Quit(TTF_Font *font) {
     TTF_CloseFont(font);
     TTF_Quit();
 }
 
-void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b)
-{
+void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
   area->rect.w = w;
   area->rect.h = h;
   area->rect.x = x;
@@ -114,14 +112,14 @@ void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int 
   SDL_RenderFillRect(win->renderer, &area->rect);
 }
 
-void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text)
-{
+void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text) {
     SDL_Color textcolour = {r,g,b,255};
     SDL_Surface* textsurface = TTF_RenderText_Solid(font, text, textcolour);
     SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
     SDL_RenderCopy(win->renderer, texttexture, NULL, location);
 }
 
+//arguably should be in the draw module (then interface would be able to call the draw module, which wasn't planned
 void draw_interface(Interface *interface) {
   int x, y;
   int menu_x, menu_y, menu_w, menu_h;
@@ -129,6 +127,7 @@ void draw_interface(Interface *interface) {
   int canvas_x, canvas_y, canvas_w, canvas_h;
   int gbutton_x, gbutton_y, gbutton_w, gbutton_h;
   int ch1button_x, ch1button_y, ch1button_w, ch1button_h;
+  int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
   SDL_GetWindowSize(interface->window.win, &x, &y);
 
   menu_x = menu_y = texted_x = gbutton_x = 0;
@@ -148,10 +147,18 @@ void draw_interface(Interface *interface) {
   ch1button_w = 100;
   ch1button_h = 40;
 
+  textcurs_x = texted_x;
+  textcurs_y = texted_y + FONT_SIZE / 10;
+  textcurs_w = FONT_SIZE / 10;
+  textcurs_h = FONT_SIZE;
+
   //Panels
   make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 255, 64, 64);
-  make_rect(&interface->window, &interface->texteditor, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
   make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
+
+  //Text Editor --will become way more complex..
+  make_rect(&interface->window, &interface->texteditor, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
+  make_rect(&interface->window, &interface->text_cursor, textcurs_x, textcurs_y, textcurs_w, textcurs_h, 255, 0, 0);
 
   //Buttons
   make_rect(&interface->window, &interface->gbutton, gbutton_x, gbutton_y, gbutton_w, gbutton_h, 255, 0, 0);
@@ -159,6 +166,8 @@ void draw_interface(Interface *interface) {
 
   make_rect(&interface->window, &interface->ch1button, ch1button_x, ch1button_y, ch1button_w, ch1button_h, 0, 0, 255);
   make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
+
+  //Cursor
 }
 
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
