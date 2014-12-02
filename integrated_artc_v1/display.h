@@ -4,6 +4,9 @@
 #define SDL_8BITCOLOUR 256
 #define SDL_DELAY 300
 #define MENU_OFFSET 12
+#ifndef  M_PI
+ #define M_PI  3.14159265358979323846
+ #endif  
 
 typedef struct txt_node {
 	struct txt_node* previous;
@@ -32,7 +35,7 @@ void SDL_TTF_Quit(TTF_Font *font);
 
 void clear_area(SDL_Win *window, Area area);
 
-void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size);
+void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle);
 int input(Interface interface, Draw *fractal);
 
 void generate_fractal(Draw *fractal, Interface interface);

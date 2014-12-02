@@ -1,6 +1,6 @@
-shape circle
-size 400
-colour purple
+shape line
+size 500
+colour blue
 move up
 type sierpinski
-iterations 7
+iterations 5

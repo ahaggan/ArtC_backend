@@ -1,6 +1,6 @@
 #include "display.h"
 
-void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size) 
+void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle) 
 {
 
     if (strcmp(fractal->colour, "blue") == 0) {
@@ -40,7 +40,8 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size)
     }
 
     else if (strcmp(fractal->shape, "line") == 0) {
-        SDL_RenderDrawLine(interface.window.renderer, fractal->startx, fractal->starty, fractal->endx, fractal->endy);
+        SDL_RenderDrawLine(interface.window.renderer, (x-(size/2.0*sin(angle))), (y+(size/2.0*cos(angle))), (x+(size/2.0*sin(angle))), (y-(size/2.0*cos(angle))));
+printf("%f|%f|%f|%f\n", (x-size/2.0)*sin(angle), (y-size/2.0)*cos(angle), (x+size/2.0)*sin(angle), (y+size/2.0)*cos(angle));
     }
 }
 
