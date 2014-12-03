@@ -40,14 +40,13 @@ int treeiterate(Draw *fractal, Interface interface, Shape current, int iteration
     y = current.y - (current.size/2) - (current.size/(2*branches));
     make_shape(&shapes[i], x, y, current.size/branches);
 printf("shape: %d %d %d\n", x, y, current.size/branches);
-  draw_sdl(interface, fractal, x, y, current.size/branches, angle);
+  draw_sdl(interface, fractal, x, y, current.size/branches, angle-(M_PI/4.0)+(i*(M_PI/2.0)));
   }
 
   iterations++;
   for(int i=0; i<branches/2; i++) {
-    float newangle = angle + ((i+1)*((M_PI/2)/branches));
-    treeiterate(fractal, interface, shapes[i], iterations, limit, branches,  newangle);
-    iterations = treeiterate(fractal, interface, shapes[branches-i-1], iterations, limit, branches, 0-newangle);
+    treeiterate(fractal, interface, shapes[i], iterations, limit, branches,  angle);
+    iterations = treeiterate(fractal, interface, shapes[branches-i-1], iterations, limit, branches, angle);
   }
   return iterations;
 }
