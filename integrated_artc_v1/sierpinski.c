@@ -1,20 +1,11 @@
 #include "display.h"
 
-typedef struct shape {
-    int x;
-    int y;
-    int size;
-} Shape;
-
 int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
 void make_shape(Shape *shape, int x, int y, int size);
 
 void sierpinski(Draw *fractal, Interface interface, int limit) {
     Shape shape;
-    //Create shape based on information assigned to the fractal structure.
-    shape.x = fractal->startx;
-    shape.y = fractal->starty;
-    shape.size = fractal->size;
+    make_shape(&shape, fractal->startx, fractal->starty, fractal->size);
 
     int iterations = 1; //One iteration is just the shape.
 
@@ -55,10 +46,4 @@ int iterate(Draw *fractal, Interface interface, Shape current, int iterations, i
     iterate(fractal, interface, top, iterations, limit, 't');
     iterate(fractal, interface, left, iterations, limit, 'l');
     return iterate(fractal, interface, right, iterations, limit, 'r');
-}
-
-void make_shape(Shape *shape, int x, int y, int size) {
-    shape->x = x;
-    shape->y = y;
-    shape->size = size;
 }

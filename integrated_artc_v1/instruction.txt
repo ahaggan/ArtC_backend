@@ -1,6 +1,6 @@
 shape line
 size 500
-colour blue
+colour red
 move up
-type sierpinski
-iterations 10
+type tree
+iterations 7

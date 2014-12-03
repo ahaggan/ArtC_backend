@@ -127,7 +127,8 @@ void draw_interface(Interface *interface) {
   int canvas_x, canvas_y, canvas_w, canvas_h;
   int gbutton_x, gbutton_y, gbutton_w, gbutton_h;
   int ch1button_x, ch1button_y, ch1button_w, ch1button_h;
-  int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
+//  int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
+// JUST TO GET RID OF WARNINGS BECAUSE WARNINGS ARE UGLY
   SDL_GetWindowSize(interface->window.win, &x, &y);
 
   menu_x = menu_y = texted_x = gbutton_x = 0;
@@ -146,12 +147,12 @@ void draw_interface(Interface *interface) {
   ch1button_y = 5;
   ch1button_w = 100;
   ch1button_h = 40;
-
+/* JUST TO GET RID OF WARNINGS
   textcurs_x = texted_x;
   textcurs_y = texted_y + FONT_SIZE / 10;
   textcurs_w = FONT_SIZE / 10;
   textcurs_h = FONT_SIZE;
-
+*/
   //Panels
   make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 255, 64, 64);
   make_rect(&interface->window, &interface->texteditor, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
@@ -163,6 +164,13 @@ void draw_interface(Interface *interface) {
 
   make_rect(&interface->window, &interface->ch1button, ch1button_x, ch1button_y, ch1button_w, ch1button_h, 0, 0, 255);
   make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
+}
+
+void make_shape(Shape *shape, int x, int y, int size) {
+    shape->x = x;
+    shape->y = y;
+    shape->size = size;
+printf("%d %d %d\n", x, y, size);
 }
 
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
