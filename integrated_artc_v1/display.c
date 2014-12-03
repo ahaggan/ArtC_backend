@@ -167,8 +167,8 @@ void draw_interface(Interface *interface) {
   int canvas_x, canvas_y, canvas_w, canvas_h;
   int gbutton_x, gbutton_y, gbutton_w, gbutton_h;
   int ch1button_x, ch1button_y, ch1button_w, ch1button_h;
-//  int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
-// JUST TO GET RID OF WARNINGS BECAUSE WARNINGS ARE UGLY
+  int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
+
   SDL_GetWindowSize(interface->window.win, &x, &y);
 
   menu_x = menu_y = texted_x = gbutton_x = 0;
@@ -187,12 +187,12 @@ void draw_interface(Interface *interface) {
   ch1button_y = 5;
   ch1button_w = 100;
   ch1button_h = 40;
-/* JUST TO GET RID OF WARNINGS
+
   textcurs_x = texted_x;
   textcurs_y = texted_y + FONT_SIZE / 10;
   textcurs_w = FONT_SIZE / 10;
   textcurs_h = FONT_SIZE;
-*/
+
   //Panels
   make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 255, 64, 64);
   make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
