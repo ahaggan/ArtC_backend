@@ -50,7 +50,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
     }
 
     else if(strcmp(fractal->shape, "triangle_outline") == 0) {
-    
+    angle = 0; // THIS MAKES THE TRIANGLES ALL DRAW STRAIGHT FOR NOW.
     int c1x = x+((size/2.0)*sin(angle)), c1y = y-((size/2.0)*cos(angle));
     int c2x = x+((size/2.0)*sin(angle+(M_PI*(2.0/3.0)))), c2y = y-((size/2.0)*cos(angle+(M_PI*(2.0/3.0))));
     int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0)))), c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
