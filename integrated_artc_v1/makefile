@@ -1,7 +1,7 @@
 CFLAGS = -Wall -pedantic -std=c99 -lm
 INCS = display.h input.h artc.h test.h parser.h
 TARGET = interface
-SOURCES =  display.c $(TARGET).c draw.c fractals.c input.c parser.c sierpinski_square.c test.c sierpinski.c tree.c
+SOURCES =  display.c $(TARGET).c draw.c fractals.c input.c parser.c carpet.c test.c sierpinski.c tree.c
 LIBS =  -lSDL2 -lSDL2_ttf
 CC = gcc
 

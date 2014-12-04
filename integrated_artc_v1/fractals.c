@@ -36,7 +36,7 @@ void choose_fractal(Draw *fractal, Interface interface, int limit){
         tree(fractal, interface, limit);
     }
     else if(strcmp(fractal->type, "sierpinski_square") == 0){
-        sierpinski_square(fractal, interface, limit);
+        carpet(fractal, interface, limit);
     }
 }
     
