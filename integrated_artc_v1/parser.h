@@ -9,7 +9,7 @@
 *   It creates a Draw structure to then pass to the SDL Draw function
 */
 
-#include "artc.h"
+#include "artc.h" 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,8 +25,8 @@ colour, move, size, shape, startx, starty, endx, endy, type, iterations
 #define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "0", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "triangle", "sierpinski", "tree", "STOP", "NEXT", "0", "STOP", "NEXT"}
 #define SECOND_WORD_SIZE 41
 
-#define YES 1
-#define NO 0
+#define YES 0
+#define NO 1
 #define MAX_LENGTH 20
 
 typedef struct action{
@@ -37,11 +37,11 @@ typedef struct action{
 void create_struct_array(action *actions);
 void clear_buffer(void);
 
-void get_input(action *actions, char *first_input, char *second_input, Draw *fractal);
+int get_input(action *actions, char *first_input, char *second_input, Draw *fractal);
 void update_values(Draw *fractal, char *first_input, char *second_input);
 void assign_value(Draw *fractal, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(Interface interface, Draw *fractal);
-
+int test_parser(void);
 
 
