@@ -43,5 +43,12 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
         SDL_RenderDrawLine(interface.window.renderer, (x-(size/2.0*sin(angle))), (y+(size/2.0*cos(angle))), (x+(size/2.0*sin(angle))), (y-(size/2.0*cos(angle))));
 printf("%f|%f|%f|%f\n", (x-size/2.0)*sin(angle), (y-size/2.0)*cos(angle), (x+size/2.0)*sin(angle), (y+size/2.0)*cos(angle));
     }
+
+    else if(strcmp(fractal->shape, "triangle_outline") == 0) {
+    
+    SDL_RenderDrawLine(interface.window.renderer, (x+(size*sin(angle))), (y-(size*cos(angle))), (x+(size*sin(angle+(M_PI*(2.0/3.0))))), (y-(size*cos(angle+(M_PI*(2.0/3.0))))));
+    SDL_RenderDrawLine(interface.window.renderer, (x+(size*sin(angle+(M_PI*(2.0/3.0))))), (y-(size*cos(angle+(M_PI*(2.0/3.0))))), (x+(size*sin(angle-(M_PI*(2.0/3.0))))), (y-(size*cos(angle-(M_PI*(2.0/3.0))))));
+    SDL_RenderDrawLine(interface.window.renderer, (x+(size*sin(angle-(M_PI*(2.0/3.0))))), (y-(size*cos(angle-(M_PI*(2.0/3.0))))), (x+(size*sin(angle))), (y-(size*cos(angle))));
+    }
 }
 
