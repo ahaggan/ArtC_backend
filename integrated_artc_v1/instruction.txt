@@ -1,6 +1,6 @@
-shape line
+shape triangle_outline
 size 500
 colour red
 move up
-type tree
+type sierpinski
 iterations 7

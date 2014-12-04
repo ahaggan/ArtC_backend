@@ -1,4 +1,5 @@
 #include "display.h"
+/*
 int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
 
 void sierpinski(Draw *fractal, Interface interface, int limit) {
@@ -45,6 +46,7 @@ int iterate(Draw *fractal, Interface interface, Shape current, int iterations, i
     iterate(fractal, interface, left, iterations, limit, 'l');
     return iterate(fractal, interface, right, iterations, limit, 'r');
 }
+*/
 
 void carpet(Draw *fractal, Interface interface, int limit){
 }

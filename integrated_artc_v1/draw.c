@@ -51,9 +51,13 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 
     else if(strcmp(fractal->shape, "triangle_outline") == 0) {
     
-    SDL_RenderDrawLine(interface.window.renderer, (x+(size*sin(angle))), (y-(size*cos(angle))), (x+(size*sin(angle+(M_PI*(2.0/3.0))))), (y-(size*cos(angle+(M_PI*(2.0/3.0))))));
-    SDL_RenderDrawLine(interface.window.renderer, (x+(size*sin(angle+(M_PI*(2.0/3.0))))), (y-(size*cos(angle+(M_PI*(2.0/3.0))))), (x+(size*sin(angle-(M_PI*(2.0/3.0))))), (y-(size*cos(angle-(M_PI*(2.0/3.0))))));
-    SDL_RenderDrawLine(interface.window.renderer, (x+(size*sin(angle-(M_PI*(2.0/3.0))))), (y-(size*cos(angle-(M_PI*(2.0/3.0))))), (x+(size*sin(angle))), (y-(size*cos(angle))));
+    int c1x = x+((size/2.0)*sin(angle)), c1y = y-((size/2.0)*cos(angle));
+    int c2x = x+((size/2.0)*sin(angle+(M_PI*(2.0/3.0)))), c2y = y-((size/2.0)*cos(angle+(M_PI*(2.0/3.0))));
+    int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0)))), c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
+
+    SDL_RenderDrawLine(interface.window.renderer, c1x, c1y, c2x, c2y);
+    SDL_RenderDrawLine(interface.window.renderer, c2x, c2y, c3x, c3y);
+    SDL_RenderDrawLine(interface.window.renderer, c3x, c3y, c1x, c1y);
     }
 }
 
