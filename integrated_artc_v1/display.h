@@ -49,5 +49,5 @@ void generate_fractal(Draw *fractal, Interface interface);
 void make_shape(Shape *shape, int x, int y, int size, int height);
 void sierpinski(Draw *fractal, Interface interface, int limit);
 void tree(Draw *fractal, Interface interface, int limit);
-
+void sierpinski_square(Draw *fractal, Interface interface, int limit);
 TextNode* allocate_text_node(char* c, TextNode* previous_node, TextNode* next_node, Interface* interface, int x, int y);
