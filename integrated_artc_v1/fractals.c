@@ -21,6 +21,12 @@ void right(tri *info, Interface interface, Draw *fractal);
 
 void generate_fractal(Draw *fractal, Interface interface) 
 {
+
+    fractal->height = fractal->size;
+    if(strcmp(fractal->shape, "triangle") == 0) {
+        fractal->height = fractal->size*(sin(M_PI/3));
+    }
+
 printf("fractal type: %s\n", fractal->type);
     if (strcmp(fractal->type, "sierpinski") == 0) {
         for(int i=1; i<=fractal->iterations; i++) {
