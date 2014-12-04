@@ -1,13 +1,12 @@
 #include "display.h"
 
 int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
-void make_shape(Shape *shape, int x, int y, int size);
 
 void sierpinski(Draw *fractal, Interface interface, int limit) {
     Shape shape;
     make_shape(&shape, fractal->startx, fractal->starty, fractal->size);
 
-    int iterations = 1; //One iteration is just the shape.
+    int iterations = 1; //One iteration is just the shape, passes this to the function iterate and iterates from here until the limit.
 
     printf("Sierpinski Limit: %d\n", limit);
 

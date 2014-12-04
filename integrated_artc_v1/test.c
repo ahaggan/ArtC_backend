@@ -35,10 +35,10 @@ int test_parser(Interface interface){
     void clear_buffer(void);
     void update_values(Draw *fractal, char *first_input, char *second_input);
     void assign_value(Draw *fractal, action_word i, char *input);
-    void make_default(Interface interface, Draw *fractal);
+    
     */
     printf("\nParser passed %d tests!\n", test_count);
-    SDL_Delay(10000);
+    SDL_Delay(1000);
     return 0;
 }
 
@@ -79,6 +79,7 @@ int make_test_default(Interface interface, Draw *fractal){
 }
 
 int test_colour(Interface interface, Draw *test_fractal){
+    
     return 0;
 }
 

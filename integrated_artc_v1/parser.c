@@ -60,8 +60,7 @@ int get_input(action *actions, char *first_input, char *second_input, Draw *frac
 		return NO;
 	}
 	while(c != EOF){
-		if(read_file_line(fp, actions, first_input, second_input) == YES)
-		{
+		if(read_file_line(fp, actions, first_input, second_input) == YES){
 			update_values(fractal, first_input, second_input);
 	
 		}
