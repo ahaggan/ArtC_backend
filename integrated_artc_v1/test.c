@@ -1,6 +1,13 @@
+#include "parser.h"
+#include "test.h"
+
 int test_parser(Interface interface){
-    draw test_fractal;
+    Draw test_fractal;
+    make_test_default(&test_fractal);
+    printf("\nTest function:\nfractal->colour = %s\n", test_fractal.colour);
+    
     /*NEED TO TEST THESE
+    If everything works, just a message saying all tests work.
     int get_input(action *actions, char *first_input, char *second_input, Draw *fractal);
     int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
     test_fractal.colour;
@@ -22,9 +29,10 @@ int test_parser(Interface interface){
     void assign_value(Draw *fractal, action_word i, char *input);
     void make_default(Interface interface, Draw *fractal);
     */
+    return 0;
 }
 
-void make_test_default(Interface interface, draw *test_fractal){
+void make_test_default(Draw *fractal){
     fractal->colour = (char*)malloc(4*sizeof(char));
 	strcpy(fractal->colour, "red"); 
 	fractal->move = (char*)malloc(3*sizeof(char));
@@ -43,6 +51,7 @@ void make_test_default(Interface interface, draw *test_fractal){
     fractal->iterations = 1;
 }
 
-int test_colour(Interface interface, draw *test_fractal){
+int test_colour(Interface interface, Draw *test_fractal){
+    return 0;
 }
 

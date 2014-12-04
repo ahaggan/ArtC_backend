@@ -42,6 +42,6 @@ void update_values(Draw *fractal, char *first_input, char *second_input);
 void assign_value(Draw *fractal, action_word i, char *input);
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
 void make_default(Interface interface, Draw *fractal);
-int test_parser(void);
+int test_parser(Interface interface);
 
 
