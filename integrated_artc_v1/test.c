@@ -3,7 +3,15 @@
 
 int test_parser(Interface interface){
     Draw test_fractal;
-    make_test_default(&test_fractal);
+    int test_count= 0;
+    printf("\nPARSER TEST\n");
+    if (make_test_default(interface, &test_fractal) == NO){
+        printf("\nError in the make default function.");
+        exit(1);
+    }
+    else{
+        test_count += 1;
+    } 
     printf("\nTest function:\nfractal->colour = %s\n", test_fractal.colour);
     
     /*NEED TO TEST THESE
@@ -29,26 +37,45 @@ int test_parser(Interface interface){
     void assign_value(Draw *fractal, action_word i, char *input);
     void make_default(Interface interface, Draw *fractal);
     */
+    printf("\nParser passed %d tests!\n", test_count);
+    SDL_Delay(10000);
     return 0;
 }
 
-void make_test_default(Draw *fractal){
-    fractal->colour = (char*)malloc(4*sizeof(char));
-	strcpy(fractal->colour, "red"); 
-	fractal->move = (char*)malloc(3*sizeof(char));
-	strcpy(fractal->move, "up");
-	fractal->size = 10;
-	fractal->shape = (char*)malloc(7*sizeof(char));
-	strcpy(fractal->shape, "square");
-	fractal->startx = 500;
-	fractal->starty = 300;
-	fractal->endx = WIN_WIDTH/2 + 10;
-	fractal->endy = WIN_HEIGHT/2 + 10; 
+int make_test_default(Interface interface, Draw *fractal){
+    make_default(interface, fractal);
+    if(strcmp(fractal->colour,"red") != 0){
+        return NO;
+    } 
+    if(strcmp(fractal->move, "up") != 0){
+        return NO;
+    }
+	if(fractal->size != 10){
+	    return NO;
+	}
+	if(strcmp(fractal->shape, "square") != 0){
+	    return NO;
+	}
+	if(fractal->startx != interface.canvas.rect.x + (interface.canvas.rect.w/2) - size){
+	    return NO;
+	}
+	if(fractal->starty != interface.canvas.rect.y + (interface.canvas.rect.h/2) - size){
+	    return NO;
+	}
+	if(fractal->endx != WIN_WIDTH/2 + 10){
+	    return NO;
+	}
+	if(fractal->endy != WIN_HEIGHT/2 + 10){
+	    return NO;
+	}
+	if(strcmp(fractal->type, "tree") != 0){
+	    return NO;
+	}
     //strdup(fractal->type, "triangle");
-	fractal->type = (char*)malloc(9*sizeof(char));
-	strcpy(fractal->type, "triangle");
-	//printf("\nType: %s", fractal->type);
-    fractal->iterations = 1;
+	if(fractal->iterations != 1){
+	    return NO;
+	}
+	return YES;   
 }
 
 int test_colour(Interface interface, Draw *test_fractal){
