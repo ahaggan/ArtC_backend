@@ -14,7 +14,7 @@ int main() {
   strcpy(interface.composition, "Enter text:");
   SDL_Color editor_text_colour = {0,0,0,255};
   //Sets text_rect to type text inputs.
-  SDL_SetTextInputRect(&interface.texteditor.rect);
+  
   //Start accepting text input events
   SDL_StartTextInput();
   
@@ -24,13 +24,16 @@ int main() {
   SDL_UpdateWindowSurface(interface.window.win);
 
   while(!interface.window.finished) {
-
+    SDL_SetTextInputRect(&interface.text_editor[0][0].box.rect);
     draw_interface(&interface); //-stops flickering on Mac, but the fractal image disappears.
 
+
+    /* going to have to do this in a for loop for all of the cells in the text editor */
     SDL_Surface* text_surface = TTF_RenderText_Solid(font, interface.composition, editor_text_colour);
     SDL_Texture* text_editor = SurfaceToTexture(text_surface, &interface.window);
-    SDL_QueryTexture(text_editor, NULL, NULL, &interface.texteditor.rect.w, &interface.texteditor.rect.h);
-    SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.texteditor.rect);
+    SDL_QueryTexture(text_editor, NULL, NULL, &interface.text_editor[0][0].box.rect.w, &interface.text_editor[0][0].box.rect.h);
+    SDL_RenderCopy(interface.window.renderer, text_editor, NULL, &interface.text_editor[0][0].box.rect);
+    
 
     event_type = SDL_Events(&interface);
 
@@ -41,14 +44,14 @@ int main() {
       generate_fractal(&fractal, interface);
     }        
     else if(event_type == text_edited) {
-      ;//clear_area(&interface.window, interface.texteditor);
+      ;//clear_area(&interface.window, interface.text_editor);
     }
 
     SDL_RenderPresent(interface.window.renderer);
     SDL_UpdateWindowSurface(interface.window.win);
 
     SDL_RenderClear(interface.window.renderer);// -stops flickering on Mac, but the fractal image disappears.m  
-    SDL_DestroyTexture(text_editor);
+    //SDL_DestroyTexture(text_editor);
   }
   return 0;
 }

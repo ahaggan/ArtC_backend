@@ -39,7 +39,7 @@ void make_default(Interface interface, Draw *fractal){
 	fractal->endy = WIN_HEIGHT/2 + 10; 
     //strdup(fractal->type, "triangle");
 	fractal->type = (char*)malloc(9*sizeof(char));
-	strcpy(fractal->type, "triangle");
+	strcpy(fractal->type, "tree");
 	printf("\nType: %s", fractal->type);
     fractal->iterations = 1;
 }

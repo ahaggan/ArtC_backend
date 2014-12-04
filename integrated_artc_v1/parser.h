@@ -22,8 +22,8 @@ colour, move, size, shape, startx, starty, endx, endy, type, iterations
 #define FIRST_WORD_SIZE 10
 //STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
 //Used the "0" string to check an integer to allow for the user to enter 0 aswell as other numbers - due to the way atoi() was used.
-#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "0", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "triangle", "sierpinski", "STOP", "NEXT", "0", "STOP", "NEXT"}
-#define SECOND_WORD_SIZE 40
+#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "0", "STOP", "NEXT", "circle", "square", "line", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "triangle", "sierpinski", "tree", "STOP", "NEXT", "0", "STOP", "NEXT"}
+#define SECOND_WORD_SIZE 41
 
 #define YES 1
 #define NO 0

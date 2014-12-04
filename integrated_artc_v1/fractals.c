@@ -28,6 +28,12 @@ printf("fractal type: %s\n", fractal->type);
             sierpinski(fractal, interface, i);
         }
     }
+    else if(strcmp(fractal->type, "tree") == 0) {
+        for(int i=1; i<=fractal->iterations; i++) {
+            clear_area(&interface.window, interface.canvas);
+            tree(fractal, interface, i);
+        }
+    }
 }
 /*
 int triangle(Draw *fractal, Interface interface){

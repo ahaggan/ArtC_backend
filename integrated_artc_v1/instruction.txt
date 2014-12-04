@@ -1,6 +1,6 @@
-shape circle
-size 400
-colour purple
+shape line
+size 500
+colour red
 move up
-type sierpinski
+type tree
 iterations 7

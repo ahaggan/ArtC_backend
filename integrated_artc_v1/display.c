@@ -101,8 +101,47 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_Quit();
 }
 
-void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b)
-{
+void make_text_editor(int width, int height, Interface* interface) {
+  TextNode* start = allocate_text_node(" ", NULL, NULL, interface, 0, 0);
+    
+  for (int i = 0; i < width; i++) {
+    for (int j = 0; j < height; j++) {
+      
+    }
+    
+  }
+
+}
+
+
+
+TextNode* allocate_text_node(char* c, TextNode* previous_node, TextNode* next_node, Interface* interface, int box_x, int box_y) {
+  TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
+  int box_w = (FONT_SIZE - FONT_SIZE / 2.8);
+  int box_h =  (FONT_SIZE * 1.6);
+  
+
+  
+  //make_rect(&interface->window, &interface->texteditor, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
+  int x = (interface->text_editor_panel.rect.x +(box_x * box_w));
+  int y = (interface->text_editor_panel.rect.y + (box_y * box_h));
+
+     
+  if (new_node == NULL) {
+    printf("Cannot Allocate Node\n");
+    exit(2);
+  }
+  new_node->character = c;
+  new_node->previous = previous_node;
+  new_node->next = next_node;
+
+  make_rect(&interface->window, &interface->text_editor[box_x][box_y].box, x, y, box_w, box_h, 255, 255, 255);
+  make_text(&interface->window, &interface->text_editor[box_x][box_y].box.rect, 0, 0, 0, interface->font, new_node->character);
+ 
+  return new_node;
+}
+
+void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
   area->rect.w = w;
   area->rect.h = h;
   area->rect.x = x;
@@ -114,8 +153,7 @@ void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int 
   SDL_RenderFillRect(win->renderer, &area->rect);
 }
 
-void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text)
-{
+void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text) {
     SDL_Color textcolour = {r,g,b,255};
     SDL_Surface* textsurface = TTF_RenderText_Solid(font, text, textcolour);
     SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
@@ -129,6 +167,8 @@ void draw_interface(Interface *interface) {
   int canvas_x, canvas_y, canvas_w, canvas_h;
   int gbutton_x, gbutton_y, gbutton_w, gbutton_h;
   int ch1button_x, ch1button_y, ch1button_w, ch1button_h;
+  int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
+
   SDL_GetWindowSize(interface->window.win, &x, &y);
 
   menu_x = menu_y = texted_x = gbutton_x = 0;
@@ -148,10 +188,21 @@ void draw_interface(Interface *interface) {
   ch1button_w = 100;
   ch1button_h = 40;
 
+  textcurs_x = texted_x;
+  textcurs_y = texted_y + FONT_SIZE / 10;
+  textcurs_w = FONT_SIZE / 10;
+  textcurs_h = FONT_SIZE;
+
   //Panels
   make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 255, 64, 64);
-  make_rect(&interface->window, &interface->texteditor, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
   make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
+
+  //Text Editor
+  make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
+  make_rect(&interface->window, &interface->text_cursor, textcurs_x, textcurs_y, textcurs_w, textcurs_h, 255, 0, 0);
+
+  TextNode* test = allocate_text_node("?", NULL, NULL, interface, 0, 0);
+
 
   //Buttons
   make_rect(&interface->window, &interface->gbutton, gbutton_x, gbutton_y, gbutton_w, gbutton_h, 255, 0, 0);
@@ -159,6 +210,13 @@ void draw_interface(Interface *interface) {
 
   make_rect(&interface->window, &interface->ch1button, ch1button_x, ch1button_y, ch1button_w, ch1button_h, 0, 0, 255);
   make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
+}
+
+void make_shape(Shape *shape, int x, int y, int size) {
+    shape->x = x;
+    shape->y = y;
+    shape->size = size;
+printf("%d %d %d\n", x, y, size);
 }
 
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
