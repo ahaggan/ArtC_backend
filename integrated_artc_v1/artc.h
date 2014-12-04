@@ -12,6 +12,7 @@ typedef struct draw{
   char* move;
   int size;
   char* shape;
+  int height;
   int startx;
   int starty;
   int endx;

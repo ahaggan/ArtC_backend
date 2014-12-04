@@ -21,6 +21,7 @@ typedef struct shape {
     int x;
     int y;
     int size;
+    int height;
 } Shape;
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
@@ -31,8 +32,8 @@ void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int 
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
 
 int triangle(Draw *fractal, Interface interface);
-void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
-void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a);
+void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r);
+void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r);
 
 void SDL_TTF_Init();
 TTF_Font* SDL_Load_Font(char font_path[30], int font_size);
@@ -45,7 +46,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 int input(Interface interface, Draw *fractal);
 
 void generate_fractal(Draw *fractal, Interface interface);
-void make_shape(Shape *shape, int x, int y, int size);
+void make_shape(Shape *shape, int x, int y, int size, int height);
 void sierpinski(Draw *fractal, Interface interface, int limit);
 void tree(Draw *fractal, Interface interface, int limit);
 void carpet(Draw *fractal, Interface interface, int limit);

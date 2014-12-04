@@ -4,9 +4,9 @@ int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int
 
 void sierpinski(Draw *fractal, Interface interface, int limit) {
     Shape shape;
-    make_shape(&shape, fractal->startx, fractal->starty, fractal->size);
+    make_shape(&shape, fractal->startx, fractal->starty, fractal->size, fractal->height);
 
-    int iterations = 1; //One iteration is just the shape, passes this to the function iterate and iterates from here until the limit.
+    int iterations = 1; //One iteration is just the shape.
 
     printf("Sierpinski Limit: %d\n", limit);
 
@@ -36,9 +36,9 @@ int iterate(Draw *fractal, Interface interface, Shape current, int iterations, i
     }
 
     Shape top, left, right;
-    make_shape(&top, current.x, current.y - (current.size / 4), current.size / 2);
-    make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2);
-    make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2);
+    make_shape(&top, current.x, current.y - (current.height / 4), current.size / 2, current.height / 2);
+    make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2);
+    make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2);
 
     iterations++;
 

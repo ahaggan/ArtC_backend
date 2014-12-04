@@ -21,16 +21,23 @@ void right(tri *info, Interface interface, Draw *fractal);
 void choose_fractal(Draw *fractal, Interface interface, int limit);
 void generate_fractal(Draw *fractal, Interface interface) 
 {
+    fractal->height = fractal->size;
+    if(strcmp(fractal->shape, "triangle") == 0) {
+        fractal->height = fractal->size*(sin(M_PI/3));
+    }
+
     printf("fractal type: %s\n", fractal->type);
     for(int i=1; i<=fractal->iterations; i++) {
         choose_fractal(fractal, interface, i);
     } 
 }
 
-void choose_fractal(Draw *fractal, Interface interface, int limit){
+void choose_fractal(Draw *fractal, Interface interface, int limit)
+{
     clear_area(&interface.window, interface.canvas);
     if(strcmp(fractal->type, "sierpinski") == 0){
         sierpinski(fractal, interface, limit);
+
     }
     else if(strcmp(fractal->type, "tree") == 0){
         tree(fractal, interface, limit);

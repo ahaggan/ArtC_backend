@@ -45,7 +45,7 @@ void clear_area(SDL_Win *window, Area area) {
 
 // Filled Circle centred at (cx,cy) of radius r, see :
 // http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
-void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a) {
+void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r) {
    for (double dy = 1; dy <= r; dy += 1.0) {
         double dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
         SDL_RenderDrawLine(rend, cx-dx, cy+r-dy, cx+dx, cy+r-dy);
@@ -55,7 +55,7 @@ void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r, int a) {
 
 // Circle centred at (cx,cy) of radius r, see :
 // http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
-void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r, int a) {
+void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r) {
    double dx, dy;
    dx = floor(sqrt((2.0 * r ) ));
    SDL_RenderDrawLine(rend, cx-dx, cy+r, cx+dx, cy+r);
@@ -212,10 +212,11 @@ void draw_interface(Interface *interface) {
   make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
 }
 
-void make_shape(Shape *shape, int x, int y, int size) {
+void make_shape(Shape *shape, int x, int y, int size, int height) {
     shape->x = x;
     shape->y = y;
     shape->size = size;
+    shape->height = height;
 printf("%d %d %d\n", x, y, size);
 }
 
