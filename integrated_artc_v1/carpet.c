@@ -1,12 +1,12 @@
-/*
-#include "display.h"
 
+#include "display.h"
+/*
 int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
 
 int iterate_carpet(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
-
+*/
 void carpet(Draw *fractal, Interface interface, int limit) {
-    Shape shape;
+ /*   Shape shape;
     make_shape(&shape, fractal->startx, fractal->starty, fractal->size, fractal->height);
 
     int iterations = 1; //One iteration is just the shape.
@@ -70,8 +70,9 @@ int iterate_carpet(Draw *fractal, Interface interface, Shape current, int iterat
     iterate(fractal, interface, top, iterations, limit, 't');
     iterate(fractal, interface, left, iterations, limit, 'l');
     return iterate(fractal, interface, right, iterations, limit, 'r');
+    */
 }
 
-
+/*
 void carpet(Draw *fractal, Interface interface, int limit){
 }*/
