@@ -1,13 +1,5 @@
-
-<<<<<<< Updated upstream
 #include "artc.h"
 #include <math.h>
-=======
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
-
-#include "math.h"
->>>>>>> Stashed changes
 
 #define SDL_8BITCOLOUR 256
 #define SDL_DELAY 750
@@ -15,8 +7,6 @@
 #ifndef  M_PI
  #define M_PI  3.14159265358979323846
  #endif  
-
-
 
 typedef struct txt_node {
 	struct txt_node* previous;

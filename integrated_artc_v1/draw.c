@@ -1,27 +1,8 @@
-<<<<<<< Updated upstream
 #include "display.h"
-<<<<<<< Updated upstream
-=======
-void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size) {
-=======
-#include <display.h>
-
-void clear_area(SDL_Win *window, Area area) {
-    SDL_SetRenderDrawColor(window->renderer, area.colour.r, area.colour.g, area.colour.b, 255);
-    SDL_RenderFillRect(window->renderer, &area.rect);
-    SDL_RenderPresent(window->renderer);
-    SDL_UpdateWindowSurface(window->win);
-printf("area cleared.\n");
-}
->>>>>>> Stashed changes
 
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle) 
 {
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     if (strcmp(fractal->colour, "blue") == 0) {
         SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 255, 50);
     }
