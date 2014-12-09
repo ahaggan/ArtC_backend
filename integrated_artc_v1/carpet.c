@@ -1,7 +1,9 @@
+/*
 #include "display.h"
-int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
 
-void sierpinski(Draw *fractal, Interface interface, int limit) {
+int iterate_carpet(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
+
+void carpet(Draw *fractal, Interface interface, int limit) {
     Shape shape;
     make_shape(&shape, fractal->startx, fractal->starty, fractal->size, fractal->height);
 
@@ -9,7 +11,7 @@ void sierpinski(Draw *fractal, Interface interface, int limit) {
 
     printf("Sierpinski Limit: %d\n", limit);
 
-    iterations = iterate(fractal, interface, shape, iterations, limit, 't');
+    iterations = iterate_carpet(fractal, interface, shape, iterations, limit, 'a');
     printf("Sierpinski completed with %d iterations.\n", iterations);
 
     SDL_RenderPresent(interface.window.renderer);
@@ -18,23 +20,45 @@ void sierpinski(Draw *fractal, Interface interface, int limit) {
 
 }
 
-int iterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, char c) {
+int iterate_carpet(Draw *fractal, Interface interface, Shape current, int iterations, int limit, char c) {
     //If the fractal shapes reach a size smaller than 2 pixels, or if we reach the desired no. of iterations
     if (current.size < 2 || iterations == limit) {
         float angle;
         switch (c) {
-            case 't': angle = 0;
+            case 'a': 
+                angle = 0;
                 break;
-            case 'l': angle = -2.0*M_PI/3.0;
+            case 'b': 
+                angle = 0;
                 break;
-            case 'r': angle = 2.0*M_PI/3.0;
+            case 'c': 
+                angle = 0;
                 break;
+            case 'd': 
+                angle = 0;
+                break;
+            case 'e': 
+                angle = 0;
+                break;
+            case 'f': 
+                angle = 0;
+                break;
+            case 'g': 
+                angle = 0;
+                break;
+            case 'h': 
+                angle = 0;
+                break;
+            case 'i': 
+                angle = 0;
+                break:           
         }
         draw_sdl(interface, fractal, current.x, current.y, current.size, angle);
         return iterations;
     }
 
-    Shape top, left, right;
+    Shape a, b, c, d, e, f, g, h, i;
+    //YOU NEED TO EDIT THE FUNCTION CALLS BELOW
     make_shape(&top, current.x, current.y - (current.height / 4), current.size / 2, current.height / 2);
     make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2);
     make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2);
@@ -47,4 +71,4 @@ int iterate(Draw *fractal, Interface interface, Shape current, int iterations, i
 }
 
 void carpet(Draw *fractal, Interface interface, int limit){
-}
+}*/
