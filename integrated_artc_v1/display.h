@@ -8,6 +8,8 @@
  #define M_PI  3.14159265358979323846
  #endif  
 
+
+
 typedef struct txt_node {
 	struct txt_node* previous;
 	struct txt_node* next;
@@ -49,4 +51,7 @@ void make_shape(Shape *shape, int x, int y, int size);
 void sierpinski(Draw *fractal, Interface interface, int limit);
 void tree(Draw *fractal, Interface interface, int limit);
 
-TextNode* allocate_text_node(char* c, TextNode* previous_node, TextNode* next_node, Interface* interface, int x, int y);
+void make_text_editor(int width, int height, Interface* interface);
+void update_text_editor(int width, int height, Interface* interface);
+TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int x, int y, int selected);
+void print_composition(TextNode* start);
