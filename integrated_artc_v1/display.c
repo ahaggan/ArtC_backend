@@ -203,7 +203,6 @@ void draw_interface(Interface *interface) {
   make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
 }
 
-<<<<<<< HEAD
 TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column, int selected) {
   TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
   int box_w = (FONT_SIZE - FONT_SIZE / 2.8);

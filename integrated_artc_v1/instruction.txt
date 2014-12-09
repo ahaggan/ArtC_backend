@@ -1,4 +1,4 @@
-shape triangle_outline
+shape circle
 size 500
 colour green	
 move up
