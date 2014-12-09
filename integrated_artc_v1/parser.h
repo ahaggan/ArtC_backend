@@ -28,6 +28,7 @@ colour, move, size, shape, startx, starty, endx, endy, type, iterations
 #define YES 0
 #define NO 1
 #define MAX_LENGTH 20
+#define NO_WORDS 15
 
 typedef struct action{
 	char *name;
@@ -37,10 +38,10 @@ typedef struct action{
 void create_struct_array(action *actions);
 void clear_buffer(void);
 
-int get_input(action *actions, char *first_input, char *second_input, Draw *fractal);
-void update_values(Draw *fractal, char *first_input, char *second_input);
+int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal);
+void update_values(Draw *fractal, char input[NO_WORDS][MAX_LENGTH]);
 void assign_value(Draw *fractal, action_word i, char *input);
-int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input);
+int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH]);
 void make_default(Interface interface, Draw *fractal);
 int test_parser(Interface interface);
 
