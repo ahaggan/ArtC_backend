@@ -1,6 +1,6 @@
 shape circle
 size 500
-colour green	
+colour purple	
 move up
 type star
-iterations 3
+iterations 7

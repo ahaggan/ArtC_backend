@@ -269,7 +269,6 @@ void make_shape(Shape *shape, int x, int y, int size, int height) {
     shape->y = y;
     shape->size = size;
     shape->height = height;
-printf("%d %d %d\n", x, y, size);
 }
 
 void print_composition(TextNode* start) {
