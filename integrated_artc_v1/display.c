@@ -206,6 +206,7 @@ void draw_interface(Interface *interface) {
 
 TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column, int selected) {
   TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
+  TextNode* tmp = new_node;
   int box_w = (FONT_SIZE - FONT_SIZE / 2.8);
   int box_h =  (FONT_SIZE * 1.6);
 
@@ -224,10 +225,11 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
 
   make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, box_w, box_h, 255, 255, 255);
   make_text(&interface->window, &interface->text_editor[row][column].box.rect, 0, 0, 0, interface->font, new_node->character);
- 
+  free(tmp);
   return new_node;
 }
 
+/*
 void free_text_nodes(TextNode* tail) {
   TextNode* tmp = NULL;
   TextNode* current = tail;
@@ -238,6 +240,7 @@ void free_text_nodes(TextNode* tail) {
     free(tmp);
   } 
 }
+*/
 
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
