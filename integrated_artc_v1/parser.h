@@ -14,6 +14,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+<<<<<<< Updated upstream
+=======
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+>>>>>>> Stashed changes
 
 #define FIRST_WORD { "colour", "move", "size", "shape", "startx", "starty", "endx", "endy", "type", "iterations"}
 typedef enum action_word {
