@@ -59,4 +59,4 @@ void update_text_editor(int width, int height, Interface* interface);
 TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int x, int y, int selected);
 void print_composition(TextNode* start);
 
-
+void free_text_nodes(TextNode* tail);

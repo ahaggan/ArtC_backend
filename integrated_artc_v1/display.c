@@ -133,7 +133,8 @@ void make_text_editor(int width, int height, Interface* interface) {
 
 void update_text_editor(int width, int height, Interface* interface) {
   TextNode* current = NULL;
-  for (int row = 0; row < height; row++) {
+ 
+ for (int row = 0; row < height; row++) {
     for (int column = 0; column < width; column++) {
       //final cell
       if (!(row == (height - 1) && column == (width -1))) {
@@ -225,6 +226,17 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
   make_text(&interface->window, &interface->text_editor[row][column].box.rect, 0, 0, 0, interface->font, new_node->character);
  
   return new_node;
+}
+
+void free_text_nodes(TextNode* tail) {
+  TextNode* tmp = NULL;
+  TextNode* current = tail;
+  while (current != NULL) {
+    tmp = current;
+    printf("debug\n");
+    current = current->previous;
+    free(tmp);
+  } 
 }
 
 

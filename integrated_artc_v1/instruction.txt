@@ -2,5 +2,5 @@ shape circle
 size 500
 colour green	
 move up
-type sierpinski
-iterations 7
+type star
+iterations 3

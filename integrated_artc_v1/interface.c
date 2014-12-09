@@ -25,9 +25,6 @@ int main() {
 
   while(!interface.window.finished) {
     draw_interface(&interface); //-stops flickering on Mac, but the fractal image disappears.
-     
-    //print_composition(&interface.text_editor[0][0]);
-     
     update_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
 
     event_type = SDL_Events(&interface);
