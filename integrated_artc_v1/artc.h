@@ -5,6 +5,9 @@
 #define WIN_HEIGHT 768
 #define MAX_TEXT 1000
 #define FONT_SIZE 20
+
+#define EDITOR_COLUMNS 43
+#define EDITOR_ROWS 20
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
 typedef struct draw{
@@ -36,8 +39,10 @@ typedef struct text_node {
   struct text_node* previous;
   struct text_node* next;
   //I have a feeling this needs to be a string
-  char* character;
+  char character[1];
   Area box;
+  int x;
+  int y;
   //if selected == 1, display cursor
   int selected;
 } TextNode;
@@ -46,7 +51,7 @@ typedef struct interface {
   SDL_Win window;
   Area menubar;
   Area text_editor_panel;
-  TextNode text_editor[10][10];
+  TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
   char composition[MAX_TEXT];
   Area text_cursor;
   Area canvas;

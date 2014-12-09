@@ -45,6 +45,9 @@ void choose_fractal(Draw *fractal, Interface interface, int limit)
     else if(strcmp(fractal->type, "sierpinski_square") == 0){
         carpet(fractal, interface, limit);
     }
+    else if(strcmp(fractal->type, "star") == 0){
+        star(fractal, interface, limit);
+    }
 }
     
         

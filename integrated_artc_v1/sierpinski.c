@@ -1,6 +1,6 @@
 #include "display.h"
 
-int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
+int sierpinskiiterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
 
 void sierpinski(Draw *fractal, Interface interface, int limit) {
     Shape shape;
@@ -10,7 +10,7 @@ void sierpinski(Draw *fractal, Interface interface, int limit) {
 
     printf("Sierpinski Limit: %d\n", limit);
 
-    iterations = iterate(fractal, interface, shape, iterations, limit, 't');
+    iterations = sierpinskiiterate(fractal, interface, shape, iterations, limit, 't');
     printf("Sierpinski completed with %d iterations.\n", iterations);
 
     SDL_RenderPresent(interface.window.renderer);
@@ -19,7 +19,7 @@ void sierpinski(Draw *fractal, Interface interface, int limit) {
 
 }
 
-int iterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, char c) {
+int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, char c) {
     //If the fractal shapes reach a size smaller than 2 pixels, or if we reach the desired no. of iterations
     if (current.size < 2 || iterations == limit) {
         float angle;
@@ -42,7 +42,7 @@ int iterate(Draw *fractal, Interface interface, Shape current, int iterations, i
 
     iterations++;
 
-    iterate(fractal, interface, top, iterations, limit, 't');
-    iterate(fractal, interface, left, iterations, limit, 'l');
-    return iterate(fractal, interface, right, iterations, limit, 'r');
+    sierpinskiiterate(fractal, interface, top, iterations, limit, 't');
+    sierpinskiiterate(fractal, interface, left, iterations, limit, 'l');
+    return sierpinskiiterate(fractal, interface, right, iterations, limit, 'r');
 }

@@ -102,62 +102,57 @@ void SDL_TTF_Quit(TTF_Font *font) {
 }
 
 void make_text_editor(int width, int height, Interface* interface) {
-  TextNode* start = allocate_text_node(" ", NULL, NULL, interface, 0, 0);
-    
-  for (int i = 0; i < width; i++) {
-    for (int j = 0; j < height; j++) {
+  TextNode* current = NULL;
+  for (int row = 0; row < height; row++) {
+    for (int column = 0; column < width; column++) {
+      //cell 0 = start
+      if (row == 0 && column == 0) {
+        interface->text_editor[row][column] = *allocate_text_node(".", current, interface, row, column, 1); //1 = current text input
+        interface->text_editor[row][column].next = &interface->text_editor[0][column+1];  
+      }
+      else if (!(row == (height - 1) && column == (width -1))) {
+        interface->text_editor[row][column] = *allocate_text_node(".", current, interface, row, column, 0);
+
+        if (column == width - 1) {
       
-    }
-    
-  }
-
-}
-
-
-
-TextNode* allocate_text_node(char* c, TextNode* previous_node, TextNode* next_node, Interface* interface, int box_x, int box_y) {
-  TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
-  int box_w = (FONT_SIZE - FONT_SIZE / 2.8);
-  int box_h =  (FONT_SIZE * 1.6);
-  
-
-  
-  //make_rect(&interface->window, &interface->texteditor, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
-  int x = (interface->text_editor_panel.rect.x +(box_x * box_w));
-  int y = (interface->text_editor_panel.rect.y + (box_y * box_h));
-
-     
-  if (new_node == NULL) {
-    printf("Cannot Allocate Node\n");
-    exit(2);
-  }
-  new_node->character = c;
-  new_node->previous = previous_node;
-  new_node->next = next_node;
-
-  make_rect(&interface->window, &interface->text_editor[box_x][box_y].box, x, y, box_w, box_h, 255, 255, 255);
-  make_text(&interface->window, &interface->text_editor[box_x][box_y].box.rect, 0, 0, 0, interface->font, new_node->character);
+          interface->text_editor[row][column].next = &interface->text_editor[row+1][0];  
+        }
+        else {
+          interface->text_editor[row][column].next = &interface->text_editor[row][column + 1];
+        }
  
-  return new_node;
+      }
+      else {
+        interface->text_editor[row][column] = *allocate_text_node(".", current, interface, row, column, 0);
+        interface->text_editor[row][column].next = NULL;
+      }
+      current = &interface->text_editor[row][column];
+    }
+  }
 }
 
-void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
-  area->rect.w = w;
-  area->rect.h = h;
-  area->rect.x = x;
-  area->rect.y = y;
-  area->colour.r = r;
-  area->colour.g = g;
-  area->colour.b = b;
-  SDL_SetRenderDrawColor(win->renderer, r, g, b, 255);
-  SDL_RenderFillRect(win->renderer, &area->rect);
-}
-
-void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text) {
-    SDL_Color textcolour = {r,g,b,255};
-    SDL_Surface* textsurface = TTF_RenderText_Solid(font, text, textcolour);
-    SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
-    SDL_RenderCopy(win->renderer, texttexture, NULL, location);
+void update_text_editor(int width, int height, Interface* interface) {
+  TextNode* current = NULL;
+ 
+ for (int row = 0; row < height; row++) {
+    for (int column = 0; column < width; column++) {
+      //final cell
+      if (!(row == (height - 1) && column == (width -1))) {
+        interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column, interface->text_editor[row][column].selected);
+        if (column == width - 1) {
+          interface->text_editor[row][column].next = &interface->text_editor[row+1][0];  
+        }
+        else {
+          interface->text_editor[row][column].next = &interface->text_editor[row][column + 1];
+        }
+      }
+      else {
+        interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column, interface->text_editor[row][column].selected);
+        interface->text_editor[row][column].next = NULL;
+      }
+      current = &interface->text_editor[row][column];
+    }
+  }
 }
 
 void draw_interface(Interface *interface) {
@@ -201,9 +196,6 @@ void draw_interface(Interface *interface) {
   make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
   make_rect(&interface->window, &interface->text_cursor, textcurs_x, textcurs_y, textcurs_w, textcurs_h, 255, 0, 0);
 
-  TextNode* test = allocate_text_node("?", NULL, NULL, interface, 0, 0);
-
-
   //Buttons
   make_rect(&interface->window, &interface->gbutton, gbutton_x, gbutton_y, gbutton_w, gbutton_h, 255, 0, 0);
   make_text(&interface->window, &interface->gbutton.rect, 64, 255, 64, interface->font, "GENERATE!");
@@ -211,6 +203,63 @@ void draw_interface(Interface *interface) {
   make_rect(&interface->window, &interface->ch1button, ch1button_x, ch1button_y, ch1button_w, ch1button_h, 0, 0, 255);
   make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
 }
+
+TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column, int selected) {
+  TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
+  int box_w = (FONT_SIZE - FONT_SIZE / 2.8);
+  int box_h =  (FONT_SIZE * 1.6);
+
+  int x = (interface->text_editor_panel.rect.x + (column * box_w));
+  int y = (interface->text_editor_panel.rect.y + (row * box_h));
+
+  if (new_node == NULL) {
+    printf("Cannot Allocate Node\n");
+    exit(2);
+  }
+  new_node->x = column;
+  new_node->y = row;
+  strcpy(new_node->character, c);
+  new_node->previous = previous_node;
+  new_node->selected = selected;
+
+  make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, box_w, box_h, 255, 255, 255);
+  make_text(&interface->window, &interface->text_editor[row][column].box.rect, 0, 0, 0, interface->font, new_node->character);
+ 
+  return new_node;
+}
+
+void free_text_nodes(TextNode* tail) {
+  TextNode* tmp = NULL;
+  TextNode* current = tail;
+  while (current != NULL) {
+    tmp = current;
+    printf("debug\n");
+    current = current->previous;
+    free(tmp);
+  } 
+}
+
+
+void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
+  area->rect.w = w;
+  area->rect.h = h;
+  area->rect.x = x;
+  area->rect.y = y;
+  area->colour.r = r;
+  area->colour.g = g;
+  area->colour.b = b;
+  SDL_SetRenderDrawColor(win->renderer, r, g, b, 255);
+  SDL_RenderFillRect(win->renderer, &area->rect);
+}
+
+void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text) {
+    SDL_Color textcolour = {r,g,b,255};
+    SDL_Surface* textsurface = TTF_RenderText_Solid(font, text, textcolour);
+    SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
+    SDL_RenderCopy(win->renderer, texttexture, NULL, location);
+    SDL_DestroyTexture(texttexture);
+}
+
 
 void make_shape(Shape *shape, int x, int y, int size, int height) {
     shape->x = x;
@@ -220,4 +269,13 @@ void make_shape(Shape *shape, int x, int y, int size, int height) {
 printf("%d %d %d\n", x, y, size);
 }
 
+void print_composition(TextNode* start) {
+  TextNode* current = start;
+  char str[2000];
+  while (current != NULL) {
+    strcat(str, current->character);
+    current = current->next;
+  }
+  printf("%s\n", str);
+}
 //Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/

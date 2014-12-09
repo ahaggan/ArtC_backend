@@ -26,8 +26,22 @@ int SDL_Events(Interface* interface) {
 
             //textinput case MUST be before keydown; otherwise a weird soh enters the string.
             case SDL_TEXTINPUT:
-                strcat(interface->composition, event.text.text);
-                break;
+                for (int row = 0; row < EDITOR_ROWS; row++) {
+                    for (int column = 0; column < EDITOR_COLUMNS; column++) {
+                        if (interface->text_editor[row][column].selected == 1) {
+                            printf("%d %d\n", row, column);
+                            strcpy(interface->text_editor[row][column].character, event.text.text);
+                            SDL_SetTextInputRect(&interface->text_editor[row][column].next->box.rect);
+                            interface->text_editor[row][column].selected = 0;
+                            interface->text_editor[row][column].next->selected = 1;
+                            return 2;
+                            break;
+                        }
+                    }
+                }
+                
+            break;
+             
             //user presses a key
             case SDL_KEYDOWN:
 
@@ -36,10 +50,11 @@ int SDL_Events(Interface* interface) {
 
                     //backspace deletes the previous character
                     case SDLK_BACKSPACE:
+                        
                         if (composition_len > 0) {
                             interface->composition[composition_len - 1] = '\0';
                         }
-                        return 2;
+                        return 3;
                         break;
 
                     //enter will move the cursor to the next line

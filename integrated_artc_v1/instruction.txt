@@ -1,6 +1,6 @@
-shape line
+shape circle
 size 500
-colour red
+colour green	
 move up
-type tree
-iterations 7
+type star
+iterations 3
