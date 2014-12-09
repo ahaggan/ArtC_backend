@@ -1,6 +1,6 @@
-shape line
+shape triangle_outline
 size 500
 colour green	
 move up
 type sierpinski
-iterations 9
+iterations 7

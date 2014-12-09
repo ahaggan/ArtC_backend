@@ -1,7 +1,7 @@
 #include "parser.h"
 
 int parse(Interface interface, Draw *fractal) {
-
+    test_parser(interface); //Test will create its own fractals and test the functions in this module
 	char first_input[MAX_LENGTH];
 	char second_input[MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
@@ -18,13 +18,16 @@ int parse(Interface interface, Draw *fractal) {
 	printf("\nIn main:");
 	printf("\nType: %s", fractal->type);
 	printf("\nColour: %s", fractal->colour);
-   printf("\nColour: %s", fractal->colour);
+    printf("\nColour: %s", fractal->colour);
 	printf("\nshape: %s", fractal->shape);
 	
 	return 0;
 }
 
+
+
 void make_default(Interface interface, Draw *fractal){
+    //Call function and check it changes what it should
   printf("\ndefault");
   fractal->colour = (char*)malloc(4*sizeof(char));
 	strcpy(fractal->colour, "red"); 
@@ -44,7 +47,7 @@ void make_default(Interface interface, Draw *fractal){
     fractal->iterations = 1;
 }
 
-void get_input(action *actions, char *first_input, char *second_input, Draw *fractal) {
+int get_input(action *actions, char *first_input, char *second_input, Draw *fractal) {
 	
 	//char *first_word[] = FIRST_WORD;
 	//char *second_word[] = SECOND_WORD;
@@ -54,11 +57,10 @@ void get_input(action *actions, char *first_input, char *second_input, Draw *fra
 	if((fp = fopen("instruction.txt", "r")) == NULL)
 	{
 		fprintf(stderr, "\nCouldn't open file!\n");
-		return;
+		return NO;
 	}
 	while(c != EOF){
-		if(read_file_line(fp, actions, first_input, second_input) ==YES)
-		{
+		if(read_file_line(fp, actions, first_input, second_input) == YES){
 			update_values(fractal, first_input, second_input);
 	
 		}
@@ -67,6 +69,7 @@ void get_input(action *actions, char *first_input, char *second_input, Draw *fra
 			//clear_buffer();
 	} 
 	fclose(fp);
+	return YES;
 }
 
 int read_file_line(FILE *fp, action *actions, char* first_input, char* second_input){
@@ -108,7 +111,7 @@ int read_file_line(FILE *fp, action *actions, char* first_input, char* second_in
 			return NO;
 		}
 		return YES;
-		printf("\n\n%s %s\n\n\n", first_input,second_input);
+		
 	}
 }
 

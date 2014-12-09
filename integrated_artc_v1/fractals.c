@@ -18,23 +18,41 @@ void draw_triangle(tri *info, Interface interface, Draw *fractal);
 void top(tri *info, Interface interface, Draw *fractal);
 void left(tri *info, Interface interface, Draw *fractal);
 void right(tri *info, Interface interface, Draw *fractal);
-
+void choose_fractal(Draw *fractal, Interface interface, int limit);
 void generate_fractal(Draw *fractal, Interface interface) 
 {
-printf("fractal type: %s\n", fractal->type);
-    if (strcmp(fractal->type, "sierpinski") == 0) {
-        for(int i=1; i<=fractal->iterations; i++) {
-            clear_area(&interface.window, interface.canvas);
-            sierpinski(fractal, interface, i);
-        }
+    fractal->height = fractal->size;
+    if(strcmp(fractal->shape, "triangle") == 0) {
+        fractal->height = fractal->size*(sin(M_PI/3));
     }
-    else if(strcmp(fractal->type, "tree") == 0) {
-        for(int i=1; i<=fractal->iterations; i++) {
-            clear_area(&interface.window, interface.canvas);
-            tree(fractal, interface, i);
-        }
+
+    printf("fractal type: %s\n", fractal->type);
+    for(int i=1; i<=fractal->iterations; i++) {
+        choose_fractal(fractal, interface, i);
+    } 
+}
+
+void choose_fractal(Draw *fractal, Interface interface, int limit)
+{
+    clear_area(&interface.window, interface.canvas);
+    if(strcmp(fractal->type, "sierpinski") == 0){
+        sierpinski(fractal, interface, limit);
+
+    }
+    else if(strcmp(fractal->type, "tree") == 0){
+        tree(fractal, interface, limit);
+    }
+    else if(strcmp(fractal->type, "sierpinski_square") == 0){
+        carpet(fractal, interface, limit);
+    }
+    else if(strcmp(fractal->type, "star") == 0){
+        star(fractal, interface, limit);
     }
 }
+    
+        
+    
+        
 /*
 int triangle(Draw *fractal, Interface interface){
     
