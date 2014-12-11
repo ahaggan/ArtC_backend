@@ -87,12 +87,16 @@ int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH]){
 	        return NO;
 	    }
 	    
-	    if(tmp_char == ' '){
+        if(tmp_char == ' ' || tmp_char == '\n'){
+          if(tmp_char == ' ') {
 	        i++;
 	        j = 0;
 	        counter++;
-	        printf("\nFirst word: %s", input[0]);
-	    }
+	        printf("\nFirst word: '%s'", input[0]);
+          }
+          if(tmp_char == '\n') {
+          }
+	    }        
 	    else{
 	       input[i][j] = tmp_char;
 	       j++;
