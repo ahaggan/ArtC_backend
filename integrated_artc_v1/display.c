@@ -231,8 +231,12 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
   new_node->selected = selected;
 
   make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, box_w, box_h, 43, 43, 39);
-  if (strcmp(new_node->character, EMPTY_CELL) != 0) {
-     make_text(&interface->window, &interface->text_editor[row][column].box.rect, 240, 240, 240, interface->font, new_node->character);
+  if (strcmp(new_node->character, EMPTY_CELL) == 0) {
+    free(tmp);
+    return new_node;
+  }
+  else {
+    make_text(&interface->window, &interface->text_editor[row][column].box.rect, 240, 240, 240, interface->font, new_node->character);
   }
   free(tmp);
   return new_node;
@@ -278,6 +282,7 @@ void make_shape(Shape *shape, int x, int y, int size, int height) {
     shape->y = y;
     shape->size = size;
     shape->height = height;
+printf("%d %d %d\n", x, y, size);
 }
 
 void print_composition(TextNode* start) {

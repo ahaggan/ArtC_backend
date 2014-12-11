@@ -13,8 +13,7 @@ int main() {
   int event_type = 0;
    
   //possibly dynamically set the font size depending on the window size
-  
-  SDL_Color editor_text_colour = {0,0,0,255};
+
   //Sets text_rect to type text inputs.
   SDL_SetTextInputRect(&interface.text_editor[0][0].box.rect);
   //Start accepting text input events
