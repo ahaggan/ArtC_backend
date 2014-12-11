@@ -1,7 +1,7 @@
 #include "parser.h"
 
 int parse(Interface interface, Draw *fractal) {
-    test_parser(interface); //Test will create its own fractals and test the functions in this module
+   //test_parser(interface); //Test will create its own fractals and test the functions in this module
 	char input[NO_WORDS][MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
 	printf("\nstart");

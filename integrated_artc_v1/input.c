@@ -94,6 +94,53 @@ int SDL_Events(Interface* interface) {
                                 }
                             }
                         }
+                    /*okay, instead of ALL of these for loops, why not just havea value in text_editor which holds the currently selected cell?*/
+                    case SDLK_TAB:
+                        for (int row = 0; row < EDITOR_ROWS; row++) {
+                            for (int column = 0; column < EDITOR_COLUMNS; column++) {
+                                if (interface->text_editor[row][column].selected == 1) {
+                                  if (SDL_GetModState() & KMOD_SHIFT) {
+                                    printf("hello!\n");
+                                    if (column <= 2) {
+                                        if (row != 0) {
+                                            SDL_SetTextInputRect(&interface->text_editor[row - 1][EDITOR_COLUMNS - 1].box.rect);
+                                            interface->text_editor[row][column].selected = 0;
+                                            interface->text_editor[row - 1][EDITOR_COLUMNS - 1].selected = 1;  
+                                            return 2;
+                                            break;
+                                        }
+                                        return 2;
+                                        break;
+                                    }
+                                    SDL_SetTextInputRect(&interface->text_editor[row][column - 3].box.rect);
+                                    interface->text_editor[row][column].selected = 0;
+                                    interface->text_editor[row][column - 3].selected = 1;
+                                    return 2;
+                                    break;
+                                  }
+                                
+                                  else {
+                                    if (column >= EDITOR_COLUMNS - 3) {
+                                        if (row != EDITOR_ROWS - 1) {
+                                            SDL_SetTextInputRect(&interface->text_editor[row + 1][0].box.rect);
+                                            interface->text_editor[row][column].selected = 0;
+                                            interface->text_editor[row + 1][0].selected = 1;  
+                                            return 2;
+                                            break;
+                                        }
+                                        return 2;
+                                        break;
+                                    }
+                                    SDL_SetTextInputRect(&interface->text_editor[row][column + 3].box.rect);
+                                    interface->text_editor[row][column].selected = 0;
+                                    interface->text_editor[row][column + 3].selected = 1;
+                                    return 2;
+                                    break;
+                                  }
+                                }
+                            }
+                        }
+
                     case SDLK_UP:   
                         for (int row = 0; row < EDITOR_ROWS; row++) {
                             for (int column = 0; column < EDITOR_COLUMNS; column++) {
