@@ -1,6 +1,6 @@
 #include "parser.h"
 
-int parse(Interface interface, Draw *fractal) {
+int parse(Interface interface, Draw **fractal) {
    //test_parser(interface); //Test will create its own fractals and test the functions in this module
 	char input[NO_WORDS][MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
@@ -25,7 +25,7 @@ int parse(Interface interface, Draw *fractal) {
 
 
 
-void make_default(Interface interface, Draw *fractal){
+void make_default(Interface interface, Draw ***fractal){
     //Call function and check it changes what it should
   printf("\ndefault");
   fractal->colour = (char*)malloc(4*sizeof(char));
@@ -132,7 +132,9 @@ int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH]){
 			return NO;
 		}
 		return YES;
-    }	
+    }
+    
+    if(counter > 2){	
     return NO;
 }
 

@@ -18,8 +18,8 @@ int main() {
   SDL_SetTextInputRect(&interface.text_editor[0][0].box.rect);
   //Start accepting text input events
   SDL_StartTextInput();
-  Draw fractal;
-
+  Draw *fractal[NO_OF_LOOPS];
+  
   SDL_RenderPresent(interface.window.renderer);
   SDL_UpdateWindowSurface(interface.window.win);
 
@@ -30,8 +30,8 @@ int main() {
     event_type = SDL_Events(&interface);
     if (event_type == generate_clicked) {
       clear_area(&interface.window, interface.canvas);
-      parse(interface, &fractal);
-      generate_fractal(&fractal, interface);
+      parse(interface, fractal);
+      generate_fractal(fractal, interface);
     }        
     else if(event_type == text_edited) {
       ;
