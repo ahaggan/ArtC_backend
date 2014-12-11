@@ -28,8 +28,10 @@ int parse(Interface interface, Draw **fractal) {
 void make_default(Interface interface, Draw ***fractal){
     //Call function and check it changes what it should
   printf("\ndefault");
-  fractal->colour = (char*)malloc(4*sizeof(char));
-	strcpy(fractal->colour, "red"); 
+    for(int i=0; i<10; i++) {
+        fractal->colour[i] = (char*)malloc(4*sizeof(char));
+        strcpy(fractal->colour[i], "red"); 
+    }
 	fractal->move = (char*)malloc(3*sizeof(char));
 	strcpy(fractal->move, "up");
 	fractal->size = 10;
@@ -52,6 +54,7 @@ int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) 
 	//char *second_word[] = SECOND_WORD;
 	printf("\ninput");
 	char c = 'f';
+    int actit = -1;
 	FILE *fp;
 	if((fp = fopen("instruction.txt", "r")) == NULL)
 	{
@@ -59,8 +62,8 @@ int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) 
 		return NO;
 	}
 	while(c != EOF){
-		if(read_file_line(fp, actions, input) == YES){
-			update_values(fractal, input);
+		if(read_file_line(fp, actions, input, &actit) == YES){
+			update_values(fractal, input, actit);
 	
 		}
 		c = getc(fp);
@@ -71,7 +74,7 @@ int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) 
 	return YES;
 }
 
-int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH]){
+int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH], int *actit){
 	int found_first = NO;
 	int found_second = NO;
 	int which_action = 0;
@@ -82,6 +85,7 @@ int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH]){
 	memset(input[0], '\0', MAX_LENGTH);
 	memset(input[1], '\0', MAX_LENGTH);
 	while ((tmp_char = getc(fp)) != ';') {
+printf("|%c|", tmp_char);
 	    if(tmp_char == EOF){
 	        printf("\nEnd of file reached");
 	        return NO;
@@ -96,8 +100,12 @@ int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH]){
           }
           if(tmp_char == '\n') {
           }
-	    }        
-	    else{
+	    }   
+        else if(strcmp(input[0], "colour")==0 && tmp_char - '0' <= 9 && tmp_char - '0' >= 0) {
+            *actit = tmp_char - '0';
+            printf("actit: %d\n", *actit);
+        }
+	    else {
 	       input[i][j] = tmp_char;
 	       j++;
 	    }
@@ -142,25 +150,32 @@ int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH]){
     return NO;
 }
 
-void update_values(Draw *fractal, char input[NO_WORDS][MAX_LENGTH]){
+void update_values(Draw *fractal, char input[NO_WORDS][MAX_LENGTH], int actit){
 	int i;
 	char *first_word[FIRST_WORD_SIZE]= FIRST_WORD;
 	printf("\nupdate");
 	for(i = 0; i < FIRST_WORD_SIZE; i++){
 		if(strcmp(first_word[i], input[0]) == 0){
 			printf("\nStrings match.\n");
-			assign_value(fractal, i, input[1]);
+			assign_value(fractal, i, input[1], actit);
 		}	
 	}
 }
 
-void assign_value(Draw *fractal, action_word i, char *input){
+void assign_value(Draw *fractal, action_word i, char *input, int actit){
 	printf("\nIn assign\n");
 	switch(i){
 		case colour:
-			printf("\nFound colour: %s\n", input);
-			fractal->colour = (char*)malloc(strlen(input)*sizeof(char));
-			strcpy(fractal->colour, input);
+            if(actit==-1) {
+    			for(int j=0; j<10; j++) {
+                    fractal->colour[j] = (char*)malloc(strlen(input)*sizeof(char));
+	    		    strcpy(fractal->colour[j], input);
+                }
+            }
+            else {
+                fractal->colour[actit-1] = (char*)malloc(strlen(input)*sizeof(char));
+	    		strcpy(fractal->colour[actit-1], input);
+            }
 			break;
 		case move:
 			fractal->move = (char*)malloc(strlen(input)*sizeof(char));

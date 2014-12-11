@@ -1,6 +1,12 @@
-shape circle;
+shape line;
 size 500;
-colour purple;	
+colour1 brown;
+colour2 brown;
+colour3 brown;
+colour4 green;
+colour5 green;
+colour6 green;
+colour7 green;
 move up;
-type star;
+type tree;
 iterations 7;

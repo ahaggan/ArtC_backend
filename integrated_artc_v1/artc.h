@@ -11,7 +11,7 @@
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
 typedef struct draw{
-  char* colour;
+  char* colour[10];
   char* move;
   int size;
   char* shape;

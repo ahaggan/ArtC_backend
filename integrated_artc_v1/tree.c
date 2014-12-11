@@ -8,13 +8,13 @@ void tree(Draw *fractal, Interface interface, int limit)
   make_shape(&trunk, fractal->startx, interface.canvas.rect.y+interface.canvas.rect.h-(fractal->height/4), fractal->size/2, fractal->height/2);
 
   int iterations = 1;
-  int branches = 3;
+  int branches = 2;
 
   printf("Tree Limit: %d\n", limit);
 
   Shape current = trunk;
   float angle = 0;
-  draw_sdl(interface, fractal, current.x, current.y, current.size, angle);
+  draw_sdl(interface, fractal, current.x, current.y, current.size, angle, iterations);
 
   iterations = treeiterate(fractal, interface, current, iterations, limit, branches, 0);
 
@@ -33,16 +33,15 @@ int treeiterate(Draw *fractal, Interface interface, Shape current, int iteration
 
   int x, y;
   Shape *shapes = malloc(branches*sizeof(Shape));
+  iterations++; 
 
   for(int i=0; i<branches; i++) {
     x = current.x - (current.size/2) + (current.size/(2*branches)) + (i*(current.size/branches));
     y = current.y - (current.size/2) - (current.size/(2*branches));
     make_shape(&shapes[i], x, y, current.size/branches, current.height/branches);
-printf("shape: %d %d %d %d\n", x, y, current.size/branches, current.height/branches);
-  draw_sdl(interface, fractal, x, y, current.size/branches, angle-(M_PI/4.0)+(i*(M_PI/2.0)));
+  draw_sdl(interface, fractal, x, y, current.size/branches, angle-(M_PI/4.0)+(i*(M_PI/2.0)), iterations);
   }
 
-  iterations++; 
   int newits;
   for(int i=0; i<=branches/2; i++) {
     treeiterate(fractal, interface, shapes[i], iterations, limit, branches,  angle);

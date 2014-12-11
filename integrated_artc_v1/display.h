@@ -44,7 +44,7 @@ void SDL_TTF_Quit(TTF_Font *font);
 
 void clear_area(SDL_Win *window, Area area);
 
-void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle);
+void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle, int i);
 int input(Interface interface, Draw *fractal);
 
 void generate_fractal(Draw *fractal, Interface interface);

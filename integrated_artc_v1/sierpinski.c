@@ -31,7 +31,7 @@ int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int ite
             case 'r': angle = 2.0*M_PI/3.0;
                 break;
         }
-        draw_sdl(interface, fractal, current.x, current.y, current.size, angle);
+        draw_sdl(interface, fractal, current.x, current.y, current.size, angle, iterations);
         return iterations;
     }
 

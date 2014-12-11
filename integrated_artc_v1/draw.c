@@ -1,6 +1,6 @@
 #include "display.h"
 
-void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle) 
+void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle, int i) 
 {
 
     if (strcmp(fractal->colour, "blue") == 0) {
@@ -23,6 +23,9 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
         SDL_SetRenderDrawColor(interface.window.renderer, 100, 0, 150, 50);
     }
 
+    else if (strcmp(fractal->colour[i-1], "brown") == 0) {
+        SDL_SetRenderDrawColor(interface.window.renderer, 88, 55, 22, 50);
+    }
 
     if (strcmp(fractal->shape, "square") == 0) {
         SDL_Rect rectangle;

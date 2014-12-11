@@ -12,7 +12,7 @@ int test_parser(Interface interface){
     else{
         test_count += 1;
     } 
-    printf("\nTest function:\nfractal->colour = %s\n", test_fractal.colour);
+    printf("\nTest function:\nfractal->colour = %s\n", test_fractal.colour[0]);
     
     /*NEED TO TEST THESE
     If everything works, just a message saying all tests work.
@@ -44,7 +44,7 @@ int test_parser(Interface interface){
 
 int make_test_default(Interface interface, Draw *fractal){
     make_default(interface, fractal);
-    if(strcmp(fractal->colour,"red") != 0){
+    if(strcmp(fractal->colour[0],"red") != 0){
         return NO;
     } 
     if(strcmp(fractal->move, "up") != 0){

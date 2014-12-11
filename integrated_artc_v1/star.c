@@ -21,7 +21,7 @@ void star(Draw *fractal, Interface interface, int limit)
 
 int stariterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, int points, float angle)
 {
-    draw_sdl(interface, fractal, current.x, current.y, current.size, angle);
+    draw_sdl(interface, fractal, current.x, current.y, current.size, angle, iterations);
   if(current.size < 1 || iterations == limit) {
     return iterations;
   }
