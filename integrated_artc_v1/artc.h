@@ -7,7 +7,7 @@
 #define FONT_SIZE 20
 
 #define EDITOR_COLUMNS 42
-#define EDITOR_ROWS 21
+#define EDITOR_ROWS 19
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
 typedef struct draw{

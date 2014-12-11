@@ -1,6 +1,6 @@
-shape circle
-size 500
-colour purple	
-move up
-type star
-iterations 7
+shape circle;
+size 500;
+colour purple;	
+move up;
+type star;
+iterations 7;

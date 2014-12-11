@@ -70,6 +70,8 @@ int SDL_Events(Interface* interface) {
                                     SDL_SetTextInputRect(&interface->text_editor[row][column].previous->box.rect);
                                     interface->text_editor[row][column].selected = 0;
                                     interface->text_editor[row][column].previous->selected = 1;
+                                      return 2;
+                        break;
                                 }
                             }
                         }
