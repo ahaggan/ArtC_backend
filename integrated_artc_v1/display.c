@@ -107,11 +107,11 @@ void make_text_editor(int width, int height, Interface* interface) {
     for (int column = 0; column < width; column++) {
       //cell 0 = start
       if (row == 0 && column == 0) {
-        interface->text_editor[row][column] = *allocate_text_node(".", current, interface, row, column, 1); //1 = current text input
+        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column, 1); //1 = current text input
         interface->text_editor[row][column].next = &interface->text_editor[0][column+1];  
       }
       else if (!(row == (height - 1) && column == (width -1))) {
-        interface->text_editor[row][column] = *allocate_text_node(".", current, interface, row, column, 0);
+        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column, 0);
 
         if (column == width - 1) {
       
@@ -123,7 +123,7 @@ void make_text_editor(int width, int height, Interface* interface) {
  
       }
       else {
-        interface->text_editor[row][column] = *allocate_text_node(".", current, interface, row, column, 0);
+        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column, 0);
         interface->text_editor[row][column].next = NULL;
       }
       current = &interface->text_editor[row][column];
@@ -133,10 +133,11 @@ void make_text_editor(int width, int height, Interface* interface) {
 
 void update_text_editor(int width, int height, Interface* interface) {
   TextNode* current = NULL;
- 
+  
  for (int row = 0; row < height; row++) {
     for (int column = 0; column < width; column++) {
       //final cell
+
       if (!(row == (height - 1) && column == (width -1))) {
         interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column, interface->text_editor[row][column].selected);
         if (column == width - 1) {
@@ -151,8 +152,13 @@ void update_text_editor(int width, int height, Interface* interface) {
         interface->text_editor[row][column].next = NULL;
       }
       current = &interface->text_editor[row][column];
+      if (interface->text_editor[row][column].selected) {
+      make_rect(&interface->window, &interface->text_cursor, (interface->text_editor_panel.rect.x + ((column) * (FONT_SIZE - FONT_SIZE / 2.5))), (interface->text_editor_panel.rect.y + (row* (FONT_SIZE * 1.6))) + 3, (FONT_SIZE - FONT_SIZE / 2.8) /5, (FONT_SIZE * 1.6) - 8, 240, 240, 240);
+      } 
     }
   }
+ 
+
 }
 
 void draw_interface(Interface *interface) {
@@ -193,9 +199,8 @@ void draw_interface(Interface *interface) {
   make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
 
   //Text Editor
-  make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 128, 128, 128);
-  make_rect(&interface->window, &interface->text_cursor, textcurs_x, textcurs_y, textcurs_w, textcurs_h, 255, 0, 0);
-
+  make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 255, 255, 255);
+ 
   //Buttons
   make_rect(&interface->window, &interface->gbutton, gbutton_x, gbutton_y, gbutton_w, gbutton_h, 255, 0, 0);
   make_text(&interface->window, &interface->gbutton.rect, 64, 255, 64, interface->font, "GENERATE!");
@@ -204,6 +209,7 @@ void draw_interface(Interface *interface) {
   make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
 }
 
+ 
 TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column, int selected) {
   TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
   TextNode* tmp = new_node;
@@ -220,11 +226,14 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
   new_node->x = column;
   new_node->y = row;
   strcpy(new_node->character, c);
+
   new_node->previous = previous_node;
   new_node->selected = selected;
 
-  make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, box_w, box_h, 255, 255, 255);
-  make_text(&interface->window, &interface->text_editor[row][column].box.rect, 0, 0, 0, interface->font, new_node->character);
+  make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, box_w, box_h, 43, 43, 39);
+  if (strcmp(new_node->character, EMPTY_CELL) != 0) {
+     make_text(&interface->window, &interface->text_editor[row][column].box.rect, 240, 240, 240, interface->font, new_node->character);
+  }
   free(tmp);
   return new_node;
 }

@@ -8,6 +8,8 @@
  #define M_PI  3.14159265358979323846
  #endif  
 
+#define EMPTY_CELL "|-"
+
 typedef struct txt_node {
 	struct txt_node* previous;
 	struct txt_node* next;

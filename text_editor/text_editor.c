@@ -56,9 +56,7 @@ int main(void) {
 
 	//Close font and SDL_TTF library
 	SDL_TTF_Quit(font);
-	
-	//calls SDL_Quit when the program terminates
-	atexit(SDL_Quit);
+
 	//closes test file
 	fclose(test_file);
 }
