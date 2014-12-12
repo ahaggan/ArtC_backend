@@ -1,10 +1,8 @@
 #include "input.h"
 
 int SDL_Events(Interface* interface) {
-
+    //define a tmp variable same as interface->active_txt coordinates so that you don't have to access it through interface so much
     SDL_Event event;
-    
-    int composition_len = SDL_strlen(interface->composition);
 
     //printf("%s\n", interface->composition);
     int x, y;
@@ -14,6 +12,8 @@ int SDL_Events(Interface* interface) {
     while(SDL_PollEvent(&event)) { 
         
         SDL_Window_Events(event, interface);
+        SDL_Text_Editor_Events(event, interface);
+        //SDL_Text_Editor_Events
         switch (event.type) {
             //user requests quit
             case SDL_QUIT:
@@ -24,227 +24,6 @@ int SDL_Events(Interface* interface) {
             case SDL_WINDOWEVENT:
                 SDL_Window_Events(event, interface);
                 break;
-
-            //textinput case MUST be before keydown; otherwise a weird soh enters the string.
-            case SDL_TEXTINPUT:
-                for (int row = 0; row < EDITOR_ROWS; row++) {
-                    for (int column = 0; column < EDITOR_COLUMNS; column++) {
-                        if (interface->text_editor[row][column].selected == 1) {
-                            if (strcmp(interface->text_editor[row][column].character, EMPTY_CELL) != 0) {
-                                printf("There's something here already\n");
-                            }
-                            strcpy(interface->text_editor[row][column].character, event.text.text);
-                            if (!(row == EDITOR_ROWS - 1 && column == EDITOR_COLUMNS - 1)) {
-                                SDL_SetTextInputRect(&interface->text_editor[row][column].next->box.rect);
-                                interface->text_editor[row][column].selected = 0;
-                                interface->text_editor[row][column].next->selected = 1;
-                            }
-                            return 2;
-                            break;
-                        }
-                    }
-                }
-                
-            break;
-            //user presses a key
-            case SDL_KEYDOWN:
-                //based on the key pressed...
-                switch (event.key.keysym.sym) {
-                    //backspace deletes the previous character
-                    case SDLK_BACKSPACE:
-                        for (int row = 0; row < EDITOR_ROWS; row++) {
-                            for (int column = 0; column < EDITOR_COLUMNS; column++) {
-                                if (interface->text_editor[row][column].selected == 1) {
-                                
-                                    if (interface->text_editor[row][column].previous == NULL) {
-                                        break;
-                                    }
-                                    //quick and dirty fix for the final space on the grid
-                                    if (interface->text_editor[row][column].next == NULL) {
-                                        strcpy(interface->text_editor[row][column].character, EMPTY_CELL); 
-                                        strcpy(interface->text_editor[row][column].previous->character, EMPTY_CELL);
-                                    }
-                                    else {
-                                        strcpy(interface->text_editor[row][column].previous->character, EMPTY_CELL);
-                                    }
-                                    SDL_SetTextInputRect(&interface->text_editor[row][column].previous->box.rect);
-                                    interface->text_editor[row][column].selected = 0;
-                                    interface->text_editor[row][column].previous->selected = 1;
-                                      return 2;
-                        break;
-                                }
-                            }
-                        }
-                        return 2;
-                        break;
-
-                    //enter will move the cursor to the next line
-                    case SDLK_RETURN:
-                        for (int row = 0; row < EDITOR_ROWS; row++) {
-                            for (int column = 0; column < EDITOR_COLUMNS; column++) {
-                                if (interface->text_editor[row][column].selected == 1) {
-                                  
-                                    if (row == EDITOR_ROWS - 1) {
-                                        break;
-                                    }
-                                    SDL_SetTextInputRect(&interface->text_editor[row + 1][0].box.rect);
-                                    interface->text_editor[row][column].selected = 0;
-                                    interface->text_editor[row + 1][0].selected = 1;
-                                    return 2;
-                                    break;
-
-                                }
-                            }
-                        }
-                    /*okay, instead of ALL of these for loops, why not just havea value in text_editor which holds the currently selected cell?*/
-                    case SDLK_TAB:
-                        for (int row = 0; row < EDITOR_ROWS; row++) {
-                            for (int column = 0; column < EDITOR_COLUMNS; column++) {
-                                if (interface->text_editor[row][column].selected == 1) {
-                                  if (SDL_GetModState() & KMOD_SHIFT) {
-                                    printf("hello!\n");
-                                    if (column <= 2) {
-                                        if (row != 0) {
-                                            SDL_SetTextInputRect(&interface->text_editor[row - 1][EDITOR_COLUMNS - 1].box.rect);
-                                            interface->text_editor[row][column].selected = 0;
-                                            interface->text_editor[row - 1][EDITOR_COLUMNS - 1].selected = 1;  
-                                            return 2;
-                                            break;
-                                        }
-                                        return 2;
-                                        break;
-                                    }
-                                    SDL_SetTextInputRect(&interface->text_editor[row][column - 3].box.rect);
-                                    interface->text_editor[row][column].selected = 0;
-                                    interface->text_editor[row][column - 3].selected = 1;
-                                    return 2;
-                                    break;
-                                  }
-                                
-                                  else {
-                                    if (column >= EDITOR_COLUMNS - 3) {
-                                        if (row != EDITOR_ROWS - 1) {
-                                            SDL_SetTextInputRect(&interface->text_editor[row + 1][0].box.rect);
-                                            interface->text_editor[row][column].selected = 0;
-                                            interface->text_editor[row + 1][0].selected = 1;  
-                                            return 2;
-                                            break;
-                                        }
-                                        return 2;
-                                        break;
-                                    }
-                                    SDL_SetTextInputRect(&interface->text_editor[row][column + 3].box.rect);
-                                    interface->text_editor[row][column].selected = 0;
-                                    interface->text_editor[row][column + 3].selected = 1;
-                                    return 2;
-                                    break;
-                                  }
-                                }
-                            }
-                        }
-
-                    case SDLK_UP:   
-                        for (int row = 0; row < EDITOR_ROWS; row++) {
-                            for (int column = 0; column < EDITOR_COLUMNS; column++) {
-                                if (interface->text_editor[row][column].selected == 1) {
-                                   
-                                    if (row == 0) {
-                                        return 2;
-                                        break;
-                                    }
-                                    SDL_SetTextInputRect(&interface->text_editor[row - 1][column].box.rect);
-                                    interface->text_editor[row][column].selected = 0;
-                                    interface->text_editor[row - 1][column].selected = 1;
-                                    return 2;
-                                    break;
-
-                                }
-                            }
-                        }
-                    case SDLK_RIGHT:   
-                            for (int row = 0; row < EDITOR_ROWS; row++) {
-                            for (int column = 0; column < EDITOR_COLUMNS; column++) {
-                                if (interface->text_editor[row][column].selected == 1) {
-                                    
-                                    if (column == EDITOR_COLUMNS - 1) {
-                                        if (row != EDITOR_ROWS - 1) {
-                                            SDL_SetTextInputRect(&interface->text_editor[row + 1][0].box.rect);
-                                            interface->text_editor[row][column].selected = 0;
-                                            interface->text_editor[row + 1][0].selected = 1;
-                                            printf("Next row! %d %d\n", row + 1, 0);
-                                            return 2;
-                                        }
-                                        break;     
-                                    }
-                                    SDL_SetTextInputRect(&interface->text_editor[row][column + 1].box.rect);
-                                    interface->text_editor[row][column].selected = 0;
-                                    interface->text_editor[row][column + 1].selected = 1;
-                                    printf("Next column! %d %d\n", row, column + 1);
-                                    return 2;
-                                    break;
-
-                                }
-                            }
-                        }
-                    case SDLK_DOWN:   
-                            for (int row = 0; row < EDITOR_ROWS; row++) {
-                            for (int column = 0; column < EDITOR_COLUMNS; column++) {
-                                if (interface->text_editor[row][column].selected == 1) {
-                                    
-                                    if (row == EDITOR_ROWS - 1) {
-                                        return 2;
-                                        break;
-                                    }
-                                    SDL_SetTextInputRect(&interface->text_editor[row + 1][column].box.rect);
-                                    interface->text_editor[row][column].selected = 0;
-                                    interface->text_editor[row + 1][column].selected = 1;
-                                    return 2;
-                                    break;
-
-                                }
-                            }
-                        }
-                    case SDLK_LEFT:   
-                            for (int row = 0; row < EDITOR_ROWS; row++) {
-                            for (int column = 0; column < EDITOR_COLUMNS; column++) {
-                                if (interface->text_editor[row][column].selected == 1) {
-                                    
-                                    if (column == 0) {
-                                     if (row  != 0) {
-                                        SDL_SetTextInputRect(&interface->text_editor[row - 1][EDITOR_COLUMNS - 1].box.rect);
-                                        interface->text_editor[row][column].selected = 0;
-                                        interface->text_editor[row - 1][EDITOR_COLUMNS - 1].selected = 1;
-                                        return 2;
-                                        }
-                                        break;
-                                    }
-                                    SDL_SetTextInputRect(&interface->text_editor[row][column - 1].box.rect);
-                                    interface->text_editor[row][column].selected = 0;
-                                    interface->text_editor[row][column - 1].selected = 1;
-                                    return 2;
-                                    break;
-
-                                }
-                            }
-                        }
-                    //ctrl + c copies text to the clipboard
-                    case SDLK_c:
-                        if (SDL_GetModState() & KMOD_CTRL) {
-                            SDL_SetClipboardText(interface->composition);
-                        }
-                        break;
-    
-                    //ctrl + v copies text to the clipboard
-                    case SDLK_v:
-                        if (SDL_GetModState() & KMOD_CTRL) {
-                           strcat(interface->composition, SDL_GetClipboardText());
-                        }
-                        break;
-                }
-            break;
-            
-            //any other keyboard input? add it on to the current text.
-
 
             //user clicks somewhere
             case SDL_MOUSEBUTTONDOWN:
@@ -286,4 +65,182 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
     }    
 }
 
+int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
+    Coordinates active = interface->active_txt;
+    switch(event.type) {
+            //textinput case MUST be before keydown; otherwise 'soh' enters the string.
+        case SDL_TEXTINPUT:
+            if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
+                    printf("There's something here already\n");
+                }
+            strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
+
+            if (!(active.row == EDITOR_ROWS - 1 && active.column == EDITOR_COLUMNS - 1)) {
+                SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].next->box.rect);
+
+                interface->active_txt.row  = interface->text_editor[active.row][active.column].next->y;
+                interface->active_txt.column = interface->text_editor[active.row][active.column].next->x;
+            }
+        return 2;
+        break;
+        //user presses a key
+        case SDL_KEYDOWN:
+            //based on the key pressed...
+            switch (event.key.keysym.sym) {
+                //backspace deletes the previous character
+                case SDLK_BACKSPACE:
+                   
+                    if (interface->text_editor[active.row][active.column].previous == NULL) {
+                        break;
+                    }
+
+                    //quick and dirty fix for the final space on the grid
+                    if (interface->text_editor[active.row][active.column].next == NULL) {
+                        strcpy(interface->text_editor[active.row][active.column].character, EMPTY_CELL); 
+                        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+                    }
+                    else {
+                        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+                    }
+                    
+                    SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
+                     
+                    interface->active_txt.row  = interface->text_editor[active.row][active.column].previous->y;
+                
+                    interface->active_txt.column = interface->text_editor[active.row][active.column].previous->x;
+                   
+                    return 2;
+                    break;
+                
+                //enter will move the cursor to the next line
+                case SDLK_RETURN:          
+                    if (active.row  == EDITOR_ROWS - 1) {
+                        break;
+                    }
+                    SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
+                    interface->active_txt.row  = active.row + 1;
+                    interface->active_txt.column = 0;
+                    return 2;
+                    break;
+
+                /*okay, instead of ALL of these for loops, why not just havea value in text_editor which holds the currently selected cell?*/
+                case SDLK_TAB:
+                    if (SDL_GetModState() & KMOD_SHIFT) {
+                        printf("hello!\n");
+                        if (active.column <= 2) {
+                            if (active.row != 0) {
+                                SDL_SetTextInputRect(&interface->text_editor[active.row - 1][EDITOR_COLUMNS - 1].box.rect);
+
+                                interface->active_txt.row  = active.row - 1;
+                                interface->active_txt.column = EDITOR_COLUMNS - 1;
+                                return 2;
+                                break;
+                            }
+                            return 2;
+                            break;
+                        }
+               
+                        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column - 3].box.rect);
+                        interface->active_txt.row  = active.row - 1;
+                        interface->active_txt.column = active.column -3;
+        
+                        return 2;
+                        break;
+                    }
+                    
+                  else {
+                    if (active.column  >= EDITOR_COLUMNS - 3) {
+                        if (active.row != EDITOR_ROWS - 1) {
+                            SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
+                            interface->active_txt.row  = active.row + 1;
+                            interface->active_txt.column = 0;
+                            return 2;
+                            break;
+                        }
+                        return 2;
+                        break;
+                    }
+                    SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + 3].box.rect);
+
+
+                    interface->active_txt.column = active.column + 3;
+
+                    return 2;
+                    break;
+                }
+
+                case SDLK_UP:   
+                  
+                    if (active.row == 0) {
+                        return 2;
+                        break;
+                    }
+                    SDL_SetTextInputRect(&interface->text_editor[active.row - 1][active.column].box.rect);
+                    interface->active_txt.row = active.row - 1;
+                    return 2;
+                    break;
+
+                case SDLK_RIGHT:   
+
+                    if (active.column == EDITOR_COLUMNS - 1) {
+                        if (active.row != EDITOR_ROWS - 1) {
+                            SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
+                            interface->active_txt.row = active.row + 1;
+                            interface->active_txt.column = 0;
+                            return 2;
+                            break;
+                        }
+                        break;     
+                    }
+                    SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + 1].box.rect);      
+                    interface->active_txt.column = active.column + 1;
+                    return 2;
+                    break;
+
+                case SDLK_DOWN:   
+                    if (active.row == EDITOR_ROWS - 1) {
+                        return 2;
+                        break;
+                    }
+                    SDL_SetTextInputRect(&interface->text_editor[active.row + 1][active.column].box.rect);
+                  
+                    interface->active_txt.row = active.row + 1;
+                    return 2;
+                    break;
+
+                case SDLK_LEFT:   
+
+                    if (active.column == 0) {
+                     if (active.row  != 0) {
+                        SDL_SetTextInputRect(&interface->text_editor[active.row - 1][EDITOR_COLUMNS - 1].box.rect);
+                        
+                        interface->active_txt.row = active.row - 1;
+                        interface->active_txt.column = EDITOR_COLUMNS - 1;
+                        return 2;
+                        }
+                        break;
+                    }
+                    SDL_SetTextInputRect(&interface->text_editor[active.row ][active.column - 1].box.rect);
+                        
+                    interface->active_txt.column = active.column - 1;
+                    return 2;
+                    break;
+
+                //ctrl + c copies text to the clipboard
+                case SDLK_c:
+                    if (SDL_GetModState() & KMOD_CTRL) {
+                        SDL_SetClipboardText(interface->composition);
+                    }
+                    break;
+
+                //ctrl + v copies text to the clipboard
+                case SDLK_v:
+                    if (SDL_GetModState() & KMOD_CTRL) {
+                       strcat(interface->composition, SDL_GetClipboardText());
+                    }
+                    break;
+            }
+        break;   
+    }
+}
 //functions to handle the key presses

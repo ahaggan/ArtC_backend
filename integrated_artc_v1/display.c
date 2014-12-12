@@ -107,11 +107,11 @@ void make_text_editor(int width, int height, Interface* interface) {
     for (int column = 0; column < width; column++) {
       //cell 0 = start
       if (row == 0 && column == 0) {
-        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column, 1); //1 = current text input
+        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column); //1 = current text input
         interface->text_editor[row][column].next = &interface->text_editor[0][column+1];  
       }
       else if (!(row == (height - 1) && column == (width -1))) {
-        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column, 0);
+        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column);
 
         if (column == width - 1) {
       
@@ -123,12 +123,14 @@ void make_text_editor(int width, int height, Interface* interface) {
  
       }
       else {
-        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column, 0);
+        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column);
         interface->text_editor[row][column].next = NULL;
       }
       current = &interface->text_editor[row][column];
     }
   }
+  interface->active_txt.row = 0;
+  interface->active_txt.column = 0;
 }
 
 void update_text_editor(int width, int height, Interface* interface) {
@@ -139,7 +141,7 @@ void update_text_editor(int width, int height, Interface* interface) {
       //final cell
 
       if (!(row == (height - 1) && column == (width -1))) {
-        interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column, interface->text_editor[row][column].selected);
+        interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column);
         if (column == width - 1) {
           interface->text_editor[row][column].next = &interface->text_editor[row+1][0];  
         }
@@ -148,15 +150,13 @@ void update_text_editor(int width, int height, Interface* interface) {
         }
       }
       else {
-        interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column, interface->text_editor[row][column].selected);
+        interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column);
         interface->text_editor[row][column].next = NULL;
       }
       current = &interface->text_editor[row][column];
-      if (interface->text_editor[row][column].selected) {
-      make_rect(&interface->window, &interface->text_cursor, (interface->text_editor_panel.rect.x + ((column) * (FONT_SIZE - FONT_SIZE / 2.5))), (interface->text_editor_panel.rect.y + (row* (FONT_SIZE * 1.6))) + 3, (FONT_SIZE - FONT_SIZE / 2.8) /5, (FONT_SIZE * 1.6) - 8, 240, 240, 240);
-      } 
     }
   }
+   make_rect(&interface->window, &interface->text_cursor, (interface->text_editor_panel.rect.x + (interface->active_txt.column * (FONT_SIZE - FONT_SIZE / 2.5))), (interface->text_editor_panel.rect.y + (  interface->active_txt.row * (FONT_SIZE * 1.6))) + 3, (FONT_SIZE - FONT_SIZE / 2.8) /5, (FONT_SIZE * 1.6) - 8, 240, 240, 240);
  
 
 }
@@ -210,12 +210,12 @@ void draw_interface(Interface *interface) {
 }
 
  
-TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column, int selected) {
+TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column) {
   TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
   TextNode* tmp = new_node;
   int box_w = (FONT_SIZE - FONT_SIZE / 2.8);
   int box_h =  (FONT_SIZE * 1.6);
-
+ 
   int x = (interface->text_editor_panel.rect.x + (column * box_w));
   int y = (interface->text_editor_panel.rect.y + (row * box_h));
 
@@ -228,7 +228,6 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
   strcpy(new_node->character, c);
 
   new_node->previous = previous_node;
-  new_node->selected = selected;
 
   make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, box_w, box_h, 43, 43, 39);
   if (strcmp(new_node->character, EMPTY_CELL) == 0) {
