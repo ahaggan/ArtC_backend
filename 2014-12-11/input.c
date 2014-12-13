@@ -141,7 +141,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                             break;
                         }
                         SDL_SetTextInputRect(&interface->text_editor[active.row][active.column - TAB_LENGTH].box.rect);
-                        set_active_text_cell(active.row - 1, active.column - TAB_LENGTH, interface);        
+                        set_active_text_cell(active.row, active.column - TAB_LENGTH, interface);        
                         return text_edited;
                     }
                     
@@ -175,10 +175,12 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                             set_active_text_cell(active.row + 1, 0, interface);
                             return text_edited;
                         }
+                
                         break;     
                     }
                     SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + 1].box.rect); 
                     set_active_text_cell(active.row, active.column + 1, interface);
+                    return text_edited;
 
                 case SDLK_DOWN:   
                     if (bottom_row(active)) {
@@ -242,7 +244,7 @@ int start_column(Coordinates active) {
 }
 
 int end_column(Coordinates active) {
-    if (active.column == EDITOR_ROWS - 1) {
+    if (active.column == EDITOR_COLUMNS - 1) {
         return 1;
     }
     return 0;

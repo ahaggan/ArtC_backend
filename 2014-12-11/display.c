@@ -224,7 +224,6 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
     exit(2);
   }
 
-//this is ridiculous, Daniel
   new_node->text_cell.row = row;
   new_node->text_cell.column = column;
   strcpy(new_node->character, c);
