@@ -4,10 +4,10 @@
 #define WIN_WIDTH 1024    
 #define WIN_HEIGHT 768
 #define MAX_TEXT 1000
-#define FONT_SIZE 20
+#define FONT_SIZE 16
 #define NO_OF_LOOPS 7
-#define EDITOR_COLUMNS 42
-#define EDITOR_ROWS 21
+#define EDITOR_COLUMNS 45
+#define EDITOR_ROWS 26
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
 typedef struct draw{

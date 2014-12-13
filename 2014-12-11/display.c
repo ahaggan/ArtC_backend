@@ -213,8 +213,8 @@ void draw_interface(Interface *interface) {
 TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column) {
   TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
   TextNode* tmp = new_node;
-  int box_w = (FONT_SIZE - FONT_SIZE / 2.8);
-  int box_h =  (FONT_SIZE * 1.6);
+  int box_w = (FONT_SIZE- 6);
+  int box_h =  (FONT_SIZE + 9);
  
   int x = (interface->text_editor_panel.rect.x + (column * box_w));
   int y = (interface->text_editor_panel.rect.y + (row * box_h));
@@ -270,7 +270,8 @@ void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int 
 
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text) {
     SDL_Color textcolour = {r,g,b,255};
-    SDL_Surface* textsurface = TTF_RenderText_Solid(font, text, textcolour);
+
+    SDL_Surface* textsurface = TTF_RenderText_Blended(font, text, textcolour);
     SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
     SDL_RenderCopy(win->renderer, texttexture, NULL, location);
     SDL_DestroyTexture(texttexture);
