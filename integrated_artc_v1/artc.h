@@ -46,8 +46,7 @@ typedef struct text_node {
   //I have a feeling this needs to be a string
   char character[1];
   Area box;
-  int x;
-  int y;
+  Coordinates text_cell;
 } TextNode;
 
 typedef struct interface {

@@ -223,8 +223,10 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
     printf("Cannot Allocate Node\n");
     exit(2);
   }
-  new_node->x = column;
-  new_node->y = row;
+
+//this is ridiculous, Daniel
+  new_node->text_cell.row = column;
+  new_node->text_cell.column = row;
   strcpy(new_node->character, c);
 
   new_node->previous = previous_node;
