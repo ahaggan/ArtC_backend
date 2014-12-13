@@ -2,18 +2,21 @@
 
 int SDL_Events(Interface* interface) {
     SDL_Event event;
-
+    
     int x, y;
 
     SDL_GetMouseState(&x, &y);
-
+  
     while(SDL_PollEvent(&event)) { 
-        
+          
         //need a way of breaking out of these so that not all events are checked
         SDL_Window_Events(event, interface);
-        SDL_Text_Editor_Events(event, interface);
-        //SDL_Text_Editor_Events
+   
+        SDL_Text_Editor_Events(event, interface);   
+        
+ 
         switch (event.type) {
+           
             //user requests quit
             case SDL_QUIT:
                 interface->window.finished = 1;
@@ -30,7 +33,7 @@ int SDL_Events(Interface* interface) {
                 if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
                      y >= interface->gbutton.rect.y && y <= interface->gbutton.rect.y + interface->gbutton.rect.h) {
                      printf("Generate!\n");
-                     return 1;
+                     return generate_clicked;
                 }
 
                 //user clicks on menubar (should be specific challenge button)                
@@ -68,24 +71,26 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
 
 //perhaps pass smarter arguments to this: having to interface-> all the time wastes space 
 //and isn't readable
-int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
-    Coordinates active = interface->active_txt;
-    Coordinates active_next = interface->text_editor[active.row][active.column].next->text_cell;
-    Coordinates active_prev = interface->text_editor[active.row][active.column].previous->text_cell;
 
+//also make functions for each  key: otherwise the switch looks ridiculously messy
+int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
+    
+    Coordinates active = interface->active_txt;
+  
     switch(event.type) {
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:
+            
             //condition too long--make a function
             if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
                 //then move all the text on the row along one!
             }
-
+            
             strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
 
             if (!last_cell(active)) {
                 SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].next->box.rect);
-                set_active_text_cell(active_next.row, active_next.column, interface);
+                set_active_text_cell(interface->text_editor[active.row][active.column].next->text_cell.row, interface->text_editor[active.row][active.column].next->text_cell.column, interface);
                 return text_edited;
             }
         break;
@@ -111,7 +116,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     }
                     
                     SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
-                    set_active_text_cell(active_prev.row, active_prev.column, interface);
+                    set_active_text_cell(interface->text_editor[active.row][active.column].previous->text_cell.row, interface->text_editor[active.row][active.column].previous->text_cell.column, interface);
                     return text_edited;
                 
                 //return takes you to the next line
@@ -257,8 +262,40 @@ int last_cell(Coordinates active) {
     return 0;
 }
 
-
 void set_active_text_cell(int row, int column, Interface* interface) {
     interface->active_txt.row = row;
     interface->active_txt.column = column;
+}
+
+FILE* open_file(char *file_name) {
+    FILE *input_file = fopen(file_name, "r");
+    if (input_file == NULL) {
+        printf("File does not exist.\n");
+        make_file(file_name);
+    }
+    return input_file;
+} 
+
+FILE* make_file(char *file_name) {
+    FILE* new_file = fopen(file_name, "w");
+    if (new_file != NULL) {
+        printf("New file created!\n");
+    }  
+    else {
+        printf("Error: unable to create file!");
+        exit(1);
+    }
+    return new_file;
+}
+
+void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]) {
+    FILE* user_code = fopen("user_code.artc", "w");
+    TextNode* current = &text_editor[0][0];
+    while (current->next != NULL) {
+        if (strcmp(current->character, EMPTY_CELL) != 0) {
+            fputs(current->character, user_code);
+        }
+        current = current->next;
+    }
+    fclose(user_code);
 }

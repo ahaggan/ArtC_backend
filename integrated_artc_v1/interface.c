@@ -4,6 +4,7 @@
 
 int main() {
   Interface interface;
+  
   SDL_Win_Init(&interface.window, "ARTC");
   SDL_TTF_Init();
   TTF_Font *font = SDL_Load_Font("font/FreeMonoBold.ttf", FONT_SIZE);
@@ -29,9 +30,10 @@ int main() {
      update_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
     event_type = SDL_Events(&interface);
     if (event_type == generate_clicked) {
-      clear_area(&interface.window, interface.canvas);
-      parse(interface, fractal);
-      generate_fractal(fractal, interface);
+      write_text_to_file(interface.text_editor);
+      //clear_area(&interface.window, interface.canvas);
+    //  parse(interface, fractal);
+      //generate_fractal(fractal, interface);
     }        
     else if(event_type == text_edited) {
       ;
