@@ -156,7 +156,8 @@ void update_text_editor(int width, int height, Interface* interface) {
       current = &interface->text_editor[row][column];
     }
   }
-   make_rect(&interface->window, &interface->text_cursor, (interface->text_editor_panel.rect.x + (interface->active_txt.column * (FONT_SIZE - FONT_SIZE / 2.5))), (interface->text_editor_panel.rect.y + (  interface->active_txt.row * (FONT_SIZE * 1.6))) + 3, (FONT_SIZE - FONT_SIZE / 2.8) /5, (FONT_SIZE * 1.6) - 8, 240, 240, 240);
+
+   make_rect(&interface->window, &interface->text_cursor, interface->text_editor_panel.rect.x + (interface->active_txt.column * (FONT_SIZE- 6)), interface->text_editor_panel.rect.y + (interface->active_txt.row * (FONT_SIZE + 9.1)), 3, (FONT_SIZE + 4), 240, 240, 240);
  
 
 }
@@ -190,8 +191,8 @@ void draw_interface(Interface *interface) {
   ch1button_h = 40;
 
   textcurs_x = texted_x;
-  textcurs_y = texted_y + FONT_SIZE;
-  textcurs_w = FONT_SIZE;
+  textcurs_y = texted_y + FONT_SIZE / 10;
+  textcurs_w = FONT_SIZE / 10;
   textcurs_h = FONT_SIZE;
 
   //Panels

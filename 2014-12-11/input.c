@@ -74,17 +74,18 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
 
 //also make functions for each  key: otherwise the switch looks ridiculously messy
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
-    
-    Coordinates active = interface->active_txt;
   
+   
+    Coordinates active = interface->active_txt;
+
     switch(event.type) {
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:
-            
-            //condition too long--make a function
+           
             if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
-                //then move all the text on the row along one!
+                handle_overwriting(active, interface);//handle overwriting
             }
+            
             
             strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
 
@@ -108,11 +109,11 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
 
                     //quick and dirty fix for the final space on the grid
                     if (last_cell(active)) {
-                        strcpy(interface->text_editor[active.row][active.column].character, EMPTY_CELL); 
-                        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+                        strcpy(interface->text_editor[active.row][active.column].character, " "); 
+                        strcpy(interface->text_editor[active.row][active.column].previous->character, " ");
                     }
                     else {
-                        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+                        strcpy(interface->text_editor[active.row][active.column].previous->character, " ");
                     }
                     
                     SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
@@ -300,4 +301,36 @@ void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]) {
         current = current->next;
     }
     fclose(user_code);
+}
+
+void handle_overwriting(Coordinates active, Interface* interface) {
+    Coordinates over = active;
+    TextNode* current = &interface->text_editor[active.row][active.column];
+    int col = active.column;
+    char nxt[3];
+    char curr[3];
+    
+    strcpy(curr, current->character);
+    
+    strcpy(nxt, current->next->character);
+
+    strcpy(current->next->character, curr);
+    current = current->next->next;
+
+    while (col <= EDITOR_COLUMNS - 1) {
+        strcpy(curr, nxt);
+        strcpy(nxt, current->character);
+        strcpy(current->character, curr); 
+        current = current->next;
+        col++;
+    }
+    
+    over.row = active.row + 1;
+    over.column = 0;
+
+    if (strcmp(interface->text_editor[active.row][col].character, EMPTY_CELL) != 0) {
+        if (strcmp(interface->text_editor[active.row][col].character, " ") != 0) {
+            handle_overwriting(over, interface);
+        }
+    }
 }

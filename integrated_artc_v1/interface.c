@@ -5,8 +5,8 @@ int main() {
   
   SDL_Win_Init(&interface.window, "ARTC");
   SDL_TTF_Init();
-  TTF_Font *font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
-  interface.font = font;
+  interface.font  = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
+
   draw_interface(&interface); 
   make_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
   int event_type = 0;
