@@ -190,8 +190,8 @@ void draw_interface(Interface *interface) {
   ch1button_h = 40;
 
   textcurs_x = texted_x;
-  textcurs_y = texted_y + FONT_SIZE / 10;
-  textcurs_w = FONT_SIZE / 10;
+  textcurs_y = texted_y + FONT_SIZE;
+  textcurs_w = FONT_SIZE;
   textcurs_h = FONT_SIZE;
 
   //Panels
