@@ -83,7 +83,10 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
         case SDL_TEXTINPUT:
            
             if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
-                handle_overwriting(active, interface);//handle overwriting
+               if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
+            //overwriting irrelevant if bottom_row!
+                    handle_overwriting(active, interface);//handle overwriting
+                }
             }
             
             
@@ -310,13 +313,14 @@ void handle_overwriting(Coordinates active, Interface* interface) {
     char nxt[3];
     char curr[3];
     
+    /*
     strcpy(curr, current->character);
     
     strcpy(nxt, current->next->character);
 
     strcpy(current->next->character, curr);
     current = current->next->next;
-
+    */
     while (col <= EDITOR_COLUMNS - 1) {
         strcpy(curr, nxt);
         strcpy(nxt, current->character);
