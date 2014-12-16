@@ -5,8 +5,8 @@ int main() {
   
   SDL_Win_Init(&interface.window, "ARTC");
   SDL_TTF_Init();
-  interface.font  = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
-
+  interface.font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
+  
   draw_interface(&interface); 
   make_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
   int event_type = 0;
@@ -30,8 +30,8 @@ int main() {
     if (event_type == generate_clicked) {
       write_text_to_file(interface.text_editor);
       //clear_area(&interface.window, interface.canvas);
-    //  parse(interface, fractal);
-      //generate_fractal(fractal, interface);
+      parse(interface, fractal);
+      generate_fractal(fractal, interface);
     }        
     else if(event_type == text_edited) {
       ;

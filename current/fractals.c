@@ -19,7 +19,7 @@ void top(tri *info, Interface interface, Draw *fractal);
 void left(tri *info, Interface interface, Draw *fractal);
 void right(tri *info, Interface interface, Draw *fractal);
 void choose_fractal(Draw *fractal, Interface interface, int limit);
-void generate_fractal(Draw *fractal, Interface interface) 
+void generate_fractal(Draw *fractal[NO_OF_LOOPS], Interface interface) 
 {
     fractal->height = fractal->size;
     if(strcmp(fractal->shape, "triangle") == 0) {

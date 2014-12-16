@@ -58,7 +58,7 @@ int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) 
 	char c = 'f';
     int actit = -1;
 	FILE *fp;
-	if((fp = fopen("instruction.txt", "r")) == NULL)
+	if((fp = fopen("user_code.artc", "r")) == NULL)
 	{
 		fprintf(stderr, "\nCouldn't open file!\n");
 		return NO;

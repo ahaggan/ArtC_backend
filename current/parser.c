@@ -1,6 +1,6 @@
 #include "parser.h"
 
-int parse(Interface interface, Draw **fractal) {
+int parse(Interface interface, Draw *fractal) {
    //test_parser(interface); //Test will create its own fractals and test the functions in this module
 	char input[NO_WORDS][MAX_LENGTH];
 	action actions[FIRST_WORD_SIZE];
@@ -16,8 +16,10 @@ int parse(Interface interface, Draw **fractal) {
 	}*/
 	printf("\nIn main:");
 	printf("\nType: %s", fractal->type);
-	printf("\nColour: %s", fractal->colour);
-    printf("\nColour: %s", fractal->colour);
+    printf("\nColours: ");
+    for(int i=0; i<10; i++) {
+        printf("%s, ", fractal->colour[i]);
+    }
 	printf("\nshape: %s", fractal->shape);
 	
 	return 0;
@@ -25,7 +27,7 @@ int parse(Interface interface, Draw **fractal) {
 
 
 
-void make_default(Interface interface, Draw ***fractal){
+void make_default(Interface interface, Draw *fractal){
     //Call function and check it changes what it should
   printf("\ndefault");
     for(int i=0; i<10; i++) {
@@ -56,7 +58,7 @@ int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) 
 	char c = 'f';
     int actit = -1;
 	FILE *fp;
-	if((fp = fopen("instruction.txt", "r")) == NULL)
+	if((fp = fopen("user_code.artc", "r")) == NULL)
 	{
 		fprintf(stderr, "\nCouldn't open file!\n");
 		return NO;
@@ -91,7 +93,7 @@ printf("|%c|", tmp_char);
 	        return NO;
 	    }
 	    
-        if(tmp_char == ' ' || tmp_char == '\n'){
+	    if(tmp_char == ' ' || tmp_char == '\n'){
           if(tmp_char == ' ') {
 	        i++;
 	        j = 0;
@@ -100,7 +102,7 @@ printf("|%c|", tmp_char);
           }
           if(tmp_char == '\n') {
           }
-	    }   
+	    }
         else if(strcmp(input[0], "colour")==0 && tmp_char - '0' <= 9 && tmp_char - '0' >= 0) {
             *actit = tmp_char - '0';
             printf("actit: %d\n", *actit);
@@ -110,7 +112,7 @@ printf("|%c|", tmp_char);
 	       j++;
 	    }
 	}
-	printf("\nSecond word: %s", input[1]);
+	printf("\nSecond word: '%s'", input[1]);
 	counter++;
 	/*	if(j != -1){
 			printf("\nYou have entered %d instructions, you need 2.\n", j);
@@ -144,9 +146,7 @@ printf("|%c|", tmp_char);
 			return NO;
 		}
 		return YES;
-    }
-    
-    if(counter > 2){	
+    }	
     return NO;
 }
 
@@ -166,6 +166,7 @@ void assign_value(Draw *fractal, action_word i, char *input, int actit){
 	printf("\nIn assign\n");
 	switch(i){
 		case colour:
+			printf("\nFound colour: %s\n", input);
             if(actit==-1) {
     			for(int j=0; j<10; j++) {
                     fractal->colour[j] = (char*)malloc(strlen(input)*sizeof(char));
@@ -186,7 +187,6 @@ void assign_value(Draw *fractal, action_word i, char *input, int actit){
         	fractal->startx -= (size/2);
 	        fractal->starty -= (size/2);
             // In order to centre the image properly.
-//   HAVE NOT GOT TIME TO MAKE WORK PROPERLY RIGHT NOW WILL FIX LATER PROBABLY.
 			break;
 		case shape:
 			fractal->shape = (char*)malloc(strlen(input)*sizeof(char));

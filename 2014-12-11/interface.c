@@ -30,8 +30,8 @@ int main() {
     if (event_type == generate_clicked) {
       write_text_to_file(interface.text_editor);
       //clear_area(&interface.window, interface.canvas);
-    //  parse(interface, fractal);
-      //generate_fractal(fractal, interface);
+      parse(interface, fractal);
+      generate_fractal(fractal, interface);
     }        
     else if(event_type == text_edited) {
       ;
