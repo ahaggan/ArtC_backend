@@ -1,1 +1,1 @@
-shape line;colour green;iterations 7;type tree;                                                                              
+fractal tree {iterations 9;if NOT(iterations < 5):colour = <VARCOL>;     else:colour = <VARCOL>;if (iterations == 3) {shape = circle;if iterations < 5 AND shape == line {    colour blue;
