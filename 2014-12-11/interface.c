@@ -1,12 +1,10 @@
 #include "input.h"
 
-#define FONT_SIZE 20
-
 int main() {
   Interface interface;
   SDL_Win_Init(&interface.window, "ARTC");
   SDL_TTF_Init();
-  TTF_Font *font = SDL_Load_Font("font/FreeMonoBold.ttf", FONT_SIZE);
+  TTF_Font *font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
   interface.font = font;
   draw_interface(&interface); 
   make_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
