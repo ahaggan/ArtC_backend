@@ -26,6 +26,7 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
   
     // Set resolution (size) of renderer to the same as window
     SDL_RenderSetLogicalSize(w->renderer, WIN_WIDTH, WIN_HEIGHT); 
+    SDL_SetWindowMinimumSize(w->win, MIN_WIDTH, MIN_HEIGHT);
 
     //Set screen to white
     SDL_SetRenderDrawColor(w->renderer, 255, 255, 255, 255);
@@ -163,32 +164,65 @@ void update_text_editor(int width, int height, Interface* interface) {
 }
 
 void draw_interface(Interface *interface) {
-  int x, y;
+  int win_width, win_height;
   int menu_x, menu_y, menu_w, menu_h;
   int texted_x, texted_y, texted_w, texted_h;
   int canvas_x, canvas_y, canvas_w, canvas_h;
   int gbutton_x, gbutton_y, gbutton_w, gbutton_h;
-  int ch1button_x, ch1button_y, ch1button_w, ch1button_h;
+  int menu_button_x, menu_button_y, menu_button_w, menu_button_h;
+  int help_button_x, help_button_y, help_button_w, help_button_h;
   int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
 
-  SDL_GetWindowSize(interface->window.win, &x, &y);
+  SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
 
-  menu_x = menu_y = texted_x = gbutton_x = 0;
-  menu_w = x;
-  menu_h = y / MENU_OFFSET;
+  /* Top toolbar/ menu */
+  menu_x = menu_y = 0;
+  menu_w = win_width;
+  menu_w = win_width;
+  menu_h = win_height / MENU_HEIGHT; // 10%
+
+
+  /* Home button */
+  menu_button_x = win_width / HOME_X_SPACE; // 2%
+  menu_button_y = menu_h / MENU_BUTTON_Y; // 25%
+  menu_button_w = win_width / MENU_BUTTON_WIDTH ; // 10%
+  menu_button_h = menu_h / MENU_BUTTON_HEIGHT ; //5 %
+
+  help_button_x = win_width / HELP_X_SPACE;
+  help_button_y = menu_h / MENU_BUTTON_Y;
+  help_button_w = menu_button_w;
+  help_button_h = menu_button_h;
+
+  /* Interface components exclusive to challenge mode: */
+
+  /* Challenges button 
+  _button_x = win_width / _X_SPACE; // 2%
+  _button_y = menu_h / _Y_SPACE; // 25%
+  _button_w = win_width / _WIDTH ; // 10%
+  _button_h = win_height / _HEIGHT ; //5 %  
+
+  Tutorial button 
+  _button_x = win_width / _X_SPACE; // 2%
+  _button_y = menu_h / _Y_SPACE; // 25%
+  _button_w = win_width / _WIDTH ; // 10%
+  _button_h = win_height / _HEIGHT ; //5 %  
+
+  Current Challenge Description
+
+  Next Challenge button
+  */
+
+  texted_x = gbutton_x = 0;
 
   texted_y = canvas_y = menu_h;
-  texted_w = canvas_x = canvas_w = x / 2;
-  texted_h = canvas_h = y - menu_h - 25;
+  texted_w = canvas_x = canvas_w = win_width / 2;
+  texted_h = canvas_h = win_height - menu_h - 25;
 
-  gbutton_y = y - 25;
-  gbutton_w = x / 10;
+  gbutton_y = win_height - 25;
+  gbutton_w = win_width / 10;
   gbutton_h = 25;
 
-  ch1button_x = 5;
-  ch1button_y = 5;
-  ch1button_w = 100;
-  ch1button_h = 40;
+
 
   textcurs_x = texted_x;
   textcurs_y = texted_y + FONT_SIZE / 10;
@@ -196,18 +230,24 @@ void draw_interface(Interface *interface) {
   textcurs_h = FONT_SIZE;
 
   //Panels
-  make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 255, 64, 64);
+  make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 240,240,240);
   make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
 
   //Text Editor
   make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 255, 255, 255);
  
+  //load a different font for the buttons.
+
   //Buttons
   make_rect(&interface->window, &interface->gbutton, gbutton_x, gbutton_y, gbutton_w, gbutton_h, 255, 0, 0);
   make_text(&interface->window, &interface->gbutton.rect, 64, 255, 64, interface->font, "GENERATE!");
 
-  make_rect(&interface->window, &interface->ch1button, ch1button_x, ch1button_y, ch1button_w, ch1button_h, 0, 0, 255);
-  make_text(&interface->window, &interface->ch1button.rect, 192, 192, 255, interface->font, "Challenge 1");
+  make_rect(&interface->window, &interface->menu_button, menu_button_x, menu_button_y, menu_button_w, menu_button_h, 100, 100, 100);
+  make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, interface->button_font, "Menu");
+
+  make_rect(&interface->window, &interface->help_button, help_button_x, help_button_y, help_button_w, help_button_h, 100, 100, 100);
+  make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, interface->button_font, "Help");
+
 }
 
  

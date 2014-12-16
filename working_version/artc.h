@@ -3,8 +3,11 @@
 
 #define WIN_WIDTH 1024    
 #define WIN_HEIGHT 768
+
 #define MAX_TEXT 1000
 #define FONT_SIZE 16
+#define BUTTON_FONT_SIZE 200
+
 #define NO_OF_LOOPS 7
 #define EDITOR_COLUMNS 45
 #define EDITOR_ROWS 26
@@ -58,7 +61,9 @@ typedef struct interface {
   Area text_cursor;
   Area canvas;
   Area gbutton;
-  Area ch1button;
+  Area menu_button;
+  Area help_button;
   TTF_Font *font;
+  TTF_Font *button_font;
   Coordinates active_txt;
 } Interface;

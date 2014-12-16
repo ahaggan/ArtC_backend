@@ -1,9 +1,21 @@
 #include "artc.h"
 #include <math.h>
 
+#define MIN_WIDTH 800
+#define MIN_HEIGHT 600
+
 #define SDL_8BITCOLOUR 256
 #define SDL_DELAY 750
-#define MENU_OFFSET 12
+
+#define MENU_HEIGHT 10
+
+#define MENU_BUTTON_Y 6
+#define MENU_BUTTON_WIDTH 10
+#define MENU_BUTTON_HEIGHT 1.5
+
+#define HOME_X_SPACE 70
+#define HELP_X_SPACE 1.13
+
 #ifndef  M_PI
  #define M_PI  3.14159265358979323846
  #endif  
