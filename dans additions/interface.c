@@ -1,13 +1,12 @@
 #include "input.h"
 
-#define FONT_SIZE 20
-
 int main() {
   Interface interface;
+  
   SDL_Win_Init(&interface.window, "ARTC");
   SDL_TTF_Init();
-  TTF_Font *font = SDL_Load_Font("font/FreeMonoBold.ttf", FONT_SIZE);
-  interface.font = font;
+  interface.font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
+  
   draw_interface(&interface); 
   make_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
   int event_type = 0;
@@ -18,8 +17,8 @@ int main() {
   SDL_SetTextInputRect(&interface.text_editor[0][0].box.rect);
   //Start accepting text input events
   SDL_StartTextInput();
-  Draw fractal;
-
+  Draw *fractal[NO_OF_LOOPS];
+  
   SDL_RenderPresent(interface.window.renderer);
   SDL_UpdateWindowSurface(interface.window.win);
 
@@ -29,12 +28,10 @@ int main() {
      update_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
     event_type = SDL_Events(&interface);
     if (event_type == generate_clicked) {
-
       write_text_to_file(interface.text_editor);
-      clear_area(&interface.window, interface.canvas);
-      parse(interface, &fractal);
-      generate_fractal(&fractal, interface);
-
+      //clear_area(&interface.window, interface.canvas);
+    //  parse(interface, fractal);
+      //generate_fractal(fractal, interface);
     }        
     else if(event_type == text_edited) {
       ;
