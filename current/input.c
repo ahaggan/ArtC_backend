@@ -81,13 +81,15 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
     switch(event.type) {
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:
-           
+           //make a check function: if text_to_be_overwritten { }
+            
             if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
                if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
             //overwriting irrelevant if bottom_row!
-                    handle_overwriting(active, interface);//handle overwriting
+                    handle_overwriting(active, interface, EMPTY_CELL);//handle overwriting
                 }
             }
+            
             
             
             strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
@@ -306,35 +308,40 @@ void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]) {
     fclose(user_code);
 }
 
-void handle_overwriting(Coordinates active, Interface* interface) {
+void handle_overwriting(Coordinates active, Interface* interface, char overflow[3]) {
     Coordinates over = active;
     TextNode* current = &interface->text_editor[active.row][active.column];
     int col = active.column;
-    char nxt[3];
     char curr[3];
-    
-    /*
-    strcpy(curr, current->character);
-    
-    strcpy(nxt, current->next->character);
-
-    strcpy(current->next->character, curr);
-    current = current->next->next;
-    */
-    while (col <= EDITOR_COLUMNS - 1) {
+    char nxt[3];
+     
+    if (strcmp(overflow, EMPTY_CELL) != 0) {
+        strcpy(nxt, current->next->character);
+        strcpy(current->next->character, overflow);
+        strcpy(curr, overflow);
+    }
+    else {
+        strcpy(curr, current->character);
+        strcpy(nxt, current->next->character);
+        strcpy(current->next->character, curr);
+    }
+    current = current->next;
+    while (col < EDITOR_COLUMNS - 1) {
+        col++; 
+        current = current->next;
         strcpy(curr, nxt);
         strcpy(nxt, current->character);
-        strcpy(current->character, curr); 
-        current = current->next;
-        col++;
+        strcpy(current->character, curr);
     }
     
     over.row = active.row + 1;
     over.column = 0;
 
-    if (strcmp(interface->text_editor[active.row][col].character, EMPTY_CELL) != 0) {
-        if (strcmp(interface->text_editor[active.row][col].character, " ") != 0) {
-            handle_overwriting(over, interface);
+    
+    if (strcmp(interface->text_editor[over.row][0].character, EMPTY_CELL) != 0) {
+        if (strcmp(interface->text_editor[over.row][0].character, " ") != 0) {
+
+            handle_overwriting(over, interface, nxt);
         }
     }
 }

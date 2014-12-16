@@ -24,9 +24,12 @@ FILE* open_file(char *file_name);
 FILE* make_file(char *file_name);
 void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]);
 
-void handle_overwriting(Coordinates active, Interface* interface);
+void handle_overwriting(Coordinates active, Interface* interface, char overflow[3]);
 
 typedef enum events{ 
 	generate_clicked = 1,
 	text_edited
 } Events;
+
+
+
