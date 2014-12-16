@@ -9,7 +9,7 @@
 #define BUTTON_FONT_SIZE 200
 
 #define NO_OF_LOOPS 7
-#define EDITOR_COLUMNS 45
+#define EDITOR_COLUMNS 42
 #define EDITOR_ROWS 26
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
@@ -56,12 +56,14 @@ typedef struct text_node {
 typedef struct interface {
   SDL_Win window;
   Area menubar;
+  Area menu_bottom;
   Area text_editor_panel;
   TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
   char composition[MAX_TEXT];
   Area text_cursor;
-  Area canvas;
-  Area gbutton;
+  Area canvas; 
+  Area reset_button;
+  Area generate_button;
   Area menu_button;
   Area help_button;
   TTF_Font *font;

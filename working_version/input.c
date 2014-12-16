@@ -30,18 +30,28 @@ int SDL_Events(Interface* interface) {
             //user clicks somewhere
             case SDL_MOUSEBUTTONDOWN:
                 printf("x:%d y:%d\n", x, y);
-                if(x >= interface->gbutton.rect.x && x <= interface->gbutton.rect.x + interface->gbutton.rect.w &&
-                     y >= interface->gbutton.rect.y && y <= interface->gbutton.rect.y + interface->gbutton.rect.h) {
+                if(x >= interface->generate_button.rect.x && x <= interface->generate_button.rect.x + interface->generate_button.rect.w &&
+                     y >= interface->generate_button.rect.y && y <= interface->generate_button.rect.y + interface->generate_button.rect.h) {
                      printf("Generate!\n");
                      return generate_clicked;
                 }
 
                 //user clicks on menubar (should be specific challenge button)                
-                if (x >= interface->menubar.rect.x && x <= interface->menubar.rect.x + interface->menubar.rect.w &&
-                   y >= interface->menubar.rect.y && y <= interface->menubar.rect.y + interface->menubar.rect.h) {
-                      printf("Challenge accepted.\n\n");
+                if (x >= interface->menu_button.rect.x && x <= interface->menu_button.rect.x + interface->menu_button.rect.w &&
+                   y >= interface->menu_button.rect.y && y <= interface->menu_button.rect.y + interface->menu_button.rect.h) {
+                    printf("Returning to the main menu.\n\n");
+                    break;
                 }
-                break;
+               
+                
+                  //user clicks on menubar (should be specific challenge button)      
+                printf("%d-%d %d-%d\n", interface->help_button.rect.x, interface->help_button.rect.w,  interface->help_button.rect.y, interface->help_button.rect.h);         
+                if (x >= interface->help_button.rect.x && x <= interface->help_button.rect.x + interface->help_button.rect.w &&
+                   y >= interface->help_button.rect.y && y <= interface->help_button.rect.y + interface->help_button.rect.h) {
+                    printf("Help is on the way!   \n\n");     
+                    break;
+                }
+              
         }
     }
     return 0;
@@ -308,6 +318,7 @@ void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]) {
     fclose(user_code);
 }
 
+//broken when overwriting over a new line!
 void handle_overwriting(Coordinates active, Interface* interface, char overflow[3]) {
     Coordinates over = active;
     TextNode* current = &interface->text_editor[active.row][active.column];
@@ -337,11 +348,9 @@ void handle_overwriting(Coordinates active, Interface* interface, char overflow[
     over.row = active.row + 1;
     over.column = 0;
 
+    printf("%s\n", interface->text_editor[over.row][0].character);
     
     if (strcmp(interface->text_editor[over.row][0].character, EMPTY_CELL) != 0) {
-        if (strcmp(interface->text_editor[over.row][0].character, " ") != 0) {
-
-            handle_overwriting(over, interface, nxt);
-        }
+        handle_overwriting(over, interface, nxt);
     }
 }

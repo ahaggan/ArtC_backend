@@ -13,6 +13,10 @@
 #define MENU_BUTTON_WIDTH 10
 #define MENU_BUTTON_HEIGHT 1.5
 
+#define BOTTOM_MENU_HEIGHT 18
+
+#define TEXT_ED_WIDTH 2.435
+
 #define HOME_X_SPACE 70
 #define HELP_X_SPACE 1.13
 

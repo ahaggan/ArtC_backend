@@ -166,10 +166,13 @@ void update_text_editor(int width, int height, Interface* interface) {
 void draw_interface(Interface *interface) {
   int win_width, win_height;
   int menu_x, menu_y, menu_w, menu_h;
+  int menu_bottom_x, menu_bottom_y, menu_bottom_w, menu_bottom_h;
   int texted_x, texted_y, texted_w, texted_h;
   int canvas_x, canvas_y, canvas_w, canvas_h;
-  int gbutton_x, gbutton_y, gbutton_w, gbutton_h;
+  int generate_button_x, generate_button_y, generate_button_w, generate_button_h;
   int menu_button_x, menu_button_y, menu_button_w, menu_button_h;
+  int reset_button_x, reset_button_y, reset_button_w, reset_button_h;
+  
   int help_button_x, help_button_y, help_button_w, help_button_h;
   int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
 
@@ -180,7 +183,6 @@ void draw_interface(Interface *interface) {
   menu_w = win_width;
   menu_w = win_width;
   menu_h = win_height / MENU_HEIGHT; // 10%
-
 
   /* Home button */
   menu_button_x = win_width / HOME_X_SPACE; // 2%
@@ -193,6 +195,26 @@ void draw_interface(Interface *interface) {
   help_button_w = menu_button_w;
   help_button_h = menu_button_h;
 
+  /* Bottom reset/generate toolbar */
+  menu_bottom_x = 0;
+  menu_bottom_w = win_width / TEXT_ED_WIDTH;
+  menu_bottom_h = win_height / BOTTOM_MENU_HEIGHT; // 10%
+  menu_bottom_y = win_height - menu_bottom_h;
+
+  generate_button_x = menu_bottom_w / 2;
+  generate_button_y = menu_bottom_y;
+  generate_button_w = menu_bottom_w / 2;
+  generate_button_h = menu_button_h;
+  
+  reset_button_x = 0;
+  reset_button_y = menu_bottom_y;
+  reset_button_w = menu_bottom_w / 2;
+  reset_button_h = menu_button_h;
+
+  canvas_x = menu_bottom_w;
+  canvas_y = menu_h;
+  canvas_w = win_width - menu_bottom_w;
+  canvas_h = win_height - menu_h;
   /* Interface components exclusive to challenge mode: */
 
   /* Challenges button 
@@ -212,35 +234,34 @@ void draw_interface(Interface *interface) {
   Next Challenge button
   */
 
-  texted_x = gbutton_x = 0;
+  texted_x = 0;
 
-  texted_y = canvas_y = menu_h;
-  texted_w = canvas_x = canvas_w = win_width / 2;
-  texted_h = canvas_h = win_height - menu_h - 25;
-
-  gbutton_y = win_height - 25;
-  gbutton_w = win_width / 10;
-  gbutton_h = 25;
-
-
+  texted_y = menu_h;
+  texted_w = win_width / 2;
+  texted_h = win_height - menu_h - 25;
 
   textcurs_x = texted_x;
   textcurs_y = texted_y + FONT_SIZE / 10;
   textcurs_w = FONT_SIZE / 10;
   textcurs_h = FONT_SIZE;
 
-  //Panels
-  make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 240,240,240);
-  make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
-
   //Text Editor
   make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 255, 255, 255);
+
+  //Panels
+  make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
+  make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 240,240,240);
+  make_rect(&interface->window, &interface->menu_bottom, menu_bottom_x, menu_bottom_y, menu_bottom_w, menu_bottom_h, 240,240,240);
+
  
   //load a different font for the buttons.
 
   //Buttons
-  make_rect(&interface->window, &interface->gbutton, gbutton_x, gbutton_y, gbutton_w, gbutton_h, 255, 0, 0);
-  make_text(&interface->window, &interface->gbutton.rect, 64, 255, 64, interface->font, "GENERATE!");
+  make_rect(&interface->window, &interface->generate_button, generate_button_x, generate_button_y, generate_button_w, generate_button_h, 100, 200, 100);
+  make_text(&interface->window, &interface->generate_button.rect, 0, 0, 0, interface->button_font, "Generate");
+
+  make_rect(&interface->window, &interface->reset_button, reset_button_x, reset_button_y, reset_button_w, reset_button_h, 200, 100, 100);
+  make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, interface->button_font, "Reset");
 
   make_rect(&interface->window, &interface->menu_button, menu_button_x, menu_button_y, menu_button_w, menu_button_h, 100, 100, 100);
   make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, interface->button_font, "Menu");
