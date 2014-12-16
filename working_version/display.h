@@ -36,6 +36,7 @@ typedef struct shape {
     int y;
     int size;
     int height;
+    float rotation;
 } Shape;
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
@@ -57,10 +58,11 @@ void SDL_TTF_Quit(TTF_Font *font);
 void clear_area(SDL_Win *window, Area area);
 
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle, int i);
+void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, int thickness, float angle);
 int input(Interface interface, Draw *fractal);
 
 void generate_fractal(Draw *fractal, Interface interface);
-void make_shape(Shape *shape, int x, int y, int size, int height);
+void make_shape(Shape *shape, int x, int y, int size, int height, float angle);
 void sierpinski(Draw *fractal, Interface interface, int limit);
 void tree(Draw *fractal, Interface interface, int limit);
 void carpet(Draw *fractal, Interface interface, int limit);

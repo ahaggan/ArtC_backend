@@ -1,0 +1,18 @@
+shape line;
+
+size 500;
+
+linethickness 5;
+colour1 brown;
+
+colour2 brown;
+colour3 brown;
+colour4 green;
+colour5 green;
+colour6 green;
+colour7 green;
+move up;
+
+type tree;
+
+iterations 7;

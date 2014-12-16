@@ -5,7 +5,7 @@ int mandeliterate(Draw *fractal, Interface interface, Shape current, int iterati
 void mandelbrot(Draw *fractal, Interface interface, int limit)
 {
   Shape shape;
-  make_shape(&shape, fractal->startx, fractal->starty, fractal->size, fractal->height);
+  make_shape(&shape, fractal->startx, fractal->starty, fractal->size[0], fractal->height[0], 0);
   int iterations = 1;
   int max = 20;
 
@@ -43,7 +43,7 @@ int mandeliterate(Draw *fractal, Interface interface, Shape current, int iterati
             double xnew = xsquared - ysquared + current.size;
             y = (2 * x * y) + current.height;
             x = xnew;
-            make_shape(&shapes[i], x, y, current.size, current.height);
+            make_shape(&shapes[i], x, y, current.size, current.height, 0);
             iterations++;
                }
       newits = mandeliterate(fractal, interface, shapes[i], iterations, limit, max);

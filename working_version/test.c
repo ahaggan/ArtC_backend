@@ -50,10 +50,10 @@ int make_test_default(Interface interface, Draw *fractal){
     if(strcmp(fractal->move, "up") != 0){
         return NO;
     }
-	if(fractal->size != 10){
+	if(fractal->size[0] != 10){
 	    return NO;
 	}
-	if(strcmp(fractal->shape, "square") != 0){
+	if(strcmp(fractal->shape[0], "square") != 0){
 	    return NO;
 	}
 	if(fractal->startx != interface.canvas.rect.x + (interface.canvas.rect.w/2) - size){
@@ -68,7 +68,7 @@ int make_test_default(Interface interface, Draw *fractal){
 	if(fractal->endy != WIN_HEIGHT/2 + 10){
 	    return NO;
 	}
-	if(strcmp(fractal->type, "tree") != 0){
+	if(strcmp(fractal->type[0], "tree") != 0){
 	    return NO;
 	}
     //strdup(fractal->type, "triangle");

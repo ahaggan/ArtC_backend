@@ -6,7 +6,7 @@ void star(Draw *fractal, Interface interface, int limit)
 {
   Shape centre;
   int points = 6;
-  make_shape(&centre, fractal->startx, fractal->starty, fractal->size/2, fractal->height/2);
+  make_shape(&centre, fractal->startx, fractal->starty, fractal->size[0]/2, fractal->height[0]/2, 0);
   int iterations = 1;
 
   printf("Star Limit: %d\n", limit);
@@ -36,7 +36,7 @@ int stariterate(Draw *fractal, Interface interface, Shape current, int iteration
     newangle = (i*2.0*M_PI)/points;
     x = current.x + (current.size*sin(newangle)/sqrt(2));
     y = current.y - (current.size*cos(newangle)/sqrt(2));
-    make_shape(&shapes[i], x, y, current.size/points, current.height/points);
+    make_shape(&shapes[i], x, y, current.size/points, current.height/points, newangle);
     newits = stariterate(fractal, interface, shapes[i], iterations, limit, points, newangle);
   }
   return newits;

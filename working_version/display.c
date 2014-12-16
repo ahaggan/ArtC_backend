@@ -319,11 +319,12 @@ void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *
 }
 
 
-void make_shape(Shape *shape, int x, int y, int size, int height) {
+void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
     shape->x = x;
     shape->y = y;
     shape->size = size;
     shape->height = height;
+    shape->rotation = angle;
 }
 
 void print_composition(TextNode* start) {

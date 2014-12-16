@@ -4,7 +4,7 @@ int sierpinskiiterate(Draw *fractal, Interface interface, Shape shape, int itera
 
 void sierpinski(Draw *fractal, Interface interface, int limit) {
     Shape shape;
-    make_shape(&shape, fractal->startx, fractal->starty, fractal->size, fractal->height);
+    make_shape(&shape, fractal->startx, fractal->starty, fractal->size[0], fractal->height[0], 0);
 
     int iterations = 1; //One iteration is just the shape.
 
@@ -22,7 +22,7 @@ void sierpinski(Draw *fractal, Interface interface, int limit) {
 int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, char c) {
     //If the fractal shapes reach a size smaller than 2 pixels, or if we reach the desired no. of iterations
     if (current.size < 2 || iterations == limit) {
-        float angle;
+/*        float angle;
         switch (c) {
             case 't': angle = 0;
                 break;
@@ -30,15 +30,15 @@ int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int ite
                 break;
             case 'r': angle = 2.0*M_PI/3.0;
                 break;
-        }
-        draw_sdl(interface, fractal, current.x, current.y, current.size, angle, iterations);
+        }*/
+        draw_sdl(interface, fractal, current.x, current.y, current.size, current.rotation, iterations);
         return iterations;
     }
 
     Shape top, left, right;
-    make_shape(&top, current.x, current.y - (current.height / 4), current.size / 2, current.height / 2);
-    make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2);
-    make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2);
+    make_shape(&top, current.x, current.y - (current.height / 4), current.size / 2, current.height / 2, 0);
+    make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, -2.0*M_PI/3.0);
+    make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, 2.0*M_PI/3.0);
 
     iterations++;
 

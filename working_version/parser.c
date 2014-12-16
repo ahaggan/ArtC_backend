@@ -15,13 +15,18 @@ int parse(Interface interface, Draw *fractal) {
         Draw_sdl(&fractal, sw, interface);
 	}*/
 	printf("\nIn main:");
-	printf("\nType: %s", fractal->type);
+    printf("\nTypes: ");
+    for(int i=0; i<10; i++) {
+        printf("%s, ", fractal->type[i]);
+    }
     printf("\nColours: ");
     for(int i=0; i<10; i++) {
         printf("%s, ", fractal->colour[i]);
     }
-	printf("\nshape: %s", fractal->shape);
-	
+	printf("\nShapes: ");
+    for(int i=0; i<10; i++) {
+        printf("%s, ", fractal->shape[i]);
+    }	
 	return 0;
 }
 
@@ -30,24 +35,23 @@ int parse(Interface interface, Draw *fractal) {
 void make_default(Interface interface, Draw *fractal){
     //Call function and check it changes what it should
   printf("\ndefault");
+    fractal->iterations = 1;
     for(int i=0; i<10; i++) {
         fractal->colour[i] = (char*)malloc(4*sizeof(char));
         strcpy(fractal->colour[i], "red"); 
+	    fractal->size[i] = 100;
+    	fractal->shape[i] = (char*)malloc(7*sizeof(char));
+    	strcpy(fractal->shape[i], "square");
+    	fractal->type[i] = (char*)malloc(9*sizeof(char));
+    	strcpy(fractal->type[i], "tree");
+        fractal->linethickness[i] = 1;
     }
-	fractal->move = (char*)malloc(3*sizeof(char));
-	strcpy(fractal->move, "up");
-	fractal->size = 10;
-	fractal->shape = (char*)malloc(7*sizeof(char));
-	strcpy(fractal->shape, "square");
 	fractal->startx = interface.canvas.rect.x + (interface.canvas.rect.w/2) - size;
 	fractal->starty = interface.canvas.rect.y + (interface.canvas.rect.h/2) - size;
 	fractal->endx = WIN_WIDTH/2 + 10;
 	fractal->endy = WIN_HEIGHT/2 + 10; 
-    //strdup(fractal->type, "triangle");
-	fractal->type = (char*)malloc(9*sizeof(char));
-	strcpy(fractal->type, "tree");
-	printf("\nType: %s", fractal->type);
-    fractal->iterations = 1;
+	fractal->move = (char*)malloc(3*sizeof(char));
+	strcpy(fractal->move, "up");
 }
 
 int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) {
@@ -58,7 +62,7 @@ int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) 
 	char c = 'f';
     int actit = -1;
 	FILE *fp;
-	if((fp = fopen("user_code.artc", "r")) == NULL)
+	if((fp = fopen("instruction.txt", "r")) == NULL)
 	{
 		fprintf(stderr, "\nCouldn't open file!\n");
 		return NO;
@@ -93,17 +97,18 @@ printf("|%c|", tmp_char);
 	        return NO;
 	    }
 	    
-	    if(tmp_char == ' ' || tmp_char == '\n'){
-          if(tmp_char == ' ') {
+	    if(tmp_char == ' ') {
 	        i++;
 	        j = 0;
 	        counter++;
 	        printf("\nFirst word: '%s'", input[0]);
-          }
-          if(tmp_char == '\n') {
-          }
 	    }
-        else if(strcmp(input[0], "colour")==0 && tmp_char - '0' <= 9 && tmp_char - '0' >= 0) {
+        else if((strcmp(input[0], "colour")==0 ||
+                strcmp(input[0], "type")==0 ||
+                strcmp(input[0], "shape")==0 ||
+                strcmp(input[0], "size")==0 ||
+                strcmp(input[0], "height")==0) &&
+                tmp_char - '0' <= 9 && tmp_char - '0' >= 0) {
             *actit = tmp_char - '0';
             printf("actit: %d\n", *actit);
         }
@@ -164,9 +169,11 @@ void update_values(Draw *fractal, char input[NO_WORDS][MAX_LENGTH], int actit){
 
 void assign_value(Draw *fractal, action_word i, char *input, int actit){
 	printf("\nIn assign\n");
-	switch(i){
+	switch(i) {
+        case iterations:
+            fractal->iterations = atoi(input);
+            break;
 		case colour:
-			printf("\nFound colour: %s\n", input);
             if(actit==-1) {
     			for(int j=0; j<10; j++) {
                     fractal->colour[j] = (char*)malloc(strlen(input)*sizeof(char));
@@ -178,19 +185,52 @@ void assign_value(Draw *fractal, action_word i, char *input, int actit){
 	    		strcpy(fractal->colour[actit-1], input);
             }
 			break;
-		case move:
-			fractal->move = (char*)malloc(strlen(input)*sizeof(char));
-			strcpy(fractal->move, input);
-			break;
 		case size:
-			fractal->size = atoi(input);
-        	fractal->startx -= (size/2);
-	        fractal->starty -= (size/2);
+            if(actit==-1) {
+    			for(int j=0; j<10; j++) {
+			        fractal->size[j] = atoi(input);
+                }
+                fractal->startx -= (fractal->size[0]/2);
+    	        fractal->starty -= (fractal->size[0]/2);
             // In order to centre the image properly.
+            }
+            else {
+                fractal->size[actit-1] = atoi(input);
+            }
 			break;
+		case linethickness:
+            if(actit==-1) {
+    			for(int j=0; j<10; j++) {
+			        fractal->linethickness[j] = atoi(input);
+                }
+            }
+            else {
+                fractal->linethickness[actit-1] = atoi(input);
+            }
+			break;  
 		case shape:
-			fractal->shape = (char*)malloc(strlen(input)*sizeof(char));
-			strcpy(fractal->shape, input);
+            if(actit==-1) {
+    			for(int j=0; j<10; j++) {
+			        fractal->shape[j] = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(fractal->shape[j], input);
+                }
+            }
+            else {
+                fractal->shape[actit-1] = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(fractal->shape[actit-1], input);
+            }
+			break;  
+		case type:
+            if(actit==-1) {
+    			for(int j=0; j<10; j++) {
+        		    fractal->type[j] = (char*)malloc(strlen(input)*sizeof(char));
+			        strcpy(fractal->type[j], input);
+                }
+            }
+            else {
+                fractal->type[actit-1] = (char*)malloc(strlen(input)*sizeof(char));
+			        strcpy(fractal->type[actit-1], input);
+            }
 			break;
 		case startx:
 		    fractal->startx = atoi(input);
@@ -203,15 +243,11 @@ void assign_value(Draw *fractal, action_word i, char *input, int actit){
 		    break; 
 		case endy:
 		    fractal->endy = atoi(input);
-		    break;  
-		case type:
-		    printf("\nIn case type");
-		    fractal->type = (char*)malloc(strlen(input)*sizeof(char));
-			strcpy(fractal->type, input);
-			break;		
-        case iterations:
-            fractal->iterations = atoi(input);
-            break;
+		    break;
+		case move:
+			fractal->move = (char*)malloc(strlen(input)*sizeof(char));
+			strcpy(fractal->move, input);
+			break;
 	}
 	printf("\nEnd assign\n");
 }

@@ -14,17 +14,18 @@
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
 typedef struct draw{
+  int iterations;
+  char* type[10];
   char* colour[10];
-  char* move;
-  int size;
-  char* shape;
-  int height;
+  int size[10];
+  int linethickness[10];
+  char* shape[10];
+  int height[10];
   int startx;
   int starty;
   int endx;
   int endy;
-  char* type;
-  int iterations;
+  char* move;
 } Draw;
 
 typedef struct area {
