@@ -1,14 +1,22 @@
 #include "input.h"
 
+
+//rename to interface(int interface_type (challenge, canvas))
 int main() {
+  clock_t start_time, end_time;
   Interface interface;
   SDL_Win_Init(&interface.window, "ARTC");
   SDL_TTF_Init();
   interface.font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
   interface.button_font = SDL_Load_Font("font/Mastoc.ttf", BUTTON_FONT_SIZE);
-  clock_t start_time, end_time;
+  SDL_GetWindowSize(interface.window.win, &interface.editor_columns , &interface.editor_rows);
+  interface.editor_columns /= 24;
+  interface.editor_rows /= 29.5;
+  printf("%d %d\n", interface.editor_columns, interface.editor_rows);
   draw_interface(&interface); 
-  make_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
+
+
+  make_text_editor(interface.editor_columns, interface.editor_rows, &interface);
   int event_type = 0;
    
   //possibly dynamically set the font size depending on the window size
@@ -25,7 +33,7 @@ int main() {
   while(!interface.window.finished) {
    
     draw_interface(&interface); //-stops flickering on Mac, but the fractal image disappears.
-    update_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
+    update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
    
     event_type = SDL_Events(&interface);
     if (event_type == generate_clicked) {
@@ -36,17 +44,16 @@ int main() {
     
       for (int i=1; i<=fractal.iterations; i++) {
         start_time = end_time = clock();
+        
         generate_fractal(&fractal, interface, i);
-        while((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.2) {
+        
+        while((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.4 && !interface.window.finished) {
           SDL_Events(&interface);
-          update_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
+          update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
           SDL_RenderPresent(interface.window.renderer);
           SDL_UpdateWindowSurface(interface.window.win);
+         
           end_time = clock();
-          if ((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.2) {
-            printf("%lf\n", (double)(end_time - start_time)/CLOCKS_PER_SEC);
-          }
-          
         } 
       }  
     }

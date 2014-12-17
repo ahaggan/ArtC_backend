@@ -77,6 +77,11 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
             // Set resolution (size) of renderer to the same as window
             SDL_RenderSetLogicalSize(interface->window.renderer, win_width, win_height); 
             draw_interface(interface);
+            SDL_GetWindowSize(interface->window.win, &interface->editor_columns , &interface->editor_rows);
+            interface->editor_columns /= 24;
+            interface->editor_rows /= 29.5;
+            
+             make_text_editor(interface->editor_columns, interface->editor_rows, interface);
             SDL_RenderPresent(interface->window.renderer);
             break;
         //exposed means that the window was obscured in some way, and now is not obscured.

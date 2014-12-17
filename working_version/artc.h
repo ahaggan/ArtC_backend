@@ -9,8 +9,9 @@
 #define BUTTON_FONT_SIZE 200
 
 #define NO_OF_LOOPS 7
-#define EDITOR_COLUMNS 42
-#define EDITOR_ROWS 26
+
+#define EDITOR_COLUMNS 100
+#define EDITOR_ROWS 100
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
 typedef struct draw{
@@ -69,4 +70,6 @@ typedef struct interface {
   TTF_Font *font;
   TTF_Font *button_font;
   Coordinates active_txt;
+  int editor_rows;
+  int editor_columns;
 } Interface;
