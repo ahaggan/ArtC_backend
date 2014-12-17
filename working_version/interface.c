@@ -6,7 +6,7 @@ int main() {
   SDL_TTF_Init();
   interface.font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
   interface.button_font = SDL_Load_Font("font/Mastoc.ttf", BUTTON_FONT_SIZE);
-
+  SDL_Event event;
   draw_interface(&interface); 
   make_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
   int event_type = 0;
@@ -25,8 +25,10 @@ int main() {
   while(!interface.window.finished) {
    
     draw_interface(&interface); //-stops flickering on Mac, but the fractal image disappears.
-     update_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
-    event_type = SDL_Events(&interface);
+    update_text_editor(EDITOR_COLUMNS, EDITOR_ROWS, &interface);
+    if (SDL_WaitEvent(&event)) {/* execution suspends here while waiting on an event */  
+      event_type = SDL_Events(&interface);
+    }
     if (event_type == generate_clicked) {
 
       write_text_to_file(interface.text_editor);

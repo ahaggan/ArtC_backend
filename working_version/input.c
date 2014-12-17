@@ -7,6 +7,7 @@ int SDL_Events(Interface* interface) {
 
     SDL_GetMouseState(&x, &y);
   
+    
     while(SDL_PollEvent(&event)) { 
           
         //need a way of breaking out of these so that not all events are checked
@@ -34,6 +35,13 @@ int SDL_Events(Interface* interface) {
                      y >= interface->generate_button.rect.y && y <= interface->generate_button.rect.y + interface->generate_button.rect.h) {
                      printf("Generate!\n");
                      return generate_clicked;
+                    break;
+                }
+
+                if(x >= interface->reset_button.rect.x && x <= interface->reset_button.rect.x + interface->reset_button.rect.w &&
+                     y >= interface->reset_button.rect.y && y <= interface->reset_button.rect.y + interface->reset_button.rect.h) {
+                     printf("Reset the text!\n");
+                     break;
                 }
 
                 //user clicks on menubar (should be specific challenge button)                
@@ -92,15 +100,12 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:
            //make a check function: if text_to_be_overwritten { }
-            
             if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
                if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
             //overwriting irrelevant if bottom_row!
                     handle_overwriting(active, interface, EMPTY_CELL);//handle overwriting
                 }
             }
-            
-            
             
             strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
 
@@ -109,15 +114,16 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 set_active_text_cell(interface->text_editor[active.row][active.column].next->text_cell.row, interface->text_editor[active.row][active.column].next->text_cell.column, interface);
                 return text_edited;
             }
-        break;
-
+        
         //user presses a key
         case SDL_KEYDOWN:
+            
             //based on the key pressed...
             switch (event.key.keysym.sym) {
 
                 //backspace deletes the previous character
                 case SDLK_BACKSPACE:
+                     
                     if (first_cell(active)) {
                         break;
                     }
@@ -330,6 +336,7 @@ void handle_overwriting(Coordinates active, Interface* interface, char overflow[
         strcpy(nxt, current->next->character);
         strcpy(current->next->character, overflow);
         strcpy(curr, overflow);
+    
     }
     else {
         strcpy(curr, current->character);

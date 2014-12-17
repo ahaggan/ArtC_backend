@@ -266,7 +266,7 @@ void draw_interface(Interface *interface) {
   make_rect(&interface->window, &interface->menu_button, menu_button_x, menu_button_y, menu_button_w, menu_button_h, 100, 100, 100);
   make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, interface->button_font, "Menu");
 
-  make_rect(&interface->window, &interface->help_button, help_button_x, help_button_y, help_button_w, help_button_h, 100, 100, 100);
+  make_rect(&interface->window, &interface->help_button, help_button_x, help_button_y, help_button_w, help_button_h, 200, 200, 100);
   make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, interface->button_font, "Help");
 
 }
@@ -332,7 +332,6 @@ void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int 
 
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text) {
     SDL_Color textcolour = {r,g,b,255};
-
     SDL_Surface* textsurface = TTF_RenderText_Blended(font, text, textcolour);
     SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
     SDL_RenderCopy(win->renderer, texttexture, NULL, location);

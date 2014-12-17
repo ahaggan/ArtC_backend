@@ -11,8 +11,6 @@ colour4 green;
 colour5 green;
 colour6 green;
 colour7 green;
-move up;
 
 type tree;
-
-iterations 7;
+iterations 9;
