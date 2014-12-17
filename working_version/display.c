@@ -128,10 +128,13 @@ void make_text_editor(int width, int height, Interface* interface) {
         interface->text_editor[row][column].next = NULL;
       }
       current = &interface->text_editor[row][column];
+        printf("%d %d\n", row, column);
     }
+  
   }
   interface->active_txt.row = 0;
   interface->active_txt.column = 0;
+   
 }
 
 void update_text_editor(int width, int height, Interface* interface) {
@@ -268,7 +271,6 @@ void draw_interface(Interface *interface) {
 
   make_rect(&interface->window, &interface->help_button, help_button_x, help_button_y, help_button_w, help_button_h, 200, 200, 100);
   make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, interface->button_font, "Help");
-
 }
 
  

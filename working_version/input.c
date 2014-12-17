@@ -106,20 +106,22 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:
            //make a check function: if text_to_be_overwritten { }
-            if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
-               if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
-            //overwriting irrelevant if bottom_row!
-                    handle_overwriting(active, interface, EMPTY_CELL);//handle overwriting
+            if (!last_cell(active, *interface)) {
+                if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
+                   if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
+                //overwriting irrelevant if bottom_row!
+                        handle_overwriting(active, interface, EMPTY_CELL);//handle overwriting
+                    }
                 }
             }
-            
             strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
             
-            if (!last_cell(active)) {
+            if (!last_cell(active, *interface)) {
                 SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].next->box.rect);
                 set_active_text_cell(interface->text_editor[active.row][active.column].next->text_cell.row, interface->text_editor[active.row][active.column].next->text_cell.column, interface);
                 return text_edited;
             }
+            return text_edited;
         
         //user presses a key
         case SDL_KEYDOWN:
@@ -135,7 +137,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     }
 
                     //quick and dirty fix for the final space on the grid
-                    if (last_cell(active)) {
+                    if (last_cell(active, *interface)) {
                         strcpy(interface->text_editor[active.row][active.column].character, " "); 
                         strcpy(interface->text_editor[active.row][active.column].previous->character, " ");
                     }
@@ -149,7 +151,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 
                 //return takes you to the next line
                 case SDLK_RETURN:          
-                    if (bottom_row(active)) {
+                    if (bottom_row(active, *interface)) {
                         break;
                     }
                     //move the cursor to the next line
@@ -162,8 +164,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     if (SDL_GetModState() & KMOD_SHIFT) {
                         if (active.column <= 2) {
                             if (!top_row(active)) {
-                                SDL_SetTextInputRect(&interface->text_editor[active.row - 1][EDITOR_COLUMNS - 1].box.rect);
-                                set_active_text_cell(active.row - 1, EDITOR_COLUMNS - 1, interface);
+                                SDL_SetTextInputRect(&interface->text_editor[active.row - 1][interface->editor_columns - 1].box.rect);
+                                set_active_text_cell(active.row - 1, interface->editor_columns - 1, interface);
                                 return text_edited;
                             } 
                             break;
@@ -174,8 +176,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     }
                     
                     else {
-                        if (active.column  >= EDITOR_COLUMNS - TAB_LENGTH) {
-                            if (!bottom_row(active)) {
+                        if (active.column  >= interface->editor_columns - TAB_LENGTH) {
+                            if (!bottom_row(active, *interface)) {
                                 SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
                                 set_active_text_cell(active.row + 1, 0, interface);
                                 return text_edited;
@@ -197,8 +199,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
 
                 case SDLK_RIGHT:   
 
-                    if (end_column(active)) {
-                        if (!bottom_row(active)) {
+                    if (end_column(active, *interface)) {
+                        if (!bottom_row(active, *interface)) {
                             SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
                             set_active_text_cell(active.row + 1, 0, interface);
                             return text_edited;
@@ -211,7 +213,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     return text_edited;
 
                 case SDLK_DOWN:   
-                    if (bottom_row(active)) {
+                    if (bottom_row(active, *interface)) {
                         return text_edited;
                     }
                     SDL_SetTextInputRect(&interface->text_editor[active.row + 1][active.column].box.rect);
@@ -222,8 +224,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
 
                     if (start_column(active)) {
                         if (!top_row(active)) {
-                            SDL_SetTextInputRect(&interface->text_editor[active.row - 1][EDITOR_COLUMNS - 1].box.rect);
-                            set_active_text_cell(active.row - 1, EDITOR_COLUMNS - 1, interface);
+                            SDL_SetTextInputRect(&interface->text_editor[active.row - 1][interface->editor_columns - 1].box.rect);
+                            set_active_text_cell(active.row - 1, interface->editor_columns - 1, interface);
                             return text_edited;
                         }
                         break;
@@ -257,8 +259,8 @@ int top_row(Coordinates active) {
     return 0;
 }
 
-int bottom_row(Coordinates active) {
-    if (active.row == EDITOR_ROWS - 1) {
+int bottom_row(Coordinates active, Interface interface) {
+    if (active.row == interface.editor_rows - 1) {
         return 1;
     }
     return 0;
@@ -271,8 +273,8 @@ int start_column(Coordinates active) {
     return 0;
 }
 
-int end_column(Coordinates active) {
-    if (active.column == EDITOR_COLUMNS - 1) {
+int end_column(Coordinates active, Interface interface) {
+    if (active.column == interface.editor_columns - 1) {
         return 1;
     }
     return 0;
@@ -285,8 +287,9 @@ int first_cell(Coordinates active) {
     return 0;
 }
 
-int last_cell(Coordinates active) {
-    if (bottom_row(active) && end_column(active)){
+int last_cell(Coordinates active, Interface interface) {
+    if (bottom_row(active, interface) && end_column(active, interface)){
+        printf("well?\n");
         return 1;
     }
     return 0;
@@ -350,7 +353,7 @@ void handle_overwriting(Coordinates active, Interface* interface, char overflow[
         strcpy(current->next->character, curr);
     }
     current = current->next;
-    while (col < EDITOR_COLUMNS - 1) {
+    while (col < interface->editor_columns - 1) {
         col++; 
         current = current->next;
         strcpy(curr, nxt);
