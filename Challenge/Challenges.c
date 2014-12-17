@@ -16,38 +16,32 @@ run{
 fractal tree {
 	iterations 10;
 	shape line;
-	colour red;
-    if iterations 5 
-	then {
-		colour blue;
-	    }
-    }
+   if iterations < 5:
+		colour brown;
+	else:
+		colour green;
 }
 
-//Challenge 1: Change the colour of the fractal after 3 iterations
+//Challenge 1: Change the colour variables.
 run{
 fractal tree {
 	iterations 10;
 	shape line;
-	colour red;
-    if iterations 3
-	then {
-		colour <VARCOL>;
-	    }
-    }
+   if iterations < 5:
+		colour <VARCOL>; // not brown
+	else:
+		colour <VARCOL>; // not green
 }
 
 //Challenge 2: Change the total number of iterations and the type of fractal.
 run{
-fractal <VARFRAC> {
+fractal tree {
 	iterations <VARNUM>;
 	shape line;
-	colour red;
-    if iterations 5
-	then {
-		colour <VARCOL>;
-	    }
-    }
+   if iterations < 5:
+		colour <VARCOL>; // not brown
+	else:
+		colour <VARCOL>; // not green
 }
 
 //Challenge 3: Change shape after 4 iterations and the colour after 6 iterations.

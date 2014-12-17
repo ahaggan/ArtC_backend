@@ -185,23 +185,23 @@ void draw_interface(Interface *interface) {
   menu_x = menu_y = 0;
   menu_w = win_width;
   menu_w = win_width;
-  menu_h = win_height / MENU_HEIGHT; // 10%
+  menu_h = win_height / TOOLBAR_HEIGHT; // 10%
 
   /* Home button */
   menu_button_x = win_width / HOME_X_SPACE; // 2%
-  menu_button_y = menu_h / MENU_BUTTON_Y; // 25%
-  menu_button_w = win_width / MENU_BUTTON_WIDTH ; // 10%
-  menu_button_h = menu_h / MENU_BUTTON_HEIGHT ; //5 %
+  menu_button_y = menu_h / TOOLBAR_BUTTON_Y; // 25%
+  menu_button_w = win_width / TOOLBAR_BUTTON_WIDTH ; // 10%
+  menu_button_h = menu_h / TOOLBAR_BUTTON_HEIGHT ; //5 %
 
   help_button_x = win_width / HELP_X_SPACE;
-  help_button_y = menu_h / MENU_BUTTON_Y;
+  help_button_y = menu_h / TOOLBAR_BUTTON_Y;
   help_button_w = menu_button_w;
   help_button_h = menu_button_h;
 
   /* Bottom reset/generate toolbar */
   menu_bottom_x = 0;
   menu_bottom_w = win_width / TEXT_ED_WIDTH;
-  menu_bottom_h = win_height / BOTTOM_MENU_HEIGHT; // 10%
+  menu_bottom_h = win_height / BOTTOM_TOOLBAR_HEIGHT; // 10%
   menu_bottom_y = win_height - menu_bottom_h;
 
   generate_button_x = menu_bottom_w / 2;
@@ -358,4 +358,59 @@ void print_composition(TextNode* start) {
   }
   printf("%s\n", str);
 }
-//Note for the future: if you want to use png images (like an artc logo) look here http://headerphile.com/sdl2/sdl-2-part-7-using-png-files/
+
+void draw_main_menu(Main_Menu *main_menu) {
+  int win_width, win_height;
+  int background_x, background_y, background_w, background_h;
+  int logo_x, logo_y, logo_w, logo_h;
+  int canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h;
+  int challenges_button_x, challenges_button_y, challenges_button_w, challenges_button_h;
+  int options_button_x, options_button_y, options_button_w, options_button_h;
+  int quit_button_x, quit_button_y, quit_button_w, quit_button_h;
+
+  SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
+
+  background_x = background_y = 0;
+  background_w = win_width;
+  background_h = win_height;
+  make_rect(&main_menu->window, &main_menu->background, background_x, background_y, background_w, background_h, 200, 200, 200);
+
+  
+  logo_w = win_width / LOGO_WIDTH;
+  logo_x = win_width / LEFT_MARGIN;
+  logo_h = win_height / LOGO_HEIGHT;
+  logo_y = win_height / TOP_MARGIN;
+  make_rect(&main_menu->window, &main_menu->logo, logo_x, logo_y, logo_w, logo_h, 220, 100, 100);
+  make_text(&main_menu->window, &main_menu->logo.rect, 245, 245, 245, main_menu->button_font, "Art-C");
+
+  canvas_button_w = win_width / MENU_BUTTON_WIDTH;
+  canvas_button_x = win_width / LEFT_MARGIN;
+  canvas_button_h = win_height / MENU_BUTTON_HEIGHT;
+  canvas_button_y = (logo_y + logo_h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&main_menu->window, &main_menu->canvas_button, canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h, 160, 100, 100);
+  make_text(&main_menu->window, &main_menu->canvas_button.rect, 245, 245, 245, main_menu->button_font, "Canvas");
+
+  challenges_button_w = win_width / MENU_BUTTON_WIDTH;
+  challenges_button_x = win_width / LEFT_MARGIN;
+  challenges_button_h = win_height / MENU_BUTTON_HEIGHT;
+  challenges_button_y = (canvas_button_y + canvas_button_h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&main_menu->window, &main_menu->challenges_button, challenges_button_x, challenges_button_y, challenges_button_w, challenges_button_h, 160, 100, 100);
+  make_text(&main_menu->window, &main_menu->challenges_button.rect, 245, 245, 245, main_menu->button_font, "Challenges");
+
+  options_button_w = win_width / MENU_BUTTON_WIDTH;
+  options_button_x = win_width / LEFT_MARGIN;
+  options_button_h = win_height / MENU_BUTTON_HEIGHT;
+  options_button_y = (challenges_button_y + challenges_button_h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&main_menu->window, &main_menu->options_button, options_button_x, options_button_y, options_button_w, options_button_h, 160, 100, 100);
+  make_text(&main_menu->window, &main_menu->options_button.rect, 245, 245, 245, main_menu->button_font, "Options");
+
+  quit_button_w = win_width / MENU_BUTTON_WIDTH;
+  quit_button_x = win_width / LEFT_MARGIN;
+  quit_button_h = win_height / MENU_BUTTON_HEIGHT;
+  quit_button_y = (options_button_y + options_button_h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&main_menu->window, &main_menu->quit_button, quit_button_x, quit_button_y, quit_button_w, quit_button_h, 100, 90, 90);
+  make_text(&main_menu->window, &main_menu->quit_button.rect, 245, 245, 245, main_menu->button_font, "Quit");
+}
+
+
+

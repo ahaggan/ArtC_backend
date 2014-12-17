@@ -2,13 +2,14 @@
 
 
 //rename to interface(int interface_type (challenge, canvas))
-int main() {
+int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font) {
+  int state = 0;
   clock_t start_time, end_time;
   Interface interface;
-  SDL_Win_Init(&interface.window, "ARTC");
-  SDL_TTF_Init();
-  interface.font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
-  interface.button_font = SDL_Load_Font("font/Mastoc.ttf", BUTTON_FONT_SIZE);
+  interface.window = *window;
+  SDL_RenderClear(interface.window.renderer);
+  interface.font = font;
+  interface.button_font = button_font;
   SDL_GetWindowSize(interface.window.win, &interface.editor_columns , &interface.editor_rows);
   interface.editor_columns /= 24;
   interface.editor_rows /= 29.5;
@@ -30,12 +31,12 @@ int main() {
   SDL_RenderPresent(interface.window.renderer);
   SDL_UpdateWindowSurface(interface.window.win);
 
-  while(!interface.window.finished) {
+  while(!state) {
    
     draw_interface(&interface); //-stops flickering on Mac, but the fractal image disappears.
     update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
    
-    event_type = SDL_Events(&interface);
+    event_type = Interface_Events(&interface);
     if (event_type == generate_clicked) {
 
       write_text_to_file(interface.text_editor);
@@ -48,7 +49,7 @@ int main() {
         generate_fractal(&fractal, interface, i);
         
         while((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.4 && !interface.window.finished) {
-          SDL_Events(&interface);
+          Interface_Events(&interface);
           update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
           SDL_RenderPresent(interface.window.renderer);
           SDL_UpdateWindowSurface(interface.window.win);
@@ -57,11 +58,14 @@ int main() {
         } 
       }  
     }
+    else if (event_type == main_menu) {
+      state = 1;
+    }
   
-  
-  SDL_RenderPresent(interface.window.renderer);
-  SDL_UpdateWindowSurface(interface.window.win);
-  SDL_RenderClear(interface.window.renderer);// -stops flickering on Mac, but the fractal image disappears.m 
+    
+    SDL_RenderPresent(interface.window.renderer);
+    SDL_UpdateWindowSurface(interface.window.win);
+    SDL_RenderClear(interface.window.renderer);// -stops flickering on Mac, but the fractal image disappears.m 
 
   }
   return 0;

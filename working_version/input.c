@@ -1,13 +1,64 @@
 #include "input.h"
 
 ///
-
-
-int SDL_Events(Interface* interface) {
+int SDL_Menu_Events(Main_Menu* main_menu) {
     SDL_Event event;
-    
     int x, y;
+    SDL_GetMouseState(&x, &y);
+    while(SDL_PollEvent(&event)) { 
+        //SDL_Window_Events
+        switch (event.type) {
+             //user requests quit
+            case SDL_QUIT:
+                main_menu->window.finished = 1;
+                break;
 
+            case SDL_MOUSEMOTION:
+                if (within_button(x, y, main_menu->canvas_button.rect)) {
+                    ;
+                }
+                else if (within_button(x, y, main_menu->challenges_button.rect)) {
+                    ;
+                }
+                else if (within_button(x, y, main_menu->options_button.rect)) {
+                    ;
+                }
+                else if (within_button(x, y, main_menu->quit_button.rect)) {
+                    ;
+                }
+            break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (within_button(x, y, main_menu->canvas_button.rect)) {
+                    printf("Canvas\n");
+                    return 1;
+                }
+                else if (within_button(x, y, main_menu->challenges_button.rect)) {
+                    printf("Challenges\n");
+                }
+                else if (within_button(x, y, main_menu->options_button.rect)) {
+                    printf("Options\n");
+                }
+                else if (within_button(x, y, main_menu->quit_button.rect)) {
+                    printf("Quit\n");
+                }
+            break;
+        }
+    }
+    return 0;
+}
+
+int within_button(int x, int y, SDL_Rect button) {
+    if (x >= button.x && x <=  button.x + button.w) {
+        if (y >= button.y && y <= button.y + button.h) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int Interface_Events(Interface* interface) {
+    SDL_Event event;
+    int x, y;
     SDL_GetMouseState(&x, &y);
   
     
@@ -32,34 +83,26 @@ int SDL_Events(Interface* interface) {
                 break;
 
             //user clicks somewhere
-            case SDL_MOUSEBUTTONDOWN:
-                printf("x:%d y:%d\n", x, y);
-                if(x >= interface->generate_button.rect.x && x <= interface->generate_button.rect.x + interface->generate_button.rect.w &&
-                     y >= interface->generate_button.rect.y && y <= interface->generate_button.rect.y + interface->generate_button.rect.h) {
+            case SDL_MOUSEBUTTONDOWN:                
+                if (within_button(x, y, interface->generate_button.rect)) {
                      printf("Generate!\n");
                      return generate_clicked;
                     break;
                 }
 
-                if(x >= interface->reset_button.rect.x && x <= interface->reset_button.rect.x + interface->reset_button.rect.w &&
-                     y >= interface->reset_button.rect.y && y <= interface->reset_button.rect.y + interface->reset_button.rect.h) {
+                if (within_button(x, y, interface->reset_button.rect)) {
                      printf("Reset the text!\n");
                      break;
                 }
-
-                //user clicks on menubar (should be specific challenge button)                
-                if (x >= interface->menu_button.rect.x && x <= interface->menu_button.rect.x + interface->menu_button.rect.w &&
-                   y >= interface->menu_button.rect.y && y <= interface->menu_button.rect.y + interface->menu_button.rect.h) {
-                    printf("Returning to the main menu.\n\n");
+              
+                if (within_button(x, y, interface->menu_button.rect)) {
+                    printf("Returning to the main menu.\n");
+                    return main_menu;
                     break;
                 }
-               
-                
-                  //user clicks on menubar (should be specific challenge button)      
-                printf("%d-%d %d-%d\n", interface->help_button.rect.x, interface->help_button.rect.w,  interface->help_button.rect.y, interface->help_button.rect.h);         
-                if (x >= interface->help_button.rect.x && x <= interface->help_button.rect.x + interface->help_button.rect.w &&
-                   y >= interface->help_button.rect.y && y <= interface->help_button.rect.y + interface->help_button.rect.h) {
-                    printf("Help is on the way!   \n\n");     
+                    
+                if (within_button(x, y, interface->help_button.rect)) {
+                    printf("Help is on the way!\n");     
                     break;
                 }
               

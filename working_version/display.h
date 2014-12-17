@@ -7,13 +7,13 @@
 #define SDL_8BITCOLOUR 256
 #define SDL_DELAY 750
 
-#define MENU_HEIGHT 10
+#define TOOLBAR_HEIGHT 10
 
-#define MENU_BUTTON_Y 6
-#define MENU_BUTTON_WIDTH 10
-#define MENU_BUTTON_HEIGHT 1.5
+#define TOOLBAR_BUTTON_Y 6
+#define TOOLBAR_BUTTON_WIDTH 10
+#define TOOLBAR_BUTTON_HEIGHT 1.5
 
-#define BOTTOM_MENU_HEIGHT 18
+#define BOTTOM_TOOLBAR_HEIGHT 18
 
 #define TEXT_ED_WIDTH 2.435
 
@@ -42,6 +42,7 @@ typedef struct shape {
     int height;
     float rotation;
 } Shape;
+
 
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
@@ -78,3 +79,29 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
 void print_composition(TextNode* start);
 
 void free_text_nodes(TextNode* head);
+
+/* Menu Additions */
+typedef struct main_menu {
+	SDL_Win window;
+	TTF_Font* font;
+	TTF_Font* button_font; 
+	Area background;
+	Area logo;
+	
+	Area canvas_button;
+	Area challenges_button;
+	Area options_button;
+	Area quit_button;
+} Main_Menu;
+
+#define LOGO_WIDTH 3
+#define LOGO_HEIGHT 6
+#define LEFT_MARGIN 15
+#define TOP_MARGIN 20
+
+#define MENU_BUTTON_WIDTH 5
+#define MENU_BUTTON_HEIGHT 10
+#define MENU_BUTTON_DIST 15
+
+void draw_main_menu(Main_Menu* main_menu);
+void update_main_menu(Main_Menu *main_menu);
