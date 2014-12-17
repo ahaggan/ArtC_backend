@@ -65,7 +65,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, int thickness, float angle);
 int input(Interface interface, Draw *fractal);
 
-void generate_fractal(Draw *fractal, Interface interface);
+void generate_fractal(Draw *fractal, Interface interface, int i);
 void make_shape(Shape *shape, int x, int y, int size, int height, float angle);
 void sierpinski(Draw *fractal, Interface interface, int limit);
 void tree(Draw *fractal, Interface interface, int limit);

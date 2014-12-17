@@ -1,4 +1,6 @@
 #include "display.h"
+#include <time.h>
+
 #define TAB_LENGTH 3
 
 int parse(Interface interface, Draw *fractal); //SHOULD BE IN PARSE.H!!!!!!!!!!

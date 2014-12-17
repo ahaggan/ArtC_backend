@@ -1,4 +1,4 @@
-shape line;
+shape square;
 
 size 500;
 
@@ -12,5 +12,5 @@ colour5 green;
 colour6 green;
 colour7 green;
 
-type tree;
+type sierpinski;
 iterations 9;

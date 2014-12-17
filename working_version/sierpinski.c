@@ -15,8 +15,6 @@ void sierpinski(Draw *fractal, Interface interface, int limit) {
 
     SDL_RenderPresent(interface.window.renderer);
     SDL_UpdateWindowSurface(interface.window.win);
-    SDL_Delay(SDL_DELAY);
-
 }
 
 int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, char c) {

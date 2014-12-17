@@ -9,7 +9,6 @@ Create a message that is shown when user completes challenge eg. "Well Done! Cha
 
 Create an arrow to move from one challenge to the other. Only becomes clickable once challenge is completed.*/
 
-
 //CHALLENGE EXAMPLES
 
 //EXAMPLE CODE: Changing variables, Easy Mode. Start example:

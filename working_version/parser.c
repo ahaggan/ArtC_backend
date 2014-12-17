@@ -14,6 +14,14 @@ int parse(Interface interface, Draw *fractal) {
     else{
         Draw_sdl(&fractal, sw, interface);
 	}*/
+
+    for(int i=1; i<10; i++) {
+        fractal->height[i] = fractal->size[i];
+        if(strcmp(fractal->shape[i], "triangle") == 0) {
+            fractal->height[i] = fractal->size[i]*(sin(M_PI/3));
+        }
+    }
+
 	printf("\nIn main:");
     printf("\nTypes: ");
     for(int i=0; i<10; i++) {
@@ -60,7 +68,7 @@ int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) 
 	//char *second_word[] = SECOND_WORD;
 	printf("\ninput");
 	char c = 'f';
-    int actit = -1;
+    int actit;
 	FILE *fp;
 	if((fp = fopen("instruction.txt", "r")) == NULL)
 	{
@@ -68,6 +76,7 @@ int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal) 
 		return NO;
 	}
 	while(c != EOF){
+		actit = -1;
 		if(read_file_line(fp, actions, input, &actit) == YES){
 			update_values(fractal, input, actit);
 	
@@ -103,6 +112,7 @@ printf("|%c|", tmp_char);
 	        counter++;
 	        printf("\nFirst word: '%s'", input[0]);
 	    }
+			else if(tmp_char == '\n') {}
         else if((strcmp(input[0], "colour")==0 ||
                 strcmp(input[0], "type")==0 ||
                 strcmp(input[0], "shape")==0 ||

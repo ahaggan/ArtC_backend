@@ -1,5 +1,8 @@
 #include "input.h"
 
+///
+
+
 int SDL_Events(Interface* interface) {
     SDL_Event event;
     
@@ -92,8 +95,6 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
 
 //also make functions for each  key: otherwise the switch looks ridiculously messy
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
-  
-   
     Coordinates active = interface->active_txt;
 
     switch(event.type) {
@@ -108,7 +109,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
             }
             
             strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
-
+            
             if (!last_cell(active)) {
                 SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].next->box.rect);
                 set_active_text_cell(interface->text_editor[active.row][active.column].next->text_cell.row, interface->text_editor[active.row][active.column].next->text_cell.column, interface);
