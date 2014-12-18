@@ -1,48 +1,66 @@
-/* Checks two word user input. Also creates an array of action structures,
-*  as many as there are words in the FIRST_WORD array. 
-*  It then assigns each structure's name element with a word from said array
-*  It also assigns, for each action in turn, the corresponding attributes.
-*  When the NEXT word is found, the assignment is moved to the next action.
-*  Uses the structures to validate user inputs, making sure action linked to
-*  attribute.
-*
-*   It creates a Draw structure to then pass to the SDL Draw function
-*/
-
-#include "display.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-#define FIRST_WORD { "colour", "move", "size", "linethickness", "shape", "startx", "starty", "endx", "endy", "type", "iterations"}
-typedef enum action_word {
-colour, move, size, linethickness, shape, startx, starty, endx, endy, type, iterations
-} action_word;
-#define FIRST_WORD_SIZE 11
-//STOP is stored in each structure's instruction set, NEXT notifies program to start stoting the instructions in the next action structure
-//Used the "0" string to check an integer to allow for the user to enter 0 aswell as other numbers - due to the way atoi() was used.
-#define SECOND_WORD { "red", "green", "blue", "pink", "purple", "brown", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "circle", "triangle_outline", "square", "line", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "triangle", "sierpinski", "tree", "carpet", "snowflake", "star", "STOP", "NEXT", "0", "STOP", "NEXT"}
-#define SECOND_WORD_SIZE 49
-
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include"display.h"
+#define MAX_ITERATIONS 10
+//#define VALID_SYMBOLS A-Z, a-z, 0-9, {, }
+#define MAX_WORDS 100
+#define WORD_LENGTH 15
+#define TRUE 1
+#define FALSE 0
+#define strings_match(A, B) (strcmp(A, B) == 0)
+#define ACTION {"colour", "move", "size", "shape", "startx", "starty", "endx", "endy", "type", "iterations"}
+#define ACTION_SIZE 10
+#define ATTRIBUTE { "red", "green", "blue", "pink", "purple", "brown", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "0", "STOP", "NEXT", "circle", "triangle_outline", "square", "line", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "triangle", "sierpinski", "tree", "carpet", "snowflake", "star", "STOP", "NEXT", "0", "STOP", "NEXT"}
+#define ATTRIBUTE_SIZE 46
 #define YES 0
 #define NO 1
-#define MAX_LENGTH 20
-#define NO_WORDS 15
-
+/*
+typedef struct draw{
+  char* colour[MAX_ITERATIONS];
+  char* move;
+  int size;
+  char* shape[MAX_ITERATIONS];
+  int height;
+  int startx;
+  int starty;
+  int endx;
+  int endy;
+  char* type[MAX_ITERATIONS];
+  int iterations;
+} Draw;
+*/
 typedef struct action{
 	char *name;
 	char **instruction;
 } action;
 
+typedef struct prog{
+    char words[MAX_WORDS][WORD_LENGTH];
+    int current_word;
+    action actions[ACTION_SIZE];
+    Draw *fractal;
+    int if_check;
+    int for_check;
+    int start_iteration;
+    int end_iteration;
+}prog;
+
+typedef enum action_word {
+colour, move, size, shape, startx, starty, endx, endy, type, iterations
+} action_word;
+
+void check_if(prog *program);
+void initialise_words_array(prog *program);
+void test_interpreter(prog *program);
+void assign_value(prog *program, action_word i);
+void make_default(prog *program);
+int validate(prog *program);
+int funclist(prog *program);
+int function(prog *program);
+int conditional(prog *program);
+int loop(prog *program);
+int statement(prog *program);
+int check_action(char *word);
+int attribute(prog *program);
 void create_struct_array(action *actions);
-void clear_buffer(void);
-
-int get_input(action *actions, char input[NO_WORDS][MAX_LENGTH], Draw *fractal);
-void update_values(Draw *fractal, char input[NO_WORDS][MAX_LENGTH], int actit);
-void assign_value(Draw *fractal, action_word i, char *input, int actit);
-int read_file_line(FILE *fp, action *actions, char input[NO_WORDS][MAX_LENGTH], int *actit);
-void make_default(Interface interface, Draw *fractal);
-int test_parser(Interface interface);
-
-

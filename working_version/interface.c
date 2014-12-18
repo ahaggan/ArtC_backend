@@ -4,6 +4,7 @@
 //rename to interface(int interface_type (challenge, canvas))
 int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font) {
   int state = 0;
+  
   clock_t start_time, end_time;
   Interface interface;
   interface.window = *window;
@@ -40,7 +41,15 @@ int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font) {
 
       write_text_to_file(interface.text_editor);
       clear_area(&interface.window, interface.canvas);
-      parse(interface, &fractal);
+      
+      fractal.startx = interface.canvas.rect.x + (interface.canvas.rect.w/2);
+	  fractal.starty = interface.canvas.rect.y + (interface.canvas.rect.h/2);
+	  fractal.endx = WIN_WIDTH/2 + 10;
+	  fractal.endy = WIN_HEIGHT/2 + 10; 
+	  for(int q = 0; q < 10; q++){
+	    fractal.linethickness[q] = 10;
+	  }
+      parser(&fractal);
     
       for (int i=1; i<=fractal.iterations; i++) {
         start_time = end_time = clock();
