@@ -26,6 +26,33 @@
 
 #define EMPTY_CELL "|-"
 
+typedef enum interface_action {
+	generate_clicked = 1,
+	text_edited,
+	back_to_menu
+} Interface_Action;
+
+typedef struct interface {
+  SDL_Win window;
+  Interface_Action action;
+  Area menubar;
+  Area menu_bottom;
+  Area text_editor_panel;
+  TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
+  char composition[MAX_TEXT];
+  Area text_cursor;
+  Area canvas; 
+  Area reset_button;
+  Area generate_button;
+  Area menu_button;
+  Area help_button;
+  TTF_Font *font;
+  TTF_Font *button_font;
+  Coordinates active_txt;
+  int editor_rows;
+  int editor_columns;
+} Interface;	
+
 typedef struct txt_node {
 	struct txt_node* previous;
 	struct txt_node* next;
@@ -135,3 +162,5 @@ void display_main_menu(Main_Menu* main_menu);
 void draw_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges_menu);
 void update_main_menu(Main_Menu *main_menu);
 void render_update_clear(SDL_Win window);
+
+

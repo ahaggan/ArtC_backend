@@ -1,6 +1,7 @@
 #include "input.h"
 
 int challenges(Main_Menu* main);
+int interface(Main_Menu* main);
 void initialise_main_menu(Main_Menu* main);
 void initialise_challenges_menu(Main_Menu* main);
 void main_menu_actions(Main_Menu* main);
@@ -51,7 +52,7 @@ void initialise_challenges_menu(Main_Menu* main) {
 void main_menu_actions(Main_Menu* main) {
   switch (main->state) {
     case canvas: 
-      interface(&main->window, main->font, main->button_font); 
+      interface(main); 
       break;
     case challenges_menu:
       challenges(main);

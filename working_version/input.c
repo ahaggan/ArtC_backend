@@ -13,20 +13,6 @@ int SDL_Main_Menu_Events(Main_Menu* main_menu) {
                 main_menu->window.finished = 1;
                 break;
 
-            case SDL_MOUSEMOTION:
-                if (within_button(x, y, main_menu->canvas_button.rect)) {
-                    ;
-                }
-                else if (within_button(x, y, main_menu->challenges_button.rect)) {
-                    ;
-                }
-                else if (within_button(x, y, main_menu->options_button.rect)) {
-                    ;
-                }
-                else if (within_button(x, y, main_menu->quit_button.rect)) {
-                    ;
-                }
-            break;
             case SDL_MOUSEBUTTONDOWN:
                 if (within_button(x, y, main_menu->canvas_button.rect)) {
                     printf("Canvas\n");
@@ -61,21 +47,6 @@ int SDL_Challenges_Menu_Events(Challenges_Menu* challenges) {
             case SDL_QUIT:
                 challenges->window.finished = 1;
                 break;
-
-            case SDL_MOUSEMOTION:
-                if (within_button(x, y, challenges->beginner.rect)) {
-                    ;
-                }
-                else if (within_button(x, y, challenges->intermediate.rect)) {
-                    ;
-                }
-                else if (within_button(x, y, challenges->expert.rect)) {
-                    ;
-                }
-                else if (within_button(x, y, challenges->main_menu.rect)) {
-                    ;
-                }
-            break;
             case SDL_MOUSEBUTTONDOWN:
                 if (within_button(x, y, challenges->beginner.rect)) {
                     printf("Beginner\n");
@@ -149,7 +120,7 @@ int Interface_Events(Interface* interface) {
               
                 if (within_button(x, y, interface->menu_button.rect)) {
                     printf("Returning to the main menu.\n");
-                    return main_menu;
+                    return back_to_menu;
                     break;
                 }
                     

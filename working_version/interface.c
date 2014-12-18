@@ -1,43 +1,21 @@
 #include "input.h"
 
+void initialise_interface(Main_Menu* main, Interface* interface);
+void initialise_text_editor(Interface* interface);
 
-//rename to interface(int interface_type (challenge, canvas))
-int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font) {
-  int state = 0;
-  
-  clock_t start_time, end_time;
+int interface(Main_Menu* main) {
   Interface interface;
-  interface.window = *window;
-  SDL_RenderClear(interface.window.renderer);
-  interface.font = font;
-  interface.button_font = button_font;
-  SDL_GetWindowSize(interface.window.win, &interface.editor_columns , &interface.editor_rows);
-  interface.editor_columns /= 24;
-  interface.editor_rows /= 29.5;
-  draw_interface(&interface); 
-
-
-  make_text_editor(interface.editor_columns, interface.editor_rows, &interface);
-  int event_type = 0;
-   
-  //possibly dynamically set the font size depending on the window size
-
-  //Sets text_rect to type text inputs.
-  SDL_SetTextInputRect(&interface.text_editor[0][0].box.rect);
-  //Start accepting text input events
-  SDL_StartTextInput();
+  clock_t start_time, end_time;
+  initialise_interface(main, &interface);
   Draw fractal;
 
-  SDL_RenderPresent(interface.window.renderer);
-  SDL_UpdateWindowSurface(interface.window.win);
-
-  while(!state) {
+  while(interface.action != back_to_menu)  {
    
     draw_interface(&interface); //-stops flickering on Mac, but the fractal image disappears.
     update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
    
-    event_type = Interface_Events(&interface);
-    if (event_type == generate_clicked) {
+    interface.action = Interface_Events(&interface);
+    if (interface.action == generate_clicked) {
 
       write_text_to_file(interface.text_editor);
       clear_area(&interface.window, interface.canvas);
@@ -65,10 +43,7 @@ int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font) {
         } 
       }  
     }
-    else if (event_type == main_menu) {
-      state = 1;
-    }
-  
+
     
     SDL_RenderPresent(interface.window.renderer);
     SDL_UpdateWindowSurface(interface.window.win);
@@ -76,4 +51,21 @@ int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font) {
 
   }
   return 0;
+}
+
+void initialise_interface(Main_Menu* main_menu, Interface* interface) {
+  interface->action = 0;
+  interface->window = main_menu->window;
+  interface->font = main_menu->font;
+  interface->button_font = main_menu->button_font;
+  initialise_text_editor(interface);
+}
+
+void initialise_text_editor(Interface* interface) {
+  SDL_GetWindowSize(interface->window.win, &interface->editor_columns, &interface->editor_rows);
+  interface->editor_columns /= 24;
+  interface->editor_rows /= 29.5;
+  make_text_editor(interface->editor_columns, interface->editor_rows, interface);
+  SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
+  SDL_StartTextInput();
 }

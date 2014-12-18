@@ -19,14 +19,7 @@ FILE* make_file(char *file_name);
 void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]);
 void handle_overwriting(Coordinates active, Interface* interface, char overflow[3]);
 
-typedef enum events{
-	generate_clicked = 1,
-	text_edited
-} Events;
-
 int SDL_Main_Menu_Events(Main_Menu* main_menu);
 int within_button(int x, int y, SDL_Rect button);
-
-int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font);
 
 int SDL_Challenges_Menu_Events(Challenges_Menu* challenges);
