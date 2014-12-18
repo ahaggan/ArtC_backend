@@ -1,4 +1,5 @@
 #include "parser.h"
+#include <math.h>
 
 int parse(Interface interface, Draw *fractal) {
    //test_parser(interface); //Test will create its own fractals and test the functions in this module
