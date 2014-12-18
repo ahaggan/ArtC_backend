@@ -103,6 +103,7 @@ int function(prog *program){
     else{
         statement(program);
     }
+
 }
 
 int loop(prog *program){     //for function
