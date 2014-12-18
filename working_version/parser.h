@@ -9,7 +9,7 @@
 *   It creates a Draw structure to then pass to the SDL Draw function
 */
 
-#include "artc.h" 
+#include "display.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
