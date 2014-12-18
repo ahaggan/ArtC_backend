@@ -177,7 +177,6 @@ void draw_interface(Interface *interface) {
   int reset_button_x, reset_button_y, reset_button_w, reset_button_h;
   
   int help_button_x, help_button_y, help_button_w, help_button_h;
-  int textcurs_x, textcurs_y, textcurs_w, textcurs_h;
 
   SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
 
@@ -243,10 +242,6 @@ void draw_interface(Interface *interface) {
   texted_w = win_width / 2;
   texted_h = win_height - menu_h - 25;
 
-  textcurs_x = texted_x;
-  textcurs_y = texted_y + FONT_SIZE / 10;
-  textcurs_w = FONT_SIZE / 10;
-  textcurs_h = FONT_SIZE;
 
   //Text Editor
   make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 255, 255, 255);
