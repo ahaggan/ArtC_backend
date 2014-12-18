@@ -36,7 +36,6 @@ void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
 
     //call RenderPresent to make the drawing take effect.
     SDL_RenderPresent(w->renderer);
-
 }
 
 void clear_area(SDL_Win *window, Area area) {
@@ -134,7 +133,6 @@ void make_text_editor(int width, int height, Interface* interface) {
   }
   interface->active_txt.row = 0;
   interface->active_txt.column = 0;
-   
 }
 
 void update_text_editor(int width, int height, Interface* interface) {
@@ -162,11 +160,9 @@ void update_text_editor(int width, int height, Interface* interface) {
   }
 
    make_rect(&interface->window, &interface->text_cursor, interface->text_editor_panel.rect.x + (interface->active_txt.column * (FONT_SIZE- 6)), interface->text_editor_panel.rect.y + (interface->active_txt.row * (FONT_SIZE + 9.1)), 3, (FONT_SIZE + 4), 240, 240, 240);
- 
-
 }
 
-void draw_interface(Interface *interface) {
+void display_interface(Interface *interface) {
   int win_width, win_height;
   int menu_x, menu_y, menu_w, menu_h;
   int menu_bottom_x, menu_bottom_y, menu_bottom_w, menu_bottom_h;
@@ -301,8 +297,7 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
   return new_node;
 }
 
-/*
-void free_text_nodes(TextNode* tail) {
+/* void free_text_nodes(TextNode* tail) {
   TextNode* tmp = NULL;
   TextNode* current = tail;
   while (current != NULL) {
@@ -311,9 +306,7 @@ void free_text_nodes(TextNode* tail) {
     current = current->previous;
     free(tmp);
   } 
-}
-*/
-
+}*/
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
   area->rect.w = w;
@@ -334,7 +327,6 @@ void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *
     SDL_RenderCopy(win->renderer, texttexture, NULL, location);
     SDL_DestroyTexture(texttexture);
 }
-
 
 void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
     shape->x = x;
@@ -407,7 +399,6 @@ void display_main_menu(Main_Menu *main_menu) {
   make_text(&main_menu->window, &main_menu->quit_button.rect, 245, 245, 245, main_menu->button_font, "Quit");
 }
 
-
 void draw_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges) {
   int win_width, win_height;
   int background_x, background_y, background_w, background_h;
@@ -466,8 +457,3 @@ void render_update_clear(SDL_Win window) {
   SDL_UpdateWindowSurface(window.win);
   SDL_RenderClear(window.renderer);
 }
-
-
-
-
-

@@ -74,7 +74,7 @@ typedef struct shape {
 void SDL_Win_Init(SDL_Win *w, char win_name[20]);
 void SDL_Renderer_Init(SDL_Win *w);
 
-void draw_interface(Interface *interface);
+void display_interface(Interface *interface);
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
 

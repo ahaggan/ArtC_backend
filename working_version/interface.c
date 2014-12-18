@@ -4,53 +4,48 @@ void initialise_interface(Main_Menu* main, Interface* interface);
 void initialise_text_editor(Interface* interface);
 
 int interface(Main_Menu* main) {
-  Interface interface;
-  clock_t start_time, end_time;
-  initialise_interface(main, &interface);
-  Draw fractal;
-
-  while(interface.action != back_to_menu)  {
-   
-    draw_interface(&interface); //-stops flickering on Mac, but the fractal image disappears.
-    update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
-   
-    interface.action = Interface_Events(&interface);
-    if (interface.action == generate_clicked) {
-
-      write_text_to_file(interface.text_editor);
-      clear_area(&interface.window, interface.canvas);
-      
-      fractal.startx = interface.canvas.rect.x + (interface.canvas.rect.w/2);
-	  fractal.starty = interface.canvas.rect.y + (interface.canvas.rect.h/2);
-	  fractal.endx = WIN_WIDTH/2 + 10;
-	  fractal.endy = WIN_HEIGHT/2 + 10; 
-	  for(int q = 0; q < 10; q++){
-	    fractal.linethickness[q] = 10;
-	  }
-      parser(&fractal);
+   Interface interface;
+   clock_t start_time, end_time; //hideous
+   Draw fractal; //shouldn't be in here
+   initialise_interface(main, &interface);
     
-      for (int i=1; i<=fractal.iterations; i++) {
-        start_time = end_time = clock();
-        generate_fractal(&fractal, interface, i);
-        
-        while((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.2 && !interface.window.finished) {
-          
-          Interface_Events(&interface);
-          update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
-          SDL_RenderPresent(interface.window.renderer);
-          SDL_UpdateWindowSurface(interface.window.win);
-          end_time = clock();
-        } 
-      }  
-    }
+   while (interface.action != back_to_menu) {
+      display_interface(&interface);
+      update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
+      interface.action = Interface_Events(&interface);
 
-    
-    SDL_RenderPresent(interface.window.renderer);
-    SDL_UpdateWindowSurface(interface.window.win);
-    SDL_RenderClear(interface.window.renderer);// -stops flickering on Mac, but the fractal image disappears.m 
+      if (interface.action == generate_clicked) {
+         write_text_to_file(interface.text_editor);
+         clear_area(&interface.window, interface.canvas);
 
-  }
-  return 0;
+         /* START: only here due to parser udpate */
+            fractal.startx = interface.canvas.rect.x + (interface.canvas.rect.w/2);
+            fractal.starty = interface.canvas.rect.y + (interface.canvas.rect.h/2);
+            fractal.endx = WIN_WIDTH/2 + 10;
+            fractal.endy = WIN_HEIGHT/2 + 10; 
+            for (int q = 0; q < 10; q++){
+               fractal.linethickness[q] = 10;
+            }
+         /* END */
+
+         parser(&fractal);
+         
+         for (int i=1; i<=fractal.iterations; i++) {
+            start_time = end_time = clock();
+            generate_fractal(&fractal, interface, i);
+            while((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.2 && !interface.window.finished) {
+
+               Interface_Events(&interface);
+               update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
+               SDL_RenderPresent(interface.window.renderer);
+               SDL_UpdateWindowSurface(interface.window.win);
+               end_time = clock();
+            } 
+         }  
+      }
+      render_update_clear(interface.window);
+   }
+   return 0;
 }
 
 void initialise_interface(Main_Menu* main_menu, Interface* interface) {

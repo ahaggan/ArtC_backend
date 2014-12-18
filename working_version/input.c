@@ -1,6 +1,5 @@
 #include "input.h"
 
-///
 int SDL_Main_Menu_Events(Main_Menu* main_menu) {
     SDL_Event event;
     int x, y;
@@ -142,12 +141,11 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
             SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
             // Set resolution (size) of renderer to the same as window
             SDL_RenderSetLogicalSize(interface->window.renderer, win_width, win_height); 
-            draw_interface(interface);
+            display_interface(interface);
             SDL_GetWindowSize(interface->window.win, &interface->editor_columns , &interface->editor_rows);
             interface->editor_columns /= 24;
             interface->editor_rows /= 29.5;
-            
-             make_text_editor(interface->editor_columns, interface->editor_rows, interface);
+            make_text_editor(interface->editor_columns, interface->editor_rows, interface);
             SDL_RenderPresent(interface->window.renderer);
             break;
         //exposed means that the window was obscured in some way, and now is not obscured.
@@ -157,14 +155,6 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
     }    
 }
 
-
-//return text_edited isn't doing anything at the moment because this is nested
-//set a flag or something!!!
-
-//perhaps pass smarter arguments to this: having to interface-> all the time wastes space 
-//and isn't readable
-
-//also make functions for each  key: otherwise the switch looks ridiculously messy
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
     Coordinates active = interface->active_txt;
 
@@ -399,7 +389,7 @@ void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]) {
     fclose(user_code);
 }
 
-//broken when overwriting over a new line!
+//broken when overwriting to the next line! (creates duplicate characters)
 void handle_overwriting(Coordinates active, Interface* interface, char overflow[3]) {
     Coordinates over = active;
     TextNode* current = &interface->text_editor[active.row][active.column];
