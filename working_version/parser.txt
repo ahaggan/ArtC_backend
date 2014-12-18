@@ -1,0 +1,8 @@
+run{ 
+    shape line
+    colour green
+    type tree
+    iterations 9
+    size 500
+}
+
