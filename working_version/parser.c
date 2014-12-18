@@ -55,8 +55,8 @@ void make_default(Interface interface, Draw *fractal){
     	strcpy(fractal->type[i], "tree");
         fractal->linethickness[i] = 1;
     }
-	fractal->startx = interface.canvas.rect.x + (interface.canvas.rect.w/2) - size;
-	fractal->starty = interface.canvas.rect.y + (interface.canvas.rect.h/2) - size;
+	fractal->startx = interface.canvas.rect.x + (interface.canvas.rect.w/2);
+	fractal->starty = interface.canvas.rect.y + (interface.canvas.rect.h/2);
 	fractal->endx = WIN_WIDTH/2 + 10;
 	fractal->endy = WIN_HEIGHT/2 + 10; 
 	fractal->move = (char*)malloc(3*sizeof(char));

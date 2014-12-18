@@ -1,39 +1,57 @@
 #include "input.h"
 
+void initialise_main_menu(Main_Menu* main);
+void menu_actions(Main_Menu* main);
+void render_update_clear(Main_Menu main);
 int challenges(Main_Menu* main);
 
+/* Main Menu */
 int main() {
-  Menu_Choice choice = 0;
-  Main_Menu main_menu;
-  SDL_Win_Init(&main_menu.window, "Art-C");
-  SDL_TTF_Init();
-  main_menu.font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
-  main_menu.button_font = SDL_Load_Font("font/Mastoc.ttf", BUTTON_FONT_SIZE);
-  SDL_RenderPresent(main_menu.window.renderer);
-  SDL_UpdateWindowSurface(main_menu.window.win);
-
-  while(!main_menu.window.finished) {  
-    draw_main_menu(&main_menu);
-    choice = SDL_Main_Menu_Events(&main_menu);
-    switch (choice) {
-      case canvas: 
-        interface(&main_menu.window, main_menu.font, main_menu.button_font); 
-        break;
-      case challenges_menu:
-        challenges(&main_menu);
-        break;
-      case options_menu:
-        break;
-      case quit:
-        main_menu.window.finished = 1;
-        break;
-    }
-    SDL_RenderPresent(main_menu.window.renderer);
-    SDL_UpdateWindowSurface(main_menu.window.win);
-    SDL_RenderClear(main_menu.window.renderer);
+  Main_Menu main;  
+  initialise_main_menu(&main);
+  while(!main.window.finished) {  
+    display_main_menu(&main);
+    main.state = SDL_Main_Menu_Events(&main);
+    menu_actions(&main);
+    render_update_clear(main);
   }
   //SDL shut_down
+  //TTF shut down
+  //free everything that has been allocated space
   return 0;
+}
+
+void initialise_main_menu(Main_Menu* main) {
+  SDL_Win_Init(&main->window, "Art-C");
+  SDL_TTF_Init();
+  main->font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
+  main->button_font = SDL_Load_Font("font/Mastoc.ttf", BUTTON_FONT_SIZE);
+  main->state = 0;
+  SDL_RenderPresent(main->window.renderer);
+  SDL_UpdateWindowSurface(main->window.win);
+}
+
+void menu_actions(Main_Menu* main) {
+  switch (main->state) {
+    case canvas: 
+      interface(&main->window, main->font, main->button_font); 
+      break;
+    case challenges_menu:
+      challenges(main);
+      break;
+    //also have a How-To-'Play' (play isn't really the right word)
+    case options_menu:
+      break;
+    case quit:
+      main->window.finished = 1;
+      break;
+  }
+}
+
+void render_update_clear(Main_Menu main) {
+  SDL_RenderPresent(main.window.renderer);
+  SDL_UpdateWindowSurface(main.window.win);
+  SDL_RenderClear(main.window.renderer);
 }
 
 int challenges(Main_Menu* main) {

@@ -354,7 +354,7 @@ void print_composition(TextNode* start) {
   printf("%s\n", str);
 }
 
-void draw_main_menu(Main_Menu *main_menu) {
+void display_main_menu(Main_Menu *main_menu) {
   int win_width, win_height;
   int background_x, background_y, background_w, background_h;
   int logo_x, logo_y, logo_w, logo_h;
