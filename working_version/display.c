@@ -1,7 +1,7 @@
 //Keep all 'display' information within the display module. Pass around a display object.
 #include "input.h"
 
-void SDL_Win_Init(SDL_Win *w, char win_name[20]) {
+void SDL_Win_Init(SDL_Win *w, char* win_name) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "\nUnable to initialize SDL:  %s\n", SDL_GetError());
         SDL_Quit();
@@ -43,8 +43,7 @@ void clear_area(SDL_Win *window, Area area) {
     SDL_RenderFillRect(window->renderer, &area.rect);
 }
 
-// Filled Circle centred at (cx,cy) of radius r, see :
-// http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
+//Filled Circle centred at (cx,cy) of radius r
 void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r) {
    for (double dy = 1; dy <= r; dy += 1.0) {
         double dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
@@ -53,8 +52,7 @@ void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r) {
    }
 }
 
-// Circle centred at (cx,cy) of radius r, see :
-// http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles
+//Circle centred at (cx,cy) of radius r
 void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r) {
    double dx, dy;
    dx = floor(sqrt((2.0 * r ) ));
@@ -77,7 +75,7 @@ void SDL_TTF_Init() {
     }
 }
 
-TTF_Font* SDL_Load_Font(char font_path[30], int font_size) {
+TTF_Font* SDL_Load_Font(char* font_path, int font_size) {
     TTF_Font *font = TTF_OpenFont(font_path, font_size);
     if (font == NULL) {
         fprintf(stderr, "\nTTF_OpenFont could not open the font:  %s\n", SDL_GetError());
@@ -95,44 +93,47 @@ SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
     return texture;
 }
 
-
 void SDL_TTF_Quit(TTF_Font *font) {
     TTF_CloseFont(font);
     TTF_Quit();
 }
 
 void make_text_editor(int width, int height, Interface* interface) {
-  TextNode* current = NULL;
-  for (int row = 0; row < height; row++) {
-    for (int column = 0; column < width; column++) {
-      //cell 0 = start
-      if (row == 0 && column == 0) {
-        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column); //1 = current text input
-        interface->text_editor[row][column].next = &interface->text_editor[0][column+1];  
+   TextNode* current = NULL;
+   Coordinates curr;
+   for (int row = 0; row < height; row++) {
+      for (int column = 0; column < width; column++) {   
+         curr.row = row;
+         curr.column = column;  
+         current = make_cell(width, height, curr, interface, interface->text_editor, current);
       }
-      else if (!(row == (height - 1) && column == (width -1))) {
-        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column);
+   }
+}
 
-        if (column == width - 1) {
-      
-          interface->text_editor[row][column].next = &interface->text_editor[row+1][0];  
-        }
-        else {
-          interface->text_editor[row][column].next = &interface->text_editor[row][column + 1];
-        }
- 
+TextNode* make_cell(int width, int height, Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current) {
+
+   if (first_cell(curr)) {
+      text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
+      text_editor[curr.row][curr.column].next = &interface->text_editor[0][curr.column+1];  
+      set_active_text_cell(curr.row, curr.column, interface);
+   }
+
+   else if (!last_cell(curr, *interface)) {
+      text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
+      if (end_column(curr, *interface)) {
+         text_editor[curr.row][curr.column].next = &interface->text_editor[curr.row+1][0];  
       }
       else {
-        interface->text_editor[row][column] = *allocate_text_node(EMPTY_CELL, current, interface, row, column);
-        interface->text_editor[row][column].next = NULL;
+        text_editor[curr.row][curr.column].next = &interface->text_editor[curr.row][curr.column + 1];
       }
-      current = &interface->text_editor[row][column];
-        
-    }
-  
-  }
-  interface->active_txt.row = 0;
-  interface->active_txt.column = 0;
+   }  
+
+   else {
+     text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
+     text_editor[curr.row][curr.column].next = NULL;
+   }
+
+   return &text_editor[curr.row][curr.column];
 }
 
 void update_text_editor(int width, int height, Interface* interface) {
@@ -140,10 +141,10 @@ void update_text_editor(int width, int height, Interface* interface) {
   
  for (int row = 0; row < height; row++) {
     for (int column = 0; column < width; column++) {
-      //final cell
 
+      //final cell
       if (!(row == (height - 1) && column == (width -1))) {
-        interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column);
+       interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column); //allocate a whole new text node?!
         if (column == width - 1) {
           interface->text_editor[row][column].next = &interface->text_editor[row+1][0];  
         }

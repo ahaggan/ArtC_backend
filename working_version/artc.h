@@ -12,6 +12,8 @@
 
 #define EDITOR_COLUMNS 100
 #define EDITOR_ROWS 100
+
+
 /* These are currently used by parser.c. Once parser.c has been edited to use the interface coordinates instead, move these to display.h */
 
 typedef struct draw{
@@ -54,4 +56,5 @@ typedef struct text_node {
   Coordinates text_cell;
 } TextNode;
 
+typedef TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
 

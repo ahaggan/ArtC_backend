@@ -22,7 +22,7 @@
 
 #ifndef  M_PI
  #define M_PI  3.14159265358979323846
- #endif  
+#endif  
 
 #define EMPTY_CELL "|-"
 
@@ -71,7 +71,7 @@ typedef struct shape {
 } Shape;
 
 
-void SDL_Win_Init(SDL_Win *w, char win_name[20]);
+void SDL_Win_Init(SDL_Win *w, char* win_name);
 void SDL_Renderer_Init(SDL_Win *w);
 
 void display_interface(Interface *interface);
@@ -83,7 +83,7 @@ void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r);
 void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r);
 
 void SDL_TTF_Init();
-TTF_Font* SDL_Load_Font(char font_path[30], int font_size);
+TTF_Font* SDL_Load_Font(char* font_path, int font_size);
 SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w);
 void SDL_TTF_Quit(TTF_Font *font);
 
@@ -163,4 +163,5 @@ void draw_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges_menu
 void update_main_menu(Main_Menu *main_menu);
 void render_update_clear(SDL_Win window);
 
+TextNode* make_cell(int width, int height, Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
 

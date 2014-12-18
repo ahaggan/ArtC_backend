@@ -345,7 +345,6 @@ int first_cell(Coordinates active) {
 
 int last_cell(Coordinates active, Interface interface) {
     if (bottom_row(active, interface) && end_column(active, interface)){
-        printf("well?\n");
         return 1;
     }
     return 0;

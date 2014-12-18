@@ -43,6 +43,7 @@ int interface(Main_Menu* main) {
             } 
          }  
       }
+
       render_update_clear(interface.window);
    }
    return 0;
