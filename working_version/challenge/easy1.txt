@@ -1,0 +1,7 @@
+run{
+fractal tree 
+iterations 5
+shape line
+colour red
+size 100
+}

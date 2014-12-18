@@ -1,0 +1,12 @@
+run{
+fractal tree
+iterations 10
+shape line
+colour purple
+size 150
+if iterations 4
+then colour red
+if iterations 8
+then {colour pink
+shape circle}
+}

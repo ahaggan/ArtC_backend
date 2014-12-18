@@ -1,0 +1,7 @@
+run{
+fractal dragon   
+iterations 10
+shape square
+colour purple
+size 200
+}
