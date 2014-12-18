@@ -14,16 +14,16 @@ Create an arrow to move from one challenge to the other. Only becomes clickable 
 //EXAMPLE CODE: Changing variables, Easy Mode. Start example:
 run{
 fractal tree {
-	iterations 10;
-	shape line;
-   if iterations < 5:
-		colour brown;
+	iterations 10
+	shape line
+   if iterations < 5
+		colour brown
 	else:
-		colour green;
+		colour green
 }
 
 //Challenge 1: Change the colour variables.
-run{
+run
 fractal tree {
 	iterations 10;
 	shape line;
