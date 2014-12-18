@@ -21,11 +21,12 @@ void handle_overwriting(Coordinates active, Interface* interface, char overflow[
 
 typedef enum events{
 	generate_clicked = 1,
-	text_edited,
-	main_menu
+	text_edited
 } Events;
 
-int SDL_Menu_Events(Main_Menu* main_menu);
+int SDL_Main_Menu_Events(Main_Menu* main_menu);
 int within_button(int x, int y, SDL_Rect button);
 
 int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font);
+
+int SDL_Challenges_Menu_Events(Challenges_Menu* challenges);

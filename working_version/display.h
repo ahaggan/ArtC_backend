@@ -81,18 +81,44 @@ void print_composition(TextNode* start);
 void free_text_nodes(TextNode* head);
 
 /* Menu Additions */
+typedef struct challenges_menu {
+	SDL_Win window;
+	TTF_Font* font;
+	TTF_Font* button_font; 
+	Area background;
+	Area header;
+	Area beginner;
+	Area intermediate;
+	Area expert;
+	Area main_menu;
+} Challenges_Menu;
+
 typedef struct main_menu {
 	SDL_Win window;
 	TTF_Font* font;
 	TTF_Font* button_font; 
 	Area background;
 	Area logo;
-	
 	Area canvas_button;
 	Area challenges_button;
+	Challenges_Menu challenges;
 	Area options_button;
 	Area quit_button;
 } Main_Menu;
+
+typedef enum menu_choice {
+	canvas = 1,
+	challenges_menu,
+	options_menu,
+	quit
+} Menu_Choice;
+
+typedef enum challenges_choice {
+	beginner = 1,
+	intermediate,
+	expert,
+	main_menu
+} Challenges_Choice;
 
 #define LOGO_WIDTH 3
 #define LOGO_HEIGHT 6
@@ -104,4 +130,5 @@ typedef struct main_menu {
 #define MENU_BUTTON_DIST 15
 
 void draw_main_menu(Main_Menu* main_menu);
+void draw_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges_menu);
 void update_main_menu(Main_Menu *main_menu);

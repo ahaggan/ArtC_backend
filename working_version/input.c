@@ -1,7 +1,7 @@
 #include "input.h"
 
 ///
-int SDL_Menu_Events(Main_Menu* main_menu) {
+int SDL_Main_Menu_Events(Main_Menu* main_menu) {
     SDL_Event event;
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -30,16 +30,68 @@ int SDL_Menu_Events(Main_Menu* main_menu) {
             case SDL_MOUSEBUTTONDOWN:
                 if (within_button(x, y, main_menu->canvas_button.rect)) {
                     printf("Canvas\n");
-                    return 1;
+                    return canvas;
                 }
                 else if (within_button(x, y, main_menu->challenges_button.rect)) {
                     printf("Challenges\n");
+                    return challenges_menu;
                 }
                 else if (within_button(x, y, main_menu->options_button.rect)) {
-                    printf("Options\n");
+                    printf("Options\n");    
+                    return options_menu;
                 }
                 else if (within_button(x, y, main_menu->quit_button.rect)) {
                     printf("Quit\n");
+                    return quit;
+                }
+            break;
+        }
+    }
+    return 0;
+}
+
+int SDL_Challenges_Menu_Events(Challenges_Menu* challenges) {
+    SDL_Event event;
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    while(SDL_PollEvent(&event)) { 
+        //SDL_Window_Events
+        switch (event.type) {
+             //user requests quit
+            case SDL_QUIT:
+                challenges->window.finished = 1;
+                break;
+
+            case SDL_MOUSEMOTION:
+                if (within_button(x, y, challenges->beginner.rect)) {
+                    ;
+                }
+                else if (within_button(x, y, challenges->intermediate.rect)) {
+                    ;
+                }
+                else if (within_button(x, y, challenges->expert.rect)) {
+                    ;
+                }
+                else if (within_button(x, y, challenges->main_menu.rect)) {
+                    ;
+                }
+            break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (within_button(x, y, challenges->beginner.rect)) {
+                    printf("Beginner\n");
+                    return beginner;
+                }
+                else if (within_button(x, y, challenges->intermediate.rect)) {
+                    printf("Intermediate\n");
+                    return intermediate;
+                }
+                else if (within_button(x, y, challenges->expert.rect)) {
+                    printf("Expert\n");
+                    return expert;
+                }
+                else if (within_button(x, y, challenges->main_menu.rect)) {
+                    printf("Main Menu\n");
+                    return main_menu;
                 }
             break;
         }

@@ -13,7 +13,6 @@ int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font) {
   SDL_GetWindowSize(interface.window.win, &interface.editor_columns , &interface.editor_rows);
   interface.editor_columns /= 24;
   interface.editor_rows /= 29.5;
-  printf("%d %d\n", interface.editor_columns, interface.editor_rows);
   draw_interface(&interface); 
 
 
@@ -45,15 +44,14 @@ int interface(SDL_Win* window, TTF_Font* font, TTF_Font* button_font) {
     
       for (int i=1; i<=fractal.iterations; i++) {
         start_time = end_time = clock();
-        
         generate_fractal(&fractal, interface, i);
         
-        while((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.4 && !interface.window.finished) {
+        while((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.2 && !interface.window.finished) {
+          
           Interface_Events(&interface);
           update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
           SDL_RenderPresent(interface.window.renderer);
           SDL_UpdateWindowSurface(interface.window.win);
-         
           end_time = clock();
         } 
       }  
