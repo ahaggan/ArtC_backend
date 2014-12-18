@@ -81,8 +81,16 @@ void print_composition(TextNode* start);
 void free_text_nodes(TextNode* head);
 
 /* Menu Additions */
+typedef enum challenges_choice {
+	beginner = 1,
+	intermediate,
+	expert,
+	main_menu
+} Challenges_Choice;
+
 typedef struct challenges_menu {
 	SDL_Win window;
+	Challenges_Choice state;
 	TTF_Font* font;
 	TTF_Font* button_font; 
 	Area background;
@@ -114,14 +122,6 @@ typedef struct main_menu {
 	Area quit_button;
 } Main_Menu;
 
-
-typedef enum challenges_choice {
-	beginner = 1,
-	intermediate,
-	expert,
-	main_menu
-} Challenges_Choice;
-
 #define LOGO_WIDTH 3
 #define LOGO_HEIGHT 6
 #define LEFT_MARGIN 15
@@ -134,3 +134,4 @@ typedef enum challenges_choice {
 void display_main_menu(Main_Menu* main_menu);
 void draw_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges_menu);
 void update_main_menu(Main_Menu *main_menu);
+void render_update_clear(SDL_Win window);

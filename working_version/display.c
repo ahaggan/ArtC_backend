@@ -461,6 +461,11 @@ void draw_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges) {
   make_text(&challenges->window, &challenges->main_menu.rect, 245, 245, 245, challenges->button_font, "Main Menu");
 }
 
+void render_update_clear(SDL_Win window) {
+  SDL_RenderPresent(window.renderer);
+  SDL_UpdateWindowSurface(window.win);
+  SDL_RenderClear(window.renderer);
+}
 
 
 
