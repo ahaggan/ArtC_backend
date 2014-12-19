@@ -13,11 +13,11 @@
 #define TOOLBAR_BUTTON_WIDTH 10
 #define TOOLBAR_BUTTON_HEIGHT 1.5
 
-#define BOTTOM_TOOLBAR_HEIGHT 18
+#define BOTTOM_BUTTON_HEIGHT 18
 
 #define TEXT_ED_WIDTH 2.435
 
-#define HOME_X_SPACE 70
+#define MENU_X_SPACE 70
 #define HELP_X_SPACE 1.13
 
 #ifndef  M_PI
@@ -32,11 +32,11 @@ typedef enum interface_action {
 	back_to_menu
 } Interface_Action;
 
+/* perhaps divide this up into smaller chunks */
 typedef struct interface {
   SDL_Win window;
   Interface_Action action;
-  Area menubar;
-  Area menu_bottom;
+  Area toolbar;
   Area text_editor_panel;
   TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
   char composition[MAX_TEXT];
@@ -45,7 +45,10 @@ typedef struct interface {
   Area reset_button;
   Area generate_button;
   Area menu_button;
+  Area tutorial_button;
+  Area next_button;
   Area help_button;
+  Area current_challenge;
   TTF_Font *font;
   TTF_Font *button_font;
   Coordinates active_txt;
@@ -74,7 +77,7 @@ typedef struct shape {
 void SDL_Win_Init(SDL_Win *w, char* win_name);
 void SDL_Renderer_Init(SDL_Win *w);
 
-void display_interface(Interface *interface);
+
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
 
@@ -158,8 +161,6 @@ typedef struct main_menu {
 #define MENU_BUTTON_HEIGHT 10
 #define MENU_BUTTON_DIST 15
 
-void display_main_menu(Main_Menu* main_menu);
-void draw_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges_menu);
 void update_main_menu(Main_Menu *main_menu);
 void render_update_clear(SDL_Win window);
 
@@ -169,3 +170,34 @@ void make_middle_cells(Coordinates curr, Interface* interface, TextNode text_edi
 void make_last_cell(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
 
 TextNode* update_cell(int width, int height, Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
+
+void display_main_menu(Main_Menu* main_menu);
+
+void display_menu_background(int win_width, int win_height, Main_Menu *main_menu);
+void display_logo(int win_width, int win_height, Main_Menu *main_menu);
+void display_canvas_button(int win_width, int win_height, Main_Menu* main_menu);
+void display_challenges_button(int win_width, int win_height, Main_Menu* main_menu);
+void display_options_button(int win_width, int win_height, Main_Menu* main_menu);
+void display_quit_button(int win_width, int win_height, Main_Menu* main_menu);
+
+void display_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges_menu);
+
+void display_challenges_background(int win_width, int win_height, Challenges_Menu* challenges);
+void display_header(int win_width, int win_height, Challenges_Menu* challenges_menu);
+void display_beginner_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
+void display_intermediate_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
+void display_expert_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
+void display_main_menu_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
+
+void display_interface(Interface *interface);
+
+void display_toolbar(int win_width, int win_height, Interface* interface);
+void display_menu_button(int win_width, int win_height, Interface* interface, int mode);
+void display_help_button(int win_width, int win_height, Interface* interface);
+void display_reset_button(int win_width, int win_height, Interface* interface);
+void display_generate_button(int win_width, int win_height, Interface* interface);
+void display_canvas(int win_width, int win_height, Interface* interface);
+void display_text_editor(int win_width, int win_height, Interface* interface, int mode);
+
+
+void display_tutorial_button(int win_width, int win_height, Interface* interface);

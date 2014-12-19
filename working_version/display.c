@@ -1,4 +1,3 @@
-//Keep all 'display' information within the display module. Pass around a display object.
 #include "input.h"
 
 void update_text_node(TextNode* current, Interface* interface);
@@ -100,59 +99,166 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_Quit();
 }
 
-void display_interface(Interface *interface) {
+/* Main Menu */
+void display_main_menu(Main_Menu *main_menu) {
   int win_width, win_height;
-  int menu_x, menu_y, menu_w, menu_h;
-  int menu_bottom_x, menu_bottom_y, menu_bottom_w, menu_bottom_h;
-  int texted_x, texted_y, texted_w, texted_h;
-  int canvas_x, canvas_y, canvas_w, canvas_h;
-  int generate_button_x, generate_button_y, generate_button_w, generate_button_h;
-  int menu_button_x, menu_button_y, menu_button_w, menu_button_h;
-  int reset_button_x, reset_button_y, reset_button_w, reset_button_h;
-  
-  int help_button_x, help_button_y, help_button_w, help_button_h;
+  SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
 
+  display_menu_background(win_width, win_height, main_menu);
+  display_logo(win_width, win_height, main_menu);
+  display_canvas_button(win_width, win_height, main_menu);
+  display_challenges_button(win_width, win_height, main_menu);
+  display_options_button(win_width, win_height, main_menu);
+  display_quit_button(win_width, win_height, main_menu);
+}
+
+void display_menu_background(int win_width, int win_height, Main_Menu* main_menu) {
+  int background_x, background_y, background_w, background_h;
+  background_x = background_y = 0;
+  background_w = win_width;
+  background_h = win_height;
+  make_rect(&main_menu->window, &main_menu->background, background_x, background_y, background_w, background_h, 200, 200, 200);
+}
+
+void display_logo(int win_width, int win_height, Main_Menu* main_menu) {
+  int logo_x, logo_y, logo_w, logo_h;
+  logo_w = win_width / LOGO_WIDTH;
+  logo_x = win_width / LEFT_MARGIN;
+  logo_h = win_height / LOGO_HEIGHT;
+  logo_y = win_height / TOP_MARGIN;
+  make_rect(&main_menu->window, &main_menu->logo, logo_x, logo_y, logo_w, logo_h, 220, 100, 100);
+  make_text(&main_menu->window, &main_menu->logo.rect, 245, 245, 245, main_menu->button_font, "Art-C");
+}
+
+void display_canvas_button(int win_width, int win_height, Main_Menu* main_menu) {
+  int canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h;
+  canvas_button_w = win_width / MENU_BUTTON_WIDTH;
+  canvas_button_x = win_width / LEFT_MARGIN;
+  canvas_button_h = win_height / MENU_BUTTON_HEIGHT;
+  canvas_button_y = (main_menu->logo.rect.y + main_menu->logo.rect.h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&main_menu->window, &main_menu->canvas_button, canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h, 160, 100, 100);
+  make_text(&main_menu->window, &main_menu->canvas_button.rect, 245, 245, 245, main_menu->button_font, "Canvas");
+}
+
+void display_challenges_button(int win_width, int win_height, Main_Menu* main_menu) {
+  int challenges_button_x, challenges_button_y, challenges_button_w, challenges_button_h;
+  challenges_button_w = win_width / MENU_BUTTON_WIDTH;
+  challenges_button_x = win_width / LEFT_MARGIN;
+  challenges_button_h = win_height / MENU_BUTTON_HEIGHT;
+  challenges_button_y = (main_menu->canvas_button.rect.y + main_menu->canvas_button.rect.h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&main_menu->window, &main_menu->challenges_button, challenges_button_x, challenges_button_y, challenges_button_w, challenges_button_h, 160, 100, 100);
+  make_text(&main_menu->window, &main_menu->challenges_button.rect, 245, 245, 245, main_menu->button_font, "Challenges");
+}
+
+void display_options_button(int win_width, int win_height, Main_Menu* main_menu) {
+  int options_button_x, options_button_y, options_button_w, options_button_h;
+  options_button_w = win_width / MENU_BUTTON_WIDTH;
+  options_button_x = win_width / LEFT_MARGIN;
+  options_button_h = win_height / MENU_BUTTON_HEIGHT;
+  options_button_y = (main_menu->challenges_button.rect.y + main_menu->challenges_button.rect.h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&main_menu->window, &main_menu->options_button, options_button_x, options_button_y, options_button_w, options_button_h, 160, 100, 100);
+  make_text(&main_menu->window, &main_menu->options_button.rect, 245, 245, 245, main_menu->button_font, "Options");
+}
+
+void display_quit_button(int win_width, int win_height, Main_Menu* main_menu) {
+  int quit_button_x, quit_button_y, quit_button_w, quit_button_h;
+  quit_button_w = win_width / MENU_BUTTON_WIDTH;
+  quit_button_x = win_width / LEFT_MARGIN;
+  quit_button_h = win_height / MENU_BUTTON_HEIGHT;
+  quit_button_y = (main_menu->options_button.rect.y + main_menu->options_button.rect.h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&main_menu->window, &main_menu->quit_button, quit_button_x, quit_button_y, quit_button_w, quit_button_h, 100, 90, 90);
+  make_text(&main_menu->window, &main_menu->quit_button.rect, 245, 245, 245, main_menu->button_font, "Quit");
+}
+
+/* Challenges Menu */
+void display_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges) {
+  int win_width, win_height;
+  SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
+
+  display_challenges_background(win_width, win_height, challenges);
+  display_header(win_width, win_height, challenges);
+  display_beginner_button(win_width, win_height, challenges);
+  display_intermediate_button(win_width, win_height, challenges);
+  display_expert_button(win_width, win_height, challenges);
+  display_main_menu_button(win_width, win_height, challenges);
+}
+
+void display_challenges_background(int win_width, int win_height, Challenges_Menu* challenges) {
+  int background_x, background_y, background_w, background_h;
+  background_x = background_y = 0;
+  background_w = win_width;
+  background_h = win_height;
+  make_rect(&challenges->window, &challenges->background, background_x, background_y, background_w, background_h, 200, 200, 200);
+}
+
+void display_header(int win_width, int win_height, Challenges_Menu* challenges){
+  int header_x, header_y, header_w, header_h;
+  header_w = win_width / LOGO_WIDTH;
+  header_x = win_width / LEFT_MARGIN;
+  header_h = win_height / LOGO_HEIGHT;
+  header_y = win_height / TOP_MARGIN;
+  make_rect(&challenges->window, &challenges->header, header_x, header_y, header_w, header_h, 220, 100, 100);
+  make_text(&challenges->window, &challenges->header.rect, 245, 245, 245, challenges->button_font, "Challenges");
+}
+
+void display_beginner_button(int win_width, int win_height, Challenges_Menu* challenges) {
+  int beginner_x, beginner_y, beginner_w, beginner_h;
+  beginner_w = win_width / MENU_BUTTON_WIDTH;
+  beginner_x = win_width / LEFT_MARGIN;
+  beginner_h = win_height / MENU_BUTTON_HEIGHT;
+  beginner_y = (challenges->header.rect.y + challenges->header.rect.h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&challenges->window, &challenges->beginner, beginner_x, beginner_y, beginner_w, beginner_h, 160, 100, 100);
+  make_text(&challenges->window, &challenges->beginner.rect, 245, 245, 245, challenges->button_font, "Beginner");
+}
+
+void display_intermediate_button(int win_width, int win_height, Challenges_Menu* challenges) {
+  int intermediate_x, intermediate_y, intermediate_w, intermediate_h;
+  intermediate_w = win_width / MENU_BUTTON_WIDTH;
+  intermediate_x = win_width / LEFT_MARGIN;
+  intermediate_h = win_height / MENU_BUTTON_HEIGHT;
+  intermediate_y = (challenges->beginner.rect.y + challenges->beginner.rect.h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&challenges->window, &challenges->intermediate, intermediate_x, intermediate_y, intermediate_w, intermediate_h, 160, 100, 100);
+  make_text(&challenges->window, &challenges->intermediate.rect, 245, 245, 245, challenges->button_font, "Intermediate");
+}
+
+void display_expert_button(int win_width, int win_height, Challenges_Menu* challenges) {
+  int expert_x, expert_y, expert_w, expert_h;
+  expert_w = win_width / MENU_BUTTON_WIDTH;
+  expert_x = win_width / LEFT_MARGIN;
+  expert_h = win_height / MENU_BUTTON_HEIGHT;
+  expert_y = (challenges->intermediate.rect.y + challenges->intermediate.rect.h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&challenges->window, &challenges->expert, expert_x, expert_y, expert_w, expert_h, 160, 100, 100);
+  make_text(&challenges->window, &challenges->expert.rect, 245, 245, 245, challenges->button_font, "Expert");
+}
+
+void display_main_menu_button(int win_width, int win_height, Challenges_Menu* challenges) {
+  int main_menu_x, main_menu_y, main_menu_w, main_menu_h;
+  main_menu_w = win_width / MENU_BUTTON_WIDTH;
+  main_menu_x = win_width / LEFT_MARGIN;
+  main_menu_h = win_height / MENU_BUTTON_HEIGHT;
+  main_menu_y = (challenges->expert.rect.y + challenges->expert.rect.h) + (win_height / MENU_BUTTON_DIST);
+  make_rect(&challenges->window, &challenges->main_menu, main_menu_x, main_menu_y, main_menu_w, main_menu_h, 100, 90, 90);
+  make_text(&challenges->window, &challenges->main_menu.rect, 245, 245, 245, challenges->button_font, "Main Menu");
+}
+
+/* Interface */
+//this needs a flag sent to it: request either canvas interface or challenge interface
+void display_interface(Interface* interface) {
+  int win_width, win_height;
   SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
+  display_toolbar(win_width, win_height, interface);
+  display_menu_button(win_width, win_height, interface, 0);
+  display_help_button(win_width, win_height, interface);
+  display_reset_button(win_width, win_height, interface);
+  display_generate_button(win_width, win_height, interface);
+  display_canvas(win_width, win_height, interface);
 
-  /* Top toolbar/ menu */
-  menu_x = menu_y = 0;
-  menu_w = win_width;
-  menu_w = win_width;
-  menu_h = win_height / TOOLBAR_HEIGHT; // 10%
+  //if challenge mode, text editor will need different values.
+  display_text_editor(win_width, win_height, interface, 0); 
+  display_tutorial_button(win_width, win_height, interface);
 
-  /* Home button */
-  menu_button_x = win_width / HOME_X_SPACE; // 2%
-  menu_button_y = menu_h / TOOLBAR_BUTTON_Y; // 25%
-  menu_button_w = win_width / TOOLBAR_BUTTON_WIDTH ; // 10%
-  menu_button_h = menu_h / TOOLBAR_BUTTON_HEIGHT ; //5 %
 
-  help_button_x = win_width / HELP_X_SPACE;
-  help_button_y = menu_h / TOOLBAR_BUTTON_Y;
-  help_button_w = menu_button_w;
-  help_button_h = menu_button_h;
-
-  /* Bottom reset/generate toolbar */
-  menu_bottom_x = 0;
-  menu_bottom_w = win_width / TEXT_ED_WIDTH;
-  menu_bottom_h = win_height / BOTTOM_TOOLBAR_HEIGHT; // 10%
-  menu_bottom_y = win_height - menu_bottom_h;
-
-  generate_button_x = menu_bottom_w / 2;
-  generate_button_y = menu_bottom_y;
-  generate_button_w = menu_bottom_w / 2;
-  generate_button_h = menu_button_h;
-  
-  reset_button_x = 0;
-  reset_button_y = menu_bottom_y;
-  reset_button_w = menu_bottom_w / 2;
-  reset_button_h = menu_button_h;
-
-  canvas_x = menu_bottom_w;
-  canvas_y = menu_h;
-  canvas_w = win_width - menu_bottom_w;
-  canvas_h = win_height - menu_h;
   /* Interface components exclusive to challenge mode: */
-
   /* Challenges button 
   _button_x = win_width / _X_SPACE; // 2%
   _button_y = menu_h / _Y_SPACE; // 25%
@@ -168,37 +274,7 @@ void display_interface(Interface *interface) {
   Current Challenge Description
 
   Next Challenge button
-  */
-
-  texted_x = 0;
-  texted_y = menu_h;
-  texted_w = win_width / 2;
-  texted_h = win_height - menu_h - 25;
-
-
-  //Text Editor
-  make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 255, 255, 255);
-
-  //Panels
-  make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
-  make_rect(&interface->window, &interface->menubar, menu_x, menu_y, menu_w, menu_h, 240,240,240);
-  make_rect(&interface->window, &interface->menu_bottom, menu_bottom_x, menu_bottom_y, menu_bottom_w, menu_bottom_h, 240,240,240);
-
- 
-  //load a different font for the buttons.
-
-  //Buttons
-  make_rect(&interface->window, &interface->generate_button, generate_button_x, generate_button_y, generate_button_w, generate_button_h, 100, 200, 100);
-  make_text(&interface->window, &interface->generate_button.rect, 0, 0, 0, interface->button_font, "Generate");
-
-  make_rect(&interface->window, &interface->reset_button, reset_button_x, reset_button_y, reset_button_w, reset_button_h, 200, 100, 100);
-  make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, interface->button_font, "Reset");
-
-  make_rect(&interface->window, &interface->menu_button, menu_button_x, menu_button_y, menu_button_w, menu_button_h, 100, 100, 100);
-  make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, interface->button_font, "Menu");
-
-  make_rect(&interface->window, &interface->help_button, help_button_x, help_button_y, help_button_w, help_button_h, 200, 200, 100);
-  make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, interface->button_font, "Help");
+  */  
 }
 
 /* void free_text_nodes(TextNode* tail) {
@@ -211,6 +287,100 @@ void display_interface(Interface *interface) {
     free(tmp);
   } 
 }*/
+
+void display_toolbar(int win_width, int win_height, Interface* interface) {
+  int toolbar_x, toolbar_y, toolbar_w, toolbar_h;
+  toolbar_x = toolbar_y = 0;
+  toolbar_w = win_width;
+  toolbar_h = win_height / TOOLBAR_HEIGHT; // 10%
+  make_rect(&interface->window, &interface->toolbar, toolbar_x, toolbar_y, toolbar_w, toolbar_h, 240,240,240);
+}
+
+void display_help_button(int win_width, int win_height, Interface* interface) {
+  int help_button_x, help_button_y, help_button_w, help_button_h;
+  help_button_x = win_width / HELP_X_SPACE;
+  help_button_y = interface->toolbar.rect.h / TOOLBAR_BUTTON_Y;
+  help_button_w = interface->menu_button.rect.w;
+  help_button_h = interface->menu_button.rect.h;
+  make_rect(&interface->window, &interface->help_button, help_button_x, help_button_y, help_button_w, help_button_h, 200, 200, 100);
+  make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, interface->button_font, "Help");
+}
+
+void display_reset_button(int win_width, int win_height, Interface* interface) {
+  int reset_button_x, reset_button_y, reset_button_w, reset_button_h;
+  reset_button_x = 0;
+  reset_button_w = (win_width / TEXT_ED_WIDTH) / 2;
+  reset_button_h = win_height / BOTTOM_BUTTON_HEIGHT;
+  reset_button_y = win_height - reset_button_h;
+  make_rect(&interface->window, &interface->reset_button, reset_button_x, reset_button_y, reset_button_w, reset_button_h, 200, 100, 100);
+  make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, interface->button_font, "Reset");
+}
+
+void display_generate_button(int win_width, int win_height, Interface* interface) {
+  int generate_button_x, generate_button_y, generate_button_w, generate_button_h;
+  generate_button_x = (win_width / TEXT_ED_WIDTH) / 2;
+  generate_button_h = win_height / BOTTOM_BUTTON_HEIGHT;
+  generate_button_y = win_height - generate_button_h;
+  generate_button_w = (win_width / TEXT_ED_WIDTH) / 2;
+  make_rect(&interface->window, &interface->generate_button, generate_button_x, generate_button_y, generate_button_w, generate_button_h, 100, 200, 100);
+  make_text(&interface->window, &interface->generate_button.rect, 0, 0, 0, interface->button_font, "Generate");
+
+} 
+
+void display_canvas(int win_width, int win_height, Interface* interface) {
+  int canvas_x, canvas_y, canvas_w, canvas_h;
+  canvas_x = win_width / TEXT_ED_WIDTH;
+  canvas_y = interface->toolbar.rect.h;
+  canvas_w = win_width - win_width / TEXT_ED_WIDTH;
+  canvas_h = win_height - interface->toolbar.rect.h;
+  make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w, canvas_h, 255, 255, 255);
+}
+
+/* dependent on challenges mode being active */
+
+void display_menu_button(int win_width, int win_height, Interface* interface, int mode) {
+  int menu_button_x, menu_button_y, menu_button_w, menu_button_h;
+  
+  menu_button_x = win_width / MENU_X_SPACE; // 2%
+  menu_button_y = interface->toolbar.rect.h / TOOLBAR_BUTTON_Y; // 25%
+  menu_button_w = win_width / TOOLBAR_BUTTON_WIDTH ; // 10%
+  menu_button_h = interface->toolbar.rect.h / TOOLBAR_BUTTON_HEIGHT ; //5 %
+  make_rect(&interface->window, &interface->menu_button, menu_button_x, menu_button_y, menu_button_w, menu_button_h, 100, 100, 100);
+
+  if (mode == 0) {
+    make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, interface->button_font, "Menu");
+  }
+  else if (mode == 1) {
+    make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, interface->button_font, "Challenges");
+  }
+}
+
+void display_text_editor(int win_width, int win_height, Interface* interface, int mode) {
+  int texted_x, texted_y, texted_w, texted_h;
+  if (mode == 0) {
+    texted_x = 0;
+    texted_y = interface->toolbar.rect.h;
+    texted_w = win_width / TEXT_ED_WIDTH;
+    texted_h = win_height - interface->toolbar.rect.h - interface->generate_button.rect.h;
+    make_rect(&interface->window, &interface->text_editor_panel, texted_x, texted_y, texted_w, texted_h, 255, 255, 255);
+  }
+}
+
+void display_current_challenge(){
+}
+
+void display_next_button(){
+}
+
+void display_tutorial_button(int win_width, int win_height, Interface* interface) {
+  int tutorial_button_x, tutorial_button_y, tutorial_button_w, tutorial_button_h;
+  tutorial_button_x = interface->menu_button.rect.x + interface->menu_button.rect.w + win_width / MENU_X_SPACE; // 2%
+  tutorial_button_y = interface->toolbar.rect.h / TOOLBAR_BUTTON_Y; // 25%
+  tutorial_button_w = win_width / TOOLBAR_BUTTON_WIDTH ; // 10%
+  tutorial_button_h = interface->toolbar.rect.h / TOOLBAR_BUTTON_HEIGHT ; //5 %
+  make_rect(&interface->window, &interface->tutorial_button, tutorial_button_x, tutorial_button_y, tutorial_button_w, tutorial_button_h, 150, 100, 150);
+  make_text(&interface->window, &interface->tutorial_button.rect, 0, 0, 0, interface->button_font, "Tutorial");
+}
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
   area->rect.w = w;
@@ -238,122 +408,6 @@ void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
     shape->size = size;
     shape->height = height;
     shape->rotation = angle;
-}
-
-void print_composition(TextNode* start) {
-  TextNode* current = start;
-  char str[2000];
-  while (current != NULL) {
-    strcat(str, current->character);
-    current = current->next;
-  }
-  printf("%s\n", str);
-}
-
-void display_main_menu(Main_Menu *main_menu) {
-  int win_width, win_height;
-  int background_x, background_y, background_w, background_h;
-  int logo_x, logo_y, logo_w, logo_h;
-  int canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h;
-  int challenges_button_x, challenges_button_y, challenges_button_w, challenges_button_h;
-  int options_button_x, options_button_y, options_button_w, options_button_h;
-  int quit_button_x, quit_button_y, quit_button_w, quit_button_h;
-
-  SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
-
-  background_x = background_y = 0;
-  background_w = win_width;
-  background_h = win_height;
-  make_rect(&main_menu->window, &main_menu->background, background_x, background_y, background_w, background_h, 200, 200, 200);
-
-  
-  logo_w = win_width / LOGO_WIDTH;
-  logo_x = win_width / LEFT_MARGIN;
-  logo_h = win_height / LOGO_HEIGHT;
-  logo_y = win_height / TOP_MARGIN;
-  make_rect(&main_menu->window, &main_menu->logo, logo_x, logo_y, logo_w, logo_h, 220, 100, 100);
-  make_text(&main_menu->window, &main_menu->logo.rect, 245, 245, 245, main_menu->button_font, "Art-C");
-
-  canvas_button_w = win_width / MENU_BUTTON_WIDTH;
-  canvas_button_x = win_width / LEFT_MARGIN;
-  canvas_button_h = win_height / MENU_BUTTON_HEIGHT;
-  canvas_button_y = (logo_y + logo_h) + (win_height / MENU_BUTTON_DIST);
-  make_rect(&main_menu->window, &main_menu->canvas_button, canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h, 160, 100, 100);
-  make_text(&main_menu->window, &main_menu->canvas_button.rect, 245, 245, 245, main_menu->button_font, "Canvas");
-
-  challenges_button_w = win_width / MENU_BUTTON_WIDTH;
-  challenges_button_x = win_width / LEFT_MARGIN;
-  challenges_button_h = win_height / MENU_BUTTON_HEIGHT;
-  challenges_button_y = (canvas_button_y + canvas_button_h) + (win_height / MENU_BUTTON_DIST);
-  make_rect(&main_menu->window, &main_menu->challenges_button, challenges_button_x, challenges_button_y, challenges_button_w, challenges_button_h, 160, 100, 100);
-  make_text(&main_menu->window, &main_menu->challenges_button.rect, 245, 245, 245, main_menu->button_font, "Challenges");
-
-  options_button_w = win_width / MENU_BUTTON_WIDTH;
-  options_button_x = win_width / LEFT_MARGIN;
-  options_button_h = win_height / MENU_BUTTON_HEIGHT;
-  options_button_y = (challenges_button_y + challenges_button_h) + (win_height / MENU_BUTTON_DIST);
-  make_rect(&main_menu->window, &main_menu->options_button, options_button_x, options_button_y, options_button_w, options_button_h, 160, 100, 100);
-  make_text(&main_menu->window, &main_menu->options_button.rect, 245, 245, 245, main_menu->button_font, "Options");
-
-  quit_button_w = win_width / MENU_BUTTON_WIDTH;
-  quit_button_x = win_width / LEFT_MARGIN;
-  quit_button_h = win_height / MENU_BUTTON_HEIGHT;
-  quit_button_y = (options_button_y + options_button_h) + (win_height / MENU_BUTTON_DIST);
-  make_rect(&main_menu->window, &main_menu->quit_button, quit_button_x, quit_button_y, quit_button_w, quit_button_h, 100, 90, 90);
-  make_text(&main_menu->window, &main_menu->quit_button.rect, 245, 245, 245, main_menu->button_font, "Quit");
-}
-
-void draw_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges) {
-  int win_width, win_height;
-  int background_x, background_y, background_w, background_h;
-  int header_x, header_y, header_w, header_h;
-  int beginner_x, beginner_y, beginner_w, beginner_h;
-  int intermediate_x, intermediate_y, intermediate_w, intermediate_h;
-  int expert_x, expert_y, expert_w, expert_h;
-  int main_menu_x, main_menu_y, main_menu_w, main_menu_h;
-
-  SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
-
-  background_x = background_y = 0;
-  background_w = win_width;
-  background_h = win_height;
-  make_rect(&challenges->window, &challenges->background, background_x, background_y, background_w, background_h, 200, 200, 200);
-
-  
-  header_w = win_width / LOGO_WIDTH;
-  header_x = win_width / LEFT_MARGIN;
-  header_h = win_height / LOGO_HEIGHT;
-  header_y = win_height / TOP_MARGIN;
-  make_rect(&challenges->window, &challenges->header, header_x, header_y, header_w, header_h, 220, 100, 100);
-  make_text(&challenges->window, &challenges->header.rect, 245, 245, 245, challenges->button_font, "Challenges");
-
-  beginner_w = win_width / MENU_BUTTON_WIDTH;
-  beginner_x = win_width / LEFT_MARGIN;
-  beginner_h = win_height / MENU_BUTTON_HEIGHT;
-  beginner_y = (header_y + header_h) + (win_height / MENU_BUTTON_DIST);
-  make_rect(&challenges->window, &challenges->beginner, beginner_x, beginner_y, beginner_w, beginner_h, 160, 100, 100);
-  make_text(&challenges->window, &challenges->beginner.rect, 245, 245, 245, challenges->button_font, "Beginner");
-
-  intermediate_w = win_width / MENU_BUTTON_WIDTH;
-  intermediate_x = win_width / LEFT_MARGIN;
-  intermediate_h = win_height / MENU_BUTTON_HEIGHT;
-  intermediate_y = (beginner_y + beginner_h) + (win_height / MENU_BUTTON_DIST);
-  make_rect(&challenges->window, &challenges->intermediate, intermediate_x, intermediate_y, intermediate_w, intermediate_h, 160, 100, 100);
-  make_text(&challenges->window, &challenges->intermediate.rect, 245, 245, 245, challenges->button_font, "Intermediate");
-
-  expert_w = win_width / MENU_BUTTON_WIDTH;
-  expert_x = win_width / LEFT_MARGIN;
-  expert_h = win_height / MENU_BUTTON_HEIGHT;
-  expert_y = (intermediate_y + intermediate_h) + (win_height / MENU_BUTTON_DIST);
-  make_rect(&challenges->window, &challenges->expert, expert_x, expert_y, expert_w, expert_h, 160, 100, 100);
-  make_text(&challenges->window, &challenges->expert.rect, 245, 245, 245, challenges->button_font, "Expert");
-
-  main_menu_w = win_width / MENU_BUTTON_WIDTH;
-  main_menu_x = win_width / LEFT_MARGIN;
-  main_menu_h = win_height / MENU_BUTTON_HEIGHT;
-  main_menu_y = (expert_y + expert_h) + (win_height / MENU_BUTTON_DIST);
-  make_rect(&challenges->window, &challenges->main_menu, main_menu_x, main_menu_y, main_menu_w, main_menu_h, 100, 90, 90);
-  make_text(&challenges->window, &challenges->main_menu.rect, 245, 245, 245, challenges->button_font, "Main Menu");
 }
 
 void render_update_clear(SDL_Win window) {
@@ -416,18 +470,15 @@ void make_last_cell(Coordinates curr, Interface* interface, TextNode text_editor
 //Reforms the text editor based on user input
 void update_text_editor(int width, int height, Interface* interface) {
   TextNode* current = &interface->text_editor[0][0];
-  Coordinates curr;
   while (current != NULL) {
       update_text_node(current, interface);
       current = current->next;
   }
-
   make_rect(&interface->window, &interface->text_cursor, interface->text_editor_panel.rect.x + (interface->active_txt.column * (FONT_SIZE- 6)), interface->text_editor_panel.rect.y + (interface->active_txt.row * (FONT_SIZE + 9.1)), 3, (FONT_SIZE + 4), 240, 240, 240);
 }
 
 TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column) {
   TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
-  TextNode* tmp = new_node;
   int box_w = (FONT_SIZE- 6);
   int box_h =  (FONT_SIZE + 9);
  

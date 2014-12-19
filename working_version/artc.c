@@ -24,7 +24,7 @@ int main() {
 int challenges(Main_Menu* menu) {
   initialise_challenges_menu(menu);
   while(menu->challenges.state != main_menu) {  
-    draw_challenges_menu(menu, &menu->challenges);
+    display_challenges_menu(menu, &menu->challenges);
     menu->challenges.state = SDL_Challenges_Menu_Events(&menu->challenges);
     render_update_clear(menu->challenges.window);
   }
