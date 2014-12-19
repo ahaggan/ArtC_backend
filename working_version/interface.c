@@ -58,8 +58,15 @@ void initialise_interface(Main_Menu* main_menu, Interface* interface) {
 
 void initialise_text_editor(Interface* interface) {
   SDL_GetWindowSize(interface->window.win, &interface->editor_columns, &interface->editor_rows);
+
+  //Canvas Mode:
   interface->editor_columns /= 24;
   interface->editor_rows /= 29.5;
+
+  //Challenge mode:
+ // interface->editor_columns /= 24;
+  //interface->editor_rows /= 34;
+  
   make_text_editor(interface->editor_columns, interface->editor_rows, interface);
  
   SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);

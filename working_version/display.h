@@ -37,6 +37,7 @@ typedef struct interface {
   SDL_Win window;
   Interface_Action action;
   Area toolbar;
+  Area toolbar_divider;
   Area text_editor_panel;
   TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
   char composition[MAX_TEXT];
@@ -48,7 +49,8 @@ typedef struct interface {
   Area tutorial_button;
   Area next_button;
   Area help_button;
-  Area current_challenge;
+  Area current_challenge_l1;
+  Area current_challenge_l2;
   TTF_Font *font;
   TTF_Font *button_font;
   Coordinates active_txt;
@@ -197,7 +199,12 @@ void display_help_button(int win_width, int win_height, Interface* interface);
 void display_reset_button(int win_width, int win_height, Interface* interface);
 void display_generate_button(int win_width, int win_height, Interface* interface);
 void display_canvas(int win_width, int win_height, Interface* interface);
-void display_text_editor(int win_width, int win_height, Interface* interface, int mode);
+void display_text_editor(int win_width, int win_height, Interface* interface);
 
 
 void display_tutorial_button(int win_width, int win_height, Interface* interface);
+
+#define CURRENT_CHALLENGE 14
+void display_current_challenge(int win_width, int win_height, Interface* interface);
+#define NEXT_BUTTON 4
+void display_next_button(int win_width, int win_height, Interface* interface);
