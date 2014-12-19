@@ -1,34 +1,44 @@
+
 #include "parser.h"
 
 int parser(Draw *fractal){
     int i;
     FILE *file_pointer;
     prog program;
-    //Draw fractal;
+    
+    
+    
+    program.interpreter_index = 0;
     program.fractal = fractal;
     
     initialise_words_array(&program);
     
     create_struct_array(program.actions);
     
-   // make_default(&program);
+    //make_default(&program);
     
-     //printf("\nCurrent word: %d\n", program.current_word);
-   // test_interpreter(&program);
-   // initialise_words_array(&program);
+    //printf("\nCurrent word: %d\n", program.current_word);
+    
+    //interpreter(&program);
+    //printf("\nParsed OK!\n");
+    //test_interpreter(&program);
+   
+    //initialise_words_array(&program);
+    initialise_interpreter_array(&program);
     if((file_pointer = fopen("parser.txt", "r")) == NULL){
         fprintf(stderr, "\nCannot open file\n");
         exit(2);
     }
     
     i = 0;
-    printf("\nCurrent word: %d\n", program.current_word);
+    //printf("\nCurrent word: %d\n", program.current_word);
     while(fscanf(file_pointer, "%s", program.words[i]) == 1 && i < MAX_WORDS && !strings_match(program.words[i], " ")){
-        printf("\nWord read: %s\n", program.words[i]);
+        //printf("\nWord read: %s\n", program.words[i]);
         i++;
     }
     validate(&program);
     printf("\nParsed OK!\n");
+    interpreter(&program);
     test_interpreter(&program);
 }
 
@@ -39,15 +49,28 @@ void initialise_words_array(prog *program){
         program->words[i][0] = '\0';
     }
 }
+
+void initialise_interpreter_array(prog *program){
+    int i;
+    
+    for(i = 0; i < NO_OF_INSTRUCTIONS; i++){
+        program->interpreter[i][0] = '\0';
+    }
+}
+
 void test_interpreter(prog *program){
-    printf("\nFractal colour: %s", program->fractal->colour[0]);
-    printf("\nFractal colour: %s", program->fractal->colour[7]);
-    printf("\nFractal size: %d", program->fractal->size[0]);
-    printf("\nFractal shape: %s", program->fractal->shape[0]);
-    printf("\nFractal shape: %s", program->fractal->shape[5]);
-    printf("\nFractal type: %s", program->fractal->type[0]);
-    printf("\nFractal type: %s", program->fractal->type[4]);
-    printf("\nFractal iterations: %d", program->fractal->iterations);
+     printf("\nInside test\n");
+    for(int i = 0; i < NO_OF_INSTRUCTIONS; i++){
+    
+        printf("\nInterpreter word: %s", program->interpreter[i]);
+    
+    }
+    for(int i = 0; i < MAX_ITERATIONS; i++){
+    
+        printf("\nFactal colour %d: %s", i, program->fractal->colour[i]);
+        printf("\nFactal shape %d: %s", i, program->fractal->shape[i]);
+        printf("\nFactal type %d: %s", i, program->fractal->type[i]);
+    }
 }
 
 void make_default(prog *program){
@@ -60,7 +83,7 @@ void make_default(prog *program){
     i = 0;
     
     while(fscanf(file_pointer, "%s", program->words[i]) == 1 && i < MAX_WORDS && !strings_match(program->words[i], " ")){
-        printf("\nWord read: %s\n", program->words[i]);
+        //printf("\nWord read: %s\n", program->words[i]);
         i++;
     }
     validate(program);
@@ -81,6 +104,8 @@ int validate(prog *program){
 
 int funclist(prog *program){
     if(strings_match(program->words[program->current_word], "}")){
+        strcpy(program->interpreter[program->interpreter_index], "end" );
+        program->interpreter_index += 1;
         return TRUE;
     }
     else if(strings_match(program->words[program->current_word], "")){
@@ -94,23 +119,83 @@ int funclist(prog *program){
 
 int function(prog *program){
     if(strings_match(program->words[program->current_word], "if")){
-        program->current_word += 1;
-        conditional(program);
+        strcpy(program->interpreter[program->interpreter_index], "conditional");
+            program->current_word += 1;
+        if(check_if(program->words[program->current_word]) == TRUE){
+            statement(program);
+            program->current_word -= 1;
+            program->interpreter_index += 1;
+            strcpy(program->interpreter[program->interpreter_index], program->words[program->current_word]);
+            program->interpreter_index += 1;
+            program->current_word += 1;
+            strcpy(program->interpreter[program->interpreter_index], program->words[program->current_word]);
+            program->interpreter_index += 1;
+            conditional(program);
+        }
+        
     }
     else if(strings_match(program->words[program->current_word], "for")){
+        program->current_word += 1;
         loop(program);
     }
     else{
         statement(program);
     }
-
 }
 
-int loop(prog *program){     //for function
-}
-
-int conditional(prog *program){  //if function
+int loop(prog *program){  
+    int start_iteration, end_iteration;
+    if(!strings_match(program->words[program->current_word], "iterations")){
+            fprintf(stderr, "\nFor loop only works for iterations\n");
+            exit(1);
+    }
     statement(program);
+    start_iteration = atoi(program->words[program->current_word]);
+    program->current_word += 1;
+    if(!strings_match(program->words[program->current_word], "to")){
+            fprintf(stderr, "\nFor loop needs the word 'to' between the two conditions\n");
+            exit(1);
+    }
+    program->current_word += 1;
+    if(!strings_match(program->words[program->current_word], "iterations")){
+            fprintf(stderr, "\nFor loop only works for iterations\n");
+            exit(1);
+    }
+    statement(program);
+    end_iteration = atoi(program->words[program->current_word]);
+    program->current_word += 1;
+    if(!strings_match(program->words[program->current_word], "{")){
+            fprintf(stderr, "\nFor loop starts with '{'\n");
+            exit(1);
+    }
+    program->current_word += 1;
+    if(start_iteration > end_iteration){
+        fprintf(stderr, "\nStart iteration needs to be lower than the end iteration in your for loop.\n");
+        exit(1);
+    }
+    
+    for_loop(program, start_iteration, end_iteration);
+}
+
+void for_loop(prog *program, int start, int end){
+    int start_counter = program->current_word;
+    int i;
+    for(i = start; i <= end; i++){
+        program->current_word = start_counter;
+        strcpy(program->interpreter[program->interpreter_index], "conditional");
+        program->interpreter_index += 1;
+        strcpy(program->interpreter[program->interpreter_index], "iterations");
+        program->interpreter_index += 1;
+        sprintf(program->interpreter[program->interpreter_index], "%d", i);
+        
+        program->interpreter_index += 1;
+        funclist(program);
+    }
+}
+       
+        
+int conditional(prog *program){  //if function
+    //statement(program);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "then{")){
         printf("\nIf condition needs to be followed with 'then{'");
@@ -155,13 +240,22 @@ int attribute(prog *program){
         if(strings_match(program->actions[i].name, program->words[program->current_word-1])){
             for(j = 0; !(strings_match(program->actions[i].instruction[j], "STOP")); j++){
                 if (strings_match(program->words[program->current_word], program->actions[i].instruction[j])){
+                    
                     if(strings_match(program->words[program->current_word-2], "if")){
-                        //check_if(program);
+                        
                     }
                     else if (strings_match(program->words[program->current_word-2], "for")){
                     }
+                    else if (strings_match(program->words[program->current_word-2], "to")){
+                    }
                     else{
-                        assign_value(program, i);
+                        strcpy(program->interpreter[program->interpreter_index], "assign");
+                        program->interpreter_index += 1;
+                        strcpy(program->interpreter[program->interpreter_index], program->words[program->current_word-1] );
+                        program->interpreter_index += 1;
+                        strcpy(program->interpreter[program->interpreter_index], program->words[program->current_word] );
+                         program->interpreter_index += 1;
+                        //assign_value(program, i);
                     }
                     return TRUE;
                 }
@@ -170,8 +264,16 @@ int attribute(prog *program){
                     }
                     else if (strings_match(program->words[program->current_word-2], "for")){
                     }
+                    else if (strings_match(program->words[program->current_word-2], "to")){
+                    }
                     else{
-                        assign_value(program, i);
+                        strcpy(program->interpreter[program->interpreter_index], "assign");
+                        program->interpreter_index += 1;
+                        strcpy(program->interpreter[program->interpreter_index], program->words[program->current_word-1] );
+                        program->interpreter_index += 1;
+                        strcpy(program->interpreter[program->interpreter_index], program->words[program->current_word] );
+                        program->interpreter_index += 1;
+                        //assign_value(program, i);
                     } 
                     return TRUE;
                 }
@@ -181,26 +283,20 @@ int attribute(prog *program){
     }
     return FALSE;
 }
-/*
-void check_if(prog *program){
-    if(strings_match(program->words[program->current_word-1], "iterations")){
-        iteration_if(program);
-    }
-    else{
-        fprintf("Action %s, cannot be used in an if statement.", program->words[program->current_word-1])
-    }
-    /*else if(strings_match(program->words[program->current_word-1], "colour")){
-    }
-    else if(strings_match(program->words[program->current_word-1], "shape")){
-    }
-    else if(strings_match(program->words[program->current_word-1], "type")){
-    }
-   
 
-}*/
-/*
-void iteration_if(prog *program){
-*/
+int check_if(char *word){
+    
+    if(strings_match(word, "iterations")){
+        return TRUE;
+    }
+    else if(strings_match(word, "colour")){
+        return TRUE;
+    }
+    fprintf(stderr, "\nThe action %s is not a valid condition for an if statement.\n", word);
+    exit(1);
+    return FALSE;
+}
+
 void create_struct_array(action *actions){
     
 	int i, j, k, l, cnt = 0, array_cnt = 0;
@@ -228,7 +324,7 @@ void create_struct_array(action *actions){
 		array_cnt += 1;
 	}
 }
-
+/*
 void assign_value(prog *program, action_word i){
 
 	switch(i){
@@ -243,9 +339,7 @@ void assign_value(prog *program, action_word i){
 			strcpy(program->fractal->move, program->words[program->current_word]);
 			break;
 		case size:
-		    for(int j=0; j<MAX_ITERATIONS; j++) {
-			    program->fractal->size[j] = atoi(program->words[program->current_word]);
-			}
+			program->fractal->size = atoi(program->words[program->current_word]);
         	program->fractal->startx -= (size/2);
 	        program->fractal->starty -= (size/2);
             // In order to centre the image properly.
@@ -282,4 +376,5 @@ void assign_value(prog *program, action_word i){
 	}
 	
 }
+*/
 

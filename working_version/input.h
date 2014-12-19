@@ -3,7 +3,7 @@
 
 #define TAB_LENGTH 3
 
-int parse(Draw *fractal); //SHOULD BE IN PARSE.H!!!!!!!!!!
+int parser(Draw *fractal); //SHOULD BE IN PARSE.H!!!!!!!!!!
 int Interface_Events(Interface* interface);
 void SDL_Window_Events(SDL_Event event, Interface* interface);
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface);
