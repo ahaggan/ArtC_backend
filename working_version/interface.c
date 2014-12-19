@@ -7,8 +7,7 @@ int interface(Main_Menu* main) {
    Interface interface;
    clock_t start_time, end_time; //hideous
    Draw fractal; //shouldn't be in here
-   initialise_interface(main, &interface);
-    display_interface(&interface);
+   initialise_interface(main, &interface); 
    initialise_text_editor(&interface);
    while (interface.action != back_to_menu) {
       display_interface(&interface);
@@ -44,7 +43,6 @@ int interface(Main_Menu* main) {
             } 
          }  
       }
-
       render_update_clear(interface.window);
    }
    return 0;
@@ -55,6 +53,7 @@ void initialise_interface(Main_Menu* main_menu, Interface* interface) {
   interface->window = main_menu->window;
   interface->font = main_menu->font;
   interface->button_font = main_menu->button_font;
+  display_interface(interface);
 }
 
 void initialise_text_editor(Interface* interface) {
