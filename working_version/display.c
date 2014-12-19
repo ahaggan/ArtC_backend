@@ -382,14 +382,14 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
   curr_chall_y = interface->toolbar.rect.h / TOOLBAR_BUTTON_Y - 6;
   curr_chall_w = win_width - (win_width / TEXT_ED_WIDTH) - (win_width / NEXT_BUTTON) / 2;
   curr_chall_h = (FONT_SIZE + 16);
-  make_rect(&interface->window, &interface->current_challenge_l1, curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h, 83, 83, 79);
-  make_text(&interface->window, &interface->current_challenge_l1.rect, 255, 255, 255, interface->button_font, "   The current challenge is to have ");
+  make_rect(&interface->window, &interface->current_challenge_l1, curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h, 143, 143, 139);
+  make_text(&interface->window, &interface->current_challenge_l1.rect, 40, 40, 40, interface->button_font, "   The current challenge is to have ");
 
   //Line 2
   
   curr_chall_y = curr_chall_y + curr_chall_h;
-  make_rect(&interface->window, &interface->current_challenge_l2, curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h, 83, 83, 79);
-  make_text(&interface->window, &interface->current_challenge_l2.rect, 255, 255, 255, interface->button_font, "   a merry christmas.               ");
+  make_rect(&interface->window, &interface->current_challenge_l2, curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h, 143, 143, 139);
+  make_text(&interface->window, &interface->current_challenge_l2.rect, 40, 40, 40, interface->button_font, "   a merry christmas.               ");
 }
 
 void display_next_button(int win_width, int win_height, Interface* interface) {
@@ -400,7 +400,7 @@ void display_next_button(int win_width, int win_height, Interface* interface) {
   next_button_h = interface->current_challenge_l1.rect.h * 2;
   next_button_y = interface->current_challenge_l1.rect.y;
   make_rect(&interface->window, &interface->next_button, next_button_x, next_button_y, next_button_w, next_button_h, 100, 150, 100);
-  make_text(&interface->window, &interface->next_button.rect, 40, 40, 40, interface->button_font, "NEXT");   
+  make_text(&interface->window, &interface->next_button.rect, 0, 0, 0, interface->button_font, "NEXT");   
 }
 
 void display_tutorial_button(int win_width, int win_height, Interface* interface) {
