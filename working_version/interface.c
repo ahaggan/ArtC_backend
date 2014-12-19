@@ -8,7 +8,8 @@ int interface(Main_Menu* main) {
    clock_t start_time, end_time; //hideous
    Draw fractal; //shouldn't be in here
    initialise_interface(main, &interface);
-    
+    display_interface(&interface);
+   initialise_text_editor(&interface);
    while (interface.action != back_to_menu) {
       display_interface(&interface);
       update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
@@ -30,16 +31,16 @@ int interface(Main_Menu* main) {
 
          parser(&fractal);
          
-         for (int i=1; i<=fractal.iterations; i++) {
+         for (int i = 1; i <= fractal.iterations; i++) {
             start_time = end_time = clock();
             generate_fractal(&fractal, interface, i);
-            while((double)(end_time - start_time)/CLOCKS_PER_SEC < 0.2 && !interface.window.finished) {
-
+            while(((double)end_time - (double)start_time)/(double)CLOCKS_PER_SEC < 0.05) {
                Interface_Events(&interface);
                update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
                SDL_RenderPresent(interface.window.renderer);
-               SDL_UpdateWindowSurface(interface.window.win);
+               
                end_time = clock();
+          
             } 
          }  
       }
@@ -54,7 +55,6 @@ void initialise_interface(Main_Menu* main_menu, Interface* interface) {
   interface->window = main_menu->window;
   interface->font = main_menu->font;
   interface->button_font = main_menu->button_font;
-  initialise_text_editor(interface);
 }
 
 void initialise_text_editor(Interface* interface) {
@@ -62,6 +62,7 @@ void initialise_text_editor(Interface* interface) {
   interface->editor_columns /= 24;
   interface->editor_rows /= 29.5;
   make_text_editor(interface->editor_columns, interface->editor_rows, interface);
+ 
   SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
   SDL_StartTextInput();
 }

@@ -1,6 +1,8 @@
 //Keep all 'display' information within the display module. Pass around a display object.
 #include "input.h"
 
+void update_text_node(TextNode* current, Interface* interface);
+
 void SDL_Win_Init(SDL_Win *w, char* win_name) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "\nUnable to initialize SDL:  %s\n", SDL_GetError());
@@ -98,6 +100,10 @@ void SDL_TTF_Quit(TTF_Font *font) {
     TTF_Quit();
 }
 
+/* Text Editor Functions */
+
+
+//Initialises a blank text editor with the supplied dimensions
 void make_text_editor(int width, int height, Interface* interface) {
    TextNode* current = NULL;
    Coordinates curr;
@@ -110,58 +116,132 @@ void make_text_editor(int width, int height, Interface* interface) {
    }
 }
 
+//creates varying text cells based on where the cell lies on the text grid
 TextNode* make_cell(int width, int height, Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current) {
-
-   if (first_cell(curr)) {
-      text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
-      text_editor[curr.row][curr.column].next = &interface->text_editor[0][curr.column+1];  
-      set_active_text_cell(curr.row, curr.column, interface);
-   }
-
-   else if (!last_cell(curr, *interface)) {
-      text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
-      if (end_column(curr, *interface)) {
-         text_editor[curr.row][curr.column].next = &interface->text_editor[curr.row+1][0];  
-      }
-      else {
-        text_editor[curr.row][curr.column].next = &interface->text_editor[curr.row][curr.column + 1];
-      }
-   }  
-
-   else {
-     text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
-     text_editor[curr.row][curr.column].next = NULL;
-   }
-
-   return &text_editor[curr.row][curr.column];
+  if (first_cell(curr)) {
+    make_first_cell(curr, interface, text_editor, current);
+  }
+  else if (!last_cell(curr, *interface)) {
+    make_middle_cells(curr, interface, text_editor, current);
+  }
+  else {
+    make_last_cell(curr, interface, text_editor, current);
+  }
+  return &text_editor[curr.row][curr.column];
 }
 
-void update_text_editor(int width, int height, Interface* interface) {
-  TextNode* current = NULL;
-  
- for (int row = 0; row < height; row++) {
-    for (int column = 0; column < width; column++) {
+void make_first_cell(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current) {
+  text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
+  text_editor[curr.row][curr.column].next = &interface->text_editor[0][curr.column+1];  
+  set_active_text_cell(curr.row, curr.column, interface);
+}
 
-      //final cell
-      if (!(row == (height - 1) && column == (width -1))) {
-       interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column); //allocate a whole new text node?!
-        if (column == width - 1) {
-          interface->text_editor[row][column].next = &interface->text_editor[row+1][0];  
-        }
-        else {
-          interface->text_editor[row][column].next = &interface->text_editor[row][column + 1];
-        }
-      }
-      else {
-        interface->text_editor[row][column] = *allocate_text_node(interface->text_editor[row][column].character, current, interface, row, column);
-        interface->text_editor[row][column].next = NULL;
-      }
-      current = &interface->text_editor[row][column];
-    }
+void make_middle_cells(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current) {
+  text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
+  //if the text cell is in the final column, its next link is the first cell of the next row
+  if (end_column(curr, *interface)) {
+     text_editor[curr.row][curr.column].next = &interface->text_editor[curr.row+1][0];  
+  }
+  //otherwise, the next link is the next cell in the row
+  else {
+    text_editor[curr.row][curr.column].next = &interface->text_editor[curr.row][curr.column + 1];
+  }
+}
+
+void make_last_cell(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current) {
+  text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, interface, curr.row, curr.column);
+  text_editor[curr.row][curr.column].next = NULL;
+}
+
+//Reforms the text editor based on user input
+void update_text_editor(int width, int height, Interface* interface) {
+  TextNode* current = &interface->text_editor[0][0];
+  Coordinates curr;
+  while (current != NULL) {
+      update_text_node(current, interface);
+      current = current->next;
   }
 
-   make_rect(&interface->window, &interface->text_cursor, interface->text_editor_panel.rect.x + (interface->active_txt.column * (FONT_SIZE- 6)), interface->text_editor_panel.rect.y + (interface->active_txt.row * (FONT_SIZE + 9.1)), 3, (FONT_SIZE + 4), 240, 240, 240);
+  make_rect(&interface->window, &interface->text_cursor, interface->text_editor_panel.rect.x + (interface->active_txt.column * (FONT_SIZE- 6)), interface->text_editor_panel.rect.y + (interface->active_txt.row * (FONT_SIZE + 9.1)), 3, (FONT_SIZE + 4), 240, 240, 240);
 }
+
+TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column) {
+  TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
+  TextNode* tmp = new_node;
+  int box_w = (FONT_SIZE- 6);
+  int box_h =  (FONT_SIZE + 9);
+ 
+  printf("%d %d\n", interface->text_editor_panel.rect.x, interface->text_editor_panel.rect.y);
+  int x = (interface->text_editor_panel.rect.x + (column * box_w));
+  int y = (interface->text_editor_panel.rect.y + (row * box_h));
+
+  if (new_node == NULL) {
+    printf("Cannot Allocate Node\n");
+    exit(2);
+  }
+
+  new_node->text_cell.row = row;
+  new_node->text_cell.column = column;
+  strcpy(new_node->character, c);
+
+  new_node->location.row = y;
+  new_node->location.column = x;
+  new_node->w = box_w;
+  new_node->h = box_h;
+
+
+  new_node->previous = previous_node;
+
+  if (previous_node == NULL) {
+    printf("Rect details: x: %d y: %d w: %d h: %d\n", new_node->location.row, new_node->location.column, new_node->w, new_node->h);
+  }
+  make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, box_w, box_h, 43, 43, 39);
+  if (strcmp(new_node->character, EMPTY_CELL) == 0) {
+    //free(tmp);
+    return new_node;
+  }
+  else {
+    make_text(&interface->window, &interface->text_editor[row][column].box.rect, 240, 240, 240, interface->font, new_node->character);
+  }
+ // free(tmp);
+  return new_node;
+}
+
+
+void update_text_node(TextNode* current, Interface* interface) {
+  if (current->previous == NULL) {
+    printf("Rect details: x: %d y: %d w: %d h: %d\n", current->location.row, current->location.column, current->w, current->h);
+  }
+  make_rect(&interface->window, &current->box, current->location.column, current->location.row, current->w, current->h, 43, 43, 39);
+  if (strcmp(current->character, EMPTY_CELL) == 0) {
+    ;
+  }
+
+  else {
+    make_text(&interface->window, &current->box.rect, 240, 240, 240, interface->font, current->character);
+  }
+}
+
+/*
+TextNode* update_cell(int width, int height, Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current) {
+  
+  // For some reason, removing this and inserting the below makes it slow... if (!(curr.row == height - 1 && curr.column == width -1)) {
+  if (!last_cell(curr, *interface)) {
+    interface->text_editor[curr.row][curr.column] = *allocate_text_node(interface->text_editor[curr.row][curr.column].character, current, interface, curr.row, curr.column); //allocate a whole new text node?!
+    if (end_column(curr, *interface)) {
+      interface->text_editor[curr.row][curr.column].next = &interface->text_editor[curr.row+1][0];  
+    }
+    else {
+      interface->text_editor[curr.row][curr.column].next = &interface->text_editor[curr.row][curr.column + 1];
+    }
+  }
+  else {
+    interface->text_editor[curr.row][curr.column] = *allocate_text_node(interface->text_editor[curr.row][curr.column].character, current, interface, curr.row, curr.column);
+    interface->text_editor[curr.row][curr.column].next = NULL;
+  }
+  return &interface->text_editor[curr.row][curr.column];
+}
+*/
 
 void display_interface(Interface *interface) {
   int win_width, win_height;
@@ -234,7 +314,6 @@ void display_interface(Interface *interface) {
   */
 
   texted_x = 0;
-
   texted_y = menu_h;
   texted_w = win_width / 2;
   texted_h = win_height - menu_h - 25;
@@ -263,39 +342,6 @@ void display_interface(Interface *interface) {
 
   make_rect(&interface->window, &interface->help_button, help_button_x, help_button_y, help_button_w, help_button_h, 200, 200, 100);
   make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, interface->button_font, "Help");
-}
-
- 
-TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int row, int column) {
-  TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
-  TextNode* tmp = new_node;
-  int box_w = (FONT_SIZE- 6);
-  int box_h =  (FONT_SIZE + 9);
- 
-  int x = (interface->text_editor_panel.rect.x + (column * box_w));
-  int y = (interface->text_editor_panel.rect.y + (row * box_h));
-
-  if (new_node == NULL) {
-    printf("Cannot Allocate Node\n");
-    exit(2);
-  }
-
-  new_node->text_cell.row = row;
-  new_node->text_cell.column = column;
-  strcpy(new_node->character, c);
-
-  new_node->previous = previous_node;
-
-  make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, box_w, box_h, 43, 43, 39);
-  if (strcmp(new_node->character, EMPTY_CELL) == 0) {
-    free(tmp);
-    return new_node;
-  }
-  else {
-    make_text(&interface->window, &interface->text_editor[row][column].box.rect, 240, 240, 240, interface->font, new_node->character);
-  }
-  free(tmp);
-  return new_node;
 }
 
 /* void free_text_nodes(TextNode* tail) {

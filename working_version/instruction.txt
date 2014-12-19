@@ -13,4 +13,4 @@ colour6 green;
 colour7 green;
 
 type tree;
-iterations 9;
+iterations 7;

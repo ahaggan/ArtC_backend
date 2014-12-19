@@ -54,6 +54,9 @@ typedef struct text_node {
   char character[1];
   Area box;
   Coordinates text_cell;
+  Coordinates location;
+  int w;
+  int h;
 } TextNode;
 
 typedef TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
