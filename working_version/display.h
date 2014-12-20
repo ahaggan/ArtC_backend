@@ -10,7 +10,7 @@
 #define TOOLBAR_HEIGHT 10
 
 #define TOOLBAR_BUTTON_Y 6
-#define TOOLBAR_BUTTON_WIDTH 10
+#define TOOLBAR_BUTTON_WIDTH 8.5
 #define TOOLBAR_BUTTON_HEIGHT 1.5
 
 #define BOTTOM_BUTTON_HEIGHT 18
@@ -206,5 +206,5 @@ void display_tutorial_button(int win_width, int win_height, Interface* interface
 
 #define CURRENT_CHALLENGE 14
 void display_current_challenge(int win_width, int win_height, Interface* interface);
-#define NEXT_BUTTON 4
+#define NEXT_BUTTON 3
 void display_next_button(int win_width, int win_height, Interface* interface);
