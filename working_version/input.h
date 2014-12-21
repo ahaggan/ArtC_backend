@@ -23,3 +23,5 @@ int SDL_Main_Menu_Events(Main_Menu* main_menu);
 int within_button(int x, int y, SDL_Rect button);
 
 int SDL_Challenges_Menu_Events(Challenges_Menu* challenges);
+
+void load_text_into_text_editor(char* file_name, Interface* interface);

@@ -544,7 +544,6 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
   return new_node;
 }
 
-
 void update_text_node(TextNode* current, Interface* interface) {
   make_rect(&interface->window, &current->box, current->location.column, current->location.row, current->w, current->h, 43, 43, 39);
   /* if there's no character to render, skip make_text */
@@ -552,3 +551,5 @@ void update_text_node(TextNode* current, Interface* interface) {
     make_text(&interface->window, &current->box.rect, 240, 240, 240, interface->font, current->character);
   }
 }
+
+

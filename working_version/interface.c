@@ -71,4 +71,5 @@ void initialise_text_editor(Interface* interface) {
  
   SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
   SDL_StartTextInput();
+  load_text_into_text_editor("intermediatechallenge.txt", interface);
 }

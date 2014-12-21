@@ -1,7 +1,7 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include"display.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "display.h"
 
 #define MAX_ITERATIONS 10
 #define NO_OF_INSTRUCTIONS 60

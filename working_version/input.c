@@ -376,7 +376,7 @@ FILE* make_file(char *file_name) {
     return new_file;
 }
 
-void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]) {
+void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS] /* perhaps allow specific file name */) {
     FILE* user_code = fopen("user_code.artc", "w");
     TextNode* current = &text_editor[0][0];
     while (current->next != NULL) {
@@ -386,6 +386,37 @@ void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS]) {
         current = current->next;
     }
     fclose(user_code);
+}
+
+void load_text_into_text_editor(char* file_name, Interface* interface) {
+    FILE* challenge = fopen(file_name, "r");
+    int row = 0;
+    int column = 0;
+    char c;
+    TextNode* current = &interface->text_editor[row][column];
+    
+    while ((c = fgetc(challenge)) != EOF) {
+        if (c == '\n') {
+            column = 0;
+            current = &interface->text_editor[++row][column];
+        }
+        else {
+            if (column < interface->editor_columns) {
+                printf("%d\n", c);
+                strcpy(current->character, &c);
+              //  if (current->next == NULL) {
+                //    printf("Error: challenge is too big for the text editor.\n");    
+                  //  exit(1);
+                //}
+            }
+            else {
+                column = 0;
+                current = &interface->text_editor[++row][column];
+                strcpy(current->character, &c);
+            }
+        } 
+        current = current->next; 
+    }
 }
 
 //broken when overwriting to the next line! (creates duplicate characters)
