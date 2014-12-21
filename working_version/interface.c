@@ -62,10 +62,6 @@ void initialise_text_editor(Interface* interface) {
   //Canvas Mode:
   interface->editor_columns /= 24;
   interface->editor_rows /= 29.5;
-
-  //Challenge mode:
- // interface->editor_columns /= 24;
-  //interface->editor_rows /= 34;
   
   make_text_editor(interface->editor_columns, interface->editor_rows, interface);
  

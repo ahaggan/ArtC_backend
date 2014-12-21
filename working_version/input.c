@@ -403,7 +403,6 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
  
         else {
             if (column < interface->editor_columns) {
-                printf("%d\n", c);
                 strcpy(current->character, &c);
               //  if (current->next == NULL) {
                 //    printf("Error: challenge is too big for the text editor.\n");    
@@ -429,17 +428,20 @@ void handle_overwriting(Coordinates active, Interface* interface, char overflow[
     char nxt[3];
      
     if (strcmp(overflow, EMPTY_CELL) != 0) {
+        printf("Flowing over to the next line.\n");
         strcpy(nxt, current->next->character);
         strcpy(current->next->character, overflow);
-        strcpy(curr, overflow);
-    
+        strcpy(curr, current->next->character);
     }
+
     else {
         strcpy(curr, current->character);
         strcpy(nxt, current->next->character);
         strcpy(current->next->character, curr);
     }
+
     current = current->next;
+
     while (col < interface->editor_columns - 1) {
         col++; 
         current = current->next;
