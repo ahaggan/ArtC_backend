@@ -400,6 +400,7 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
             column = 0;
             current = &interface->text_editor[++row][column];
         }
+ 
         else {
             if (column < interface->editor_columns) {
                 printf("%d\n", c);
