@@ -194,11 +194,11 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
 
                     //quick and dirty fix for the final space on the grid
                     if (last_cell(active, *interface)) {
-                        strcpy(interface->text_editor[active.row][active.column].character, " "); 
-                        strcpy(interface->text_editor[active.row][active.column].previous->character, " ");
+                        strcpy(interface->text_editor[active.row][active.column].character, EMPTY_CELL); 
+                        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                     }
                     else {
-                        strcpy(interface->text_editor[active.row][active.column].previous->character, " ");
+                        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                     }
                     
                     SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
@@ -426,14 +426,16 @@ void handle_overwriting(Coordinates active, Interface* interface, char overflow[
     int col = active.column;
     char curr[3];
     char nxt[3];
-     
+    
+    //1. text flowing over from one row to another
     if (strcmp(overflow, EMPTY_CELL) != 0) {
-        printf("Flowing over to the next line.\n");
+        printf("Handle overflow\n");
         strcpy(nxt, current->next->character);
         strcpy(current->next->character, overflow);
         strcpy(curr, current->next->character);
     }
 
+    //2. 
     else {
         strcpy(curr, current->character);
         strcpy(nxt, current->next->character);
@@ -453,9 +455,12 @@ void handle_overwriting(Coordinates active, Interface* interface, char overflow[
     over.row = active.row + 1;
     over.column = 0;
 
-    printf("%s\n", interface->text_editor[over.row][0].character);
     
     if (strcmp(interface->text_editor[over.row][0].character, EMPTY_CELL) != 0) {
-        handle_overwriting(over, interface, nxt);
+        if (strcmp(nxt, EMPTY_CELL) != 0) {
+            printf("nxt: %s\n", nxt); 
+            printf("1, 0: %s\n", interface->text_editor[over.row][0].character);
+            handle_overwriting(over, interface, nxt);
+        }
     }
 }
