@@ -161,7 +161,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
     switch(event.type) {
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:
-           //make a check function: if text_to_be_overwritten { }
+          
             if (!last_cell(active, *interface)) {
                 if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
                    if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
@@ -178,7 +178,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 return text_edited;
             }
             return text_edited;
-        
+         
+
         //user presses a key
         case SDL_KEYDOWN:
             
@@ -187,20 +188,20 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
 
                 //backspace deletes the previous character
                 case SDLK_BACKSPACE:
-                     
                     if (first_cell(active)) {
                         break;
                     }
-
                     //quick and dirty fix for the final space on the grid
                     if (last_cell(active, *interface)) {
                         strcpy(interface->text_editor[active.row][active.column].character, EMPTY_CELL); 
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                     }
+                    else if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
+                        handle_backwriting(active, interface);
+                    } 
                     else {
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                     }
-                    
                     SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
                     set_active_text_cell(interface->text_editor[active.row][active.column].previous->text_cell.row, interface->text_editor[active.row][active.column].previous->text_cell.column, interface);
                     return text_edited;
@@ -419,48 +420,93 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
     }
 }
 
-//broken when overwriting to the next line! (creates duplicate characters)
-void handle_overwriting(Coordinates active, Interface* interface, char overflow[3]) {
+void handle_backwriting(Coordinates active, Interface* interface) {
+    TextNode* current = interface->text_editor[active.row][active.column].previous;
+    char curr[3];
+    int col = active.column;
+
+    strcpy(curr, current->next->character); //a
+    strcpy(current->character, curr); //d - > a
+    current = current->next; //a
+
+    while (col < interface->editor_columns - 1) {
+        col++; 
+        strcpy(curr, current->next->character);
+        strcpy(current->character, curr);
+        current = current->next;
+    }
+}
+
+
+void handle_overwriting(Coordinates active, Interface* interface, char* overflow) {
     Coordinates over = active;
     TextNode* current = &interface->text_editor[active.row][active.column];
-    int col = active.column;
     char curr[3];
     char nxt[3];
     
-    //1. text flowing over from one row to another
+    current = handle_initial_cell(overflow, nxt, curr, current);
+
+    shuffle_rest_of_line(active, *interface, current, curr, nxt);
+    
+    if (shuffle_overflow(&over, *interface, nxt)) {
+        handle_overwriting(over, interface, nxt);
+    }
+}
+
+int text_overflow(char* overflow) {
     if (strcmp(overflow, EMPTY_CELL) != 0) {
-        printf("Handle overflow\n");
-        strcpy(nxt, current->next->character);
-        strcpy(current->next->character, overflow);
-        strcpy(curr, current->next->character);
+        return 1;
     }
+    return 0;
+}
 
-    //2. 
+
+TextNode* handle_initial_cell(char* overflow, char* nxt, char* curr, TextNode* current) {
+    //text overflow is where the current text input also affects the next line 
+    //this is necessary in our text editor because it has no horizontal scrolling
+    //overflow is carried over recursively from the previous instance of the function
+    if (text_overflow(overflow)) {
+        handle_overflow(nxt, current, overflow, curr);
+    }
     else {
-        strcpy(curr, current->character);
-        strcpy(nxt, current->next->character);
-        strcpy(current->next->character, curr);
+        shuffle_active_cell(curr, current, nxt);
     }
+    return current->next;
+}
 
-    current = current->next;
+//activated if there is a char present in the first column of the next row
+//moves the char in column 0 along one cell
+void handle_overflow(char* nxt, TextNode* current, char* overflow, char* curr) {
+    strcpy(nxt, current->next->character);
+    strcpy(current->next->character, overflow);
+    strcpy(curr, current->next->character);
+}
 
-    while (col < interface->editor_columns - 1) {
+void shuffle_active_cell(char *curr, TextNode* current, char* nxt) {
+    strcpy(curr, current->character);
+    strcpy(nxt, current->next->character);
+    strcpy(current->next->character, curr);
+}
+
+//shuffles all of the cells affected by the inserted character on the row
+void shuffle_rest_of_line(Coordinates active, Interface interface, TextNode* current, char* curr, char* nxt) {
+    int col = active.column;
+    while (col < interface.editor_columns - 1) {
         col++; 
         current = current->next;
         strcpy(curr, nxt);
         strcpy(nxt, current->character);
         strcpy(current->character, curr);
     }
-    
-    over.row = active.row + 1;
-    over.column = 0;
+}
 
-    
-    if (strcmp(interface->text_editor[over.row][0].character, EMPTY_CELL) != 0) {
+int shuffle_overflow(Coordinates* over, Interface interface, char* nxt) {
+    over->row  += 1;
+    over->column = 0;
+    if (strcmp(interface.text_editor[over->row][0].character, EMPTY_CELL) != 0) {
         if (strcmp(nxt, EMPTY_CELL) != 0) {
-            printf("nxt: %s\n", nxt); 
-            printf("1, 0: %s\n", interface->text_editor[over.row][0].character);
-            handle_overwriting(over, interface, nxt);
+            return 1;
         }
     }
+    return 0;
 }

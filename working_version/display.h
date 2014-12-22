@@ -62,7 +62,7 @@ typedef struct txt_node {
 	struct txt_node* previous;
 	struct txt_node* next;
 	//I have a feeling this needs to be a string
-	char* character;
+	char character[1];
 	//if selected == 1, display cursor
 	int selected;
 } Txt_node;
