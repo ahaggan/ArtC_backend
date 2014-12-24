@@ -164,10 +164,11 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
           
             if (!last_cell(active, *interface)) {
                 if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
-                   if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
-                //overwriting irrelevant if bottom_row!
-                        handle_overwriting(active, interface, EMPTY_CELL);//handle overwriting
-                    }
+                  // if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
+                       
+                            handle_overwriting(active, interface, EMPTY_CELL);//handle overwriting
+                        
+                   // }
                 }
             }
             strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
@@ -197,7 +198,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                     }
                     else if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
-                        handle_backwriting(active, interface);
+                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+                        //handle_backwriting(active, interface, EMPTY_CELL);
                     } 
                     else {
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
@@ -400,42 +402,69 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
         if (c == '\n') {
             column = 0;
             current = &interface->text_editor[++row][column];
-        }
+        }          
  
         else {
-            if (column < interface->editor_columns) {
+            if (column < interface->editor_columns - 1) {
                 strcpy(current->character, &c);
-              //  if (current->next == NULL) {
-                //    printf("Error: challenge is too big for the text editor.\n");    
-                  //  exit(1);
-                //}
+        
             }
             else {
                 column = 0;
                 current = &interface->text_editor[++row][column];
                 strcpy(current->character, &c);
             }
+            current = current->next; 
         } 
-        current = current->next; 
+        
     }
 }
 
-void handle_backwriting(Coordinates active, Interface* interface) {
+
+/* Fix backspacing, then fix weird bottom row behaviour */  
+/*
+void handle_backwriting(Coordinates active, Interface* interface, char* backflow) {
+    Coordinates over = active;
     TextNode* current = interface->text_editor[active.row][active.column].previous;
     char curr[3];
     int col = active.column;
 
-    strcpy(curr, current->next->character); //a
-    strcpy(current->character, curr); //d - > a
-    current = current->next; //a
-
-    while (col < interface->editor_columns - 1) {
-        col++; 
-        strcpy(curr, current->next->character);
-        strcpy(current->character, curr);
+    if (strcmp(backflow, EMPTY_CELL) != 0) {
+        printf("Active: curr %s backflow: %s\n", current->character, backflow);
+        strcpy(current->character, backflow);
+        
+    }
+    else { 
+        printf("Active: curr: %s next: %s\n", current->character, current->next->character);
+        strcpy(current->character, current->next->character); 
         current = current->next;
     }
+    
+    
+    while (col < interface->editor_columns) {
+        printf("Col: %d ", col); 
+        printf("current: %s ", current->character);
+        strcpy(curr, current->next->character); 
+        printf("next: %s\n", current->next->character);
+        strcpy(current->character, curr);
+        current = current->next;
+        col++; 
+    }
+
+    over.row += 1;
+    over.column = 0;
+
+    if (strcmp(backflow, EMPTY_CELL) = 0) {
+    
+        if (strcmp(interface->text_editor[over.row][over.column].character, EMPTY_CELL) != 0) {
+            printf("backflow\n");
+            handle_backwriting(over, interface, current->next->character);
+        
+        }
+    }
 }
+*/
+
 
 
 void handle_overwriting(Coordinates active, Interface* interface, char* overflow) {
@@ -443,13 +472,17 @@ void handle_overwriting(Coordinates active, Interface* interface, char* overflow
     TextNode* current = &interface->text_editor[active.row][active.column];
     char curr[3];
     char nxt[3];
-    
+    printf("handle initial cell\n");
     current = handle_initial_cell(overflow, nxt, curr, current);
-
+  
     shuffle_rest_of_line(active, *interface, current, curr, nxt);
-    
-    if (shuffle_overflow(&over, *interface, nxt)) {
-        handle_overwriting(over, interface, nxt);
+
+    if (!bottom_row(active, *interface)) {
+         printf("shuffle overflow\n");
+        if (shuffle_overflow(&over, *interface, nxt)) {
+            printf("handle overflow\n");
+            handle_overwriting(over, interface, nxt);
+        }
     }
 }
 
@@ -491,12 +524,21 @@ void shuffle_active_cell(char *curr, TextNode* current, char* nxt) {
 //shuffles all of the cells affected by the inserted character on the row
 void shuffle_rest_of_line(Coordinates active, Interface interface, TextNode* current, char* curr, char* nxt) {
     int col = active.column;
-    while (col < interface.editor_columns - 1) {
+    int condition = interface.editor_columns - 1;
+
+    //since the text editor isn't scrolling, the condition for the bottom row simply drops the final column's character
+    if (bottom_row(active, interface)) {
+        condition -= 1;
+    }
+
+    while (col < condition) {
         col++; 
-        current = current->next;
-        strcpy(curr, nxt);
-        strcpy(nxt, current->character);
-        strcpy(current->character, curr);
+        if (strcmp(nxt, EMPTY_CELL) != 0) {
+            current = current->next;
+            strcpy(curr, nxt);
+            strcpy(nxt, current->character);
+            strcpy(current->character, curr);
+        }
     }
 }
 
@@ -504,7 +546,7 @@ int shuffle_overflow(Coordinates* over, Interface interface, char* nxt) {
     over->row  += 1;
     over->column = 0;
     if (strcmp(interface.text_editor[over->row][0].character, EMPTY_CELL) != 0) {
-        if (strcmp(nxt, EMPTY_CELL) != 0) {
+        if (strcmp(nxt, EMPTY_CELL) != 0) {           
             return 1;
         }
     }
