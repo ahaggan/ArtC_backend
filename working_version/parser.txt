@@ -1,8 +1,8 @@
 run{ 
     shape line
-    colour green
+    colour purple
     type tree
-    iterations 9
+    iterations 6
     size 500
 }
 

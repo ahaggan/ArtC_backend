@@ -28,7 +28,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
     }
 
     if (strcmp(fractal->shape[i-1], "square") == 0) {
-        SDL_Line(interface.window.renderer, x-(size/2), y+(size/2), x+(size/2), y-(size/2), size, angle);
+        SDL_Line(interface.window.renderer, x-(size*sin(angle)/2.0), y+(size*cos(angle)/2.0), x+(size*sin(angle)/2.0), y-(size*cos(angle)/2.0), size, angle);
        /* SDL_Rect rectangle;
         rectangle.w = size;
         rectangle.h = size;
@@ -44,7 +44,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
     }
 
     else if (strcmp(fractal->shape[i-1], "line") == 0) {
-        SDL_Line(interface.window.renderer, (x-(size/2.0*sin(angle))), (y+(size/2.0*cos(angle))), (x+(size/2.0*sin(angle))), (y-(size/2.0*cos(angle))), fractal->linethickness[i-1], angle);
+        SDL_Line(interface.window.renderer, x-(size*sin(angle)), y+(size*cos(angle)), x+(size*sin(angle)), y-(size*cos(angle)), fractal->linethickness[i-1], angle);
 //printf("%f|%f|%f|%f\n", (x-size/2.0)*sin(angle), (y-size/2.0)*cos(angle), (x+size/2.0)*sin(angle), (y+size/2.0)*cos(angle));
     }
 
@@ -62,6 +62,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 
 void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, int thickness, float angle)
 {
+    printf("Line: (%d, %d) to (%d, %d)\n", xs, ys, xe, ye);
     float i1=xs, i2=xe;
     float j1 = ys + (-(thickness/2.0)*sin(angle));
     float j2 = ye + (-(thickness/2.0)*sin(angle));

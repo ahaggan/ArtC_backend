@@ -24,6 +24,8 @@ typedef struct draw{
   int linethickness[10];
   char* shape[10];
   int height[10];
+  int divisions;
+  float anglerange;
   int startx;
   int starty;
   int endx;

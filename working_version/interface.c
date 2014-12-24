@@ -24,7 +24,7 @@ int interface(Main_Menu* main) {
             fractal.endx = WIN_WIDTH/2 + 10;
             fractal.endy = WIN_HEIGHT/2 + 10; 
             for (int q = 0; q < 10; q++){
-               fractal.linethickness[q] = 10;
+               fractal.linethickness[q] = 2;
             }
          /* END */
 

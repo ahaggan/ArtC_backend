@@ -1,1 +1,1 @@
-run {}  } colour green 10 then {
+run {   fractal tree {      iterations 20      shape line      colour red      if iterations 10 then {         colour green      }   } }		
