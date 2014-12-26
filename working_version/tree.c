@@ -6,16 +6,17 @@ void tree(Draw *fractal, Interface interface, int limit)
 {
   Shape trunk;
   float angle = 0;
-  fractal->anglerange = M_PI;
+  fractal->anglerange = 1;
 
-  make_shape(&trunk, fractal->startx, interface.canvas.rect.y+interface.canvas.rect.h-(fractal->height[0]/2), fractal->size[0]/2, fractal->height[0]/2, 0);
+  make_shape(&trunk, fractal->startx, interface.canvas.rect.h, fractal->size[0]/2, fractal->height[0]/2, 0);
 
   int iterations = 1;
   fractal->divisions = 2;
 
   printf("Tree Limit: %d\n", limit);
-
+ 
   Shape current = trunk;
+  
   draw_sdl(interface, fractal, current.x, current.y, current.size/fractal->divisions, angle, iterations);
 
   int branchx = current.x + ((current.size*sin(angle))/fractal->divisions);

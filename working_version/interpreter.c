@@ -1,6 +1,6 @@
 #include "parser.h"
 
-void interpreter(prog *program){
+void interpreter(Prog* program){
     int i;
     int end;
      printf("\nInside interpreter\n");
@@ -33,7 +33,7 @@ void interpreter(prog *program){
     printf("\nEnd of interpreter\n");
 }
 
-int check_condition(prog *program, int iteration){
+int check_condition(Prog* program, int iteration){
     if(strings_match("iterations", program->interpreter[program->interpreter_index])){
         program->interpreter_index += 1;
         if( atoi(program->interpreter[program->interpreter_index]) == iteration){        //IF ITERATION IS OUT BY ONE MIGHT BE A PROBLEM HERE
@@ -55,13 +55,13 @@ int check_condition(prog *program, int iteration){
             
 }
 
-void search_for_end(prog *program){
+void search_for_end(Prog* program){
     while(!strings_match(program->interpreter[program->interpreter_index], "end")){
         program->interpreter_index += 1;
     }
 }
 
-void assign_value(prog *program, int iteration){
+void assign_value(Prog* program, int iteration){
     if(strings_match(program->interpreter[program->interpreter_index], "colour")){
         program->interpreter_index += 1;
         program->fractal->colour[iteration] = (char*)malloc(strlen(program->interpreter[program->interpreter_index]) * sizeof(char));

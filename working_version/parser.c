@@ -1,31 +1,29 @@
 
 #include "parser.h"
 
+/* parser should be passed a text file 
+   also, it should treat \newlines as spaces (try ending the program with a } only one line below)*/
 int parser(Draw *fractal){
-    int i;
-    FILE *file_pointer;
-    prog program;
-    
-    
+    int i; //what is 'i'?
+    FILE *file_pointer; // give this a proper name
+    Prog program;
     
     program.interpreter_index = 0;
     program.fractal = fractal;
     
     initialise_words_array(&program);
-    
+
     create_struct_array(program.actions);
     
-    //make_default(&program);
-    
+    //make_default(&program);    
     //printf("\nCurrent word: %d\n", program.current_word);
-    
     //interpreter(&program);
     //printf("\nParsed OK!\n");
     //test_interpreter(&program);
-   
     //initialise_words_array(&program);
+
     initialise_interpreter_array(&program);
-    if((file_pointer = fopen("parser.txt", "r")) == NULL){
+    if((file_pointer = fopen("user_code.artc", "r")) == NULL){
         fprintf(stderr, "\nCannot open file\n");
         exit(2);
     }
@@ -42,7 +40,7 @@ int parser(Draw *fractal){
     test_interpreter(&program);
 }
 
-void initialise_words_array(prog *program){
+void initialise_words_array(Prog* program){
     int i;
     program->current_word = 0;
     for(i = 0; i < MAX_WORDS; i++){
@@ -50,7 +48,7 @@ void initialise_words_array(prog *program){
     }
 }
 
-void initialise_interpreter_array(prog *program){
+void initialise_interpreter_array(Prog* program){
     int i;
     
     for(i = 0; i < NO_OF_INSTRUCTIONS; i++){
@@ -58,7 +56,7 @@ void initialise_interpreter_array(prog *program){
     }
 }
 
-void test_interpreter(prog *program){
+void test_interpreter(Prog* program){
      printf("\nInside test\n");
     for(int i = 0; i < NO_OF_INSTRUCTIONS; i++){
     
@@ -67,13 +65,13 @@ void test_interpreter(prog *program){
     }
     for(int i = 0; i < MAX_ITERATIONS; i++){
     
-        printf("\nFactal colour %d: %s", i, program->fractal->colour[i]);
-        printf("\nFactal shape %d: %s", i, program->fractal->shape[i]);
-        printf("\nFactal type %d: %s", i, program->fractal->type[i]);
+        printf("\nFractal colour %d: %s", i, program->fractal->colour[i]);
+        printf("\nFractal shape %d: %s", i, program->fractal->shape[i]);
+        printf("\nFractal type %d: %s", i, program->fractal->type[i]);
     }
 }
 
-void make_default(prog *program){
+void make_default(Prog* program){
     FILE *file_pointer;
     int i;
     if((file_pointer = fopen("default.txt", "r")) == NULL){
@@ -91,7 +89,7 @@ void make_default(prog *program){
 }
     
 
-int validate(prog *program){
+int validate(Prog* program){
     
     if(!strings_match(program->words[program->current_word], "run{")){
         printf("\nProgram needs to start with the word 'run{'");
@@ -102,7 +100,7 @@ int validate(prog *program){
     
 }
 
-int funclist(prog *program){
+int funclist(Prog* program){
     if(strings_match(program->words[program->current_word], "}")){
         strcpy(program->interpreter[program->interpreter_index], "end" );
         program->interpreter_index += 1;
@@ -117,7 +115,7 @@ int funclist(prog *program){
     funclist(program);
 }
 
-int function(prog *program){
+int function(Prog* program){
     if(strings_match(program->words[program->current_word], "if")){
         strcpy(program->interpreter[program->interpreter_index], "conditional");
             program->current_word += 1;
@@ -143,7 +141,7 @@ int function(prog *program){
     }
 }
 
-int loop(prog *program){  
+int loop(Prog* program){  
     int start_iteration, end_iteration;
     if(!strings_match(program->words[program->current_word], "iterations")){
             fprintf(stderr, "\nFor loop only works for iterations\n");
@@ -177,7 +175,7 @@ int loop(prog *program){
     for_loop(program, start_iteration, end_iteration);
 }
 
-void for_loop(prog *program, int start, int end){
+void for_loop(Prog* program, int start, int end){
     int start_counter = program->current_word;
     int i;
     for(i = start; i <= end; i++){
@@ -194,7 +192,7 @@ void for_loop(prog *program, int start, int end){
 }
        
         
-int conditional(prog *program){  //if function
+int conditional(Prog* program){  //if function
     //statement(program);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "then{")){
@@ -206,7 +204,7 @@ int conditional(prog *program){  //if function
     
 }
 
-int statement(prog *program){
+int statement(Prog* program){
     if (check_action(program->words[program->current_word]) == TRUE){
         program->current_word += 1;
         if(attribute(program)){
@@ -234,7 +232,7 @@ int check_action(char *word){
     return FALSE; 
 }
 
-int attribute(prog *program){
+int attribute(Prog* program){
     int i, j;
     for(i = 0; i < ACTION_SIZE; i++){
         if(strings_match(program->actions[i].name, program->words[program->current_word-1])){
@@ -297,7 +295,7 @@ int check_if(char *word){
     return FALSE;
 }
 
-void create_struct_array(action *actions){
+void create_struct_array(Action *actions){
     
 	int i, j, k, l, cnt = 0, array_cnt = 0;
 	char *first_word[ACTION_SIZE]= ACTION;
@@ -324,8 +322,10 @@ void create_struct_array(action *actions){
 		array_cnt += 1;
 	}
 }
+
+/* What is this? */
 /*
-void assign_value(prog *program, action_word i){
+void assign_value(Prog* program, action_word i){
 
 	switch(i){
 		case colour:

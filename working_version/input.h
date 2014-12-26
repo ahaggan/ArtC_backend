@@ -24,6 +24,14 @@ int within_button(int x, int y, SDL_Rect button);
 
 int SDL_Challenges_Menu_Events(Challenges_Menu* challenges);
 
+
+
+/* Text Editor */
+void make_text_editor(int width, int height, Interface* interface);
+void update_text_editor(int width, int height, Interface* interface);
+TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int x, int y);
+void print_composition(TextNode* start);
+
 void load_text_into_text_editor(char* file_name, Interface* interface);
 
 TextNode* handle_initial_cell(char* overflow, char* nxt, char* curr, TextNode* current);

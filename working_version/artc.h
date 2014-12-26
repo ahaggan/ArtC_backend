@@ -35,7 +35,7 @@ typedef struct draw{
 
 typedef struct area {
   SDL_Rect rect;
-  SDL_Color colour;
+  SDL_Color col;
 } Area;
 
 typedef struct SDL_Win {

@@ -20,6 +20,9 @@
 #define MENU_X_SPACE 70
 #define HELP_X_SPACE 1.13
 
+#define CURRENT_CHALLENGE 14
+#define NEXT_BUTTON 3
+
 #ifndef  M_PI
  #define M_PI  3.14159265358979323846
 #endif  
@@ -108,8 +111,6 @@ void star(Draw *fractal, Interface interface, int limit);
 void make_text_editor(int width, int height, Interface* interface);
 void update_text_editor(int width, int height, Interface* interface);
 TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interface, int x, int y);
-void print_composition(TextNode* start);
-
 void free_text_nodes(TextNode* head);
 
 /* Menu Additions */
@@ -166,13 +167,6 @@ typedef struct main_menu {
 void update_main_menu(Main_Menu *main_menu);
 void render_update_clear(SDL_Win window);
 
-TextNode* make_cell(int width, int height, Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
-void make_first_cell(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
-void make_middle_cells(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
-void make_last_cell(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
-
-TextNode* update_cell(int width, int height, Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
-
 void display_main_menu(Main_Menu* main_menu);
 
 void display_menu_background(int win_width, int win_height, Main_Menu *main_menu);
@@ -201,10 +195,6 @@ void display_generate_button(int win_width, int win_height, Interface* interface
 void display_canvas(int win_width, int win_height, Interface* interface);
 void display_text_editor(int win_width, int win_height, Interface* interface);
 
-
 void display_tutorial_button(int win_width, int win_height, Interface* interface);
-
-#define CURRENT_CHALLENGE 14
-void display_current_challenge(int win_width, int win_height, Interface* interface);
-#define NEXT_BUTTON 3
 void display_next_button(int win_width, int win_height, Interface* interface);
+void display_current_challenge(int win_width, int win_height, Interface* interface);
