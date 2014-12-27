@@ -222,31 +222,31 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 //tab moves you forward a number of spaces
                 case SDLK_TAB:
                     if (SDL_GetModState() & KMOD_SHIFT) {
+                        
                         if (active.column <= 2) {
-                            if (!top_row(active)) {
-                                SDL_SetTextInputRect(&interface->text_editor[active.row - 1][interface->editor_columns - 1].box.rect);
-                                set_active_text_cell(active.row - 1, interface->editor_columns - 1, interface);
-                                return text_edited;
-                            } 
+                            ;
                             break;
                         }
-                        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column - TAB_LENGTH].box.rect);
-                        set_active_text_cell(active.row, active.column - TAB_LENGTH, interface);        
+                        else {
+                            indent(active, interface, 0);
+                            SDL_SetTextInputRect(&interface->text_editor[active.row][active.column - TAB_LENGTH].box.rect);
+                            set_active_text_cell(active.row, active.column - TAB_LENGTH, interface);   
+                        }     
                         return text_edited;
                     }
                     
                     else {
-                        tab_shuffle(active, interface);
                         if (active.column  >= interface->editor_columns - TAB_LENGTH) {
                             if (!bottom_row(active, *interface)) {
-                                SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
-                                set_active_text_cell(active.row + 1, 0, interface);
-                                return text_edited;
+                                ;   
                             }
                             break;
                         }
-                        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + TAB_LENGTH].box.rect);
-                        set_active_text_cell(active.row, active.column + TAB_LENGTH, interface);
+                        else {
+                            indent(active, interface, 1);
+                            SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + TAB_LENGTH].box.rect);
+                            set_active_text_cell(active.row, active.column + TAB_LENGTH, interface);
+                        }
                         return text_edited;
                     }
 

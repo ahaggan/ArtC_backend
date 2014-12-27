@@ -45,4 +45,4 @@ void handle_backwriting(Coordinates active, Interface* interface, char* backflow
 
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 
-void tab_shuffle(Coordinates active, Interface* interface);
+void indent(Coordinates active, Interface* interface, int direction);

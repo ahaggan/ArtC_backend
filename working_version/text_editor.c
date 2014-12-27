@@ -12,8 +12,7 @@ int character_provided(TextNode* cell, char* character);
 
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 void enter_shuffle(Coordinates active, Interface* interface, char copy[interface->editor_columns][3], char nxt[interface->editor_columns][3]);
-void tab_move_three(TextNode* current) ;
-
+void empty_row(char* row, int length);
 
 /* Makes a cell for every grid position (grid size based on window width/height) */
 void make_text_editor(int width, int height, Interface* interface) {
@@ -347,22 +346,38 @@ void enter_shuffle(Coordinates active, Interface* interface, char copy[interface
    }
 }
 
-void tab_shuffle(Coordinates active, Interface* interface) {
+
+void indent(Coordinates active, Interface* interface, int direction) {
    Coordinates cell;
    cell.column = active.column;
    char copy[interface->editor_columns][3];
-   char shifted[interface->editor_columns][3];
+   int tab = 0;
+   //if indent
+   if (direction == 1) {
+      tab = 3;
+   }
+   //other unindent
+   else {
+      tab = -3;
+   }
 
    /* save a copy of the row */
    for (int column = active.column; column < interface->editor_columns; column++) {
       strcpy(copy[column], interface->text_editor[active.row][cell.column++].character); 
    }
    cell.column = active.column;
-   for (int column = active.column; column < active.column + 3; column++) {
+   for (int column = active.column; column < active.column + tab; column++) {
       strcpy(interface->text_editor[active.row][column].character, " ");
    }
-   for (int column = active.column+3; column < interface->editor_columns; column++) {
-      strcpy(interface->text_editor[active.row][column].character, copy[column - 3]);  
+   for (int column = active.column+tab; column < interface->editor_columns; column++) {
+      strcpy(interface->text_editor[active.row][column].character, copy[column - tab]);  
+   }
+
+   //prevents garbage from entering the end of the row
+   if (direction != 1) {
+      for (int column = interface->editor_columns - 1; column > interface->editor_columns - 4; column --) {
+         strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
+      }
    }
 }
 
