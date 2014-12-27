@@ -213,6 +213,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     if (bottom_row(active, *interface)) {
                         break;
                     }
+                    handle_enter_shuffling(active, interface);
                     //move the cursor to the next line
                     SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
                     set_active_text_cell(active.row + 1, 0, interface);

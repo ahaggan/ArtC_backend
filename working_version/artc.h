@@ -52,7 +52,6 @@ typedef struct coordinates {
 typedef struct text_node {
   struct text_node* previous;
   struct text_node* next;
-  //I have a feeling this needs to be a string
   char character[1];
   Area box;
   Coordinates text_cell;

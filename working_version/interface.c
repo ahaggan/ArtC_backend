@@ -9,9 +9,9 @@ int interface(Main_Menu* main) {
    Draw fractal; //shouldn't be in here
    initialise_interface(main, &interface); 
    initialise_text_editor(&interface);
-   display_interface(&interface);
+
    while (interface.action != back_to_menu) {
-      
+      display_interface(&interface);
       update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
       interface.action = Interface_Events(&interface);
 

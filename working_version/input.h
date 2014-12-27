@@ -42,3 +42,5 @@ void shuffle_rest_of_line(Coordinates active, Interface interface, TextNode* cur
 int shuffle_overflow(Coordinates* over, Interface interface, char* nxt);
 
 void handle_backwriting(Coordinates active, Interface* interface, char* backflow);
+
+void handle_enter_shuffling(Coordinates active, Interface* interface);

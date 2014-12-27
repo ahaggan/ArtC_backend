@@ -8,6 +8,9 @@ void make_first_cell(Coordinates curr, Interface* interface, TextNode text_edito
 void make_middle_cells(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
 void make_last_cell(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
 void update_text_node(TextNode* current, Interface* interface);
+int character_provided(TextNode* cell, char* character);
+void handle_enter_shuffling(Coordinates active, Interface* interface);
+void shuffle_cell(char* curr, char* nxt, Coordinates cell, Interface* interface) ;
 
 /* Makes a cell for every grid position (grid size based on window width/height) */
 void make_text_editor(int width, int height, Interface* interface) {
@@ -114,7 +117,7 @@ TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
             box_w, box_h, 43, 43, 39);
 
    /* if there's no character to render, skip make_text */
-   if (strcmp(new_node->character, EMPTY_CELL) != 0) {
+   if (character_provided(new_node, c)) {
       make_text(&interface->window, &interface->text_editor[row][column].box.rect, 
                240, 240, 240, interface->font, new_node->character);
    }
@@ -132,6 +135,12 @@ void update_text_node(TextNode* current, Interface* interface) {
    }
 }
 
+int character_provided(TextNode* cell, char* character) {
+   if (strcmp(cell->character, EMPTY_CELL) != 0) {
+      return 1;
+   }
+   return 0;
+}
 int top_row(Coordinates active) {
     if (active.row == 0) {
         return 1;
@@ -286,7 +295,31 @@ void handle_backwriting(Coordinates active, Interface* interface, char* backflow
 }
 */
 
+void handle_enter_shuffling(Coordinates active, Interface* interface) {
+   Coordinates cell;
+   char curr[3];
+   char nxt[3];
 
+   //assuming that active column is 0 for now
+   for (int column = active.column; column < interface->editor_columns; column++) {
+      strcpy(curr, interface->text_editor[active.row][column].character);
+      strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
+      for (int row = active.row; row < interface->editor_rows - 1; row++) {
+         cell.row = row;
+         cell.column = column;
+         shuffle_cell(curr, nxt, cell, interface);
+      }
+   }
+}
+
+void shuffle_cell(char* curr, char* nxt, Coordinates cell, Interface* interface) {
+   //copy the next cell's contents into nxt
+   strcpy(nxt, interface->text_editor[cell.row + 1][cell.column].character);
+   //copy curr into the next cell
+   strcpy(interface->text_editor[cell.row + 1][cell.column].character, curr);
+   //copy nxt into curr
+   strcpy(curr, nxt);   
+}
 
 void handle_overwriting(Coordinates active, Interface* interface, char* overflow) {
     Coordinates over = active;

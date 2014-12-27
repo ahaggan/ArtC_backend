@@ -34,8 +34,10 @@ void SDL_Win_Init(SDL_Win *w, char* win_name) {
    SDL_RenderSetLogicalSize(w->renderer, WIN_WIDTH, WIN_HEIGHT); 
    SDL_SetWindowMinimumSize(w->win, MIN_WIDTH, MIN_HEIGHT);
 
+  
    //Set screen to white
    SDL_SetRenderDrawColor(w->renderer, 255, 255, 255, 255);
+   SDL_RenderClear(w->renderer);
    render_update_clear(*w);
 }
 
@@ -538,6 +540,6 @@ void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
 void render_update_clear(SDL_Win window) {
    SDL_RenderPresent(window.renderer);
    SDL_UpdateWindowSurface(window.win);
-   //SDL_RenderClear(window.renderer);
+   SDL_RenderClear(window.renderer);
 }
 

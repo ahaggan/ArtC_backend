@@ -4,71 +4,71 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 {
 
     if (strcmp(fractal->colour[i-1], "black") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 0, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 0, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "red") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 255, 0, 0, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 255, 0, 0, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "pink") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 255, 192, 203, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 255, 192, 203, 255);
     }
         
     else if (strcmp(fractal->colour[i-1], "fuchsia") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 255, 0, 255, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 255, 0, 255, 255);
     }
     
     else if (strcmp(fractal->colour[i-1], "purple") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 128, 0, 128, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 128, 0, 128, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "blue") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 255, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 255, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "navy") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 128, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 128, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "turquoise") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 64, 224, 208, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 64, 224, 208, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "green") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 0, 255, 0, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 0, 255, 0, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "lime") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 173, 255, 47, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 173, 255, 47, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "yellow") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 255, 255, 0, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 255, 255, 0, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "olive") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 128, 128, 0, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 128, 128, 0, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "gold") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 255, 215, 0, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 255, 215, 0, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "orange") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 255, 165, 0, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 255, 165, 0, 255);
     }
 
      else if (strcmp(fractal->colour[i-1], "grey") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 128, 128, 128, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 128, 128, 128, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "brown") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 120, 30, 30, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 120, 30, 30, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "white") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 240, 240, 240, 50);
+        SDL_SetRenderDrawColor(interface.window.renderer, 240, 240, 240, 255);
     }
 
     if (strcmp(fractal->shape[i-1], "square") == 0) {
