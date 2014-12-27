@@ -236,6 +236,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     }
                     
                     else {
+                        tab_shuffle(active, interface);
                         if (active.column  >= interface->editor_columns - TAB_LENGTH) {
                             if (!bottom_row(active, *interface)) {
                                 SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);

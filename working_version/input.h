@@ -44,3 +44,5 @@ int shuffle_overflow(Coordinates* over, Interface interface, char* nxt);
 void handle_backwriting(Coordinates active, Interface* interface, char* backflow);
 
 void handle_enter_shuffling(Coordinates active, Interface* interface);
+
+void tab_shuffle(Coordinates active, Interface* interface);
