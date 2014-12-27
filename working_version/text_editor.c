@@ -45,7 +45,7 @@ TextNode* make_cell(int width, int height, Coordinates curr, Interface* interfac
 
 void make_first_cell(Coordinates curr, Interface* interface, 
                      TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current) {
-   text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, current, 
+   text_editor[curr.row][curr.column] = *allocate_text_node(EMPTY_CELL, NULL, 
                                         interface, curr.row, curr.column);
    text_editor[curr.row][curr.column].next = &interface->text_editor[0][curr.column+1];  
    set_active_text_cell(curr.row, curr.column, interface);
@@ -379,6 +379,7 @@ void indent(Coordinates active, Interface* interface, int direction) {
          strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
       }
    }
+
 }
 
 void handle_overwriting(Coordinates active, Interface* interface, char* overflow) {
@@ -465,4 +466,34 @@ int shuffle_overflow(Coordinates* over, Interface interface, char* nxt) {
         }
     }
     return 0;
+}
+
+
+
+void find_next_active_node(Coordinates* active, Interface* interface) {
+   TextNode* current = &interface->text_editor[active->row][active->column];
+   while (strcmp(current->character, EMPTY_CELL) == 0 && current->next != NULL) {
+      current = current->next;
+   }
+   if (current->next == NULL) {
+      ;
+   }
+   else {
+      active->row = current->text_cell.row;
+      active->column = current->text_cell.column;
+   }
+}
+
+void find_previous_active_node(Coordinates* active, Interface* interface) {
+   TextNode* current = &interface->text_editor[active->row][active->column];
+   while (strcmp(current->previous->character, EMPTY_CELL) == 0 && current->previous != NULL) {
+      current = current->previous;
+   }
+   if (current->previous == NULL) {
+      ;
+   }
+   else {
+      active->row = current->text_cell.row;
+      active->column = current->text_cell.column;
+   }
 }

@@ -46,3 +46,5 @@ void handle_backwriting(Coordinates active, Interface* interface, char* backflow
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 
 void indent(Coordinates active, Interface* interface, int direction);
+void find_next_active_node(Coordinates* active, Interface* interface);
+void find_previous_active_node(Coordinates* active, Interface* interface);

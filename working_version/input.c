@@ -258,21 +258,28 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     set_active_text_cell(active.row - 1, active.column, interface);
                     return text_edited;
 
-                case SDLK_RIGHT:   
-
-                    if (end_column(active, *interface)) {
-                        if (!bottom_row(active, *interface)) {
-                            SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
+                case SDLK_RIGHT: 
+                    if (last_cell(active, *interface)) {
+                        break;
+                    }       
+                    if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
+                        if (end_column(active, *interface)) {
+                            SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect); 
                             set_active_text_cell(active.row + 1, 0, interface);
-                            return text_edited;
                         }
-                
-                        break;     
+                        else {
+                            SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + 1].box.rect); 
+                            set_active_text_cell(active.row, active.column + 1, interface);
+                        }
                     }
-                    SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + 1].box.rect); 
-                    set_active_text_cell(active.row, active.column + 1, interface);
+                    else {
+                        find_next_active_node(&active, interface);
+                        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].box.rect);
+                        set_active_text_cell(active.row, active.column, interface);
+                    }
                     return text_edited;
-
+                    break;
+        
                 case SDLK_DOWN:   
                     if (bottom_row(active, *interface)) {
                         return text_edited;
@@ -282,18 +289,28 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     return text_edited;
 
                 case SDLK_LEFT:   
-
-                    if (start_column(active)) {
-                        if (!top_row(active)) {
-                            SDL_SetTextInputRect(&interface->text_editor[active.row - 1][interface->editor_columns - 1].box.rect);
-                            set_active_text_cell(active.row - 1, interface->editor_columns - 1, interface);
-                            return text_edited;
-                        }
+                    if (first_cell(active)) {
                         break;
+                    }                    
+                    if (strcmp(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL) != 0) {
+     
+                        if (start_column(active)) {
+                            SDL_SetTextInputRect(&interface->text_editor[active.row - 1][interface->editor_columns-1].box.rect); 
+                            set_active_text_cell(active.row - 1, interface->editor_columns-1, interface);
+                        }
+                        else {
+                            SDL_SetTextInputRect(&interface->text_editor[active.row][active.column - 1].box.rect); 
+                            set_active_text_cell(active.row, active.column - 1, interface);
+                        }
                     }
-                    SDL_SetTextInputRect(&interface->text_editor[active.row ][active.column - 1].box.rect);
-                    set_active_text_cell(active.row, active.column - 1, interface);
+                    else {
+                        find_previous_active_node(&active, interface);
+                        printf("%d %d\n", active.row, active.column);
+                        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].box.rect);
+                        set_active_text_cell(active.row, active.column, interface);
+                    }
                     return text_edited;
+                    break;
 
                 //ctrl + c copies text to the clipboard
                 case SDLK_c:
