@@ -282,8 +282,11 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
         
                 case SDLK_DOWN:   
                     if (bottom_row(active, *interface)) {
-                        return text_edited;
-                    }
+                        break;
+                    }  
+                    if (final_active_node(active, *interface)) {
+                        break;
+                    }   
                     SDL_SetTextInputRect(&interface->text_editor[active.row + 1][active.column].box.rect);
                     set_active_text_cell(active.row + 1, active.column, interface);
                     return text_edited;

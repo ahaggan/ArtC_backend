@@ -497,3 +497,19 @@ void find_previous_active_node(Coordinates* active, Interface* interface) {
       active->column = current->text_cell.column;
    }
 }
+
+int final_active_node(Coordinates active, Interface interface) {
+   TextNode* current = &interface.text_editor[active.row][active.column];
+   if (current->next == NULL) {
+      return 1;
+   }
+   current = current->next;
+   while (strcmp(current->character, EMPTY_CELL) == 0 && current->next != NULL) {
+      current = current->next;
+   }
+   if (current->next == NULL) {
+      return 1;
+   }
+   return 0;
+
+}
