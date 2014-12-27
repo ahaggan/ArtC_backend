@@ -11,6 +11,8 @@ void update_text_node(TextNode* current, Interface* interface);
 int character_provided(TextNode* cell, char* character);
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 void shuffle_cell(char* curr, char* nxt, Coordinates cell, Interface* interface) ;
+void shuffle_cells_back(int distance, Coordinates active, Interface* interface);
+void enter_shuffle(Coordinates active, Interface* interface, char* curr, char* nxt);
 
 /* Makes a cell for every grid position (grid size based on window width/height) */
 void make_text_editor(int width, int height, Interface* interface) {
@@ -296,17 +298,35 @@ void handle_backwriting(Coordinates active, Interface* interface, char* backflow
 */
 
 void handle_enter_shuffling(Coordinates active, Interface* interface) {
-   Coordinates cell;
    char curr[3];
    char nxt[3];
+   enter_shuffle(active, interface, curr, nxt);
+}
 
-   //assuming that active column is 0 for now
-   for (int column = active.column; column < interface->editor_columns; column++) {
+void enter_shuffle(Coordinates active, Interface* interface, char* curr, char* nxt) {
+   Coordinates cell;
+   for (int column = active.column; column <= interface->editor_columns; column++) {
       strcpy(curr, interface->text_editor[active.row][column].character);
       strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
       for (int row = active.row; row < interface->editor_rows - 1; row++) {
          cell.row = row;
-         cell.column = column;
+         cell.column = column - active.column;
+         shuffle_cell(curr, nxt, cell, interface);
+      }
+   }
+}
+
+void enter_one_shuffle(Coordinates active, Coordinates cell, Interface* interface, char* curr, char* nxt) {
+   for (int column = active.column; column <= interface->editor_columns; column++) {
+      strcpy(curr, interface->text_editor[active.row][column].character);
+      strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
+      for (int row = active.row; row < interface->editor_rows; row++) {
+
+         cell.column = column - 1;
+         
+         cell.row = row;
+         
+         printf("%d %d\n", cell.row, cell.column);
          shuffle_cell(curr, nxt, cell, interface);
       }
    }
@@ -314,12 +334,29 @@ void handle_enter_shuffling(Coordinates active, Interface* interface) {
 
 void shuffle_cell(char* curr, char* nxt, Coordinates cell, Interface* interface) {
    //copy the next cell's contents into nxt
+  
    strcpy(nxt, interface->text_editor[cell.row + 1][cell.column].character);
+
    //copy curr into the next cell
    strcpy(interface->text_editor[cell.row + 1][cell.column].character, curr);
    //copy nxt into curr
    strcpy(curr, nxt);   
 }
+
+/*
+void shuffle_cells_back(int distance, Coordinates active, Interface* interface) {
+   TextNode* current = &interface->text_editor[active.row][active.column];
+   char curr[3];
+   printf("%d\n", distance);
+   while (distance > 0) {
+      printf("current: %s <- current->next %s\n", current->character, current->next->character);
+      strcpy(curr, current->next->character);
+      strcpy(current->character, curr);
+      current = current->next;
+      distance--;
+   }
+}
+*/
 
 void handle_overwriting(Coordinates active, Interface* interface, char* overflow) {
     Coordinates over = active;
