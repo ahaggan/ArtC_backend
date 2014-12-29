@@ -164,11 +164,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
           
             if (!last_cell(active, *interface)) {
                 if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
-                  // if (strcmp(interface->text_editor[active.row][active.column].character, " ") != 0) {
-                       
-                            handle_overwriting(active, interface, EMPTY_CELL);//handle overwriting
-                        
-                   // }
+                    handle_overwriting(active, interface, EMPTY_CELL);//handle overwriting
                 }
             }
             strcpy(interface->text_editor[active.row][active.column].character, event.text.text);
@@ -187,10 +183,6 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
             //based on the key pressed...
             switch (event.key.keysym.sym) {
 
-                //backspace deletes the previous character
-
-
-                /* add find_previous_node function into here somewhere! */
                 case SDLK_BACKSPACE:
                     if (first_cell(active)) {
                         break;
@@ -208,6 +200,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     } 
                     else {
                         //If there's nothing in the previous cell
+                        
                         find_previous_active_node(&active, interface);
                         SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].box.rect);
                         set_active_text_cell(active.row, active.column, interface);

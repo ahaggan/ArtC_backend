@@ -266,13 +266,16 @@ void handle_backwriting(Coordinates active, Interface* interface, char* backflow
       strcpy(copy[column], interface->text_editor[active.row][column].character);
     }
   
-    /* shuffle the necessary characters into the active row */
+    //if the row is not being shifted on to the previous line
     if (active.column != 0) {
+      /* shuffle the necessary characters into the active row */
       for (int column = active.column; column < interface->editor_columns; column++) {
-          
          strcpy(interface->text_editor[active.row][column - 1].character, copy[column]);
       }  
     }
+
+
+
   }
 }
 
@@ -460,7 +463,7 @@ int shuffle_overflow(Coordinates* over, Interface interface, char* nxt) {
 
 void find_next_active_node(Coordinates* active, Interface* interface) {
    TextNode* current = &interface->text_editor[active->row][active->column];
-   while (strcmp(current->character, EMPTY_CELL) == 0 && current->next != NULL) {
+   while (current->next != NULL && strcmp(current->character, EMPTY_CELL) == 0) {
       current = current->next;
    }
    if (current->next == NULL) {
@@ -474,9 +477,11 @@ void find_next_active_node(Coordinates* active, Interface* interface) {
 
 void find_previous_active_node(Coordinates* active, Interface* interface) {
    TextNode* current = &interface->text_editor[active->row][active->column];
-   while (strcmp(current->previous->character, EMPTY_CELL) == 0 && current->previous != NULL) {
+
+   while (current->previous != NULL && strcmp(current->previous->character, EMPTY_CELL) == 0) {
       current = current->previous;
    }
+     
    if (current->previous == NULL) {
       ;
    }
