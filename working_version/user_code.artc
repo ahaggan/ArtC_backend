@@ -8,12 +8,12 @@ run{
       colour black
    }
    if iterations 1 then{
-      colour grey
+   colour grey
    }
    if iterations 2 then{
-      colour navy
+   colour navy
    }
    if iterations 3 then{
-      colour blue
-   } 
+   colour blue
+   }
 }

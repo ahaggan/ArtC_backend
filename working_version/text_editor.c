@@ -14,6 +14,8 @@ void handle_enter_shuffling(Coordinates active, Interface* interface);
 void enter_shuffle(Coordinates active, Interface* interface, char copy[interface->editor_columns][3], char nxt[interface->editor_columns][3]);
 void empty_row(char* row, int length);
 
+int rest_of_row_empty(Coordinates active, Interface* interface);
+
 /* Makes a cell for every grid position (grid size based on window width/height) */
 void make_text_editor(int width, int height, Interface* interface) {
    TextNode* current = NULL;
@@ -252,50 +254,36 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
     }
 }
 
-
-/* Fix backspacing, then fix weird bottom row behaviour */  
-/*
 void handle_backwriting(Coordinates active, Interface* interface, char* backflow) {
-    Coordinates over = active;
-    TextNode* current = interface->text_editor[active.row][active.column].previous;
-    char curr[3];
-    int col = active.column;
-
-    if (strcmp(backflow, EMPTY_CELL) != 0) {
-        printf("Active: curr %s backflow: %s\n", current->character, backflow);
-        strcpy(current->character, backflow);
-        
-    }
-    else { 
-        printf("Active: curr: %s next: %s\n", current->character, current->next->character);
-        strcpy(current->character, current->next->character); 
-        current = current->next;
-    }
+  Coordinates cell;
+  cell.column = active.column;
+  char copy[interface->editor_columns][3];
     
-    
-    while (col < interface->editor_columns) {
-        printf("Col: %d ", col); 
-        printf("current: %s ", current->character);
-        strcpy(curr, current->next->character); 
-        printf("next: %s\n", current->next->character);
-        strcpy(current->character, curr);
-        current = current->next;
-        col++; 
+  if (!rest_of_row_empty(active, interface)) {
+  
+    /* hold the row to be shuffled */
+    for (int column = 0; column < interface->editor_columns; column++) {
+      strcpy(copy[column], interface->text_editor[active.row][column].character);
     }
-
-    over.row += 1;
-    over.column = 0;
-
-    if (strcmp(backflow, EMPTY_CELL) = 0) {
-    
-        if (strcmp(interface->text_editor[over.row][over.column].character, EMPTY_CELL) != 0) {
-            printf("backflow\n");
-            handle_backwriting(over, interface, current->next->character);
-        
-        }
+  
+    /* shuffle the necessary characters into the active row */
+    if (active.column != 0) {
+      for (int column = active.column; column < interface->editor_columns; column++) {
+          
+         strcpy(interface->text_editor[active.row][column - 1].character, copy[column]);
+      }  
     }
+  }
 }
-*/
+
+int rest_of_row_empty(Coordinates active, Interface* interface) {
+  for (int col = active.column; col < interface->editor_columns; col++) {
+    if (strcmp(interface->text_editor[active.row][col].character, EMPTY_CELL) != 0) {
+      return 0;
+    }
+  }
+  return 1;
+}
 
 void handle_enter_shuffling(Coordinates active, Interface* interface) {
    char copy[interface->editor_columns][3];

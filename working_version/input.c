@@ -188,25 +188,32 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
             switch (event.key.keysym.sym) {
 
                 //backspace deletes the previous character
+
+
+                /* add find_previous_node function into here somewhere! */
                 case SDLK_BACKSPACE:
                     if (first_cell(active)) {
                         break;
                     }
-                    //quick and dirty fix for the final space on the grid
                     if (last_cell(active, *interface)) {
                         strcpy(interface->text_editor[active.row][active.column].character, EMPTY_CELL); 
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                     }
-                    else if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
-                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
-                        //handle_backwriting(active, interface, EMPTY_CELL);
+                    else if (strcmp(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL) != 0) {
+                        //If there's something in the previous cell
+                        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+                        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
+                        set_active_text_cell(interface->text_editor[active.row][active.column].previous->text_cell.row, interface->text_editor[active.row][active.column].previous->text_cell.column, interface);
+                        handle_backwriting(active, interface, NULL);
                     } 
                     else {
-                        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+                        //If there's nothing in the previous cell
+                        find_previous_active_node(&active, interface);
+                        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].box.rect);
+                        set_active_text_cell(active.row, active.column, interface);
                     }
-                    SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
-                    set_active_text_cell(interface->text_editor[active.row][active.column].previous->text_cell.row, interface->text_editor[active.row][active.column].previous->text_cell.column, interface);
                     return text_edited;
+                    break;
                 
                 //return takes you to the next line
                 case SDLK_RETURN:          
@@ -287,6 +294,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     if (final_active_node(active, *interface)) {
                         break;
                     }   
+                    
                     SDL_SetTextInputRect(&interface->text_editor[active.row + 1][active.column].box.rect);
                     set_active_text_cell(active.row + 1, active.column, interface);
                     return text_edited;
