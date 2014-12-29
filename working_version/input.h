@@ -41,7 +41,7 @@ void shuffle_active_cell(char *curr, TextNode* current, char* nxt);
 void shuffle_rest_of_line(Coordinates active, Interface interface, TextNode* current, char* curr, char* nxt);
 int shuffle_overflow(Coordinates* over, Interface interface, char* nxt);
 
-void handle_backwriting(Coordinates active, Interface* interface, char* backflow);
+void handle_backwriting(Coordinates active, Interface* interface);
 
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 

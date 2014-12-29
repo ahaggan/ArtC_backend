@@ -196,14 +196,12 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                         SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
                         set_active_text_cell(interface->text_editor[active.row][active.column].previous->text_cell.row, interface->text_editor[active.row][active.column].previous->text_cell.column, interface);
-                        handle_backwriting(active, interface, NULL);
+                        handle_backwriting(active, interface);
                     } 
                     else {
                         //If there's nothing in the previous cell
-                        
-                        find_previous_active_node(&active, interface);
-                        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].box.rect);
-                        set_active_text_cell(active.row, active.column, interface);
+                        handle_backwriting(active, interface);
+                       
                     }
                     return text_edited;
                     break;

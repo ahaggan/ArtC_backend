@@ -254,9 +254,13 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
     }
 }
 
-void handle_backwriting(Coordinates active, Interface* interface, char* backflow) {
+void handle_backwriting(Coordinates active, Interface* interface) {
   Coordinates cell;
   cell.column = active.column;
+  cell.row = active.row;
+  Coordinates cell_copy;
+  cell_copy.column = active.column;
+  cell_copy.row = active.row;
   char copy[interface->editor_columns][3];
     
   if (!rest_of_row_empty(active, interface)) {
@@ -273,11 +277,40 @@ void handle_backwriting(Coordinates active, Interface* interface, char* backflow
          strcpy(interface->text_editor[active.row][column - 1].character, copy[column]);
       }  
     }
+    else {
+     
+    //everything on the active row is shifted up and after the previous active cell
+      find_previous_active_node(&cell, interface);
+      find_previous_active_node(&cell_copy, interface);
+      for (int column = active.column; column < interface->editor_columns; column++) {
+         strcpy(interface->text_editor[cell.row][cell.column++].character, copy[column]);
+      }  
+    //the lines beneath are also shifted up one row.
+      for (int row = active.row; row < interface->editor_rows; row++) {
+        for (int column = 0; column < interface->editor_columns; column++) {
+         
+          strcpy(interface->text_editor[row][column].character, interface->text_editor[row + 1][column].character);
+        }
+      }
 
-
+      SDL_SetTextInputRect(&interface->text_editor[cell_copy.row][cell_copy.column].box.rect);
+      set_active_text_cell(cell_copy.row, cell_copy.column, interface); 
+    }
+  }
+  else {
+    //move everything up one
+    printf("Move up!\n");
 
   }
 }
+
+/*
+void shuffle_lines_up() {
+
+}
+*/
+
+
 
 int rest_of_row_empty(Coordinates active, Interface* interface) {
   for (int col = active.column; col < interface->editor_columns; col++) {
