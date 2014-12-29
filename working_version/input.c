@@ -203,6 +203,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                         handle_backwriting(active, interface);
                        
                     }
+                    console_text_editor(*interface);
                     return text_edited;
                     break;
                 
@@ -215,6 +216,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     //move the cursor to the next line
                     SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
                     set_active_text_cell(active.row + 1, 0, interface);
+                                        console_text_editor(*interface);
+
                     return text_edited;
 
                 //tab moves you forward a number of spaces
@@ -330,4 +333,21 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
             }   
     }
     return 0;
+}
+
+
+
+void console_text_editor(Interface interface) {
+  printf("Text Editor\n");
+  int row, col;
+  row = col = 0;
+  for (row = 0; row < interface.editor_rows; row++) {
+        printf("%d: ", row);
+        for (col = 0; col < interface.editor_columns; col++) {
+            
+            printf("%s", interface.text_editor[row][col].character);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }

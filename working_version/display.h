@@ -27,7 +27,7 @@
  #define M_PI  3.14159265358979323846
 #endif  
 
-#define EMPTY_CELL "|-"
+#define EMPTY_CELL "¬"
 
 typedef enum interface_action {
 	generate_clicked = 1,
