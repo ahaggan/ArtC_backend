@@ -13,6 +13,8 @@ int character_provided(TextNode* cell, char* character);
 void set_node_attributes(Interface* interface, int row, int column, TextNode* new_node);
 void set_node_text(Interface* interface, char* text, TextNode* new_node);
 
+void write_text_to_cell(Interface* interface, FILE* file_name, int row, int column);
+
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 void enter_shuffle(Coordinates active, Interface* interface, char copy[interface->editor_columns][3], char nxt[interface->editor_columns][3]);
 
@@ -20,6 +22,19 @@ int rest_of_row_empty(Coordinates active, Interface* interface);
 int entire_row_empty(int row, Interface* interface);
 
 void store_row_backup(Coordinates active, Interface* interface, char backup[interface->editor_columns][3]);
+void shift_cells_back_one(Coordinates active,  Interface* interface, char backup[interface->editor_columns][3]);
+
+TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interface, TextNode* current);
+void concatenate_to_previous_text(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]);
+void shift_rows_back_one(Coordinates active, Interface* interface);
+
+void text_after_active_column(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]);
+void backwrite_start_column(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]);
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+
+                     /* Text Editor Data Structure */
 
 /* Makes a cell for every grid position (grid size based on window width/height) */
 void make_text_editor(int width, int height, Interface* interface) {
@@ -155,52 +170,17 @@ int character_provided(TextNode* cell, char* character) {
    }
    return 0;
 }
-int top_row(Coordinates active) {
-    if (active.row == 0) {
-        return 1;
-    }
-    return 0;
-}
-
-int bottom_row(Coordinates active, Interface interface) {
-    if (active.row == interface.editor_rows - 1) {
-        return 1;
-    }
-    return 0;
-}
-
-int start_column(Coordinates active) {
-    if (active.column == 0) {
-        return 1;
-    }
-    return 0;
-}
-
-int end_column(Coordinates active, Interface interface) {
-    if (active.column == interface.editor_columns - 1) {
-        return 1;
-    }
-    return 0;
-}
-
-int first_cell(Coordinates active) {
-    if (top_row(active) && start_column(active)) {
-        return 1;
-    }
-    return 0;
-}
-
-int last_cell(Coordinates active, Interface interface) {
-    if (bottom_row(active, interface) && end_column(active, interface)){
-        return 1;
-    }
-    return 0;
-}
 
 void set_active_text_cell(int row, int column, Interface* interface) {
     interface->active_txt.row = row;
     interface->active_txt.column = column;
 }
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+
+                      /* Text File Handling */
+
 
 FILE* open_file(char *file_name) {
     FILE *input_file = fopen(file_name, "r");
@@ -227,14 +207,18 @@ void write_text_to_file(Interface* interface, char* file_name) {
    FILE* user_code = fopen("user_code.artc", "w");
    for (int row = 0; row < interface->editor_rows; row++) {
       for (int column = 0; column < interface->editor_columns; column++) {
-         if (strcmp(interface->text_editor[row][column].character, EMPTY_CELL) != 0) {
-            fputs(interface->text_editor[row][column].character, user_code);
-         }
+         write_text_to_cell(interface, user_code, row, column); 
       }
       fputs("\n", user_code);
    }
    fclose(user_code);
+}
+
+void write_text_to_cell(Interface* interface, FILE* file_name, int row, int column) {
+   if (strcmp(interface->text_editor[row][column].character, EMPTY_CELL) != 0) {
+      fputs(interface->text_editor[row][column].character, file_name);
    }
+}
 
 void load_text_into_text_editor(char* file_name, Interface* interface) {
     FILE* challenge = fopen(file_name, "r");
@@ -244,127 +228,29 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
     TextNode* current = &interface->text_editor[row][column];
     
     while ((c = fgetc(challenge)) != EOF) {
-        if (c == '\n') {
-            column = 0;
-            current = &interface->text_editor[++row][column];
-        }          
- 
-        else {
-            if (column < interface->editor_columns - 1) {
-                strcpy(current->character, &c);
-        
-            }
-            else {
-                column = 0;
-                current = &interface->text_editor[++row][column];
-                strcpy(current->character, &c);
-            }
-            current = current->next; 
-        } 
-        
+      current = load_text_into_cell(c, &row, &column, interface, current);
     }
 }
 
-void store_row_backup(Coordinates active, Interface* interface, char backup[interface->editor_columns][3]) {
-  for (int column = 0; column < interface->editor_columns; column++) {
-    strcpy(backup[column], interface->text_editor[active.row][column].character);
-  }
+TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interface, TextNode* current) {
+   if (c == '\n') {
+      *column = 0;
+      return &interface->text_editor[++(*row)][(*column)];
+   }          
+   else {
+      strcpy(current->character, &c);
+      return current->next; 
+   } 
 }
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 
-void handle_backwriting(Coordinates active, Interface* interface) {
-  Coordinates cell;
-  cell.column = active.column;
-  cell.row = active.row;
-  Coordinates cell_copy;
-  cell_copy.column = active.column;
-  cell_copy.row = active.row;
-  char copy[interface->editor_columns][3];
-    
-  if (!rest_of_row_empty(active, interface)) {;
-    /* hold the row to be shuffled */
-    store_row_backup(active, interface, copy);
-    /* need to check if row above is empty here too! */
-    //if the row is not being shifted on to the previous line
-    if (active.column != 0) {
-      /* shuffle the necessary characters into the active row */
-      for (int column = active.column; column < interface->editor_columns; column++) {
-         strcpy(interface->text_editor[active.row][column - 1].character, copy[column]);
-      }  
-    }
-    else {
+                          /* Text Manipulation */
 
-    //everything on the active row is shifted up and after the previous active cell
-      find_previous_active_node(&cell, interface);
-      find_previous_active_node(&cell_copy, interface);
-      for (int column = active.column; column < interface->editor_columns; column++) {
-         strcpy(interface->text_editor[cell.row][cell.column++].character, copy[column]);
-      }  
-    //the lines beneath are also shifted up one row.
-      for (int row = active.row; row < interface->editor_rows; row++) {
-        for (int column = 0; column < interface->editor_columns; column++) {
-
-          strcpy(interface->text_editor[row][column].character, interface->text_editor[row + 1][column].character);
-        }
-      }
-
-      SDL_SetTextInputRect(&interface->text_editor[cell_copy.row][cell_copy.column].box.rect);
-      set_active_text_cell(cell_copy.row, cell_copy.column, interface); 
-    }
-  }
-  else {
-    if (entire_row_empty(active.row, interface)) {
-      printf("row empty!\n");
-      if (entire_row_empty(active.row - 1, interface)) {
-        printf("row above empty!\n");
-        cell.row = cell.row - 1;
-        cell.column = 0;
-      }
-      else {
-        find_previous_active_node(&cell, interface);
-      }
-      printf("Shift!\n");
-          //the lines beneath are alsso shifted up one row.
-        for (int row = active.row; row < interface->editor_rows; row++) {
-          for (int column = 0; column < interface->editor_columns; column++) {
-            if (row != 25) {
-             strcpy(interface->text_editor[row][column].character, interface->text_editor[row + 1][column].character);
-            }
-            else {
-              strcpy(interface->text_editor[row][column].character, EMPTY_CELL);
-            }
-          }
-        }
-      SDL_SetTextInputRect(&interface->text_editor[cell.row][cell.column].box.rect);
-      set_active_text_cell(cell.row, cell.column, interface); 
-    }
-  }
-}
-
-int rest_of_row_empty(Coordinates active, Interface* interface) {
-  for (int col = active.column; col < interface->editor_columns; col++) {
-    if (strcmp(interface->text_editor[active.row][col].character, EMPTY_CELL) != 0) {
-      return 0;
-    }
-  }
-  return 1;
-}
-
-int entire_row_empty(int row, Interface* interface) {
-  for (int col = 0; col < interface->editor_columns; col++) {
-    if (strcmp(interface->text_editor[row][col].character, EMPTY_CELL) != 0) {
-      printf("I found a %s!\n", interface->text_editor[row][col].character);
-      return 0;
-    }
-  }
-  return 1;
-}
-
-void handle_enter_shuffling(Coordinates active, Interface* interface) {
-   char copy[interface->editor_columns][3];
-   char move[interface->editor_columns][3];
-   enter_shuffle(active, interface, copy, move);
-}
-
+///////////////////////////////////////////////////////////////////////////////
+                        /* Carriage Return (Enter) */
+///////////////////////////////////////////////////////////////////////////////
 void enter_shuffle(Coordinates active, Interface* interface, char copy[interface->editor_columns][3], char move[interface->editor_columns][3]) {
    Coordinates cell;
    cell.column = active.column;
@@ -408,6 +294,113 @@ void enter_shuffle(Coordinates active, Interface* interface, char copy[interface
    }
 }
 
+void handle_enter_shuffling(Coordinates active, Interface* interface) {
+   char copy[interface->editor_columns][3];
+   char move[interface->editor_columns][3];
+   enter_shuffle(active, interface, copy, move);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+                                 /* Backspace */
+///////////////////////////////////////////////////////////////////////////////
+
+
+void handle_backwriting(Coordinates active, Interface* interface) {
+  Coordinates cell;
+  cell.column = active.column;
+  cell.row = active.row;
+
+  char copy[interface->editor_columns][3];
+    
+  /* check whether the cells in the row after the active column contain anything */
+  if (!rest_of_row_empty(active, interface)) {;
+      text_after_active_column(active, cell, interface, copy);
+  }
+
+  /* if the rest of the row is empty */
+  else {
+    if (entire_row_empty(active.row, interface)) {
+      if (entire_row_empty(active.row - 1, interface)) {
+        cell.row = cell.row - 1;
+        cell.column = 0;
+      }
+      else {
+        find_previous_active_node(&cell, interface);
+      }
+          //the lines beneath are alsso shifted up one row.
+        for (int row = active.row; row < interface->editor_rows; row++) {
+          for (int column = 0; column < interface->editor_columns; column++) {
+            if (row != 25) {
+             strcpy(interface->text_editor[row][column].character, interface->text_editor[row + 1][column].character);
+            }
+            else {
+              strcpy(interface->text_editor[row][column].character, EMPTY_CELL);
+            }
+          }
+        }
+      SDL_SetTextInputRect(&interface->text_editor[cell.row][cell.column].box.rect);
+      set_active_text_cell(cell.row, cell.column, interface); 
+    }
+  }
+}
+
+void text_after_active_column(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]) {
+    store_row_backup(active, interface, copy);
+    //if the row is not being shifted on to the previous line
+    if (!start_column(active)) {
+      shift_cells_back_one(active, interface, copy);
+    }
+    else { 
+      backwrite_start_column(active, cell, interface, copy);
+    }
+}
+
+void backwrite_start_column(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]) {
+    /* need to check if row above is empty here too! */
+   if (entire_row_empty(active.row - 1, interface)) {
+     cell.row = cell.row - 1;
+     cell.column = 0;
+   }
+   else {
+       //everything on the active row is shifted up and after the previous active cell
+      find_previous_active_node(&cell, interface);
+   }
+   concatenate_to_previous_text(active, cell, interface, copy);
+   //the lines beneath are also shifted up one row.
+   shift_rows_back_one(active, interface);
+   SDL_SetTextInputRect(&interface->text_editor[cell.row][cell.column].box.rect);
+   set_active_text_cell(cell.row, cell.column, interface); 
+}
+
+void store_row_backup(Coordinates active, Interface* interface, char backup[interface->editor_columns][3]) {
+  for (int column = 0; column < interface->editor_columns; column++) {
+    strcpy(backup[column], interface->text_editor[active.row][column].character);
+  }
+}
+
+void shift_cells_back_one(Coordinates active, Interface* interface, char backup[interface->editor_columns][3]) {
+   for (int column = active.column; column < interface->editor_columns; column++) {
+      strcpy(interface->text_editor[active.row][column - 1].character, backup[column]);
+   }  
+}
+
+void concatenate_to_previous_text(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]) {
+   for (int column = active.column; column < interface->editor_columns; column++) {
+      strcpy(interface->text_editor[cell.row][cell.column++].character, copy[column]);
+   }  
+}
+
+void shift_rows_back_one(Coordinates active, Interface* interface) {
+   for (int row = active.row; row < interface->editor_rows; row++) {
+      for (int column = 0; column < interface->editor_columns; column++) {
+         strcpy(interface->text_editor[row][column].character, interface->text_editor[row + 1][column].character);
+      }
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+                                 /* Tab */
+///////////////////////////////////////////////////////////////////////////////
 
 void indent(Coordinates active, Interface* interface, int direction) {
    Coordinates cell;
@@ -443,6 +436,11 @@ void indent(Coordinates active, Interface* interface, int direction) {
    }
 
 }
+
+///////////////////////////////////////////////////////////////////////////////
+                              /* Text Overflow */
+///////////////////////////////////////////////////////////////////////////////
+
 
 void handle_overwriting(Coordinates active, Interface* interface, char* overflow) {
     Coordinates over = active;
@@ -530,7 +528,27 @@ int shuffle_overflow(Coordinates* over, Interface interface, char* nxt) {
     return 0;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+                        /* Helper Functions */
+///////////////////////////////////////////////////////////////////////////////
 
+int rest_of_row_empty(Coordinates active, Interface* interface) {
+  for (int col = active.column; col < interface->editor_columns; col++) {
+    if (strcmp(interface->text_editor[active.row][col].character, EMPTY_CELL) != 0) {
+      return 0;
+    }
+  }
+  return 1;
+}
+
+int entire_row_empty(int row, Interface* interface) {
+  for (int col = 0; col < interface->editor_columns; col++) {
+    if (strcmp(interface->text_editor[row][col].character, EMPTY_CELL) != 0) {
+      return 0;
+    }
+  }
+  return 1;
+}
 
 void find_next_active_node(Coordinates* active, Interface* interface) {
    TextNode* current = &interface->text_editor[active->row][active->column];
@@ -578,4 +596,46 @@ int final_active_node(Coordinates active, Interface interface) {
    }
    return 0;
 
+}
+
+int top_row(Coordinates active) {
+    if (active.row == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+int bottom_row(Coordinates active, Interface interface) {
+    if (active.row == interface.editor_rows - 1) {
+        return 1;
+    }
+    return 0;
+}
+
+int start_column(Coordinates active) {
+    if (active.column == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+int end_column(Coordinates active, Interface interface) {
+    if (active.column == interface.editor_columns - 1) {
+        return 1;
+    }
+    return 0;
+}
+
+int first_cell(Coordinates active) {
+    if (top_row(active) && start_column(active)) {
+        return 1;
+    }
+    return 0;
+}
+
+int last_cell(Coordinates active, Interface interface) {
+    if (bottom_row(active, interface) && end_column(active, interface)){
+        return 1;
+    }
+    return 0;
 }
