@@ -16,7 +16,7 @@ int interface(Main_Menu* main) {
       interface.action = Interface_Events(&interface);
 
       if (interface.action == generate_clicked) {
-         write_text_to_file(interface.text_editor);
+         write_text_to_file(&interface, "user_code.artc");
          clear_area(&interface.window, interface.canvas);
 
          /* START: only here due to parser udpate */

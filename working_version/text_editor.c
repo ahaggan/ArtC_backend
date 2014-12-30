@@ -10,11 +10,16 @@ void make_last_cell(Coordinates curr, Interface* interface, TextNode text_editor
 void update_text_node(TextNode* current, Interface* interface);
 int character_provided(TextNode* cell, char* character);
 
+void set_node_attributes(Interface* interface, int row, int column, TextNode* new_node);
+void set_node_text(Interface* interface, char* text, TextNode* new_node);
+
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 void enter_shuffle(Coordinates active, Interface* interface, char copy[interface->editor_columns][3], char nxt[interface->editor_columns][3]);
 
 int rest_of_row_empty(Coordinates active, Interface* interface);
 int entire_row_empty(int row, Interface* interface);
+
+void store_row_backup(Coordinates active, Interface* interface, char backup[interface->editor_columns][3]);
 
 /* Makes a cell for every grid position (grid size based on window width/height) */
 void make_text_editor(int width, int height, Interface* interface) {
@@ -93,40 +98,45 @@ void update_text_editor(int width, int height, Interface* interface) {
             3, (FONT_SIZE + 4), 240, 240, 240);
 }
 
-TextNode* allocate_text_node(char* c, TextNode* previous_node, 
+TextNode* allocate_text_node(char* text, TextNode* previous_node, 
                              Interface* interface, int row, int column) {
-TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
+   TextNode* new_node = (TextNode *)malloc(sizeof(TextNode));
+   if (new_node == NULL) {
+      printf("Cannot Allocate Node\n");
+      exit(2);
+   }
+   new_node->previous = previous_node;
+   set_node_attributes(interface, row, column, new_node);
+   set_node_text(interface, text, new_node);
+
+
+   return new_node;
+}
+
+void set_node_attributes(Interface* interface, int row, int column, TextNode* new_node) {
    int box_w = (FONT_SIZE- 6);
    int box_h =  (FONT_SIZE + 9);
    int x = (interface->text_editor_panel.rect.x + (column * box_w));
    int y = (interface->text_editor_panel.rect.y + (row * box_h));
 
-   if (new_node == NULL) {
-      printf("Cannot Allocate Node\n");
-      exit(2);
-   }
-
    new_node->text_cell.row = row;
    new_node->text_cell.column = column;
-   strcpy(new_node->character, c);
-
    new_node->location.row = y;
    new_node->location.column = x;
    new_node->w = box_w;
    new_node->h = box_h;
 
-   new_node->previous = previous_node;
-
    make_rect(&interface->window, &interface->text_editor[row][column].box, x, y, 
             box_w, box_h, 43, 43, 39);
+}
 
+void set_node_text(Interface* interface, char* text, TextNode* new_node) {
+   strcpy(new_node->character, text);
    /* if there's no character to render, skip make_text */
-   if (character_provided(new_node, c)) {
-      make_text(&interface->window, &interface->text_editor[row][column].box.rect, 
+   if (character_provided(new_node, text)) {
+      make_text(&interface->window, &interface->text_editor[new_node->text_cell.row][new_node->text_cell.column].box.rect, 
                240, 240, 240, interface->font, new_node->character);
    }
-
-   return new_node;
 }
 
 void update_text_node(TextNode* current, Interface* interface) {
@@ -213,17 +223,18 @@ FILE* make_file(char *file_name) {
     return new_file;
 }
 
-void write_text_to_file(TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS] /* perhaps allow specific file name */) {
-    FILE* user_code = fopen("user_code.artc", "w");
-    TextNode* current = &text_editor[0][0];
-    while (current->next != NULL) {
-        if (strcmp(current->character, EMPTY_CELL) != 0) {
-            fputs(current->character, user_code);
-        }
-        current = current->next;
-    }
-    fclose(user_code);
-}
+void write_text_to_file(Interface* interface, char* file_name) {
+   FILE* user_code = fopen("user_code.artc", "w");
+   for (int row = 0; row < interface->editor_rows; row++) {
+      for (int column = 0; column < interface->editor_columns; column++) {
+         if (strcmp(interface->text_editor[row][column].character, EMPTY_CELL) != 0) {
+            fputs(interface->text_editor[row][column].character, user_code);
+         }
+      }
+      fputs("\n", user_code);
+   }
+   fclose(user_code);
+   }
 
 void load_text_into_text_editor(char* file_name, Interface* interface) {
     FILE* challenge = fopen(file_name, "r");
@@ -254,6 +265,12 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
     }
 }
 
+void store_row_backup(Coordinates active, Interface* interface, char backup[interface->editor_columns][3]) {
+  for (int column = 0; column < interface->editor_columns; column++) {
+    strcpy(backup[column], interface->text_editor[active.row][column].character);
+  }
+}
+
 void handle_backwriting(Coordinates active, Interface* interface) {
   Coordinates cell;
   cell.column = active.column;
@@ -263,13 +280,10 @@ void handle_backwriting(Coordinates active, Interface* interface) {
   cell_copy.row = active.row;
   char copy[interface->editor_columns][3];
     
-  if (!rest_of_row_empty(active, interface)) {
-    printf("Other things on the row!\n");
+  if (!rest_of_row_empty(active, interface)) {;
     /* hold the row to be shuffled */
-    for (int column = 0; column < interface->editor_columns; column++) {
-      strcpy(copy[column], interface->text_editor[active.row][column].character);
-    }
-  
+    store_row_backup(active, interface, copy);
+    /* need to check if row above is empty here too! */
     //if the row is not being shifted on to the previous line
     if (active.column != 0) {
       /* shuffle the necessary characters into the active row */
@@ -325,14 +339,6 @@ void handle_backwriting(Coordinates active, Interface* interface) {
     }
   }
 }
-
-/*
-void shuffle_lines_up() {
-
-}
-*/
-
-
 
 int rest_of_row_empty(Coordinates active, Interface* interface) {
   for (int col = active.column; col < interface->editor_columns; col++) {
