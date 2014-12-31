@@ -226,13 +226,15 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                         
                         if (active.column <= 2) {
                             ;
+                            console_text_editor(*interface);
                             break;
                         }
                         else {
-                            indent(active, interface, 0);
+                            tab(active, interface, 0);
                             SDL_SetTextInputRect(&interface->text_editor[active.row][active.column - TAB_LENGTH].box.rect);
                             set_active_text_cell(active.row, active.column - TAB_LENGTH, interface);   
                         }     
+                        console_text_editor(*interface);
                         return text_edited;
                     }
                     
@@ -241,15 +243,19 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                             if (!bottom_row(active, *interface)) {
                                 ;   
                             }
+                            console_text_editor(*interface);
                             break;
                         }
                         else {
-                            indent(active, interface, 1);
+                            tab(active, interface, 1);
                             SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + TAB_LENGTH].box.rect);
                             set_active_text_cell(active.row, active.column + TAB_LENGTH, interface);
                         }
+                        console_text_editor(*interface);
                         return text_edited;
                     }
+                    
+                
 
                 case SDLK_UP:   
                     if (top_row(active)) {
@@ -260,10 +266,10 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     return text_edited;
 
                 case SDLK_RIGHT: 
-                    if (last_cell(active, *interface)) {
+                    if (last_cell(active, *interface) || bottom_row(active, *interface)) {
                         break;
                     }       
-                    if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
+                    else if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
                         if (end_column(active, *interface)) {
                             SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect); 
                             set_active_text_cell(active.row + 1, 0, interface);
@@ -285,13 +291,16 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     if (bottom_row(active, *interface)) {
                         break;
                     }  
-                    if (final_active_node(active, *interface)) {
+                    else if (final_active_node(active, *interface)) {
                         break;
                     }   
+                    else {
                     
-                    SDL_SetTextInputRect(&interface->text_editor[active.row + 1][active.column].box.rect);
-                    set_active_text_cell(active.row + 1, active.column, interface);
-                    return text_edited;
+                        SDL_SetTextInputRect(&interface->text_editor[active.row + 1][active.column].box.rect);
+                        set_active_text_cell(active.row + 1, active.column, interface);
+                        return text_edited;
+                    }
+                    break;
 
                 case SDLK_LEFT:   
                     if (first_cell(active)) {

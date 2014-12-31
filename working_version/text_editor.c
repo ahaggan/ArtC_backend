@@ -2,6 +2,7 @@
 /* Is accessed by input.c and interface.c */
 #include "input.h"
 
+
 void free_text_nodes(TextNode* head);
 TextNode* make_cell(int width, int height, Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
 void make_first_cell(Coordinates curr, Interface* interface, TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], TextNode* current);
@@ -29,7 +30,21 @@ void concatenate_to_previous_text(Coordinates active, Coordinates cell, Interfac
 void shift_rows_back_one(Coordinates active, Interface* interface);
 
 void text_after_active_column(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]);
-void backwrite_start_column(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]);
+
+void shift_row_up(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]);
+void shift_row_down(Coordinates active, Coordinates cell, Interface* interface, char move[interface->editor_columns][3], char copy[interface->editor_columns][3]);
+
+void check_row_above(Coordinates active, Coordinates* cell, Interface* interface);
+void hold_row_to_be_moved(Interface* interface, char move[interface->editor_columns][3], Coordinates active, Coordinates cell);
+void hold_backup_of_next_row(Interface* interface, char copy[interface->editor_columns][3], Coordinates active);
+void move_row(Interface* interface, Coordinates active, char move[interface->editor_columns][3]);
+void empty_active_row(Interface* interface, Coordinates active);
+void shift_rows_down_one(Interface* interface, Coordinates active, Coordinates cell, char move[interface->editor_columns][3], char copy[interface->editor_columns][3]);
+void tab_save_row_backup(Interface* interface, Coordinates active, Coordinates cell, char copy[interface->editor_columns][3]);
+
+void add_tab_space(Interface* interface, Coordinates active, int tab);
+void tab_shift_row(Interface* interface, Coordinates active, char copy[interface->editor_columns][3], int tab);
+void tab_unindent_garbage_fix(Interface* interface, Coordinates active, int tab);
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
@@ -251,34 +266,54 @@ TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interfac
 ///////////////////////////////////////////////////////////////////////////////
                         /* Carriage Return (Enter) */
 ///////////////////////////////////////////////////////////////////////////////
-void enter_shuffle(Coordinates active, Interface* interface, char copy[interface->editor_columns][3], char move[interface->editor_columns][3]) {
-   Coordinates cell;
-   cell.column = active.column;
+
+
+void handle_enter_shuffling(Coordinates active, Interface* interface) {
+   char copy[interface->editor_columns][3];
+   char move[interface->editor_columns][3];
+   Coordinates cell = active;
+
    /* Active row move */
-   
-   /* hold the row to be moved */
+   shift_row_down(active, cell, interface, move, copy);
+   /* rest of the rows */
+   shift_rows_down_one(interface, active, cell, move, copy);
+  
+}
+
+void shift_row_down(Coordinates active, Coordinates cell, Interface* interface, char move[interface->editor_columns][3], char copy[interface->editor_columns][3]) {
+   hold_row_to_be_moved(interface, move, active, cell);
+   hold_backup_of_next_row(interface, copy, active);
+   move_row(interface, active, move);
+   empty_active_row(interface, active);
+}
+
+/* It would be preferable to put these things into more generic functions, if you have the time later */
+void hold_row_to_be_moved(Interface* interface, char move[interface->editor_columns][3], Coordinates active, Coordinates cell) {
    for (int column = 0; column < interface->editor_columns; column++) {
       strcpy(move[column], interface->text_editor[active.row][cell.column++].character);
    }
-  
-   /* hold a backup of the next row */
+}
+
+void hold_backup_of_next_row(Interface* interface, char copy[interface->editor_columns][3], Coordinates active) {
    for (int column = 0; column < interface->editor_columns; column++) {
       strcpy(copy[column], interface->text_editor[active.row + 1][column].character);
    }
+}
 
-   /* copy the move row into the next row */
-   for (int column = 0; column < interface->editor_columns; column++) {
+void move_row(Interface* interface, Coordinates active, char move[interface->editor_columns][3]) {
+  for (int column = 0; column < interface->editor_columns; column++) {
          strcpy(interface->text_editor[active.row + 1][column].character, move[column]);
    }
+}
 
-   /* empty the cells that have been moved */
-   for (int column = active.column; column < interface->editor_columns; column++) {
+void empty_active_row(Interface* interface, Coordinates active) {
+  for (int column = active.column; column < interface->editor_columns; column++) {
       strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
    }
-   
-   /* rest of the rows */
-   for (int row = active.row + 1; row < interface->editor_rows; row++) {
-      cell.column = active.column;
+}
+
+void shift_rows_down_one(Interface* interface, Coordinates active, Coordinates cell, char move[interface->editor_columns][3], char copy[interface->editor_columns][3]) {
+  for (int row = active.row + 1; row < interface->editor_rows; row++) {
       /* hold the row to be moved */
       for (int column = 0; column < interface->editor_columns; column++) {
          strcpy(move[column], copy[column]);
@@ -294,82 +329,61 @@ void enter_shuffle(Coordinates active, Interface* interface, char copy[interface
    }
 }
 
-void handle_enter_shuffling(Coordinates active, Interface* interface) {
-   char copy[interface->editor_columns][3];
-   char move[interface->editor_columns][3];
-   enter_shuffle(active, interface, copy, move);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
                                  /* Backspace */
 ///////////////////////////////////////////////////////////////////////////////
 
 
 void handle_backwriting(Coordinates active, Interface* interface) {
-  Coordinates cell;
-  cell.column = active.column;
-  cell.row = active.row;
 
-  char copy[interface->editor_columns][3];
-    
-  /* check whether the cells in the row after the active column contain anything */
-  if (!rest_of_row_empty(active, interface)) {;
+   Coordinates cell = active;
+   char copy[interface->editor_columns][3];
+   /* check whether the cells in the row after the active column contain anything and handle the backspace action accordingly */
+   if (!rest_of_row_empty(active, interface)) {;
       text_after_active_column(active, cell, interface, copy);
-  }
+   }
+   else {
+      if (entire_row_empty(active.row, interface)) {
+         shift_row_up(active, cell, interface, copy);
+      }
+   }
+}
 
-  /* if the rest of the row is empty */
+void shift_row_up(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]) {
+   /* Set active coordinates based upon whether the row above is empty */
+   check_row_above(active, &cell, interface);
+   set_active_text_cell(cell.row, cell.column, interface); 
+   SDL_SetTextInputRect(&interface->text_editor[cell.row][cell.column].box.rect);
+
+   if (start_column(active) && !entire_row_empty(active.row, interface)) {
+      concatenate_to_previous_text(active, cell, interface, copy);
+   }
   else {
-    if (entire_row_empty(active.row, interface)) {
-      if (entire_row_empty(active.row - 1, interface)) {
-        cell.row = cell.row - 1;
-        cell.column = 0;
-      }
-      else {
-        find_previous_active_node(&cell, interface);
-      }
-          //the lines beneath are alsso shifted up one row.
-        for (int row = active.row; row < interface->editor_rows; row++) {
-          for (int column = 0; column < interface->editor_columns; column++) {
-            if (row != 25) {
-             strcpy(interface->text_editor[row][column].character, interface->text_editor[row + 1][column].character);
-            }
-            else {
-              strcpy(interface->text_editor[row][column].character, EMPTY_CELL);
-            }
-          }
-        }
-      SDL_SetTextInputRect(&interface->text_editor[cell.row][cell.column].box.rect);
-      set_active_text_cell(cell.row, cell.column, interface); 
-    }
+ 
   }
+   shift_rows_back_one(active, interface);   
+}
+
+void check_row_above(Coordinates active, Coordinates* cell, Interface* interface) {
+   if (entire_row_empty(active.row - 1, interface)) {
+     cell->row = cell->row - 1;
+     cell->column = 0;
+   }
+   else {
+     find_previous_active_node(cell, interface);
+   }
 }
 
 void text_after_active_column(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]) {
+
     store_row_backup(active, interface, copy);
     //if the row is not being shifted on to the previous line
     if (!start_column(active)) {
       shift_cells_back_one(active, interface, copy);
     }
     else { 
-      backwrite_start_column(active, cell, interface, copy);
+      shift_row_up(active, cell, interface, copy);
     }
-}
-
-void backwrite_start_column(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]) {
-    /* need to check if row above is empty here too! */
-   if (entire_row_empty(active.row - 1, interface)) {
-     cell.row = cell.row - 1;
-     cell.column = 0;
-   }
-   else {
-       //everything on the active row is shifted up and after the previous active cell
-      find_previous_active_node(&cell, interface);
-   }
-   concatenate_to_previous_text(active, cell, interface, copy);
-   //the lines beneath are also shifted up one row.
-   shift_rows_back_one(active, interface);
-   SDL_SetTextInputRect(&interface->text_editor[cell.row][cell.column].box.rect);
-   set_active_text_cell(cell.row, cell.column, interface); 
 }
 
 void store_row_backup(Coordinates active, Interface* interface, char backup[interface->editor_columns][3]) {
@@ -393,7 +407,12 @@ void concatenate_to_previous_text(Coordinates active, Coordinates cell, Interfac
 void shift_rows_back_one(Coordinates active, Interface* interface) {
    for (int row = active.row; row < interface->editor_rows; row++) {
       for (int column = 0; column < interface->editor_columns; column++) {
-         strcpy(interface->text_editor[row][column].character, interface->text_editor[row + 1][column].character);
+         if (row != interface->editor_rows - 1) {
+            strcpy(interface->text_editor[row][column].character, interface->text_editor[row + 1][column].character);
+         }
+         else {
+            strcpy(interface->text_editor[row][column].character, EMPTY_CELL);
+         }
       }
    }
 }
@@ -402,39 +421,52 @@ void shift_rows_back_one(Coordinates active, Interface* interface) {
                                  /* Tab */
 ///////////////////////////////////////////////////////////////////////////////
 
-void indent(Coordinates active, Interface* interface, int direction) {
-   Coordinates cell;
-   cell.column = active.column;
+void tab(Coordinates active, Interface* interface, int direction) {
+   Coordinates cell = active;
    char copy[interface->editor_columns][3];
    int tab = 0;
-   //if indent
+   //if tab forward (indent)
    if (direction == 1) {
       tab = 3;
    }
-   //other unindent
+   //else tab backward (unindent)
    else {
       tab = -3;
    }
 
    /* save a copy of the row */
-   for (int column = active.column; column < interface->editor_columns; column++) {
+   tab_save_row_backup(interface, active, cell, copy);
+   add_tab_space(interface, active, tab);  
+   tab_shift_row(interface, active, copy, tab);
+
+   //prevents garbage from entering the end of the row when unindenting
+   if (direction != 1) {
+      tab_unindent_garbage_fix(interface, active, tab);
+   }
+}
+
+void tab_save_row_backup(Interface* interface, Coordinates active, Coordinates cell, char copy[interface->editor_columns][3]) {
+  for (int column = active.column; column < interface->editor_columns; column++) {
       strcpy(copy[column], interface->text_editor[active.row][cell.column++].character); 
    }
-   cell.column = active.column;
-   for (int column = active.column; column < active.column + tab; column++) {
+}
+
+void add_tab_space(Interface* interface, Coordinates active, int tab) {
+  for (int column = active.column; column < active.column + tab; column++) {
       strcpy(interface->text_editor[active.row][column].character, " ");
    }
-   for (int column = active.column+tab; column < interface->editor_columns; column++) {
+}
+
+void tab_shift_row(Interface* interface, Coordinates active, char copy[interface->editor_columns][3], int tab) {
+  for (int column = active.column+tab; column < interface->editor_columns; column++) {
       strcpy(interface->text_editor[active.row][column].character, copy[column - tab]);  
    }
+}
 
-   //prevents garbage from entering the end of the row
-   if (direction != 1) {
-      for (int column = interface->editor_columns - 1; column > interface->editor_columns - 4; column --) {
-         strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
+void tab_unindent_garbage_fix(Interface* interface, Coordinates active, int tab) {
+  for (int column = interface->editor_columns - 1; column > interface->editor_columns + tab - 1; column--) {
+        strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
       }
-   }
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -453,9 +485,7 @@ void handle_overwriting(Coordinates active, Interface* interface, char* overflow
     shuffle_rest_of_line(active, *interface, current, curr, nxt);
 
     if (!bottom_row(active, *interface)) {
-
         if (shuffle_overflow(&over, *interface, nxt)) {
-
             handle_overwriting(over, interface, nxt);
         }
     }
