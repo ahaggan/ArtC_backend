@@ -127,7 +127,6 @@ int Interface_Events(Interface* interface) {
                     printf("Help is on the way!\n");     
                     break;
                 }
-              
         }
     }
     return 0;
@@ -157,8 +156,14 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
 
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
     Coordinates active = interface->active_txt;
-
+    int x, y;
+    SDL_GetMouseState(&x, &y);
     switch(event.type) {
+         case SDL_MOUSEBUTTONDOWN:  
+
+            mouse_move_to_cell(interface, x, y);
+            return text_edited;
+        break;
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:
           
@@ -346,13 +351,51 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
     return 0;
 }
 
+void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y) {
+    printf("%d %d\n", mouse_x, mouse_y);
+    for (int row = 0; row < interface->editor_rows; row++) {
+        for (int column = 0; column < interface->editor_columns; column++) {
+            if (inside_cell(interface->text_editor[row][column], mouse_x, mouse_y)) {
+                 //click on a cell with text within? take you directly to that cell
+                if (strcmp(interface->text_editor[row][column].character, EMPTY_CELL) != 0) {
+                    SDL_SetTextInputRect(&interface->text_editor[row][column - TAB_LENGTH].box.rect);
+                    set_active_text_cell(row, column, interface);  
+                }
+                //click on a line? take to prev live cell on that row
+                else {
+                    find_previous_cell_on_row(&interface->text_editor[row][column], interface) ;
+                }
+            }
+           
+        }
+    }
+}
+
+void find_previous_cell_on_row(TextNode* current, Interface* interface) {
+
+   while (strcmp(current->previous->character, EMPTY_CELL) == 0 && current->text_cell.column != 0) {
+      current = current->previous;
+   }
+    SDL_SetTextInputRect(&interface->text_editor[current->text_cell.row][current->text_cell.column].box.rect);
+    set_active_text_cell(current->text_cell.row, current->text_cell.column, interface);  
+}
+
+int inside_cell(TextNode current, int mouse_x, int mouse_y) {
+    if (mouse_x >= current.box.rect.x && mouse_x <= current.box.rect.x + current.box.rect.w) {
+        if (mouse_y >= current.box.rect.y && mouse_y <= current.box.rect.y + current.box.rect.h) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 
 
 void console_text_editor(Interface interface) {
   printf("Text Editor\n");
   int row, col;
   row = col = 0;
-  for (row = 0; row < interface.editor_rows; row++) {
+  for (row = 0; row <= interface.editor_rows; row++) {
         printf("%d: ", row);
         for (col = 0; col < interface.editor_columns; col++) {
             

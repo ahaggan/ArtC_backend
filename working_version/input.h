@@ -51,3 +51,7 @@ void find_previous_active_node(Coordinates* active, Interface* interface);
 int final_active_node(Coordinates active, Interface interface);
 
 void console_text_editor(Interface interface);
+
+void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y);
+int inside_cell(TextNode current, int mouse_x, int mouse_y);
+void find_previous_cell_on_row(TextNode* current, Interface* interface);

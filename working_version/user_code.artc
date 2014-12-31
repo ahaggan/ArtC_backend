@@ -1,25 +1,23 @@
+run{
+   shape line
+   colour turquoise
+   type tree
+   iterations 7
+   size 400
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   if iterations 0 then{
+      colour black
+   }
+   if iterations 1 then{
+      colour grey
+   }
+   if iterations 2 then{
+      colour navy
+   }
+   if iterations 3 then{
+      colour blue
+   } 
+}
 
 
 

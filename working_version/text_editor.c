@@ -612,6 +612,8 @@ void find_previous_active_node(Coordinates* active, Interface* interface) {
    }
 }
 
+
+
 int final_active_node(Coordinates active, Interface interface) {
    TextNode* current = &interface.text_editor[active.row][active.column];
    if (current->next == NULL) {
