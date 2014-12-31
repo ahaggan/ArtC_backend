@@ -5,8 +5,8 @@ void initialise_text_editor(Interface* interface);
 
 int interface(Main_Menu* main) {
    Interface interface;
-   clock_t start_time, end_time; //hideous
-   Draw fractal; //shouldn't be in here
+   clock_t start_time, end_time; 
+   
    initialise_interface(main, &interface); 
    initialise_text_editor(&interface);
 
@@ -20,6 +20,7 @@ int interface(Main_Menu* main) {
          clear_area(&interface.window, interface.canvas);
 
          /* START: only here due to parser udpate */
+            Draw fractal; //shouldn't be in here
             fractal.startx = interface.canvas.rect.x + (interface.canvas.rect.w/2);
             fractal.starty = interface.canvas.rect.y + (interface.canvas.rect.h/2);
             fractal.endx = WIN_WIDTH/2 + 10;
@@ -51,8 +52,8 @@ int interface(Main_Menu* main) {
 void initialise_interface(Main_Menu* main_menu, Interface* interface) {
   interface->action = 0;
   interface->window = main_menu->window;
-  interface->font = main_menu->font;
-  interface->button_font = main_menu->button_font;
+  interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
+  interface->button_font = main_menu->menu_font;
   display_interface(interface);
 }
 

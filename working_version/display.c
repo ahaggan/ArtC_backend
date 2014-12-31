@@ -138,7 +138,7 @@ void display_logo(int win_width, int win_height, Main_Menu* main_menu) {
    make_rect(&main_menu->window, &main_menu->logo, logo_x, logo_y, logo_w, 
             logo_h, 220, 100, 100);
    make_text(&main_menu->window, &main_menu->logo.rect, 245, 245, 245, 
-            main_menu->button_font, " Art-C ");
+            main_menu->menu_font, " Art-C ");
 }
 
 void display_canvas_button(int win_width, int win_height, Main_Menu* main_menu) {
@@ -153,7 +153,7 @@ void display_canvas_button(int win_width, int win_height, Main_Menu* main_menu) 
    make_rect(&main_menu->window, &main_menu->canvas_button, canvas_button_x, 
             canvas_button_y, canvas_button_w, canvas_button_h, 160, 100, 100);
    make_text(&main_menu->window, &main_menu->canvas_button.rect, 245, 245, 245, 
-            main_menu->button_font, " Canvas ");
+            main_menu->menu_font, " Canvas ");
 }
 
 void display_challenges_button(int win_width, int win_height, Main_Menu* main_menu) {
@@ -170,7 +170,7 @@ void display_challenges_button(int win_width, int win_height, Main_Menu* main_me
             challenges_button_y, challenges_button_w, challenges_button_h, 
             160, 100, 100);
    make_text(&main_menu->window, &main_menu->challenges_button.rect, 245, 245, 245,
-            main_menu->button_font, "Challenges");
+            main_menu->menu_font, "Challenges");
 }
 
 void display_options_button(int win_width, int win_height, Main_Menu* main_menu) {
@@ -186,7 +186,7 @@ void display_options_button(int win_width, int win_height, Main_Menu* main_menu)
    make_rect(&main_menu->window, &main_menu->options_button, options_button_x, 
             options_button_y, options_button_w, options_button_h, 160, 100, 100);
    make_text(&main_menu->window, &main_menu->options_button.rect, 245, 245, 245, 
-            main_menu->button_font, " Options ");
+            main_menu->menu_font, " Options ");
 }
 
 void display_quit_button(int win_width, int win_height, Main_Menu* main_menu) {
@@ -202,7 +202,7 @@ void display_quit_button(int win_width, int win_height, Main_Menu* main_menu) {
    make_rect(&main_menu->window, &main_menu->quit_button, quit_button_x, 
             quit_button_y, quit_button_w, quit_button_h, 100, 90, 90);
    make_text(&main_menu->window, &main_menu->quit_button.rect, 245, 245, 245, 
-            main_menu->button_font, "  Quit  ");
+            main_menu->menu_font, "  Quit  ");
 }
 
 /* Challenges Menu */
@@ -240,7 +240,7 @@ void display_header(int win_width, int win_height, Challenges_Menu* challenges){
    make_rect(&challenges->window, &challenges->header, header_x, header_y, 
             header_w, header_h, 220, 100, 100);
    make_text(&challenges->window, &challenges->header.rect, 245, 245, 245, 
-            challenges->button_font, "Challenges");
+            challenges->menu_font, "Challenges");
 }
 
 void display_beginner_button(int win_width, int win_height, Challenges_Menu* challenges) {
@@ -255,7 +255,7 @@ void display_beginner_button(int win_width, int win_height, Challenges_Menu* cha
    make_rect(&challenges->window, &challenges->beginner, beginner_x, beginner_y, 
             beginner_w, beginner_h, 160, 100, 100);
    make_text(&challenges->window, &challenges->beginner.rect, 245, 245, 245, 
-            challenges->button_font, "Beginner");
+            challenges->menu_font, "Beginner");
 }
 
 void display_intermediate_button(int win_width, int win_height, Challenges_Menu* challenges) {
@@ -269,7 +269,7 @@ void display_intermediate_button(int win_width, int win_height, Challenges_Menu*
    make_rect(&challenges->window, &challenges->intermediate, intermediate_x, 
             intermediate_y, intermediate_w, intermediate_h, 160, 100, 100);
    make_text(&challenges->window, &challenges->intermediate.rect, 245, 245, 245, 
-            challenges->button_font, "Intermediate");
+            challenges->menu_font, "Intermediate");
 }
 
 void display_expert_button(int win_width, int win_height, Challenges_Menu* challenges) {
@@ -283,7 +283,7 @@ void display_expert_button(int win_width, int win_height, Challenges_Menu* chall
   make_rect(&challenges->window, &challenges->expert, expert_x, expert_y, 
             expert_w, expert_h, 160, 100, 100);
   make_text(&challenges->window, &challenges->expert.rect, 245, 245, 245, 
-            challenges->button_font, "Expert");
+            challenges->menu_font, "Expert");
 }
 
 void display_main_menu_button(int win_width, int win_height, Challenges_Menu* challenges) {
@@ -297,7 +297,7 @@ void display_main_menu_button(int win_width, int win_height, Challenges_Menu* ch
   make_rect(&challenges->window, &challenges->main_menu, main_menu_x, 
             main_menu_y, main_menu_w, main_menu_h, 100, 90, 90);
   make_text(&challenges->window, &challenges->main_menu.rect, 245, 245, 245, 
-            challenges->button_font, "Main Menu");
+            challenges->menu_font, "Main Menu");
 }
 
 /* Interface */

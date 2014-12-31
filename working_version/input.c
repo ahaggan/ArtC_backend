@@ -184,7 +184,9 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
             switch (event.key.keysym.sym) {
 
                 case SDLK_BACKSPACE:
+                    /* Broken if backspacing on the 'first' cell when the text editor is empty */
                     if (first_cell(active)) {
+                        
                         break;
                     }
                     if (last_cell(active, *interface)) {

@@ -6,7 +6,7 @@
 
 #define MAX_TEXT 1000
 #define FONT_SIZE 16
-#define BUTTON_FONT_SIZE 200
+#define BUTTON_FONT_SIZE 100
 
 #define NO_OF_LOOPS 7
 

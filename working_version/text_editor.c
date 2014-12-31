@@ -125,7 +125,7 @@ void update_text_editor(int width, int height, Interface* interface) {
             (interface->active_txt.column * (FONT_SIZE- 6)),
             interface->text_editor_panel.rect.y + 
             (interface->active_txt.row * (FONT_SIZE + 9.1)),
-            3, (FONT_SIZE + 4), 240, 240, 240);
+            1, (FONT_SIZE + 4), 220, 220, 220);
 }
 
 TextNode* allocate_text_node(char* text, TextNode* previous_node, 
@@ -145,7 +145,7 @@ TextNode* allocate_text_node(char* text, TextNode* previous_node,
 
 void set_node_attributes(Interface* interface, int row, int column, TextNode* new_node) {
    int box_w = (FONT_SIZE- 6);
-   int box_h =  (FONT_SIZE + 9);
+   int box_h =  (FONT_SIZE + 9.1);
    int x = (interface->text_editor_panel.rect.x + (column * box_w));
    int y = (interface->text_editor_panel.rect.y + (row * box_h));
 
@@ -165,7 +165,7 @@ void set_node_text(Interface* interface, char* text, TextNode* new_node) {
    /* if there's no character to render, skip make_text */
    if (character_provided(new_node, text)) {
       make_text(&interface->window, &interface->text_editor[new_node->text_cell.row][new_node->text_cell.column].box.rect, 
-               240, 240, 240, interface->font, new_node->character);
+               240, 240, 240, interface->text_ed_font, new_node->character);
    }
 }
 
@@ -175,7 +175,7 @@ void update_text_node(TextNode* current, Interface* interface) {
    /* if there's no character to render, skip make_text */
    if (strcmp(current->character, EMPTY_CELL) != 0) {
       make_text(&interface->window, &current->box.rect, 240, 240, 240, 
-               interface->font, current->character);
+               interface->text_ed_font, current->character);
    }
 }
 

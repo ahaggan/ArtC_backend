@@ -35,16 +35,14 @@ int challenges(Main_Menu* menu) {
 void initialise_main_menu(Main_Menu* menu) {
   SDL_Win_Init(&menu->window, "Art-C");
   SDL_TTF_Init();
-  menu->font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
-  menu->button_font = SDL_Load_Font("font/Mastoc.ttf", BUTTON_FONT_SIZE);
+  menu->menu_font = SDL_Load_Font("font/Denne.ttf", BUTTON_FONT_SIZE);
   menu->state = 0;
 }
 
 /* Assign properties of menu_menu to challenge menu */
 void initialise_challenges_menu(Main_Menu* menu) {
   menu->challenges.window = menu->window;
-  menu->challenges.font = menu->font;
-  menu->challenges.button_font = menu->button_font;
+  menu->challenges.menu_font = menu->menu_font;
   menu->challenges.state = 0;
 }
 

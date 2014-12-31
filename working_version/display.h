@@ -54,8 +54,9 @@ typedef struct interface {
   Area help_button;
   Area current_challenge_l1;
   Area current_challenge_l2;
-  TTF_Font *font;
-  TTF_Font *button_font;
+  TTF_Font* text_ed_font;
+  TTF_Font* button_font;
+   
   Coordinates active_txt;
   int editor_rows;
   int editor_columns;
@@ -124,8 +125,7 @@ typedef enum challenges_choice {
 typedef struct challenges_menu {
 	SDL_Win window;
 	Challenges_Choice state;
-	TTF_Font* font;
-	TTF_Font* button_font; 
+	TTF_Font* menu_font; 
 	Area background;
 	Area header;
 	Area beginner;
@@ -144,8 +144,7 @@ typedef enum menu_choice {
 typedef struct main_menu {
 	SDL_Win window;
 	Menu_Choice state;
-	TTF_Font* font;
-	TTF_Font* button_font; 
+	TTF_Font* menu_font; 
 	Area background;
 	Area logo;
 	Area canvas_button;
@@ -153,6 +152,7 @@ typedef struct main_menu {
 	Challenges_Menu challenges;
 	Area options_button;
 	Area quit_button;
+   
 } Main_Menu;
 
 #define LOGO_WIDTH 3
