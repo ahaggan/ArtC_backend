@@ -157,13 +157,30 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
     Coordinates active = interface->active_txt;
     int x, y;
-    SDL_GetMouseState(&x, &y);
+    SDL_GetMouseState(&x, &y);  
+    SDL_Cursor* cursor;
     switch(event.type) {
-         case SDL_MOUSEBUTTONDOWN:  
+        case SDL_MOUSEMOTION:
+            
 
+            if (inside_text_editor(interface, x, y)) {
+                cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
+                SDL_SetCursor(cursor);
+               
+            }
+            else {
+                cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+                SDL_SetCursor(cursor);
+             
+            }
+            
+        break;
+
+         case SDL_MOUSEBUTTONDOWN:  
             mouse_move_to_cell(interface, x, y);
             return text_edited;
         break;
+
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:
           
@@ -389,7 +406,14 @@ int inside_cell(TextNode current, int mouse_x, int mouse_y) {
     return 0;
 }
 
-
+int inside_text_editor(Interface* interface, int mouse_x, int mouse_y) {
+    if (mouse_x >= interface->text_editor_panel.rect.x && mouse_x <= interface->text_editor_panel.rect.x + interface->text_editor_panel.rect.w) {
+        if (mouse_y >= interface->text_editor_panel.rect.y && mouse_y <= interface->text_editor_panel.rect.y + interface->text_editor_panel.rect.h) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 void console_text_editor(Interface interface) {
   printf("Text Editor\n");

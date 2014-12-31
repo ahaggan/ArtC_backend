@@ -55,3 +55,4 @@ void console_text_editor(Interface interface);
 void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y);
 int inside_cell(TextNode current, int mouse_x, int mouse_y);
 void find_previous_cell_on_row(TextNode* current, Interface* interface);
+int inside_text_editor(Interface* interface, int mouse_x, int mouse_y);
