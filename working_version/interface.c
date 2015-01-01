@@ -26,23 +26,25 @@ int interface(Main_Menu* main) {
             fractal.endx = WIN_WIDTH/2 + 10;
             fractal.endy = WIN_HEIGHT/2 + 10; 
             for (int q = 0; q < 10; q++){
-               fractal.linethickness[q] = 1;
+               fractal.linethickness[q] = 2;
             }
          /* END */
 
          parser(&fractal);
-         
+        
          for (int i = 1; i <= fractal.iterations; i++) {
             start_time = end_time = clock();
             generate_fractal(&fractal, interface, i);
+            
             while(((double)end_time - (double)start_time)/(double)CLOCKS_PER_SEC < 0.1) {
-               Interface_Events(&interface);
+               
+               Interface_Events(&interface); 
                update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
                SDL_RenderPresent(interface.window.renderer);
                end_time = clock();
           
             } 
-         }  
+         } 
       }
       render_update_clear(interface.window);
    }
@@ -61,8 +63,8 @@ void initialise_text_editor(Interface* interface) {
   SDL_GetWindowSize(interface->window.win, &interface->editor_columns, &interface->editor_rows);
 
   //Canvas Mode:
-  interface->editor_columns /= 24;
-  interface->editor_rows /= 29.5;
+  interface->editor_columns /= 27;
+  interface->editor_rows /= 27;
   
   make_text_editor(interface->editor_columns, interface->editor_rows, interface);
  

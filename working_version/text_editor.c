@@ -138,15 +138,13 @@ TextNode* allocate_text_node(char* text, TextNode* previous_node,
    new_node->previous = previous_node;
    set_node_attributes(interface, row, column, new_node);
    set_node_text(interface, text, new_node);
-
-
    return new_node;
 }
 
 void set_node_attributes(Interface* interface, int row, int column, TextNode* new_node) {
    int box_w = (FONT_SIZE- 6);
    int box_h =  (FONT_SIZE + 9.1);
-   int x = (interface->text_editor_panel.rect.x + (column * box_w));
+   int x = (interface->text_editor_panel.rect.x  + (column * box_w));
    int y = (interface->text_editor_panel.rect.y + (row * box_h));
 
    new_node->text_cell.row = row;

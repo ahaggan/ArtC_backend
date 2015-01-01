@@ -7,7 +7,7 @@
 #define SDL_8BITCOLOUR 256
 #define SDL_DELAY 750
 
-#define TOOLBAR_HEIGHT 10
+#define TOOLBAR_HEIGHT 16
 
 #define TOOLBAR_BUTTON_Y 6
 #define TOOLBAR_BUTTON_WIDTH 8.5
@@ -15,13 +15,14 @@
 
 #define BOTTOM_BUTTON_HEIGHT 18
 
-#define TEXT_ED_WIDTH 2.435
+#define TEXT_ED_COLUMNS 27
+#define TEXT_ED_WIDTH 3.035
 
 #define MENU_X_SPACE 70
 #define HELP_X_SPACE 1.13
 
 #define CURRENT_CHALLENGE 14
-#define NEXT_BUTTON 3
+#define PREV_NEXT_BUTTON 5   
 
 #ifndef  M_PI
  #define M_PI  3.14159265358979323846
@@ -50,10 +51,10 @@ typedef struct interface {
   Area generate_button;
   Area menu_button;
   Area tutorial_button;
-  Area next_button;
   Area help_button;
-  Area current_challenge_l1;
-  Area current_challenge_l2;
+  Area previous_button;
+  Area current_challenge;
+  Area next_button;
   TTF_Font* text_ed_font;
   TTF_Font* button_font;
    
@@ -198,3 +199,4 @@ void display_text_editor(int win_width, int win_height, Interface* interface);
 void display_tutorial_button(int win_width, int win_height, Interface* interface);
 void display_next_button(int win_width, int win_height, Interface* interface);
 void display_current_challenge(int win_width, int win_height, Interface* interface);
+void display_previous_button(int win_width, int win_height, Interface* interface);

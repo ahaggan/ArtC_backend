@@ -314,6 +314,7 @@ void display_interface(Interface* interface) {
    display_menu_button(win_width, win_height, interface, 1);
    display_tutorial_button(win_width, win_height, interface);
    display_help_button(win_width, win_height, interface);
+   display_previous_button(win_width, win_height, interface);
    display_current_challenge(win_width, win_height, interface);
    display_next_button(win_width, win_height, interface);
    display_text_editor(win_width, win_height, interface); 
@@ -356,20 +357,6 @@ void display_toolbar(int win_width, int win_height, Interface* interface) {
             win_width, 2, 0, 0, 0);
 }
 
-void display_help_button(int win_width, int win_height, Interface* interface) {
-   int help_button_x, help_button_y, help_button_w, help_button_h;
-
-   help_button_x = interface->tutorial_button.rect.x + 
-                   interface->tutorial_button.rect.w + win_width / MENU_X_SPACE;
-   help_button_y = interface->toolbar.rect.h / TOOLBAR_BUTTON_Y;
-   help_button_w = interface->menu_button.rect.w;
-   help_button_h = interface->menu_button.rect.h;
-
-   make_rect(&interface->window, &interface->help_button, help_button_x, 
-            help_button_y, help_button_w, help_button_h, 220, 220, 140);
-   make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, 
-            interface->button_font, " Help ");
-}
 
 void display_reset_button(int win_width, int win_height, Interface* interface) {
    int reset_button_x, reset_button_y, reset_button_w, reset_button_h;
@@ -382,7 +369,7 @@ void display_reset_button(int win_width, int win_height, Interface* interface) {
    make_rect(&interface->window, &interface->reset_button, reset_button_x, 
             reset_button_y, reset_button_w, reset_button_h, 200, 100, 100);
    make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, 
-            interface->button_font, "  Reset  ");
+            interface->button_font, "    Reset    ");
 }
 
    void display_generate_button(int win_width, int win_height, Interface* interface) {
@@ -417,10 +404,10 @@ void display_canvas(int win_width, int win_height, Interface* interface) {
 void display_menu_button(int win_width, int win_height, Interface* interface, int mode) {
    int menu_button_x, menu_button_y, menu_button_w, menu_button_h;
 
-   menu_button_y = interface->toolbar.rect.h / TOOLBAR_BUTTON_Y;
-   menu_button_w = win_width / TOOLBAR_BUTTON_WIDTH;
-   menu_button_h = interface->toolbar.rect.h / TOOLBAR_BUTTON_HEIGHT;
-   menu_button_x = win_width / MENU_X_SPACE;
+   menu_button_y = 0;
+   menu_button_w = interface->text_editor_panel.rect.w / 3;
+   menu_button_h = interface->toolbar.rect.h;
+   menu_button_x = 0;
 
    make_rect(&interface->window, &interface->menu_button, menu_button_x, 
             menu_button_y, menu_button_w, menu_button_h, 100, 100, 100);
@@ -431,8 +418,38 @@ void display_menu_button(int win_width, int win_height, Interface* interface, in
    }
    else {
       make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, 
-      interface->button_font, "Challenges");
+      interface->button_font, "  Levels  ");
    }
+}
+
+void display_tutorial_button(int win_width, int win_height, Interface* interface) {
+   int tutorial_button_x, tutorial_button_y, tutorial_button_w, tutorial_button_h;
+
+   tutorial_button_x = interface->menu_button.rect.x + interface->menu_button.rect.w; 
+                      
+   tutorial_button_y = 0;
+   tutorial_button_w = interface->menu_button.rect.w;
+   tutorial_button_h = interface->menu_button.rect.h;
+
+   make_rect(&interface->window, &interface->tutorial_button, tutorial_button_x, 
+            tutorial_button_y, tutorial_button_w, tutorial_button_h, 150, 100, 150);
+   make_text(&interface->window, &interface->tutorial_button.rect, 0, 0, 0, 
+            interface->button_font, "Tutorial");
+   }
+
+void display_help_button(int win_width, int win_height, Interface* interface) {
+   int help_button_x, help_button_y, help_button_w, help_button_h;
+
+   help_button_x = interface->tutorial_button.rect.x + 
+                   interface->tutorial_button.rect.w;
+   help_button_y = 0;
+   help_button_w = interface->menu_button.rect.w;
+   help_button_h = interface->menu_button.rect.h;
+
+   make_rect(&interface->window, &interface->help_button, help_button_x, 
+            help_button_y, help_button_w, help_button_h, 220, 220, 140);
+   make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, 
+            interface->button_font, "  Help  ");
 }
 
 void display_text_editor(int win_width, int win_height, Interface* interface) {
@@ -446,64 +463,55 @@ void display_text_editor(int win_width, int win_height, Interface* interface) {
               interface->generate_button.rect.h;
 
    make_rect(&interface->window, &interface->text_editor_panel, texted_x, 
-            texted_y, texted_w, texted_h, 255, 255, 255);
+            texted_y, texted_w, texted_h,  43, 43, 39);
 }
 
 void display_current_challenge(int win_width, int win_height, Interface* interface) {
    int curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h;
 
    //Line 1
-   curr_chall_x = win_width / TEXT_ED_WIDTH + 2;
+   curr_chall_x = interface->previous_button.rect.x + interface->previous_button.rect.w;
    curr_chall_y = 0;
-   curr_chall_w = win_width - (win_width / TEXT_ED_WIDTH) - 
-                (win_width / NEXT_BUTTON) / 2.45;
-   curr_chall_h = (FONT_SIZE + 21);
+   curr_chall_w = win_width - (win_width / TEXT_ED_WIDTH) - interface->previous_button.rect.w * 2;
+                
+   curr_chall_h = interface->menu_button.rect.h;
 
-   make_rect(&interface->window, &interface->current_challenge_l1, curr_chall_x, 
+   make_rect(&interface->window, &interface->current_challenge, curr_chall_x, 
             curr_chall_y, curr_chall_w, curr_chall_h, 53, 53, 45);
-   make_text(&interface->window, &interface->current_challenge_l1.rect, 
+   make_text(&interface->window, &interface->current_challenge.rect, 
             240, 240, 240, interface->button_font, 
-            "   The current challenge is to have ");
-
-   //Line 2
-   curr_chall_y = curr_chall_y + curr_chall_h;
-
-   make_rect(&interface->window, &interface->current_challenge_l2, curr_chall_x, 
-            curr_chall_y, curr_chall_w, curr_chall_h, 53, 53, 45);
-   make_text(&interface->window, &interface->current_challenge_l2.rect, 
-            240, 240, 240, interface->button_font, 
-            "   a merry christmas.               ");
+            " Here is the current challenge ");
 }
 
 void display_next_button(int win_width, int win_height, Interface* interface) {
    int next_button_x, next_button_y, next_button_w, next_button_h;
 
-   next_button_x = interface->current_challenge_l1.rect.x + 
-                  interface->current_challenge_l1.rect.w;
-   next_button_w = (win_width / TEXT_ED_WIDTH) / NEXT_BUTTON;
-   next_button_h = interface->current_challenge_l1.rect.h * 2;
-   next_button_y = interface->current_challenge_l1.rect.y;
+   next_button_x = interface->current_challenge.rect.x + 
+                  interface->current_challenge.rect.w;
+   next_button_w = (win_width / TEXT_ED_WIDTH) / PREV_NEXT_BUTTON;
+   next_button_h = interface->menu_button.rect.h;
+   next_button_y = interface->current_challenge.rect.y;
 
    make_rect(&interface->window, &interface->next_button, next_button_x, 
-            next_button_y, next_button_w, next_button_h, 100, 150, 100);
+            next_button_y, next_button_w, next_button_h, 70, 130, 130);
    make_text(&interface->window, &interface->next_button.rect, 0, 0, 0, 
-            interface->button_font, "  NEXT   ");   
+            interface->button_font, "  ->   ");   
 }
 
-void display_tutorial_button(int win_width, int win_height, Interface* interface) {
-   int tutorial_button_x, tutorial_button_y, tutorial_button_w, tutorial_button_h;
+void display_previous_button(int win_width, int win_height, Interface* interface) {
+   int previous_button_x, previous_button_y, previous_button_w, previous_button_h;
 
-   tutorial_button_x = interface->menu_button.rect.x + interface->menu_button.rect.w 
-                      + win_width / MENU_X_SPACE;
-   tutorial_button_y = interface->toolbar.rect.h / TOOLBAR_BUTTON_Y;
-   tutorial_button_w = win_width / TOOLBAR_BUTTON_WIDTH;
-   tutorial_button_h = interface->toolbar.rect.h / TOOLBAR_BUTTON_HEIGHT;
+   previous_button_x = interface->text_editor_panel.rect.w;
+   previous_button_w = (win_width / TEXT_ED_WIDTH) / PREV_NEXT_BUTTON;
+   previous_button_h = interface->menu_button.rect.h;
+   previous_button_y = 0;
 
-   make_rect(&interface->window, &interface->tutorial_button, tutorial_button_x, 
-            tutorial_button_y, tutorial_button_w, tutorial_button_h, 150, 100, 150);
-   make_text(&interface->window, &interface->tutorial_button.rect, 0, 0, 0, 
-            interface->button_font, "Tutorial");
-   }
+   make_rect(&interface->window, &interface->previous_button, previous_button_x, 
+            previous_button_y, previous_button_w, previous_button_h, 70, 130, 130);
+   make_text(&interface->window, &interface->previous_button.rect, 0, 0, 0, 
+            interface->button_font, "  <-   ");   
+}
+
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
 

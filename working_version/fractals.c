@@ -21,6 +21,7 @@ void right(tri *info, Interface interface, Draw *fractal);
 
 void generate_fractal(Draw *fractal, Interface interface, int i) 
 {
+
     if(strcmp(fractal->type[i], "sierpinski") == 0){
         sierpinski(fractal, interface, i);
 

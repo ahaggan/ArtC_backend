@@ -1,24 +1,26 @@
-run{
-   shape line
-   colour red
+run{ 
+   shape circle
    type tree
-   iterations 7
+   iterations 5
    size 400
 
    if iterations 0 then{
-      colour black
+      colour lime
    }
+
    if iterations 1 then{
-      colour turquoise
+      colour green
    }
+
    if iterations 2 then{
       colour navy
    }
+
    if iterations 3 then{
       colour purple
    } 
-}
 
+}
 
 
 

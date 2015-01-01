@@ -225,6 +225,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     else {
                         //If there's nothing in the previous cell
                         handle_backwriting(active, interface);
+                        
                        
                     }
                     console_text_editor(*interface);
