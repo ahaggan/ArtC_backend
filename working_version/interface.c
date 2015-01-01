@@ -20,7 +20,7 @@ int interface(Main_Menu* main) {
          clear_area(&interface.window, interface.canvas);
 
          /* START: only here due to parser udpate */
-            Draw fractal; //shouldn't be in here
+            Draw fractal; 
             fractal.startx = interface.canvas.rect.x + (interface.canvas.rect.w/2);
             fractal.starty = interface.canvas.rect.y + (interface.canvas.rect.h/2);
             fractal.endx = WIN_WIDTH/2 + 10;
@@ -36,8 +36,7 @@ int interface(Main_Menu* main) {
             start_time = end_time = clock();
             generate_fractal(&fractal, interface, i);
             
-            while(((double)end_time - (double)start_time)/(double)CLOCKS_PER_SEC < 0.1) {
-               
+            while(((double)end_time - (double)start_time)/(double)CLOCKS_PER_SEC < 0.5) {
                Interface_Events(&interface); 
                update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
                SDL_RenderPresent(interface.window.renderer);

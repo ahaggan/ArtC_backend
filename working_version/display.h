@@ -15,7 +15,7 @@
 
 #define BOTTOM_BUTTON_HEIGHT 18
 
-#define TEXT_ED_COLUMNS 27
+
 #define TEXT_ED_WIDTH 3.035
 
 #define MENU_X_SPACE 70
