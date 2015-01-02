@@ -53,7 +53,7 @@ void main_menu_actions(Main_Menu* menu) {
       interface(menu, canvas_mode); 
       break;
     case challenges_menu:
-      challenges(menu);
+      interface(menu, challenge_mode);
       break;
     //also have an 'Read Me' button
     case options_menu:
