@@ -3,8 +3,8 @@ run{
    colour lime
    shape line
    size 400
-   iterations 8
-
+   iterations 8                               
+                                              
    if iterations 0 then{
       colour brown
    }
@@ -17,10 +17,10 @@ run{
    if iterations 3 then{
       colour green
    }
+   if iterations 6 then{
+      colour fuchsia
+   }
 }
-
-
-
 
 
 

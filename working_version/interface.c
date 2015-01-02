@@ -1,17 +1,17 @@
 #include "input.h"
 
-void initialise_interface(Main_Menu* main, Interface* interface);
+void initialise_interface(Main_Menu* main, Interface* interface, Mode mode);
 void initialise_text_editor(Interface* interface);
 
-int interface(Main_Menu* main) {
+int interface(Main_Menu* main, Mode mode) {
    Interface interface;
    clock_t start_time, end_time; 
    
-   initialise_interface(main, &interface); 
+   initialise_interface(main, &interface, mode); 
    initialise_text_editor(&interface);
 
    while (interface.action != back_to_menu) {
-      display_interface(&interface);
+      display_interface(&interface, mode);
       update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
       interface.action = Interface_Events(&interface);
 
@@ -50,12 +50,12 @@ int interface(Main_Menu* main) {
    return 0;
 }
 
-void initialise_interface(Main_Menu* main_menu, Interface* interface) {
+void initialise_interface(Main_Menu* main_menu, Interface* interface, Mode mode) {
   interface->action = 0;
   interface->window = main_menu->window;
   interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
   interface->button_font = main_menu->menu_font;
-  display_interface(interface);
+  display_interface(interface, mode);
 }
 
 void initialise_text_editor(Interface* interface) {

@@ -140,7 +140,7 @@ void SDL_Window_Events(SDL_Event event, Interface* interface) {
             SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
             // Set resolution (size) of renderer to the same as window
             SDL_RenderSetLogicalSize(interface->window.renderer, win_width, win_height); 
-            display_interface(interface);
+            //display_interface(interface, mode);
             SDL_GetWindowSize(interface->window.win, &interface->editor_columns , &interface->editor_rows);
             interface->editor_columns /= 24;
             interface->editor_rows /= 29.5;

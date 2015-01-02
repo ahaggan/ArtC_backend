@@ -13,10 +13,10 @@
 #define TOOLBAR_BUTTON_WIDTH 8.5
 #define TOOLBAR_BUTTON_HEIGHT 1.5
 
-#define BOTTOM_BUTTON_HEIGHT 18
+#define BUTTON_HEIGHT 18
 
 
-#define TEXT_ED_WIDTH 3.035
+#define TEXT_ED_WIDTH 3.015
 
 #define MENU_X_SPACE 70
 #define HELP_X_SPACE 1.13
@@ -50,7 +50,7 @@ typedef struct interface {
   Area reset_button;
   Area generate_button;
   Area menu_button;
-  Area tutorial_button;
+  Area learn_button;
   Area help_button;
   Area previous_button;
   Area current_challenge;
@@ -62,15 +62,6 @@ typedef struct interface {
   int editor_rows;
   int editor_columns;
 } Interface;	
-
-typedef struct txt_node {
-	struct txt_node* previous;
-	struct txt_node* next;
-	//I have a feeling this needs to be a string
-	char character[1];
-	//if selected == 1, display cursor
-	int selected;
-} Txt_node;
 
 typedef struct shape {
     int x;
@@ -186,17 +177,17 @@ void display_intermediate_button(int win_width, int win_height, Challenges_Menu*
 void display_expert_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
 void display_main_menu_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
 
-void display_interface(Interface *interface);
+void display_interface(Interface *interface, Mode mode);
+void display_toolbar(int win_width, int win_height, Interface* interface, Mode mode);
+void display_menu_button(int win_width, int win_height, Interface* interface, Mode mode);
+void display_help_button(int win_width, int win_height, Interface* interface, Mode mode);
+void display_canvas(int win_width, int win_height, Interface* interface, Mode mode);
 
-void display_toolbar(int win_width, int win_height, Interface* interface);
-void display_menu_button(int win_width, int win_height, Interface* interface, int mode);
-void display_help_button(int win_width, int win_height, Interface* interface);
-void display_reset_button(int win_width, int win_height, Interface* interface);
+void display_reset_button(int win_width, int win_height, Interface* interface, Mode mode);
 void display_generate_button(int win_width, int win_height, Interface* interface);
-void display_canvas(int win_width, int win_height, Interface* interface);
 void display_text_editor(int win_width, int win_height, Interface* interface);
 
-void display_tutorial_button(int win_width, int win_height, Interface* interface);
+void display_learn_button(int win_width, int win_height, Interface* interface);
 void display_next_button(int win_width, int win_height, Interface* interface);
 void display_current_challenge(int win_width, int win_height, Interface* interface);
 void display_previous_button(int win_width, int win_height, Interface* interface);

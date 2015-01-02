@@ -62,3 +62,7 @@ typedef struct text_node {
 
 typedef TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
 
+typedef enum mode {
+   challenge_mode,
+   canvas_mode
+} Mode;

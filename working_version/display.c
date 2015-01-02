@@ -302,29 +302,24 @@ void display_main_menu_button(int win_width, int win_height, Challenges_Menu* ch
 
 /* Interface */
 //this needs a flag sent to it: request either canvas interface or challenge interface
-void display_interface(Interface* interface) {
+void display_interface(Interface* interface, Mode mode) {
    int win_width, win_height;
    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
-   display_toolbar(win_width, win_height, interface);
-
-   display_reset_button(win_width, win_height, interface);
+   display_toolbar(win_width, win_height, interface, mode);
+  display_menu_button(win_width, win_height, interface, mode);
+  display_help_button(win_width, win_height, interface, mode);
+   display_reset_button(win_width, win_height, interface, mode);
    display_generate_button(win_width, win_height, interface);
-   display_canvas(win_width, win_height, interface);
-
-   display_menu_button(win_width, win_height, interface, 1);
-   display_tutorial_button(win_width, win_height, interface);
-   display_help_button(win_width, win_height, interface);
-   display_previous_button(win_width, win_height, interface);
-   display_current_challenge(win_width, win_height, interface);
-   display_next_button(win_width, win_height, interface);
+  display_canvas(win_width, win_height, interface, mode);
    display_text_editor(win_width, win_height, interface); 
 
-   /* Interface components exclusive to challenge mode:
-      - Challenges button 
-      - Tutorial button 
-      - Current Challenge
-      - Next button
-   */
+   if (mode == challenge_mode) {
+     display_learn_button(win_width, win_height, interface);
+     display_previous_button(win_width, win_height, interface);
+     display_current_challenge(win_width, win_height, interface);
+     display_next_button(win_width, win_height, interface);
+   }
+   
 }
 
 /*
@@ -339,44 +334,59 @@ void free_text_nodes(TextNode* tail) {
 }
 */
 
-void display_toolbar(int win_width, int win_height, Interface* interface) {
+void display_toolbar(int win_width, int win_height, Interface* interface, Mode mode) {
    int toolbar_x, toolbar_y, toolbar_w, toolbar_h;
 
    toolbar_x = toolbar_y = 0;
-   toolbar_w = win_width;
-   toolbar_h = win_height / TOOLBAR_HEIGHT;
+   toolbar_h = win_height / BUTTON_HEIGHT;
+
+   if (mode == challenge_mode) {
+      toolbar_w = win_width;
+   }
+   else {
+      toolbar_w = win_width / TEXT_ED_WIDTH;
+    }
 
    make_rect(&interface->window, &interface->toolbar, toolbar_x, toolbar_y, 
             toolbar_w, toolbar_h, 200, 200, 200);
 
    //divider
    make_rect(&interface->window, &interface->toolbar_divider, win_width / TEXT_ED_WIDTH,
-            toolbar_y, 2, win_height, 0, 0, 0);
+            toolbar_y, 1, win_height, 20, 20, 20);
    //bottom-border
-   make_rect(&interface->window, &interface->toolbar_divider, 0, toolbar_h - 2, 
-            win_width, 2, 0, 0, 0);
+   make_rect(&interface->window, &interface->toolbar_divider, 0, toolbar_h - 1, 
+            toolbar_w, 1, 20, 20, 20);
 }
 
 
-void display_reset_button(int win_width, int win_height, Interface* interface) {
+void display_reset_button(int win_width, int win_height, Interface* interface, Mode mode) {
    int reset_button_x, reset_button_y, reset_button_w, reset_button_h;
 
    reset_button_x = 0;
    reset_button_w = (win_width / TEXT_ED_WIDTH) / 2;
-   reset_button_h = win_height / BOTTOM_BUTTON_HEIGHT;
+   reset_button_h = win_height / BUTTON_HEIGHT;
    reset_button_y = win_height - reset_button_h;
 
    make_rect(&interface->window, &interface->reset_button, reset_button_x, 
             reset_button_y, reset_button_w, reset_button_h, 200, 100, 100);
-   make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, 
+
+   if (mode == challenge_mode) {
+     make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, 
             interface->button_font, "    Reset    ");
+  }
+  else {
+    make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, 
+            interface->button_font, "    Clear    ");
+  }
+
+  
 }
 
    void display_generate_button(int win_width, int win_height, Interface* interface) {
    int generate_button_x, generate_button_y, generate_button_w, generate_button_h;
 
    generate_button_x = (win_width / TEXT_ED_WIDTH) / 2;
-   generate_button_h = win_height / BOTTOM_BUTTON_HEIGHT;
+   generate_button_h = win_height / BUTTON_HEIGHT;
    generate_button_y = win_height - generate_button_h;
    generate_button_w = (win_width / TEXT_ED_WIDTH) / 2;
 
@@ -387,13 +397,20 @@ void display_reset_button(int win_width, int win_height, Interface* interface) {
 
 } 
 
-void display_canvas(int win_width, int win_height, Interface* interface) {
+void display_canvas(int win_width, int win_height, Interface* interface, Mode mode) {
   int canvas_x, canvas_y, canvas_w, canvas_h;
 
-  canvas_x = win_width / TEXT_ED_WIDTH + 2;
-  canvas_y = interface->toolbar.rect.h;
+  canvas_x = win_width / TEXT_ED_WIDTH + 1;
   canvas_w = win_width - win_width / TEXT_ED_WIDTH;
-  canvas_h = win_height - interface->toolbar.rect.h;
+
+  if (mode == challenge_mode) {
+    canvas_y = interface->toolbar.rect.h;
+    canvas_h = win_height - interface->toolbar.rect.h;
+  }
+  else {
+    canvas_y = 0;
+    canvas_h = win_height;
+  }
 
   make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w,
            canvas_h, 255, 255, 255);
@@ -401,55 +418,76 @@ void display_canvas(int win_width, int win_height, Interface* interface) {
 
 
 /* dependent on challenges mode being active */
-void display_menu_button(int win_width, int win_height, Interface* interface, int mode) {
+void display_menu_button(int win_width, int win_height, Interface* interface, Mode mode) {
    int menu_button_x, menu_button_y, menu_button_w, menu_button_h;
 
    menu_button_y = 0;
-   menu_button_w = interface->text_editor_panel.rect.w / 3;
-   menu_button_h = interface->toolbar.rect.h;
+   menu_button_h = interface->toolbar.rect.h - 1;
    menu_button_x = 0;
+   if (mode == challenge_mode) {
+      menu_button_w = interface->text_editor_panel.rect.w / 3;
+    }
+    else {
+      menu_button_w = interface->text_editor_panel.rect.w / 2;
+  }
 
    make_rect(&interface->window, &interface->menu_button, menu_button_x, 
             menu_button_y, menu_button_w, menu_button_h, 100, 100, 100);
 
-   if (mode == 0) {
+   if (mode == challenge_mode) {
       make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, 
-      interface->button_font, "Menu");
+      interface->button_font, " Levels ");
    }
    else {
       make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, 
-      interface->button_font, "  Levels  ");
+      interface->button_font, "      Menu      ");
+      
    }
 }
 
-void display_tutorial_button(int win_width, int win_height, Interface* interface) {
-   int tutorial_button_x, tutorial_button_y, tutorial_button_w, tutorial_button_h;
+void display_learn_button(int win_width, int win_height, Interface* interface) {
+   int learn_button_x, learn_button_y, learn_button_w, learn_button_h;
 
-   tutorial_button_x = interface->menu_button.rect.x + interface->menu_button.rect.w; 
+   learn_button_x = interface->menu_button.rect.x + interface->menu_button.rect.w; 
                       
-   tutorial_button_y = 0;
-   tutorial_button_w = interface->menu_button.rect.w;
-   tutorial_button_h = interface->menu_button.rect.h;
+   learn_button_y = 0;
+   learn_button_w = interface->menu_button.rect.w;
+   learn_button_h = interface->menu_button.rect.h;
 
-   make_rect(&interface->window, &interface->tutorial_button, tutorial_button_x, 
-            tutorial_button_y, tutorial_button_w, tutorial_button_h, 150, 100, 150);
-   make_text(&interface->window, &interface->tutorial_button.rect, 0, 0, 0, 
-            interface->button_font, "Tutorial");
+   make_rect(&interface->window, &interface->learn_button, learn_button_x, 
+            learn_button_y, learn_button_w, learn_button_h, 150, 100, 150);
+   make_text(&interface->window, &interface->learn_button.rect, 0, 0, 0, 
+            interface->button_font, " Learn ");
    }
 
-void display_help_button(int win_width, int win_height, Interface* interface) {
+void display_help_button(int win_width, int win_height, Interface* interface, Mode mode) {
    int help_button_x, help_button_y, help_button_w, help_button_h;
 
-   help_button_x = interface->tutorial_button.rect.x + 
-                   interface->tutorial_button.rect.w;
+   if (mode == challenge_mode) {
+    help_button_x = interface->learn_button.rect.x + 
+                    interface->learn_button.rect.w;
+   }
+   else {
+    help_button_x = interface->menu_button.rect.x + 
+                    interface->menu_button.rect.w;
+   }
+
    help_button_y = 0;
    help_button_w = interface->menu_button.rect.w;
    help_button_h = interface->menu_button.rect.h;
 
    make_rect(&interface->window, &interface->help_button, help_button_x, 
             help_button_y, help_button_w, help_button_h, 220, 220, 140);
-   make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, 
+
+   if (mode == challenge_mode) {
+    make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, 
             interface->button_font, "  Help  ");
+   }
+   else {
+    make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, 
+            interface->button_font, "     Help     ");
+   }
+   
 }
 
 void display_text_editor(int win_width, int win_height, Interface* interface) {
