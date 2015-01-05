@@ -30,7 +30,7 @@ int interface(Main_Menu* main, Mode mode) {
             }
          /* END */
 
-         parser(&fractal);
+         parser(&fractal, "parser.txt");
         
          for (int i = 1; i <= fractal.iterations; i++) {
             start_time = end_time = clock();

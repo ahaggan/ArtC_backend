@@ -5,7 +5,7 @@
 
 #include "parser.h"
 //int main(Draw *fractal, char *file_name){     //Use this to pass a file name to the parser function.
-int parser(Draw *fractal){
+int parser(Draw *fractal, char *file_name){
     //test_parser();
     int i;
     FILE *file_pointer;
@@ -22,7 +22,7 @@ int parser(Draw *fractal){
     
     
     initialise_interpreter_array(&program);
-    if((file_pointer = fopen("parser.txt", "r")) == NULL){
+    if((file_pointer = fopen(file_name, "r")) == NULL){
         fprintf(stderr, "\nCannot open file\n");
         return FALSE;
     }
