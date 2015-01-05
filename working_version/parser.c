@@ -20,7 +20,6 @@ int parser(Draw *fractal, char *file_name){
     
     create_struct_array(program.actions);
     
-    
     initialise_interpreter_array(&program);
     if((file_pointer = fopen(file_name, "r")) == NULL){
         fprintf(stderr, "\nCannot open file\n");
