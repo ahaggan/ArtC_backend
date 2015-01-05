@@ -107,6 +107,18 @@ TextNode* allocate_text_node(char* c, TextNode* previous_node, Interface* interf
 void free_text_nodes(TextNode* head);
 
 /* Menu Additions */
+/*
+typedef struct options_menu {
+   SDL_Win window;
+   Option_Choice state;
+   TTF_Font* menu_font; 
+   Area background;
+   Area header;
+   Area resolution;
+   Area main_menu;
+} Options_Menu;
+*/
+
 typedef enum challenges_choice {
 	beginner = 1,
 	intermediate,
@@ -147,14 +159,17 @@ typedef struct main_menu {
    
 } Main_Menu;
 
-#define LOGO_WIDTH 3
-#define LOGO_HEIGHT 6
+
 #define LEFT_MARGIN 15
 #define TOP_MARGIN 20
 
-#define MENU_BUTTON_WIDTH 5
-#define MENU_BUTTON_HEIGHT 10
-#define MENU_BUTTON_DIST 15
+#define LOGO_WIDTH 761
+#define LOGO_HEIGHT 263
+
+#define MENU_BUTTON_WIDTH 237
+#define MENU_BUTTON_HEIGHT 91
+
+#define MENU_BUTTON_DIST 20
 
 void update_main_menu(Main_Menu *main_menu);
 void render_update_clear(SDL_Win window);
@@ -191,3 +206,7 @@ void display_learn_button(int win_width, int win_height, Interface* interface);
 void display_next_button(int win_width, int win_height, Interface* interface);
 void display_current_challenge(int win_width, int win_height, Interface* interface);
 void display_previous_button(int win_width, int win_height, Interface* interface);
+
+void fix_mac_flickering(Interface* interface, Mode mode);
+SDL_Texture* load_image(char* filename, SDL_Win* window);
+SDL_Texture* surface_to_texture(SDL_Surface* surface, SDL_Win* window);

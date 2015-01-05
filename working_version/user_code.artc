@@ -1,26 +1,28 @@
 run{
-   type tree
-   colour lime
-   shape line
-   size 400
-   iterations 8
+   type sierpinski
+   colour red
+   shape circle
+   size 450
+   iterations 7
 
    if iterations 0 then{
-      colour black
-   }
-   if iterations 1 then{
-      colour brown
-   }
+      colour brown 
+   } 
    if iterations 2 then{
-      colour green
-   }
-   if iterations 3 then{
-      colour green
+       colour orange  
+   } 
+   if iterations 4 then{     
+      colour purple
    }
    if iterations 6 then{
-      colour fuchsia
+       colour purple  
    }
-   if iterations 7 then{
-      colour gold
-   }
+   if iterations 5 then{
+      colour fuchsia 
+   } 
 }
+
+
+
+
+

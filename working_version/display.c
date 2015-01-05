@@ -12,7 +12,7 @@ void SDL_Win_Init(SDL_Win *w, char* win_name) {
    
    w->win= SDL_CreateWindow(win_name, SDL_WINDOWPOS_UNDEFINED, 
                             SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, 
-                            SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+                            SDL_WINDOW_SHOWN);
 
    if (w->win == NULL) {
       fprintf(stderr, "\nUnable to initialize SDL Win: %s\n", SDL_GetError());
@@ -37,14 +37,14 @@ void SDL_Win_Init(SDL_Win *w, char* win_name) {
   
    //Set screen to white
    SDL_SetRenderDrawColor(w->renderer, 255, 255, 255, 255);
-   SDL_RenderClear(w->renderer);
    render_update_clear(*w);
 }
 
 void clear_area(SDL_Win *window, Area area) {
-   SDL_SetRenderDrawColor(window->renderer, area.col.r, area.col.g, area.col.b,
+   SDL_SetRenderDrawColor(window->renderer, 255, 255, 255,
                         255);
-   SDL_RenderFillRect(window->renderer, &area.rect);
+   SDL_RenderFillRect(window->renderer, &area.rect);  
+   render_update_clear(*window);
 }
 
 //Filled Circle centred at (cx,cy) of radius r
@@ -107,8 +107,7 @@ void SDL_TTF_Quit(TTF_Font *font) {
 void display_main_menu(Main_Menu *main_menu) {
    int win_width, win_height;
    SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
-
-   display_menu_background(win_width, win_height, main_menu);
+     display_menu_background(win_width, win_height, main_menu);
    display_logo(win_width, win_height, main_menu);
    display_canvas_button(win_width, win_height, main_menu);
    display_challenges_button(win_width, win_height, main_menu);
@@ -124,85 +123,93 @@ void display_menu_background(int win_width, int win_height, Main_Menu* main_menu
    background_h = win_height;
 
    make_rect(&main_menu->window, &main_menu->background, background_x, 
-            background_y, background_w, background_h, 200, 200, 200);
+            background_y, background_w, background_h, 255, 255, 255);
 }
 
 void display_logo(int win_width, int win_height, Main_Menu* main_menu) {
+  SDL_Texture* image = load_image("menu_graphics/artc_logo.bmp", &main_menu->window);
    int logo_x, logo_y, logo_w, logo_h;
-
-   logo_w = win_width / LOGO_WIDTH;
+   logo_w = LOGO_WIDTH / 2;
    logo_x = win_width / LEFT_MARGIN;
-   logo_h = win_height / LOGO_HEIGHT;
-   logo_y = win_height / TOP_MARGIN;
+   logo_h = LOGO_HEIGHT / 2;
+   logo_y = win_height / TOP_MARGIN; 
+  make_rect(&main_menu->window, &main_menu->logo, logo_x, 
+            logo_y, logo_w, logo_h, 230, 230, 230);
+  SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->logo.rect);
+  SDL_DestroyTexture(image); 
 
-   make_rect(&main_menu->window, &main_menu->logo, logo_x, logo_y, logo_w, 
-            logo_h, 220, 100, 100);
-   make_text(&main_menu->window, &main_menu->logo.rect, 245, 245, 245, 
-            main_menu->menu_font, " Art-C ");
 }
 
 void display_canvas_button(int win_width, int win_height, Main_Menu* main_menu) {
+    SDL_Texture* image = load_image("menu_graphics/canvas.bmp", &main_menu->window);
    int canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h;
 
-   canvas_button_w = win_width / MENU_BUTTON_WIDTH;
+   canvas_button_w = MENU_BUTTON_WIDTH;
    canvas_button_x = win_width / LEFT_MARGIN;
-   canvas_button_h = win_height / MENU_BUTTON_HEIGHT;
+   canvas_button_h = MENU_BUTTON_HEIGHT;
    canvas_button_y = (main_menu->logo.rect.y + main_menu->logo.rect.h) + 
-                    (win_height / MENU_BUTTON_DIST);
+                    (win_height / TOP_MARGIN);
+  
+  
+
 
    make_rect(&main_menu->window, &main_menu->canvas_button, canvas_button_x, 
-            canvas_button_y, canvas_button_w, canvas_button_h, 160, 100, 100);
-   make_text(&main_menu->window, &main_menu->canvas_button.rect, 245, 245, 245, 
-            main_menu->menu_font, " Canvas ");
+            canvas_button_y, canvas_button_w, canvas_button_h, 241, 14, 71);
+   SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->canvas_button.rect);
+   SDL_DestroyTexture(image); 
+
 }
 
 void display_challenges_button(int win_width, int win_height, Main_Menu* main_menu) {
+   SDL_Texture* image = load_image("menu_graphics/challenges.bmp", &main_menu->window);
    int challenges_button_x, challenges_button_y, challenges_button_w, challenges_button_h;
 
-   challenges_button_w = win_width / MENU_BUTTON_WIDTH;
+   challenges_button_w = main_menu->canvas_button.rect.w;
    challenges_button_x = win_width / LEFT_MARGIN;
-   challenges_button_h = win_height / MENU_BUTTON_HEIGHT;
+   challenges_button_h = main_menu->canvas_button.rect.h;
    challenges_button_y = (main_menu->canvas_button.rect.y + 
                          main_menu->canvas_button.rect.h) +
                          (win_height / MENU_BUTTON_DIST);
 
    make_rect(&main_menu->window, &main_menu->challenges_button, challenges_button_x, 
             challenges_button_y, challenges_button_w, challenges_button_h, 
-            160, 100, 100);
-   make_text(&main_menu->window, &main_menu->challenges_button.rect, 245, 245, 245,
-            main_menu->menu_font, "Challenges");
+            241, 14, 71);
+     SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->challenges_button.rect);
+   SDL_DestroyTexture(image); 
 }
 
 void display_options_button(int win_width, int win_height, Main_Menu* main_menu) {
+   SDL_Texture* image = load_image("menu_graphics/options.bmp", &main_menu->window);
    int options_button_x, options_button_y, options_button_w, options_button_h;
 
-   options_button_w = win_width / MENU_BUTTON_WIDTH;
+   options_button_w = main_menu->canvas_button.rect.w;
    options_button_x = win_width / LEFT_MARGIN;
-   options_button_h = win_height / MENU_BUTTON_HEIGHT;
+   options_button_h = main_menu->canvas_button.rect.h;
    options_button_y = (main_menu->challenges_button.rect.y + 
                       main_menu->challenges_button.rect.h) +
                       (win_height / MENU_BUTTON_DIST);
 
    make_rect(&main_menu->window, &main_menu->options_button, options_button_x, 
-            options_button_y, options_button_w, options_button_h, 160, 100, 100);
-   make_text(&main_menu->window, &main_menu->options_button.rect, 245, 245, 245, 
-            main_menu->menu_font, " Options ");
+            options_button_y, options_button_w, options_button_h, 241, 14, 71);
+       SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->options_button.rect);
+   SDL_DestroyTexture(image); 
 }
 
 void display_quit_button(int win_width, int win_height, Main_Menu* main_menu) {
+  SDL_Texture* image = load_image("menu_graphics/quit.bmp", &main_menu->window);
    int quit_button_x, quit_button_y, quit_button_w, quit_button_h;
 
-   quit_button_w = win_width / MENU_BUTTON_WIDTH;
+   quit_button_w = main_menu->canvas_button.rect.w;
    quit_button_x = win_width / LEFT_MARGIN;
-   quit_button_h = win_height / MENU_BUTTON_HEIGHT;
+   quit_button_h = main_menu->canvas_button.rect.h;
    quit_button_y = (main_menu->options_button.rect.y + 
                    main_menu->options_button.rect.h) +
                    win_height / MENU_BUTTON_DIST;
 
    make_rect(&main_menu->window, &main_menu->quit_button, quit_button_x, 
             quit_button_y, quit_button_w, quit_button_h, 100, 90, 90);
-   make_text(&main_menu->window, &main_menu->quit_button.rect, 245, 245, 245, 
-            main_menu->menu_font, "  Quit  ");
+        SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->quit_button.rect);
+   SDL_DestroyTexture(image); 
 }
 
 /* Challenges Menu */
@@ -253,7 +260,7 @@ void display_beginner_button(int win_width, int win_height, Challenges_Menu* cha
                (win_height / MENU_BUTTON_DIST);
 
    make_rect(&challenges->window, &challenges->beginner, beginner_x, beginner_y, 
-            beginner_w, beginner_h, 160, 100, 100);
+            beginner_w, beginner_h, 241, 14, 71);
    make_text(&challenges->window, &challenges->beginner.rect, 245, 245, 245, 
             challenges->menu_font, "Beginner");
 }
@@ -267,7 +274,7 @@ void display_intermediate_button(int win_width, int win_height, Challenges_Menu*
                    + (win_height / MENU_BUTTON_DIST);
 
    make_rect(&challenges->window, &challenges->intermediate, intermediate_x, 
-            intermediate_y, intermediate_w, intermediate_h, 160, 100, 100);
+            intermediate_y, intermediate_w, intermediate_h, 241, 14, 71);
    make_text(&challenges->window, &challenges->intermediate.rect, 245, 245, 245, 
             challenges->menu_font, "Intermediate");
 }
@@ -281,7 +288,7 @@ void display_expert_button(int win_width, int win_height, Challenges_Menu* chall
              + (win_height / MENU_BUTTON_DIST);
 
   make_rect(&challenges->window, &challenges->expert, expert_x, expert_y, 
-            expert_w, expert_h, 160, 100, 100);
+            expert_w, expert_h, 241, 14, 71);
   make_text(&challenges->window, &challenges->expert.rect, 245, 245, 245, 
             challenges->menu_font, "Expert");
 }
@@ -311,6 +318,26 @@ void display_interface(Interface* interface, Mode mode) {
    display_reset_button(win_width, win_height, interface, mode);
    display_generate_button(win_width, win_height, interface);
   display_canvas(win_width, win_height, interface, mode);
+   display_text_editor(win_width, win_height, interface); 
+
+   if (mode == challenge_mode) {
+     display_learn_button(win_width, win_height, interface);
+     display_previous_button(win_width, win_height, interface);
+     display_current_challenge(win_width, win_height, interface);
+     display_next_button(win_width, win_height, interface);
+   }
+   
+}
+
+void fix_mac_flickering(Interface* interface, Mode mode) {
+   int win_width, win_height;
+   SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
+    
+   display_toolbar(win_width, win_height, interface, mode);
+  display_menu_button(win_width, win_height, interface, mode);
+  display_help_button(win_width, win_height, interface, mode);
+   display_reset_button(win_width, win_height, interface, mode);
+   display_generate_button(win_width, win_height, interface);
    display_text_editor(win_width, win_height, interface); 
 
    if (mode == challenge_mode) {
@@ -388,7 +415,7 @@ void display_reset_button(int win_width, int win_height, Interface* interface, M
    generate_button_x = (win_width / TEXT_ED_WIDTH) / 2;
    generate_button_h = win_height / BUTTON_HEIGHT;
    generate_button_y = win_height - generate_button_h;
-   generate_button_w = (win_width / TEXT_ED_WIDTH) / 2;
+   generate_button_w = (win_width / TEXT_ED_WIDTH) / 2 + 1;
 
    make_rect(&interface->window, &interface->generate_button, generate_button_x, 
             generate_button_y, generate_button_w, generate_button_h, 100, 200, 100);
@@ -465,11 +492,11 @@ void display_help_button(int win_width, int win_height, Interface* interface, Mo
 
    if (mode == challenge_mode) {
     help_button_x = interface->learn_button.rect.x + 
-                    interface->learn_button.rect.w;
+                    interface->learn_button.rect.w; 
    }
    else {
     help_button_x = interface->menu_button.rect.x + 
-                    interface->menu_button.rect.w;
+                    interface->menu_button.rect.w + 1;
    }
 
    help_button_y = 0;
@@ -539,7 +566,7 @@ void display_next_button(int win_width, int win_height, Interface* interface) {
 void display_previous_button(int win_width, int win_height, Interface* interface) {
    int previous_button_x, previous_button_y, previous_button_w, previous_button_h;
 
-   previous_button_x = interface->text_editor_panel.rect.w;
+   previous_button_x = interface->text_editor_panel.rect.w + 1;
    previous_button_w = (win_width / TEXT_ED_WIDTH) / PREV_NEXT_BUTTON;
    previous_button_h = interface->menu_button.rect.h;
    previous_button_y = 0;
@@ -586,9 +613,26 @@ void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
 
 }
 
+/* currently isn't clearing! */
 void render_update_clear(SDL_Win window) {
    SDL_RenderPresent(window.renderer);
    SDL_UpdateWindowSurface(window.win);
-   SDL_RenderClear(window.renderer);
+  // SDL_RenderClear(window.renderer);
 }
 
+//loads a bmp to a surface, then converts that surface to a texture and returns it
+SDL_Texture* load_image(char* filename, SDL_Win* window) {
+    SDL_Surface* image = SDL_LoadBMP(filename); 
+    if (image == NULL ) {
+        printf( "Unable to load image %s! SDL Error: %s\n", filename, SDL_GetError());
+    } 
+    return surface_to_texture(image, window) ;
+}
+
+//creates a texture from a surface and frees the surface
+SDL_Texture* surface_to_texture(SDL_Surface* surface, SDL_Win* window) {
+    SDL_Texture* texture;
+    texture = SDL_CreateTextureFromSurface(window->renderer, surface);
+    SDL_FreeSurface(surface);
+    return texture;
+}

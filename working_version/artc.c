@@ -7,16 +7,18 @@ void initialise_challenges_menu(Main_Menu* main);
 void main_menu_actions(Main_Menu* main);
 
 /* Main Menu */
-int main() {
+int main(void) {
   Main_Menu menu;  
   initialise_main_menu(&menu);
-  while(!menu.window.finished) {  
-    display_main_menu(&menu); //unnecessary doing this if there have been no changes (use clear_area())
+ 
+  do {  
+     display_main_menu(&menu); //unnecessary doing this if there have been no changes (use clear_area())
     menu.state = SDL_Main_Menu_Events(&menu);
     main_menu_actions(&menu);
     render_update_clear(menu.window);
-  }
-  //SDL shut_down, TTF shut down, free memory
+  } while(!menu.window.finished);
+  //SDL shut_down, TTF shut down, free memory)
+  SDL_Quit();
   return 0;
 }
 
@@ -33,9 +35,9 @@ int challenges(Main_Menu* menu) {
 
 /* Create main window and init TTF fonts */ 
 void initialise_main_menu(Main_Menu* menu) {
-  SDL_Win_Init(&menu->window, "Art-C");
+  SDL_Win_Init(&menu->window, "ART-C");
   SDL_TTF_Init();
-  menu->menu_font = SDL_Load_Font("font/Denne.ttf", BUTTON_FONT_SIZE);
+  menu->menu_font = SDL_Load_Font("font/Edo.ttf", BUTTON_FONT_SIZE);
   menu->state = 0;
 }
 
@@ -50,10 +52,16 @@ void initialise_challenges_menu(Main_Menu* menu) {
 void main_menu_actions(Main_Menu* menu) {
   switch (menu->state) {
     case canvas: 
+      SDL_RenderClear(menu->window.renderer);
       interface(menu, canvas_mode); 
+      // SDL_RenderClear(menu->window.renderer);
+      //display_main_menu(menu); 
       break;
     case challenges_menu:
+      SDL_RenderClear(menu->window.renderer);
       interface(menu, challenge_mode);
+      // SDL_RenderClear(menu->window.renderer);
+      //display_main_menu(menu); 
       break;
     //also have an 'Read Me' button
     case options_menu:
@@ -62,4 +70,5 @@ void main_menu_actions(Main_Menu* menu) {
       menu->window.finished = 1;
       break;
   }
+ 
 }

@@ -26,8 +26,8 @@ void tree(Draw *fractal, Interface interface, int limit)
   iterations = treeiterate(fractal, interface, current, iterations, limit, angle, branchx, branchy);
 
   printf("Tree completed with %d iterations.\n", iterations);
-  SDL_RenderPresent(interface.window.renderer);
-  SDL_UpdateWindowSurface(interface.window.win);
+  //SDL_RenderPresent(interface.window.renderer);
+  //SDL_UpdateWindowSurface(interface.window.win);
 }
 
 int treeiterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, float angle, int branchx, int branchy)

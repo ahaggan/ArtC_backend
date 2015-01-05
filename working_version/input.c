@@ -4,12 +4,15 @@ int SDL_Main_Menu_Events(Main_Menu* main_menu) {
     SDL_Event event;
     int x, y;
     SDL_GetMouseState(&x, &y);
+    
     while(SDL_PollEvent(&event)) { 
         //SDL_Window_Events
+        
         switch (event.type) {
              //user requests quit
             case SDL_QUIT:
                 main_menu->window.finished = 1;
+                return quit;
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -68,6 +71,24 @@ int SDL_Challenges_Menu_Events(Challenges_Menu* challenges) {
     }
     return 0;
 }
+/*
+int Options_Menu_Events(Options_Menu* options) {
+    SDL_Event event;
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    while(SDL_PollEvent(&event)) { 
+        //SDL_Window_Events
+        switch (event.type) {
+             //user requests quit
+            case SDL_QUIT:
+                challenges->window.finished = 1;
+                break;
+            break;
+        }
+    }
+    return 0;
+}
+*/
 
 int within_button(int x, int y, SDL_Rect button) {
     if (x >= button.x && x <=  button.x + button.w) {
@@ -82,7 +103,7 @@ int Interface_Events(Interface* interface) {
     SDL_Event event;
     int x, y;
     SDL_GetMouseState(&x, &y);
-  
+   
     
     while(SDL_PollEvent(&event)) { 
           
@@ -90,13 +111,12 @@ int Interface_Events(Interface* interface) {
         SDL_Window_Events(event, interface);
    
         SDL_Text_Editor_Events(event, interface);   
-        
+       
  
         switch (event.type) {
-           
-            //user requests quit
             case SDL_QUIT:
-                interface->window.finished = 1;
+                SDL_Quit();
+                exit(1);
                 break;
 
             //user changes window
@@ -208,10 +228,9 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 case SDLK_BACKSPACE:
                     /* Broken if backspacing on the 'first' cell when the text editor is empty */
                     if (first_cell(active)) {
-                        
                         break;
                     }
-                    if (last_cell(active, *interface)) {
+                    else if (last_cell(active, *interface)) {
                         strcpy(interface->text_editor[active.row][active.column].character, EMPTY_CELL); 
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                     }
@@ -224,9 +243,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     } 
                     else {
                         //If there's nothing in the previous cell
-                        handle_backwriting(active, interface);
-                        
-                       
+                        handle_backwriting(active, interface);    
                     }
                     console_text_editor(*interface);
                     return text_edited;
