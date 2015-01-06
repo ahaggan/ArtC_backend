@@ -114,6 +114,11 @@ void assign_value(Prog* program, int iteration){
         program->fractal->iterations = atoi(program->interpreter[program->interpreter_index]);
         
     }
+    else if(strings_match(program->interpreter[program->interpreter_index], "linethickness")){
+        program->interpreter_index += 1;
+        program->fractal->linethickness[iteration] = atoi(program->interpreter[program->interpreter_index]);
+        
+    }
 }
             
         

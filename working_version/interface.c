@@ -23,16 +23,16 @@ int interface(Main_Menu* main, Mode mode) {
         
          /* START: only here due to parser update */
             Draw fractal; 
+            //Sets default values to avoid missing values if the user only inputs a few things.(Small red square)
+            //parser(&fractal, "default.txt"); 
             fractal.startx = interface.canvas.rect.x + (interface.canvas.rect.w/2);
             fractal.starty = interface.canvas.rect.y + (interface.canvas.rect.h/2);
-            fractal.endx = WIN_WIDTH/2 + 10;
+            fractal.endx = WIN_WIDTH/2 + 10; //How could we put this into the parser? Could we limit the values the user can enter(Make 0,0 the coordinates of the top left of the canvas?
             fractal.endy = WIN_HEIGHT/2 + 10; 
-            for (int q = 0; q < 10; q++){
-               fractal.linethickness[q] = 2;
-            }
+            
          /* END */
-
-         parser(&fractal, "user_code.artc");
+        // This needs to be an if statement? Parser will return True or False.
+         parser(&fractal, "parser.txt");
         
          for (int i = 1; i <= fractal.iterations; i++) {
             start_time = end_time = clock();

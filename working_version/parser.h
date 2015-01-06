@@ -11,10 +11,10 @@
 #define TRUE 1
 #define FALSE 0
 #define strings_match(A, B) (strcmp(A, B) == 0)
-#define ACTION {"colour", "move", "size", "shape", "startx", "starty", "endx", "endy", "type", "iterations"}
-#define ACTION_SIZE 10
-#define ATTRIBUTE { "black", "red", "pink", "fuchsia", "purple", "blue", "navy", "turquoise", "green", "lime", "yellow", "olive", "gold", "orange", "grey", "brown", "white", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "0", "STOP", "NEXT", "circle", "triangle_outline", "square", "line", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "sierpinski", "tree", "carpet", "snowflake", "star", "STOP", "NEXT", "0", "STOP", "NEXT"}
-#define ATTRIBUTE_SIZE 60
+#define ACTION {"colour", "move", "size", "shape", "startx", "starty", "endx", "endy", "type", "iterations", "linethickness"}
+#define ACTION_SIZE 11
+#define ATTRIBUTE { "black", "red", "pink", "fuchsia", "purple", "blue", "navy", "turquoise", "green", "lime", "yellow", "olive", "gold", "orange", "grey", "brown", "white", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "0", "STOP", "NEXT", "circle", "triangle_outline", "square", "line", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "sierpinski", "tree", "carpet", "snowflake", "star", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT"}
+#define ATTRIBUTE_SIZE 63
 
 typedef struct action {
 	char* name;
@@ -31,7 +31,7 @@ typedef struct prog {
 } Prog;
 
 typedef enum action_word {
-	colour, move, size, shape, startx, starty, endx, endy, type, iterations
+	colour, move, size, shape, startx, starty, endx, endy, type, iterations, linethickness
 } Action_Word;
 /*
 typedef enum attribute_word{red, green, blue, pink, purple, brown, up, down, left, right, circle, triangle_outline, square, line, triangle, sierpinski, tree, carpet, snowflake, star}attribute_word;

@@ -1,8 +1,8 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 
-#define WIN_WIDTH 1368
-#define WIN_HEIGHT 768
+#define WIN_WIDTH 1280
+#define WIN_HEIGHT 720
 //#define WIN_WIDTH 1280    
 //#define WIN_HEIGHT 720
 

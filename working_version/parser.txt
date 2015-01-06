@@ -4,14 +4,9 @@ run{
    type tree
    iterations 10
    size 400
-
-   if iterations 0 then{
-      colour grey
-   }
-   if iterations 1 then{
-      colour grey
-   }
-   if iterations 2 then{
-      colour grey
+   linethickness 2
+   
+   for iterations 0 to iterations 2 {
+        colour grey
    }
 }
