@@ -1,12 +1,12 @@
 run{ 
    shape line
-   colour turquoise
+   colour green
    type tree
    iterations 10
    size 400
    linethickness 2
    
-   for iterations 0 to iterations 2 {
-        colour grey
+   for iterations 0 to iterations 4 {
+        colour brown
    }
 }

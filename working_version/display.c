@@ -107,7 +107,7 @@ void SDL_TTF_Quit(TTF_Font *font) {
 void display_main_menu(Main_Menu *main_menu) {
    int win_width, win_height;
    SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
-     display_menu_background(win_width, win_height, main_menu);
+   display_menu_background(win_width, win_height, main_menu);
    display_logo(win_width, win_height, main_menu);
    display_canvas_button(win_width, win_height, main_menu);
    display_challenges_button(win_width, win_height, main_menu);
@@ -326,7 +326,34 @@ void display_interface(Interface* interface, Mode mode) {
      display_current_challenge(win_width, win_height, interface);
      display_next_button(win_width, win_height, interface);
    }
+   display_dividers(win_width, win_height, interface, mode);
+}
+
+
+
+void display_dividers(int win_width, int win_height, Interface* interface, Mode mode) {
+  /* Toolbar */
+  //bottom divider
+   make_rect(&interface->window, &interface->toolbar_bottom_divider, 0, interface->toolbar.rect.h - 1, 
+             interface->toolbar.rect.w, 1, 20, 20, 20);
+   if (mode == challenge_mode) {
+
+    //Menu/Learn divider
+    make_rect(&interface->window, &interface->menu_learn_divider, interface->learn_button.rect.x - 1, 0, 
+            1, interface->menu_button.rect.h, 20, 20, 20);
    
+    //Learn/Help divider
+    make_rect(&interface->window, &interface->learn_help_divider, interface->help_button.rect.x - 1, 0,
+            1, interface->menu_button.rect.h, 20, 20, 20);
+  }
+
+  //Text Editor/Canvas divider
+   make_rect(&interface->window, &interface->toolbar_bottom_divider, interface->text_editor_panel.rect.w,
+            0, 1, win_height, 20, 20, 20);
+
+  //Generate/Reset divider
+  make_rect(&interface->window, &interface->reset_generate_divider, interface->generate_button.rect.x - 1, 
+            interface->generate_button.rect.y,  1, interface->generate_button.rect.h, 0, 0, 0);
 }
 
 void fix_mac_flickering(Interface* interface, Mode mode) {
@@ -339,27 +366,17 @@ void fix_mac_flickering(Interface* interface, Mode mode) {
    display_reset_button(win_width, win_height, interface, mode);
    display_generate_button(win_width, win_height, interface);
    display_text_editor(win_width, win_height, interface); 
-
+   
    if (mode == challenge_mode) {
      display_learn_button(win_width, win_height, interface);
      display_previous_button(win_width, win_height, interface);
      display_current_challenge(win_width, win_height, interface);
      display_next_button(win_width, win_height, interface);
    }
-   
+
+  display_dividers(win_width, win_height, interface, mode);  
 }
 
-/*
-void free_text_nodes(TextNode* tail) {
-  TextNode* tmp = NULL;
-  TextNode* current = tail;
-  while (current != NULL) {
-    tmp = current;
-    current = current->previous;
-    free(tmp);
-  } 
-}
-*/
 
 void display_toolbar(int win_width, int win_height, Interface* interface, Mode mode) {
    int toolbar_x, toolbar_y, toolbar_w, toolbar_h;
@@ -377,12 +394,7 @@ void display_toolbar(int win_width, int win_height, Interface* interface, Mode m
    make_rect(&interface->window, &interface->toolbar, toolbar_x, toolbar_y, 
             toolbar_w, toolbar_h, 200, 200, 200);
 
-   //divider
-   make_rect(&interface->window, &interface->toolbar_divider, win_width / TEXT_ED_WIDTH,
-            toolbar_y, 1, win_height, 20, 20, 20);
-   //bottom-border
-   make_rect(&interface->window, &interface->toolbar_divider, 0, toolbar_h - 1, 
-            toolbar_w, 1, 20, 20, 20);
+
 }
 
 
@@ -395,14 +407,14 @@ void display_reset_button(int win_width, int win_height, Interface* interface, M
    reset_button_y = win_height - reset_button_h;
 
    make_rect(&interface->window, &interface->reset_button, reset_button_x, 
-            reset_button_y, reset_button_w, reset_button_h, 200, 100, 100);
+            reset_button_y, reset_button_w, reset_button_h, 241, 35, 65);
 
    if (mode == challenge_mode) {
-     make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, 
+     make_text(&interface->window, &interface->reset_button.rect, 255, 255, 255, 
             interface->button_font, "    Reset    ");
   }
   else {
-    make_text(&interface->window, &interface->reset_button.rect, 0, 0, 0, 
+    make_text(&interface->window, &interface->reset_button.rect, 255, 255, 255, 
             interface->button_font, "    Clear    ");
   }
 
@@ -418,8 +430,8 @@ void display_reset_button(int win_width, int win_height, Interface* interface, M
    generate_button_w = (win_width / TEXT_ED_WIDTH) / 2 + 1;
 
    make_rect(&interface->window, &interface->generate_button, generate_button_x, 
-            generate_button_y, generate_button_w, generate_button_h, 100, 200, 100);
-   make_text(&interface->window, &interface->generate_button.rect, 0, 0, 0, 
+            generate_button_y, generate_button_w, generate_button_h, 241, 35, 65);
+   make_text(&interface->window, &interface->generate_button.rect, 255, 255, 255, 
             interface->button_font, " Generate ");
 
 } 
@@ -459,14 +471,14 @@ void display_menu_button(int win_width, int win_height, Interface* interface, Mo
   }
 
    make_rect(&interface->window, &interface->menu_button, menu_button_x, 
-            menu_button_y, menu_button_w, menu_button_h, 100, 100, 100);
+            menu_button_y, menu_button_w, menu_button_h, 240, 240, 240);
 
    if (mode == challenge_mode) {
-      make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, 
-      interface->button_font, " Levels ");
+      make_text(&interface->window, &interface->menu_button.rect, 241, 35, 65, 
+      interface->button_font, "  Levels  ");
    }
    else {
-      make_text(&interface->window, &interface->menu_button.rect, 0, 0, 0, 
+      make_text(&interface->window, &interface->menu_button.rect, 241, 35, 65, 
       interface->button_font, "      Menu      ");
       
    }
@@ -482,8 +494,8 @@ void display_learn_button(int win_width, int win_height, Interface* interface) {
    learn_button_h = interface->menu_button.rect.h;
 
    make_rect(&interface->window, &interface->learn_button, learn_button_x, 
-            learn_button_y, learn_button_w, learn_button_h, 150, 100, 150);
-   make_text(&interface->window, &interface->learn_button.rect, 0, 0, 0, 
+            learn_button_y, learn_button_w, learn_button_h, 240, 240, 240);
+   make_text(&interface->window, &interface->learn_button.rect, 241, 35, 65, 
             interface->button_font, " Learn ");
    }
 
@@ -504,14 +516,14 @@ void display_help_button(int win_width, int win_height, Interface* interface, Mo
    help_button_h = interface->menu_button.rect.h;
 
    make_rect(&interface->window, &interface->help_button, help_button_x, 
-            help_button_y, help_button_w, help_button_h, 220, 220, 140);
+            help_button_y, help_button_w, help_button_h, 240, 240, 240);
 
    if (mode == challenge_mode) {
-    make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, 
+    make_text(&interface->window, &interface->help_button.rect, 241, 35, 65, 
             interface->button_font, "  Help  ");
    }
    else {
-    make_text(&interface->window, &interface->help_button.rect, 0, 0, 0, 
+    make_text(&interface->window, &interface->help_button.rect, 241, 35, 65, 
             interface->button_font, "     Help     ");
    }
    
@@ -542,10 +554,10 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
    curr_chall_h = interface->menu_button.rect.h;
 
    make_rect(&interface->window, &interface->current_challenge, curr_chall_x, 
-            curr_chall_y, curr_chall_w, curr_chall_h, 53, 53, 45);
+            curr_chall_y, curr_chall_w, curr_chall_h, 240, 240, 240);
    make_text(&interface->window, &interface->current_challenge.rect, 
-            240, 240, 240, interface->button_font, 
-            " Here is the current challenge ");
+            0, 0, 0, interface->button_font, 
+            "          Change the colour variables         ");
 }
 
 void display_next_button(int win_width, int win_height, Interface* interface) {
@@ -558,9 +570,9 @@ void display_next_button(int win_width, int win_height, Interface* interface) {
    next_button_y = interface->current_challenge.rect.y;
 
    make_rect(&interface->window, &interface->next_button, next_button_x, 
-            next_button_y, next_button_w, next_button_h, 70, 130, 130);
-   make_text(&interface->window, &interface->next_button.rect, 0, 0, 0, 
-            interface->button_font, "  ->   ");   
+            next_button_y, next_button_w, next_button_h, 241, 35, 65);
+   make_text(&interface->window, &interface->next_button.rect, 255, 255, 255, 
+            interface->button_font, " NEXT ");   
 }
 
 void display_previous_button(int win_width, int win_height, Interface* interface) {
@@ -572,9 +584,9 @@ void display_previous_button(int win_width, int win_height, Interface* interface
    previous_button_y = 0;
 
    make_rect(&interface->window, &interface->previous_button, previous_button_x, 
-            previous_button_y, previous_button_w, previous_button_h, 70, 130, 130);
-   make_text(&interface->window, &interface->previous_button.rect, 0, 0, 0, 
-            interface->button_font, "  <-   ");   
+            previous_button_y, previous_button_w, previous_button_h, 241, 35, 65);
+   make_text(&interface->window, &interface->previous_button.rect, 255, 255, 255, 
+            interface->button_font, " PREV ");   
 }
 
 
@@ -588,7 +600,7 @@ void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int 
    area->col.r = r;
    area->col.g = g;
    area->col.b = b;
-
+  
    SDL_SetRenderDrawColor(win->renderer, r, g, b, 255);
    SDL_RenderFillRect(win->renderer, &area->rect);
 }
@@ -617,7 +629,7 @@ void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
 void render_update_clear(SDL_Win window) {
    SDL_RenderPresent(window.renderer);
    SDL_UpdateWindowSurface(window.win);
-  // SDL_RenderClear(window.renderer);
+   //SDL_RenderClear(window.renderer);
 }
 
 //loads a bmp to a surface, then converts that surface to a texture and returns it

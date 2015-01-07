@@ -18,7 +18,8 @@ int main(void) {
     render_update_clear(menu.window);
   } while(!menu.window.finished);
   //SDL shut_down, TTF shut down, free memory)
-  SDL_Quit();
+  
+  atexit(SDL_Quit);
   return 0;
 }
 

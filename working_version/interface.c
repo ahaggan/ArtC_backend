@@ -32,7 +32,7 @@ int interface(Main_Menu* main, Mode mode) {
             
          /* END */
         // This needs to be an if statement? Parser will return True or False.
-         parser(&fractal, "parser.txt");
+         parser(&fractal, "user_code.artc");
         
          for (int i = 1; i <= fractal.iterations; i++) {
             start_time = end_time = clock();
