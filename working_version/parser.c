@@ -6,6 +6,7 @@
 #include "parser.h"
 //int main(Draw *fractal, char *file_name){     //Use this to pass a file name to the parser function.
 int parser(Draw *fractal, char *file_name){
+    printf("\nParsing begin.\n");
     //test_parser();
     int i;
     FILE *file_pointer;

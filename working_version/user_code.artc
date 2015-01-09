@@ -1,17 +1,17 @@
 run{
-   shape line
-   colour lime
-   type tree 
-   size 400
-   linethickness 2
-   iterations 7
-
-   for iterations 0 to iterations 2 {
-      colour brown 
-   } 
-   for iterations 3 to iterations 4 {
-      colour green
-   }
+colour brown
+iterations 8
+shape line
+type tree
+if iterations 5 then{
+colour green
+}
+if iterations 6 then{
+ colour red
+ }
+if iterations 7 then{ colour yellow }
+size 500
+linethickness 3
 }
 
 

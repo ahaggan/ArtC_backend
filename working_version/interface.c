@@ -18,6 +18,7 @@ int interface(Main_Menu* main, Mode mode) {
       interface.action = Interface_Events(&interface);
     
       if (interface.action == generate_clicked) {
+         // COMMENT FUNCTION OUT IN ORDER TO USE FILE READY WRITTEN
          write_text_to_file(&interface, "user_code.artc");
          clear_area(&interface.window, interface.canvas);
         

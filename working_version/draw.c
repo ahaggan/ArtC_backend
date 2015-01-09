@@ -106,7 +106,6 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 
 void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, int thickness, float angle)
 {
-    printf("Line: (%d, %d) to (%d, %d)\n", xs, ys, xe, ye);
     float i1=xs, i2=xe;
     float j1 = ys + (-(thickness/2.0)*sin(angle));
     float j2 = ye + (-(thickness/2.0)*sin(angle));
