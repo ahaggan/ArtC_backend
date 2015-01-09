@@ -3,9 +3,9 @@ run{
    iterations 10
    shape line
    colour blue
+   linethickness 2
+   size 300
 }
-
-
 
 
 

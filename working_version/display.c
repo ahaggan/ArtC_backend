@@ -360,6 +360,18 @@ void display_dividers(int win_width, int win_height, Interface* interface, Mode 
   //Generate/Reset divider
   make_rect(&interface->window, &interface->reset_generate_divider, interface->generate_button.rect.x - 1, 
             interface->generate_button.rect.y,  1, interface->generate_button.rect.h, 0, 0, 0);
+
+  //Generate/Reset top border
+  make_rect(&interface->window, &interface->reset_generate_top_border, interface->reset_button.rect.x, 
+            interface->reset_button.rect.y,  interface->reset_button.rect.w * 2, 1, 0, 0, 0);
+  
+  //prev divider
+  make_rect(&interface->window, &interface->prev_divider, interface->previous_button.rect.x + interface->previous_button.rect.w - 1, 
+            interface->previous_button.rect.y,  1, interface->previous_button.rect.h, 20, 20, 20);
+
+   //next divider
+  make_rect(&interface->window, &interface->next_divider, interface->next_button.rect.x - 1, 
+            interface->next_button.rect.y,  1, interface->next_button.rect.h, 20, 20, 20);
 }
 
 void fix_mac_flickering(Interface* interface, Mode mode) {
@@ -554,7 +566,7 @@ void display_text_editor(int win_width, int win_height, Interface* interface) {
 void display_current_challenge(int win_width, int win_height, Interface* interface) {
    int curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h;
    char centred_string[MAX_CHALLENGE_LEN];
-   text_align_central(centred_string, "Change the colour variables");
+   text_align_central(centred_string, "CHANGE THE COLOUR VARIABLES");
    //Line 1
    curr_chall_x = interface->previous_button.rect.x + interface->previous_button.rect.w;
    curr_chall_y = 0;
@@ -565,7 +577,7 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
    make_rect(&interface->window, &interface->current_challenge, curr_chall_x, 
             curr_chall_y, curr_chall_w, curr_chall_h, 240, 240, 240);
   make_rect(&interface->window, &interface->current_challenge_text, curr_chall_x, 
-            curr_chall_y + curr_chall_h / 4, curr_chall_w, CHALLENGE_FONT * 1.45, 240, 240, 240);
+            curr_chall_y + curr_chall_h / 5, curr_chall_w, CHALLENGE_FONT * 1.45, 240, 240, 240);
    make_text(&interface->window, &interface->current_challenge_text.rect, 
             0, 0, 0, interface->challenge_font, centred_string);
  

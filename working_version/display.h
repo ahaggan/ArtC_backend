@@ -69,6 +69,10 @@ typedef struct interface {
   Area menu_learn_divider;
   Area learn_help_divider;
   Area reset_generate_divider;
+  Area reset_generate_top_border;
+   Area prev_divider;
+  Area next_divider;
+ 
 
   char challenge[MAX_CHALLENGE_LEN];
 
