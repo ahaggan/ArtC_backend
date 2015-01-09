@@ -54,15 +54,14 @@ void main_menu_actions(Menu* menu) {
     case canvas: 
       SDL_RenderClear(menu->window.renderer);
       interface(menu, canvas_mode, NULL); 
-      // SDL_RenderClear(menu->window.renderer);
+      //SDL_RenderClear(menu->window.renderer);
       //display_main_menu(menu); 
       break;
     case challenges_menu:
       challenges(menu);
-      // SDL_RenderClear(menu->window.renderer);
+      //SDL_RenderClear(menu->window.renderer);
       //display_main_menu(menu); 
       break;
-    //also have an 'Read Me' button
     case options_menu:
       break;
     case quit:

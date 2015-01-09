@@ -38,8 +38,6 @@ typedef enum interface_action {
 	back_to_menu
 } Interface_Action;
 
-
-
 typedef struct interface {
   SDL_Win window;
   Interface_Action action;

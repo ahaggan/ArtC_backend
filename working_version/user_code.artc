@@ -2,8 +2,8 @@ run{
    type tree 
    iterations 10
    shape line
-   colour blue
-   linethickness 2
+   colour red
+   linethickness 3
    size 300
 }
 

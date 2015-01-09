@@ -237,12 +237,12 @@ void display_challenges_background(int win_width, int win_height, Menu* challeng
 
 
 void display_header(int win_width, int win_height, Menu* challenges){
-  SDL_Texture* image = load_image("menu_graphics/challenges.bmp", &challenges->window);
+  SDL_Texture* image = load_image("menu_graphics/challenges_header.bmp", &challenges->window);
    int header_x, header_y, header_w, header_h;
 
-   header_w = MENU_BUTTON_WIDTH;
+  header_w = LOGO_WIDTH / 2;
    header_x = win_width / LEFT_MARGIN;
-   header_h = MENU_BUTTON_HEIGHT;
+   header_h = LOGO_HEIGHT / 2;
    header_y = win_height / TOP_MARGIN;
 
    make_rect(&challenges->window, &challenges->header, header_x, header_y, 

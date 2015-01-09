@@ -246,6 +246,7 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
 }
 
 TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interface, TextNode* current) {
+  
    if (c == '\n') {
       *column = 0;
       return &interface->text_editor[++(*row)][(*column)];
