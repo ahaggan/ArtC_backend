@@ -348,10 +348,11 @@ void display_dividers(int win_width, int win_height, Interface* interface, Mode 
     make_rect(&interface->window, &interface->menu_learn_divider, interface->learn_button.rect.x - 1, 0, 
             1, interface->menu_button.rect.h, 20, 20, 20);
    
-    //Learn/Help divider
+   
+  }
+   //Learn/Help divider OR menu/help divider
     make_rect(&interface->window, &interface->learn_help_divider, interface->help_button.rect.x - 1, 0,
             1, interface->menu_button.rect.h, 20, 20, 20);
-  }
 
   //Text Editor/Canvas divider
    make_rect(&interface->window, &interface->toolbar_bottom_divider, interface->text_editor_panel.rect.w,
@@ -593,15 +594,15 @@ void text_align_central( char centred_string[MAX_CHALLENGE_LEN], char* challenge
   int difference = MAX_CHALLENGE_LEN - length;
 
   for (int c = 0; c <= difference / 2; c++) {
-    printf("%d\n", c);
+  
     centred_string[c] = ' ';
   }
   for (int c = difference / 2, i = 0; c < difference / 2 + length; c++, i++) {
-    printf("%d\n", c);
+  
     centred_string[c] = challenge[i];
   }
   for (int c = difference / 2 + length; c < MAX_CHALLENGE_LEN; c++) {
-    printf("%d\n", c);
+  
     centred_string[c] = ' ';
   }
   centred_string[MAX_CHALLENGE_LEN - 1] = '\0';
