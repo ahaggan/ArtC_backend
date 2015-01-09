@@ -569,6 +569,39 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
    char centred_string[MAX_CHALLENGE_LEN];
    text_align_central(centred_string, "CHANGE THE COLOUR VARIABLES");
    //Line 1
+
+   /*
+   // not sure about the situation with the level structures
+   if (level == beginner->1){
+      text_align_central(centred_string, " Create a RED tree fractal! ");
+   }
+   if (level == beginner->2){
+      text_align_central(centred_string, " Create a blue SIERPINSKI fractal that iterates 7 times! ");
+   }
+   if (level == beginner->3){
+      text_align_central(centred_string, " Create a PURPLE SIERPINSKI fractal made of SQUARES that iterates 5 times! ");
+   }
+   if (level == I1){
+      text_align_central(centred_string, " Create a red tree fractal made of CIRCLES, after 2 iterations change the colour to BLUE! ");
+   }
+   if (level == I2){
+      text_align_central(centred_string, " Create a red SIERPINSKI fractal that after 2 iterations changes to GREEN, and after 7 iterations changes to TRIANGLES! ");
+   }
+   if (level == I3){
+      text_align_central(centred_string, " Create a PURPLE tree fractal that after 4 iterations changes to RED, and after 7 iterations changes to PINK CIRCLES! ");
+   }
+   if (level == E1){
+      text_align_central(centred_string, " Create a black Sierpinski fractal made of triangles that iterates 9 times, and turns fuchsia after 3 iterations.");
+   }
+   if (level == E2){
+      text_align_central(centred_string, " Create a brown tree fractal made of lines that iterates 10 times, after 6 iterations change the colour to lime, make the final iteration olive.");
+   }
+   if (level == E3){
+      text_align_central(centred_string, " Create a Sierpinski fractal made of circles that changes from navy -> blue -> turquoise -> white every 2 iterations for 8 iterations. ");
+   }
+   */
+
+
    curr_chall_x = interface->previous_button.rect.x + interface->previous_button.rect.w;
    curr_chall_y = 0;
    curr_chall_w = win_width - (win_width / TEXT_ED_WIDTH) - interface->previous_button.rect.w * 2;
