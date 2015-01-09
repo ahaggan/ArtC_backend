@@ -22,7 +22,7 @@
 #define HELP_X_SPACE 1.13
 
 #define CURRENT_CHALLENGE 14
-#define PREV_NEXT_BUTTON 5   
+#define PREV_NEXT_BUTTON 4   
 
 #ifndef  M_PI
  #define M_PI  3.14159265358979323846

@@ -59,8 +59,7 @@ void main_menu_actions(Main_Menu* menu) {
       //display_main_menu(menu); 
       break;
     case challenges_menu:
-      SDL_RenderClear(menu->window.renderer);
-      interface(menu, challenge_mode);
+      challenges(menu);
       // SDL_RenderClear(menu->window.renderer);
       //display_main_menu(menu); 
       break;

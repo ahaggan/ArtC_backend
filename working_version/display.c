@@ -233,78 +233,86 @@ void display_challenges_background(int win_width, int win_height, Challenges_Men
    background_h = win_height;
 
    make_rect(&challenges->window, &challenges->background, background_x, 
-            background_y, background_w, background_h, 200, 200, 200);
+            background_y, background_w, background_h, 255, 255, 255);
 }
 
+
+
 void display_header(int win_width, int win_height, Challenges_Menu* challenges){
+  SDL_Texture* image = load_image("menu_graphics/challenges.bmp", &challenges->window);
    int header_x, header_y, header_w, header_h;
 
-   header_w = win_width / LOGO_WIDTH;
+   header_w = MENU_BUTTON_WIDTH;
    header_x = win_width / LEFT_MARGIN;
-   header_h = win_height / LOGO_HEIGHT;
+   header_h = MENU_BUTTON_HEIGHT;
    header_y = win_height / TOP_MARGIN;
 
    make_rect(&challenges->window, &challenges->header, header_x, header_y, 
             header_w, header_h, 220, 100, 100);
-   make_text(&challenges->window, &challenges->header.rect, 245, 245, 245, 
-            challenges->menu_font, "Challenges");
+  SDL_RenderCopy(challenges->window.renderer, image, NULL, &challenges->header.rect);
+   SDL_DestroyTexture(image); 
 }
 
 void display_beginner_button(int win_width, int win_height, Challenges_Menu* challenges) {
+  SDL_Texture* image = load_image("menu_graphics/beginner.bmp", &challenges->window);
    int beginner_x, beginner_y, beginner_w, beginner_h;
 
-   beginner_w = win_width / MENU_BUTTON_WIDTH;
+   beginner_w =  MENU_BUTTON_WIDTH;
    beginner_x = win_width / LEFT_MARGIN;
-   beginner_h = win_height / MENU_BUTTON_HEIGHT;
+   beginner_h = MENU_BUTTON_HEIGHT;
    beginner_y = (challenges->header.rect.y + challenges->header.rect.h) + 
                (win_height / MENU_BUTTON_DIST);
 
    make_rect(&challenges->window, &challenges->beginner, beginner_x, beginner_y, 
             beginner_w, beginner_h, 241, 14, 71);
-   make_text(&challenges->window, &challenges->beginner.rect, 245, 245, 245, 
-            challenges->menu_font, "Beginner");
+   SDL_RenderCopy(challenges->window.renderer, image, NULL, &challenges->beginner.rect);
+   SDL_DestroyTexture(image); 
 }
 
 void display_intermediate_button(int win_width, int win_height, Challenges_Menu* challenges) {
+
+   SDL_Texture* image = load_image("menu_graphics/intermediate.bmp", &challenges->window);
    int intermediate_x, intermediate_y, intermediate_w, intermediate_h;
-   intermediate_w = win_width / MENU_BUTTON_WIDTH;
+   intermediate_w = MENU_BUTTON_WIDTH;
    intermediate_x = win_width / LEFT_MARGIN;
-   intermediate_h = win_height / MENU_BUTTON_HEIGHT;
+   intermediate_h = MENU_BUTTON_HEIGHT;
    intermediate_y = (challenges->beginner.rect.y + challenges->beginner.rect.h) 
                    + (win_height / MENU_BUTTON_DIST);
 
    make_rect(&challenges->window, &challenges->intermediate, intermediate_x, 
             intermediate_y, intermediate_w, intermediate_h, 241, 14, 71);
-   make_text(&challenges->window, &challenges->intermediate.rect, 245, 245, 245, 
-            challenges->menu_font, "Intermediate");
+    SDL_RenderCopy(challenges->window.renderer, image, NULL, &challenges->intermediate.rect);
+   SDL_DestroyTexture(image); 
 }
 
 void display_expert_button(int win_width, int win_height, Challenges_Menu* challenges) {
+   SDL_Texture* image = load_image("menu_graphics/expert.bmp", &challenges->window);
   int expert_x, expert_y, expert_w, expert_h;
-  expert_w = win_width / MENU_BUTTON_WIDTH;
+  expert_w = MENU_BUTTON_WIDTH;
   expert_x = win_width / LEFT_MARGIN;
-  expert_h = win_height / MENU_BUTTON_HEIGHT;
+  expert_h = MENU_BUTTON_HEIGHT;
   expert_y = (challenges->intermediate.rect.y + challenges->intermediate.rect.h) 
              + (win_height / MENU_BUTTON_DIST);
 
   make_rect(&challenges->window, &challenges->expert, expert_x, expert_y, 
             expert_w, expert_h, 241, 14, 71);
-  make_text(&challenges->window, &challenges->expert.rect, 245, 245, 245, 
-            challenges->menu_font, "Expert");
+  SDL_RenderCopy(challenges->window.renderer, image, NULL, &challenges->expert.rect);
+   SDL_DestroyTexture(image); 
 }
 
 void display_main_menu_button(int win_width, int win_height, Challenges_Menu* challenges) {
+  SDL_Texture* image = load_image("menu_graphics/main_menu.bmp", &challenges->window);
   int main_menu_x, main_menu_y, main_menu_w, main_menu_h;
-  main_menu_w = win_width / MENU_BUTTON_WIDTH;
+  main_menu_w = MENU_BUTTON_WIDTH;
   main_menu_x = win_width / LEFT_MARGIN;
-  main_menu_h = win_height / MENU_BUTTON_HEIGHT;
+  main_menu_h = MENU_BUTTON_HEIGHT;
   main_menu_y = (challenges->expert.rect.y + challenges->expert.rect.h) 
                 + (win_height / MENU_BUTTON_DIST);
 
   make_rect(&challenges->window, &challenges->main_menu, main_menu_x, 
             main_menu_y, main_menu_w, main_menu_h, 100, 90, 90);
-  make_text(&challenges->window, &challenges->main_menu.rect, 245, 245, 245, 
-            challenges->menu_font, "Main Menu");
+  SDL_RenderCopy(challenges->window.renderer, image, NULL, &challenges->main_menu.rect);
+   SDL_DestroyTexture(image); 
 }
 
 /* Interface */

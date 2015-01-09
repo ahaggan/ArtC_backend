@@ -73,7 +73,7 @@ void initialise_text_editor(Interface* interface, Mode mode) {
   SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
   SDL_StartTextInput();
 
-  if (mode == challenge_mode) {
+  //if (mode == challenge_mode) {
     load_text_into_text_editor("user_code.artc", interface);
-  }
+  //}
 }
