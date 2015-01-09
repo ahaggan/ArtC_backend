@@ -30,20 +30,22 @@
 
 #define EMPTY_CELL "¬"
 
+#define MAX_CHALLENGE_LEN 59
+
 typedef enum interface_action {
 	generate_clicked = 1,
 	text_edited,
 	back_to_menu
 } Interface_Action;
 
-/* perhaps divide this up into smaller chunks */
+
+
 typedef struct interface {
   SDL_Win window;
   Interface_Action action;
   Area toolbar;
   Area text_editor_panel;
   TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
-  char composition[MAX_TEXT];
   Area text_cursor;
   Area canvas; 
   Area reset_button;
@@ -53,17 +55,23 @@ typedef struct interface {
   Area help_button;
   Area previous_button;
   Area current_challenge;
+  Area current_challenge_text;
   Area next_button;
   TTF_Font* text_ed_font;
   TTF_Font* button_font;
+  TTF_Font* challenge_font;
   Coordinates active_txt;
   int editor_rows;
   int editor_columns;
-
+ 
+  
   Area toolbar_bottom_divider;
   Area menu_learn_divider;
   Area learn_help_divider;
   Area reset_generate_divider;
+
+  char challenge[MAX_CHALLENGE_LEN];
+
 } Interface;	
 
 typedef struct shape {
@@ -205,3 +213,5 @@ void fix_mac_flickering(Interface* interface, Mode mode);
 SDL_Texture* load_image(char* filename, SDL_Win* window);
 SDL_Texture* surface_to_texture(SDL_Surface* surface, SDL_Win* window);
 void display_dividers(int win_width, int win_height, Interface* interface, Mode mode);
+
+void text_align_central(char centred_string[MAX_CHALLENGE_LEN], char* challenge);

@@ -1,7 +1,7 @@
 #include "input.h"
 
 int challenges(Menu* main);
-int interface(Menu* main, Mode mode);
+int interface(Menu* main, Mode mode, char* file_name);
 void initialise_main_menu(Menu* main);
 void initialise_challenges_menu(Menu* main);
 void main_menu_actions(Menu* main);
@@ -53,7 +53,7 @@ void main_menu_actions(Menu* menu) {
   switch (menu->state) {
     case canvas: 
       SDL_RenderClear(menu->window.renderer);
-      interface(menu, canvas_mode); 
+      interface(menu, canvas_mode, NULL); 
       // SDL_RenderClear(menu->window.renderer);
       //display_main_menu(menu); 
       break;
@@ -76,16 +76,16 @@ void challenge_menu_actions(Menu* challenges) {
     switch (challenges->state) {
       case beginner: 
         SDL_RenderClear(challenges->window.renderer);
-        interface(challenges, challenge_mode);
+        interface(challenges, challenge_mode, "challenges/easydefault.txt");
         break;
       case intermediate:
         SDL_RenderClear(challenges->window.renderer);
-        interface(challenges, challenge_mode);
+        interface(challenges, challenge_mode, "challenges/intermediatedefault.txt");
         break;
       //also have an 'Read Me' button
       case expert:
         SDL_RenderClear(challenges->window.renderer);
-        interface(challenges, challenge_mode);
+        interface(challenges, challenge_mode, "challenges/expert1.txt");
         break;
       case main_menu:
         challenges->state = main_menu;

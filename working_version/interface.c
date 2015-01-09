@@ -2,14 +2,14 @@
 #include <unistd.h>
 
 void initialise_interface(Menu* main, Interface* interface, Mode mode);
-void initialise_text_editor(Interface* interface, Mode mode);
+void initialise_text_editor(Interface* interface, Mode mode, char* file_name);
 
-int interface(Menu* main, Mode mode) {
+int interface(Menu* main, Mode mode, char* file_name) {
    Interface interface;
    clock_t start_time, end_time; 
    
    initialise_interface(main, &interface, mode);
-   initialise_text_editor(&interface, mode);
+   initialise_text_editor(&interface, mode, file_name);
   render_update_clear(interface.window);
 
    while (interface.action != back_to_menu) {
@@ -59,10 +59,11 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
   interface->window = main_menu->window;
   interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
   interface->button_font = main_menu->menu_font;
+  interface->challenge_font = SDL_Load_Font("font/DroidSansMono.ttf", CHALLENGE_FONT);
   display_interface(interface, mode);
 }
 
-void initialise_text_editor(Interface* interface, Mode mode) {
+void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
   SDL_GetWindowSize(interface->window.win, &interface->editor_columns, &interface->editor_rows);
 
   interface->editor_columns /= 27;
@@ -73,7 +74,10 @@ void initialise_text_editor(Interface* interface, Mode mode) {
   SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
   SDL_StartTextInput();
 
-  //if (mode == challenge_mode) {
+  if (mode == challenge_mode) {
+    load_text_into_text_editor(file_name, interface);
+  }
+  else {
     load_text_into_text_editor("user_code.artc", interface);
-  //}
+  }
 }

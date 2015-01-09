@@ -9,6 +9,7 @@
 #define MAX_TEXT 1000
 #define FONT_SIZE 15
 #define BUTTON_FONT_SIZE 50
+#define CHALLENGE_FONT 19
 
 #define NO_OF_LOOPS 7
 

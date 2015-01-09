@@ -549,9 +549,12 @@ void display_text_editor(int win_width, int win_height, Interface* interface) {
             texted_y, texted_w, texted_h,  43, 43, 39);
 }
 
+
+
 void display_current_challenge(int win_width, int win_height, Interface* interface) {
    int curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h;
-
+   char centred_string[MAX_CHALLENGE_LEN];
+   text_align_central(centred_string, "Change the colour variables");
    //Line 1
    curr_chall_x = interface->previous_button.rect.x + interface->previous_button.rect.w;
    curr_chall_y = 0;
@@ -561,9 +564,36 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
 
    make_rect(&interface->window, &interface->current_challenge, curr_chall_x, 
             curr_chall_y, curr_chall_w, curr_chall_h, 240, 240, 240);
-   make_text(&interface->window, &interface->current_challenge.rect, 
-            0, 0, 0, interface->button_font, 
-            "          Change the colour variables         ");
+  make_rect(&interface->window, &interface->current_challenge_text, curr_chall_x, 
+            curr_chall_y + curr_chall_h / 4, curr_chall_w, CHALLENGE_FONT * 1.45, 240, 240, 240);
+   make_text(&interface->window, &interface->current_challenge_text.rect, 
+            0, 0, 0, interface->challenge_font, centred_string);
+ 
+}
+
+void text_align_central( char centred_string[MAX_CHALLENGE_LEN], char* challenge) {
+  int length = strlen(challenge);
+  if (length > MAX_CHALLENGE_LEN) {
+    printf("Challenge name too long!\n");
+    exit(1);
+  }
+
+  int difference = MAX_CHALLENGE_LEN - length;
+
+  for (int c = 0; c <= difference / 2; c++) {
+    printf("%d\n", c);
+    centred_string[c] = ' ';
+  }
+  for (int c = difference / 2, i = 0; c < difference / 2 + length; c++, i++) {
+    printf("%d\n", c);
+    centred_string[c] = challenge[i];
+  }
+  for (int c = difference / 2 + length; c < MAX_CHALLENGE_LEN; c++) {
+    printf("%d\n", c);
+    centred_string[c] = ' ';
+  }
+  centred_string[MAX_CHALLENGE_LEN - 1] = '\0';
+ 
 }
 
 void display_next_button(int win_width, int win_height, Interface* interface) {

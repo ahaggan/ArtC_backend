@@ -1,20 +1,20 @@
 run{
-   colour brown
-   iterations 8
+   type tree 
+   iterations 10
    shape line
-   type tree
-   size 400
-   linethickness 5
-   if iterations 5 then{
-      colour green
-   }
-   if iterations 6 then{
-       colour red
-    }
-   if iterations 7 then{ 
-      colour yellow 
-   }  
+   colour blue
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

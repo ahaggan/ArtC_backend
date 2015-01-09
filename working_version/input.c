@@ -48,6 +48,7 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
              //user requests quit
             case SDL_QUIT:
                 challenges->window.finished = 1;
+                return quit;
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 if (within_button(x, y, challenges->beginner.rect)) {

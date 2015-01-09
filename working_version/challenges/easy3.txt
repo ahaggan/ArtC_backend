@@ -1,6 +1,6 @@
 run{
-fractal sierpinski   
-iterations 5
-shape square
-colour purple
+   type sierpinski   
+   iterations 5
+   shape square
+   colour purple
 }
