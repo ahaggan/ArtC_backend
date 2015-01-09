@@ -1,14 +1,14 @@
 #include "input.h"
 
-int challenges(Main_Menu* main);
-int interface(Main_Menu* main, Mode mode);
-void initialise_main_menu(Main_Menu* main);
-void initialise_challenges_menu(Main_Menu* main);
-void main_menu_actions(Main_Menu* main);
-
+int challenges(Menu* main);
+int interface(Menu* main, Mode mode);
+void initialise_main_menu(Menu* main);
+void initialise_challenges_menu(Menu* main);
+void main_menu_actions(Menu* main);
+void challenge_menu_actions(Menu* challenges);
 /* Main Menu */
 int main(void) {
-  Main_Menu menu;  
+  Menu menu;  
   initialise_main_menu(&menu);
  
   do {  
@@ -24,18 +24,19 @@ int main(void) {
 }
 
 /* Challenges Menu */
-int challenges(Main_Menu* menu) {
-  initialise_challenges_menu(menu);
-  while(menu->challenges.state != main_menu) {  
-    display_challenges_menu(menu, &menu->challenges);
-    menu->challenges.state = SDL_Challenges_Menu_Events(&menu->challenges);
-    render_update_clear(menu->challenges.window);
+int challenges(Menu* challenges) {
+  initialise_challenges_menu(challenges);
+  while(challenges->state != main_menu) {  
+    display_challenges_menu(challenges);
+    challenges->state = SDL_Challenges_Menu_Events(challenges);
+    challenge_menu_actions(challenges);
+    render_update_clear(challenges->window);
   }
   return 0;
 }
 
 /* Create main window and init TTF fonts */ 
-void initialise_main_menu(Main_Menu* menu) {
+void initialise_main_menu(Menu* menu) {
   SDL_Win_Init(&menu->window, "ART-C");
   SDL_TTF_Init();
   menu->menu_font = SDL_Load_Font("font/Edo.ttf", BUTTON_FONT_SIZE);
@@ -43,14 +44,12 @@ void initialise_main_menu(Main_Menu* menu) {
 }
 
 /* Assign properties of menu_menu to challenge menu */
-void initialise_challenges_menu(Main_Menu* menu) {
-  menu->challenges.window = menu->window;
-  menu->challenges.menu_font = menu->menu_font;
-  menu->challenges.state = 0;
+void initialise_challenges_menu(Menu* menu) {
+  menu->state = 0;
 }
 
 /* Act based on whether any buttons in the main menu were pressed */ 
-void main_menu_actions(Main_Menu* menu) {
+void main_menu_actions(Menu* menu) {
   switch (menu->state) {
     case canvas: 
       SDL_RenderClear(menu->window.renderer);
@@ -71,4 +70,25 @@ void main_menu_actions(Main_Menu* menu) {
       break;
   }
  
+}
+
+void challenge_menu_actions(Menu* challenges) {
+    switch (challenges->state) {
+      case beginner: 
+        SDL_RenderClear(challenges->window.renderer);
+        interface(challenges, challenge_mode);
+        break;
+      case intermediate:
+        SDL_RenderClear(challenges->window.renderer);
+        interface(challenges, challenge_mode);
+        break;
+      //also have an 'Read Me' button
+      case expert:
+        SDL_RenderClear(challenges->window.renderer);
+        interface(challenges, challenge_mode);
+        break;
+      case main_menu:
+        challenges->state = main_menu;
+        break;
+    }
 }

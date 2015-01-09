@@ -122,33 +122,19 @@ typedef struct options_menu {
 } Options_Menu;
 */
 
-typedef enum challenges_choice {
-	beginner = 1,
-	intermediate,
-	expert,
-	main_menu
-} Challenges_Choice;
-
-typedef struct challenges_menu {
-	SDL_Win window;
-	Challenges_Choice state;
-	TTF_Font* menu_font; 
-	Area background;
-	Area header;
-	Area beginner;
-	Area intermediate;
-	Area expert;
-	Area main_menu;
-} Challenges_Menu;
-
 typedef enum menu_choice {
 	canvas = 1,
 	challenges_menu,
 	options_menu,
-	quit
+	quit,
+
+  beginner = 1,
+  intermediate,
+  expert,
+  main_menu
 } Menu_Choice;
 
-typedef struct main_menu {
+typedef struct menu {
 	SDL_Win window;
 	Menu_Choice state;
 	TTF_Font* menu_font; 
@@ -156,11 +142,16 @@ typedef struct main_menu {
 	Area logo;
 	Area canvas_button;
 	Area challenges_button;
-	Challenges_Menu challenges;
 	Area options_button;
 	Area quit_button;
+
+  Area header;
+  Area beginner;
+  Area intermediate;
+  Area expert;
+  Area main_menu;
    
-} Main_Menu;
+} Menu;
 
 
 #define LEFT_MARGIN 15
@@ -174,26 +165,26 @@ typedef struct main_menu {
 
 #define MENU_BUTTON_DIST 20
 
-void update_main_menu(Main_Menu *main_menu);
+void update_main_menu(Menu* main_menu);
 void render_update_clear(SDL_Win window);
 
-void display_main_menu(Main_Menu* main_menu);
+void display_main_menu(Menu* main_menu);
 
-void display_menu_background(int win_width, int win_height, Main_Menu *main_menu);
-void display_logo(int win_width, int win_height, Main_Menu *main_menu);
-void display_canvas_button(int win_width, int win_height, Main_Menu* main_menu);
-void display_challenges_button(int win_width, int win_height, Main_Menu* main_menu);
-void display_options_button(int win_width, int win_height, Main_Menu* main_menu);
-void display_quit_button(int win_width, int win_height, Main_Menu* main_menu);
+void display_menu_background(int win_width, int win_height, Menu* main_menu);
+void display_logo(int win_width, int win_height, Menu* main_menu);
+void display_canvas_button(int win_width, int win_height, Menu* main_menu);
+void display_challenges_button(int win_width, int win_height, Menu* main_menu);
+void display_options_button(int win_width, int win_height, Menu* main_menu);
+void display_quit_button(int win_width, int win_height, Menu* main_menu);
 
-void display_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges_menu);
+void display_challenges_menu(Menu* challenges_menu);
 
-void display_challenges_background(int win_width, int win_height, Challenges_Menu* challenges);
-void display_header(int win_width, int win_height, Challenges_Menu* challenges_menu);
-void display_beginner_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
-void display_intermediate_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
-void display_expert_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
-void display_main_menu_button(int win_width, int win_height, Challenges_Menu* challenges_menu);
+void display_challenges_background(int win_width, int win_height, Menu* challenges);
+void display_header(int win_width, int win_height, Menu* challenges_menu);
+void display_beginner_button(int win_width, int win_height, Menu* challenges_menu);
+void display_intermediate_button(int win_width, int win_height, Menu* challenges_menu);
+void display_expert_button(int win_width, int win_height, Menu* challenges_menu);
+void display_main_menu_button(int win_width, int win_height, Menu* challenges_menu);
 
 void display_interface(Interface *interface, Mode mode);
 void display_toolbar(int win_width, int win_height, Interface* interface, Mode mode);

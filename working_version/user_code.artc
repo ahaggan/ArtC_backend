@@ -3,7 +3,7 @@ run{
    iterations 8
    shape line
    type tree
-   size 500
+   size 400
    linethickness 5
    if iterations 5 then{
       colour green

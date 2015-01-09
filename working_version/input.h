@@ -19,10 +19,10 @@ FILE* make_file(char *file_name);
 void write_text_to_file(Interface* interface, char* file_name);
 void handle_overwriting(Coordinates active, Interface* interface, char* overflow);
 
-int SDL_Main_Menu_Events(Main_Menu* main_menu);
+int SDL_Main_Menu_Events(Menu* main_menu);
 int within_button(int x, int y, SDL_Rect button);
 
-int SDL_Challenges_Menu_Events(Challenges_Menu* challenges);
+int SDL_Challenges_Menu_Events(Menu* challenges);
 
 
 

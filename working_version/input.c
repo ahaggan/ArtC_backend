@@ -1,6 +1,6 @@
 #include "input.h"
 
-int SDL_Main_Menu_Events(Main_Menu* main_menu) {
+int SDL_Main_Menu_Events(Menu* main_menu) {
     SDL_Event event;
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -38,7 +38,7 @@ int SDL_Main_Menu_Events(Main_Menu* main_menu) {
     return 0;
 }
 
-int SDL_Challenges_Menu_Events(Challenges_Menu* challenges) {
+int SDL_Challenges_Menu_Events(Menu* challenges) {
     SDL_Event event;
     int x, y;
     SDL_GetMouseState(&x, &y);

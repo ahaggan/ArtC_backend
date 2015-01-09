@@ -1,7 +1,5 @@
 #include "input.h"
 
-
-
 void SDL_Win_Init(SDL_Win *w, char* win_name) {
    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
       fprintf(stderr, "\nUnable to initialize SDL: %s\n", SDL_GetError());
@@ -104,7 +102,7 @@ void SDL_TTF_Quit(TTF_Font *font) {
 }
 
 /* Main Menu */
-void display_main_menu(Main_Menu *main_menu) {
+void display_main_menu(Menu *main_menu) {
    int win_width, win_height;
    SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
    display_menu_background(win_width, win_height, main_menu);
@@ -115,7 +113,7 @@ void display_main_menu(Main_Menu *main_menu) {
    display_quit_button(win_width, win_height, main_menu);
 }
 
-void display_menu_background(int win_width, int win_height, Main_Menu* main_menu) {
+void display_menu_background(int win_width, int win_height, Menu* main_menu) {
    int background_x, background_y, background_w, background_h;
 
    background_x = background_y = 0;
@@ -126,7 +124,7 @@ void display_menu_background(int win_width, int win_height, Main_Menu* main_menu
             background_y, background_w, background_h, 255, 255, 255);
 }
 
-void display_logo(int win_width, int win_height, Main_Menu* main_menu) {
+void display_logo(int win_width, int win_height, Menu* main_menu) {
   SDL_Texture* image = load_image("menu_graphics/artc_logo.bmp", &main_menu->window);
    int logo_x, logo_y, logo_w, logo_h;
    logo_w = LOGO_WIDTH / 2;
@@ -140,7 +138,7 @@ void display_logo(int win_width, int win_height, Main_Menu* main_menu) {
 
 }
 
-void display_canvas_button(int win_width, int win_height, Main_Menu* main_menu) {
+void display_canvas_button(int win_width, int win_height, Menu* main_menu) {
     SDL_Texture* image = load_image("menu_graphics/canvas.bmp", &main_menu->window);
    int canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h;
 
@@ -160,7 +158,7 @@ void display_canvas_button(int win_width, int win_height, Main_Menu* main_menu) 
 
 }
 
-void display_challenges_button(int win_width, int win_height, Main_Menu* main_menu) {
+void display_challenges_button(int win_width, int win_height, Menu* main_menu) {
    SDL_Texture* image = load_image("menu_graphics/challenges.bmp", &main_menu->window);
    int challenges_button_x, challenges_button_y, challenges_button_w, challenges_button_h;
 
@@ -178,7 +176,7 @@ void display_challenges_button(int win_width, int win_height, Main_Menu* main_me
    SDL_DestroyTexture(image); 
 }
 
-void display_options_button(int win_width, int win_height, Main_Menu* main_menu) {
+void display_options_button(int win_width, int win_height, Menu* main_menu) {
    SDL_Texture* image = load_image("menu_graphics/options.bmp", &main_menu->window);
    int options_button_x, options_button_y, options_button_w, options_button_h;
 
@@ -195,7 +193,7 @@ void display_options_button(int win_width, int win_height, Main_Menu* main_menu)
    SDL_DestroyTexture(image); 
 }
 
-void display_quit_button(int win_width, int win_height, Main_Menu* main_menu) {
+void display_quit_button(int win_width, int win_height, Menu* main_menu) {
   SDL_Texture* image = load_image("menu_graphics/quit.bmp", &main_menu->window);
    int quit_button_x, quit_button_y, quit_button_w, quit_button_h;
 
@@ -213,7 +211,7 @@ void display_quit_button(int win_width, int win_height, Main_Menu* main_menu) {
 }
 
 /* Challenges Menu */
-void display_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges) {
+void display_challenges_menu(Menu* challenges) {
    int win_width, win_height;
    SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
 
@@ -225,7 +223,7 @@ void display_challenges_menu(Main_Menu* main_menu, Challenges_Menu* challenges) 
    display_main_menu_button(win_width, win_height, challenges);
    }
 
-void display_challenges_background(int win_width, int win_height, Challenges_Menu* challenges) {
+void display_challenges_background(int win_width, int win_height, Menu* challenges) {
    int background_x, background_y, background_w, background_h;
 
    background_x = background_y = 0;
@@ -238,7 +236,7 @@ void display_challenges_background(int win_width, int win_height, Challenges_Men
 
 
 
-void display_header(int win_width, int win_height, Challenges_Menu* challenges){
+void display_header(int win_width, int win_height, Menu* challenges){
   SDL_Texture* image = load_image("menu_graphics/challenges.bmp", &challenges->window);
    int header_x, header_y, header_w, header_h;
 
@@ -253,7 +251,7 @@ void display_header(int win_width, int win_height, Challenges_Menu* challenges){
    SDL_DestroyTexture(image); 
 }
 
-void display_beginner_button(int win_width, int win_height, Challenges_Menu* challenges) {
+void display_beginner_button(int win_width, int win_height, Menu* challenges) {
   SDL_Texture* image = load_image("menu_graphics/beginner.bmp", &challenges->window);
    int beginner_x, beginner_y, beginner_w, beginner_h;
 
@@ -269,7 +267,7 @@ void display_beginner_button(int win_width, int win_height, Challenges_Menu* cha
    SDL_DestroyTexture(image); 
 }
 
-void display_intermediate_button(int win_width, int win_height, Challenges_Menu* challenges) {
+void display_intermediate_button(int win_width, int win_height, Menu* challenges) {
 
    SDL_Texture* image = load_image("menu_graphics/intermediate.bmp", &challenges->window);
    int intermediate_x, intermediate_y, intermediate_w, intermediate_h;
@@ -285,7 +283,7 @@ void display_intermediate_button(int win_width, int win_height, Challenges_Menu*
    SDL_DestroyTexture(image); 
 }
 
-void display_expert_button(int win_width, int win_height, Challenges_Menu* challenges) {
+void display_expert_button(int win_width, int win_height, Menu* challenges) {
    SDL_Texture* image = load_image("menu_graphics/expert.bmp", &challenges->window);
   int expert_x, expert_y, expert_w, expert_h;
   expert_w = MENU_BUTTON_WIDTH;
@@ -300,7 +298,7 @@ void display_expert_button(int win_width, int win_height, Challenges_Menu* chall
    SDL_DestroyTexture(image); 
 }
 
-void display_main_menu_button(int win_width, int win_height, Challenges_Menu* challenges) {
+void display_main_menu_button(int win_width, int win_height, Menu* challenges) {
   SDL_Texture* image = load_image("menu_graphics/main_menu.bmp", &challenges->window);
   int main_menu_x, main_menu_y, main_menu_w, main_menu_h;
   main_menu_w = MENU_BUTTON_WIDTH;

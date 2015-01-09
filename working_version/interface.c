@@ -1,10 +1,10 @@
 #include "input.h"
 #include <unistd.h>
 
-void initialise_interface(Main_Menu* main, Interface* interface, Mode mode);
+void initialise_interface(Menu* main, Interface* interface, Mode mode);
 void initialise_text_editor(Interface* interface, Mode mode);
 
-int interface(Main_Menu* main, Mode mode) {
+int interface(Menu* main, Mode mode) {
    Interface interface;
    clock_t start_time, end_time; 
    
@@ -54,7 +54,7 @@ int interface(Main_Menu* main, Mode mode) {
    return 0;
 }
 
-void initialise_interface(Main_Menu* main_menu, Interface* interface, Mode mode) {
+void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
   interface->action = 0;
   interface->window = main_menu->window;
   interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
