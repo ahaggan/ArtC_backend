@@ -1,9 +1,8 @@
 run{
 fractal tree
-iterations 20
+iterations 10
 shape circle
 colour red
-size 100
 if iterations 2
 then colour blue 
 }

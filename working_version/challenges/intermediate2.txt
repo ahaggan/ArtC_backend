@@ -3,10 +3,8 @@ fractal sierpinski
 iterations 10
 shape line
 colour red
-size 100
 if iterations 2
 then colour green
 if iterations 7
-then {colour blue
-shape triangle}
+then shape triangle
 }

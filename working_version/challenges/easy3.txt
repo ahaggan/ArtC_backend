@@ -1,7 +1,6 @@
 run{
-fractal dragon   
-iterations 10
+fractal sierpinski   
+iterations 5
 shape square
 colour purple
-size 200
 }

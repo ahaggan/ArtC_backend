@@ -1,0 +1,8 @@
+run{
+fractal sierpinski
+iterations 9
+shape triangle
+colour black
+if iterations 3
+then colour fuchsia
+}

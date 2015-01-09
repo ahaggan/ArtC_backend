@@ -3,5 +3,4 @@ fractal sierpinski
 iterations 7
 shape line
 colour blue
-size 200
 }

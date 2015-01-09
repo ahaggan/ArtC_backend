@@ -1,7 +1,6 @@
 run{
 fractal tree 
-iterations 5
+iterations 10
 shape line
 colour red
-size 100
 }

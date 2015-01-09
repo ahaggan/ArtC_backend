@@ -1,0 +1,12 @@
+run{
+fractal sierpinski
+iterations 8
+shape circle
+colour navy
+if iterations 3
+then colour blue
+if iterations 5
+then colour turquoise
+if iterations 7
+then colour white
+}
