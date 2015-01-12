@@ -218,6 +218,7 @@ void wipe_text_editor(Interface* interface) {
     }
   }
 }
+
 TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interface, TextNode* current) {
   
    if (c == '\n') {

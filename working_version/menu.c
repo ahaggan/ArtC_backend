@@ -36,7 +36,7 @@ int challenge_menu(Menu* challenges) {
 void main_menu_actions(Menu* menu) {
   switch (menu->state) {
     case canvas: 
-      interface(menu, canvas_mode, NULL); 
+      interface(menu, canvas_mode, "user_code.artc"); 
       //SDL_RenderClear(menu->window.renderer);
       //display_main_menu(menu); 
       break;
