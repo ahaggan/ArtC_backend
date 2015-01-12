@@ -24,8 +24,8 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
                     printf("Challenges\n");
                     return challenges_menu;
                 }
-                else if (within_button(x, y, main_menu->options_button.rect)) {
-                    printf("Options\n");    
+                else if (within_button(x, y, main_menu->menu_help_button.rect)) {
+                    printf("Help\n");    
                     return options_menu;
                 }
                 else if (within_button(x, y, main_menu->quit_button.rect)) {
@@ -192,13 +192,13 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
             else {
                 cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
                 SDL_SetCursor(cursor);
-             
             }
             
         break;
 
          case SDL_MOUSEBUTTONDOWN:  
             mouse_move_to_cell(interface, x, y);
+            console_text_editor(*interface);
             return text_edited;
         break;
 
@@ -217,6 +217,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 set_active_text_cell(interface->text_editor[active.row][active.column].next->text_cell.row, interface->text_editor[active.row][active.column].next->text_cell.column, interface);
                 return text_edited;
             }
+            
             return text_edited;
          
 
@@ -229,14 +230,16 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 case SDLK_BACKSPACE:
                     /* Broken if backspacing on the 'first' cell when the text editor is empty */
                     if (first_cell(active)) {
+                      
                         break;
                     }
                     else if (last_cell(active, *interface)) {
+                      
                         strcpy(interface->text_editor[active.row][active.column].character, EMPTY_CELL); 
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                     }
                     else if (strcmp(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL) != 0) {
-                        //If there's something in the previous cell
+                        //If there's something in the previous cell          
                         strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
                         SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
                         set_active_text_cell(interface->text_editor[active.row][active.column].previous->text_cell.row, interface->text_editor[active.row][active.column].previous->text_cell.column, interface);
@@ -244,7 +247,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     } 
                     else {
                         //If there's nothing in the previous cell
-                        handle_backwriting(active, interface);    
+                        handle_backwriting(active, interface);   
+                       
                     }
                     console_text_editor(*interface);
                     return text_edited;
@@ -298,8 +302,6 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                         return text_edited;
                     }
                     
-                
-
                 case SDLK_UP:   
                     if (top_row(active)) {
                         break;
@@ -338,7 +340,6 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                         break;
                     }   
                     else {
-                    
                         SDL_SetTextInputRect(&interface->text_editor[active.row + 1][active.column].box.rect);
                         set_active_text_cell(active.row + 1, active.column, interface);
                         return text_edited;
@@ -348,7 +349,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 case SDLK_LEFT:   
                     if (first_cell(active)) {
                         break;
-                    }                    
+                    }
+                                        
                     if (strcmp(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL) != 0) {
      
                         if (start_column(active)) {
@@ -362,7 +364,6 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     }
                     else {
                         find_previous_active_node(&active, interface);
-                        printf("%d %d\n", active.row, active.column);
                         SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].box.rect);
                         set_active_text_cell(active.row, active.column, interface);
                     }
@@ -388,18 +389,18 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
 }
 
 void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y) {
-    printf("%d %d\n", mouse_x, mouse_y);
     for (int row = 0; row < interface->editor_rows; row++) {
         for (int column = 0; column < interface->editor_columns; column++) {
             if (inside_cell(interface->text_editor[row][column], mouse_x, mouse_y)) {
                  //click on a cell with text within? take you directly to that cell
                 if (strcmp(interface->text_editor[row][column].character, EMPTY_CELL) != 0) {
+                
                     SDL_SetTextInputRect(&interface->text_editor[row][column - TAB_LENGTH].box.rect);
                     set_active_text_cell(row, column, interface);  
                 }
                 //click on a line? take to prev live cell on that row
                 else {
-                    find_previous_cell_on_row(&interface->text_editor[row][column], interface) ;
+                    find_previous_cell_on_row(&interface->text_editor[row][column], interface);
                 }
             }
            
@@ -408,10 +409,11 @@ void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y) {
 }
 
 void find_previous_cell_on_row(TextNode* current, Interface* interface) {
+   
+   while (current->text_cell.column != 0 && strcmp(current->previous->character, EMPTY_CELL) == 0) {
+        current = current->previous;  
+    }
 
-   while (strcmp(current->previous->character, EMPTY_CELL) == 0 && current->text_cell.column != 0) {
-      current = current->previous;
-   }
     SDL_SetTextInputRect(&interface->text_editor[current->text_cell.row][current->text_cell.column].box.rect);
     set_active_text_cell(current->text_cell.row, current->text_cell.column, interface);  
 }

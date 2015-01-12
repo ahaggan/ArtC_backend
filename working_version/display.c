@@ -109,7 +109,7 @@ void display_main_menu(Menu *main_menu) {
    display_logo(win_width, win_height, main_menu);
    display_canvas_button(win_width, win_height, main_menu);
    display_challenges_button(win_width, win_height, main_menu);
-   display_options_button(win_width, win_height, main_menu);
+   display_menu_help_button(win_width, win_height, main_menu);
    display_quit_button(win_width, win_height, main_menu);
 }
 
@@ -176,20 +176,20 @@ void display_challenges_button(int win_width, int win_height, Menu* main_menu) {
    SDL_DestroyTexture(image); 
 }
 
-void display_options_button(int win_width, int win_height, Menu* main_menu) {
-   SDL_Texture* image = load_image("menu_graphics/options.bmp", &main_menu->window);
-   int options_button_x, options_button_y, options_button_w, options_button_h;
+void display_menu_help_button(int win_width, int win_height, Menu* main_menu) {
+   SDL_Texture* image = load_image("menu_graphics/help.bmp", &main_menu->window);
+   int menu_help_button_x, menu_help_button_y, menu_help_button_w, menu_help_button_h;
 
-   options_button_w = main_menu->canvas_button.rect.w;
-   options_button_x = win_width / LEFT_MARGIN;
-   options_button_h = main_menu->canvas_button.rect.h;
-   options_button_y = (main_menu->challenges_button.rect.y + 
+   menu_help_button_w = main_menu->canvas_button.rect.w;
+   menu_help_button_x = win_width / LEFT_MARGIN;
+   menu_help_button_h = main_menu->canvas_button.rect.h;
+   menu_help_button_y = (main_menu->challenges_button.rect.y + 
                       main_menu->challenges_button.rect.h) +
                       (win_height / MENU_BUTTON_DIST);
 
-   make_rect(&main_menu->window, &main_menu->options_button, options_button_x, 
-            options_button_y, options_button_w, options_button_h, 241, 14, 71);
-       SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->options_button.rect);
+   make_rect(&main_menu->window, &main_menu->menu_help_button, menu_help_button_x, 
+            menu_help_button_y, menu_help_button_w, menu_help_button_h, 241, 14, 71);
+       SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->menu_help_button.rect);
    SDL_DestroyTexture(image); 
 }
 
@@ -200,8 +200,8 @@ void display_quit_button(int win_width, int win_height, Menu* main_menu) {
    quit_button_w = main_menu->canvas_button.rect.w;
    quit_button_x = win_width / LEFT_MARGIN;
    quit_button_h = main_menu->canvas_button.rect.h;
-   quit_button_y = (main_menu->options_button.rect.y + 
-                   main_menu->options_button.rect.h) +
+   quit_button_y = (main_menu->menu_help_button.rect.y + 
+                   main_menu->menu_help_button.rect.h) +
                    win_height / MENU_BUTTON_DIST;
 
    make_rect(&main_menu->window, &main_menu->quit_button, quit_button_x, 

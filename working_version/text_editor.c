@@ -38,13 +38,19 @@ void check_row_above(Coordinates active, Coordinates* cell, Interface* interface
 void hold_row_to_be_moved(Interface* interface, char move[interface->editor_columns][3], Coordinates active, Coordinates cell);
 void hold_backup_of_next_row(Interface* interface, char copy[interface->editor_columns][3], Coordinates active);
 void move_row(Interface* interface, Coordinates active, char move[interface->editor_columns][3]);
-void empty_active_row(Interface* interface, Coordinates active);
+void set_row_to_blank(Interface* interface, Coordinates active);
 void shift_rows_down_one(Interface* interface, Coordinates active, Coordinates cell, char move[interface->editor_columns][3], char copy[interface->editor_columns][3]);
 void tab_save_row_backup(Interface* interface, Coordinates active, Coordinates cell, char copy[interface->editor_columns][3]);
 
 void add_tab_space(Interface* interface, Coordinates active, int tab);
 void tab_shift_row(Interface* interface, Coordinates active, char copy[interface->editor_columns][3], int tab);
 void tab_unindent_garbage_fix(Interface* interface, Coordinates active, int tab);
+
+/*
+void blank_row_checker(Interface* interface);
+void set_row_to_empty(int row, Interface* interface);
+*/
+
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
@@ -126,6 +132,7 @@ void update_text_editor(int width, int height, Interface* interface) {
             interface->text_editor_panel.rect.y + 
             (interface->active_txt.row * (FONT_SIZE + 9.1)),
             1, (FONT_SIZE + 4), 220, 220, 220);
+
 }
 
 TextNode* allocate_text_node(char* text, TextNode* previous_node, 
@@ -229,6 +236,7 @@ void write_text_to_file(Interface* interface, char* file_name) {
 
 void write_text_to_cell(Interface* interface, FILE* file_name, int row, int column) {
    if (strcmp(interface->text_editor[row][column].character, EMPTY_CELL) != 0) {
+      interface->text_editor[row][column].character[1] = '\0';
       fputs(interface->text_editor[row][column].character, file_name);
    }
 }
@@ -282,14 +290,23 @@ void handle_enter_shuffling(Coordinates active, Interface* interface) {
 void shift_row_down(Coordinates active, Coordinates cell, Interface* interface, char move[interface->editor_columns][3], char copy[interface->editor_columns][3]) {
    hold_row_to_be_moved(interface, move, active, cell);
    hold_backup_of_next_row(interface, copy, active);
-   move_row(interface, active, move);
-   empty_active_row(interface, active);
+
+      move_row(interface, active, move);
+      set_row_to_blank(interface, active);
+
+   
+    
 }
 
 /* It would be preferable to put these things into more generic functions, if you have the time later */
 void hold_row_to_be_moved(Interface* interface, char move[interface->editor_columns][3], Coordinates active, Coordinates cell) {
    for (int column = 0; column < interface->editor_columns; column++) {
-      strcpy(move[column], interface->text_editor[active.row][cell.column++].character);
+      if (cell.column < interface->editor_columns) {
+        strcpy(move[column], interface->text_editor[active.row][cell.column++].character);
+      }
+      else {
+        strcpy(move[column], EMPTY_CELL);
+      }
    }
 }
 
@@ -305,7 +322,7 @@ void move_row(Interface* interface, Coordinates active, char move[interface->edi
    }
 }
 
-void empty_active_row(Interface* interface, Coordinates active) {
+void set_row_to_blank(Interface* interface, Coordinates active) {
   for (int column = active.column; column < interface->editor_columns; column++) {
       strcpy(interface->text_editor[active.row][column].character, EMPTY_CELL);
    }
@@ -342,11 +359,13 @@ void handle_backwriting(Coordinates active, Interface* interface) {
       text_after_active_column(active, cell, interface, copy);
    }
    else {
-      if (entire_row_empty(active.row, interface)) {
+      if (entire_row_empty(active.row, interface) && !top_row(active)) {
          shift_row_up(active, cell, interface, copy);
       }
    }
 }
+
+
 
 void shift_row_up(Coordinates active, Coordinates cell, Interface* interface, char copy[interface->editor_columns][3]) {
    /* Set active coordinates based upon whether the row above is empty */
@@ -358,7 +377,6 @@ void shift_row_up(Coordinates active, Coordinates cell, Interface* interface, ch
       concatenate_to_previous_text(active, cell, interface, copy);
    }
   else {
- 
   }
    shift_rows_back_one(active, interface);   
 }
@@ -572,12 +590,32 @@ int rest_of_row_empty(Coordinates active, Interface* interface) {
 
 int entire_row_empty(int row, Interface* interface) {
   for (int col = 0; col < interface->editor_columns; col++) {
-    if (strcmp(interface->text_editor[row][col].character, EMPTY_CELL) != 0) {
+    if (/*strcmp(interface->text_editor[row][col].character, " ") != 0 && see below: trying to fix*/ strcmp(interface->text_editor[row][col].character, EMPTY_CELL) != 0) {
       return 0;
     }
   }
   return 1;
 }
+
+/*
+Trying to fix a text editor problem
+void blank_row_checker(Interface* interface) {
+  for (int row = 0; row < interface->editor_rows; row++) {
+      if (entire_row_empty(row, interface)) {
+       printf("%d\n", 
+        set_row_to_empty(row, interface);
+      }
+  }
+  
+}
+void set_row_to_empty(int row, Interface* interface) {
+  for (int col = 0; col < interface->editor_columns; col++) {
+   
+    strcpy(interface->text_editor[row][col].character, EMPTY_CELL);
+  }
+  
+}
+*/
 
 void find_next_active_node(Coordinates* active, Interface* interface) {
    TextNode* current = &interface->text_editor[active->row][active->column];

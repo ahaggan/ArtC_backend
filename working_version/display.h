@@ -152,7 +152,7 @@ typedef struct menu {
 	Area logo;
 	Area canvas_button;
 	Area challenges_button;
-	Area options_button;
+	Area menu_help_button;
 	Area quit_button;
 
   Area header;
@@ -184,7 +184,7 @@ void display_menu_background(int win_width, int win_height, Menu* main_menu);
 void display_logo(int win_width, int win_height, Menu* main_menu);
 void display_canvas_button(int win_width, int win_height, Menu* main_menu);
 void display_challenges_button(int win_width, int win_height, Menu* main_menu);
-void display_options_button(int win_width, int win_height, Menu* main_menu);
+void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
 void display_quit_button(int win_width, int win_height, Menu* main_menu);
 
 void display_challenges_menu(Menu* challenges_menu);
