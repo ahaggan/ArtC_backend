@@ -214,6 +214,7 @@ TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interfac
    }          
    else {
       strcpy(current->character, &c);
+      current->character[1] = '\0';
       return current->next; 
    } 
 }
