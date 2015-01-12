@@ -1,8 +1,4 @@
-#include "input.h"
-#include <unistd.h>
-
-void initialise_interface(Menu* main, Interface* interface, Mode mode);
-void initialise_text_editor(Interface* interface, Mode mode, char* file_name);
+#include "interface.h"
 
 int interface(Menu* main, Mode mode, char* file_name) {
    Interface interface;

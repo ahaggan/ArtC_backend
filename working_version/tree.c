@@ -1,4 +1,4 @@
-#include "display.h"
+#include "fractals.h"
 
 int treeiterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, float angle, int branchx, int branchy);
 

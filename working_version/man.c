@@ -1,4 +1,4 @@
-#include "display.h"
+#include "fractals.h"
 
 int mandeliterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, int size);
 

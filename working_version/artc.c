@@ -1,11 +1,5 @@
-#include "input.h"
+#include "artc.h"
 
-int challenges(Menu* main);
-int interface(Menu* main, Mode mode, char* file_name);
-void initialise_main_menu(Menu* main);
-void initialise_challenges_menu(Menu* main);
-void main_menu_actions(Menu* main);
-void challenge_menu_actions(Menu* challenges);
 /* Main Menu */
 int main(void) {
   Menu menu;  
@@ -23,6 +17,7 @@ int main(void) {
   return 0;
 }
 
+
 /* Challenges Menu */
 int challenges(Menu* challenges) {
   
@@ -36,6 +31,7 @@ int challenges(Menu* challenges) {
   }
   return 0;
 }
+
 
 /* Create main window and init TTF fonts */ 
 void initialise_main_menu(Menu* menu) {

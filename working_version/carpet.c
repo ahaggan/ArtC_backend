@@ -1,5 +1,5 @@
 
-#include "display.h"
+#include "fractals.h"
 /*
 int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
 
