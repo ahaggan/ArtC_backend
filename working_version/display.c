@@ -76,16 +76,20 @@ void SDL_TTF_Quit(TTF_Font *font) {
    TTF_Quit();
 }
 
-/* Main Menu */
-void display_main_menu(Menu *main_menu) {
-   int win_width, win_height;
-   SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
-   display_menu_background(win_width, win_height, main_menu);
-   display_logo(win_width, win_height, main_menu);
-   display_canvas_button(win_width, win_height, main_menu);
-   display_challenges_button(win_width, win_height, main_menu);
-   display_options_button(win_width, win_height, main_menu);
-   display_quit_button(win_width, win_height, main_menu);
+/* Create main window and init TTF fonts */ 
+void initialise_main_menu(Menu* menu) {
+  int win_width, win_height;
+
+  menu->menu_font = SDL_Load_Font("font/Edo.ttf", BUTTON_FONT_SIZE);
+  menu->state = 0;
+
+   SDL_GetWindowSize(menu->window.win, &win_width, &win_height);
+   display_menu_background(win_width, win_height, menu);
+   display_logo(win_width, win_height, menu);
+   display_canvas_button(win_width, win_height, menu);
+   display_challenges_button(win_width, win_height, menu);
+   display_options_button(win_width, win_height, menu);
+   display_quit_button(win_width, win_height, menu);
 }
 
 void display_menu_background(int win_width, int win_height, Menu* main_menu) {
@@ -187,8 +191,9 @@ void display_quit_button(int win_width, int win_height, Menu* main_menu) {
 
 
 /* Challenges Menu */
-void display_challenges_menu(Menu* challenges) {
+void initialise_challenges_menu(Menu* challenges) {
    int win_width, win_height;
+   challenges->state = 0;  
    SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
 
    display_challenges_background(win_width, win_height, challenges);
@@ -197,7 +202,7 @@ void display_challenges_menu(Menu* challenges) {
    display_intermediate_button(win_width, win_height, challenges);
    display_expert_button(win_width, win_height, challenges);
    display_main_menu_button(win_width, win_height, challenges);
-   }
+}
 
 void display_challenges_background(int win_width, int win_height, Menu* challenges) {
    int background_x, background_y, background_w, background_h;
@@ -291,8 +296,15 @@ void display_main_menu_button(int win_width, int win_height, Menu* challenges) {
 
 /* Interface */
 //this needs a flag sent to it: request either canvas interface or challenge interface
-void display_interface(Interface* interface, Mode mode) {
-   int win_width, win_height;
+
+void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
+  int win_width, win_height;
+  interface->action = 0;
+  interface->window = main_menu->window;
+  interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
+  interface->button_font = main_menu->menu_font;
+  interface->challenge_font = SDL_Load_Font("font/DroidSansMono.ttf", CHALLENGE_FONT);
+
    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
    display_toolbar(win_width, win_height, interface, mode);
   display_menu_button(win_width, win_height, interface, mode);
@@ -310,8 +322,6 @@ void display_interface(Interface* interface, Mode mode) {
    }
    display_dividers(win_width, win_height, interface, mode);
 }
-
-
 
 void display_dividers(int win_width, int win_height, Interface* interface, Mode mode) {
   /* Toolbar */

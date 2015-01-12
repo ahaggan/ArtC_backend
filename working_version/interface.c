@@ -1,12 +1,13 @@
 #include "interface.h"
 
 int interface(Menu* main, Mode mode, char* file_name) {
+   SDL_RenderClear(main->window.renderer);
    Interface interface;
    clock_t start_time, end_time; 
    
    initialise_interface(main, &interface, mode);
    initialise_text_editor(&interface, mode, file_name);
-  render_update_clear(interface.window);
+   render_update_clear(interface.window);
 
    while (interface.action != back_to_menu) {
       fix_mac_flickering(&interface, mode); 
@@ -48,15 +49,6 @@ int interface(Menu* main, Mode mode, char* file_name) {
       render_update_clear(interface.window);
    }
    return 0;
-}
-
-void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
-  interface->action = 0;
-  interface->window = main_menu->window;
-  interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
-  interface->button_font = main_menu->menu_font;
-  interface->challenge_font = SDL_Load_Font("font/DroidSansMono.ttf", CHALLENGE_FONT);
-  display_interface(interface, mode);
 }
 
 void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
