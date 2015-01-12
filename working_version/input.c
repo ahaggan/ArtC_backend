@@ -105,15 +105,14 @@ int Interface_Events(Interface* interface) {
                 }
 
                 if (within_button(x, y, interface->reset_button.rect)) {
-                     if (interface->mode == challenge_mode) {
+
+                    if (interface->mode == challenge_mode) {
                         load_text_into_text_editor(interface->challenge, interface);
                      }
                      else {
-                        ;
+                        clear_area(&interface->window, interface->canvas);
                     }
-                    
-                     
-                     break;
+                    break;
                 }
               
                 if (within_button(x, y, interface->menu_button.rect)) {
