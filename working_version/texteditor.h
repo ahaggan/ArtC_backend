@@ -48,7 +48,7 @@ void check_row_above(Coordinates active, Coordinates* cell, Interface* interface
 void hold_row_to_be_moved(Interface* interface, char move[interface->editor_columns][3], Coordinates active, Coordinates cell);
 void hold_backup_of_next_row(Interface* interface, char copy[interface->editor_columns][3], Coordinates active);
 void move_row(Interface* interface, Coordinates active, char move[interface->editor_columns][3]);
-void empty_active_row(Interface* interface, Coordinates active);
+void set_row_to_blank(Interface* interface, Coordinates active);
 void shift_rows_down_one(Interface* interface, Coordinates active, Coordinates cell, char move[interface->editor_columns][3], char copy[interface->editor_columns][3]);
 void tab_save_row_backup(Interface* interface, Coordinates active, Coordinates cell, char copy[interface->editor_columns][3]);
 

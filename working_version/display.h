@@ -1,4 +1,6 @@
 #include "artc.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #include <math.h>
 
 #define WIN_WIDTH 1280
@@ -16,6 +18,7 @@
 #define MENU_BUTTON_DIST 20
 
 #define BUTTON_HEIGHT 18
+#define BUTTON_FONT_SIZE 50
 #define TEXT_ED_WIDTH 3.015
 
 #define EDITOR_COLUMNS 100
@@ -24,6 +27,7 @@
 #define MAX_CHALLENGE_LEN 59
 
 #define CHALLENGE_FONT 19
+#define FONT_SIZE 15
 
 #define PREV_NEXT_BUTTON 4 
 
@@ -39,22 +43,51 @@ typedef struct options_menu {
 } Options_Menu;
 */
 
-typedef struct draw{
-  int iterations;
-  char* type[10];
-  char* colour[10];
-  int size[10];
-  int linethickness[10];
-  char* shape[10];
-  int height[10];
-  int divisions;
-  float anglerange;
-  int startx;
-  int starty;
-  int endx;
-  int endy;
-  char* move;
-} Draw;
+typedef struct SDL_Win {
+   SDL_bool finished;
+   SDL_Window *win;
+   SDL_Renderer *renderer;
+} SDL_Win;
+
+typedef struct area {
+  SDL_Rect rect;
+  SDL_Color col;
+} Area;
+
+typedef enum menu_choice {
+	canvas = 1,
+	challenges_menu,
+	options_menu,
+	quit,
+
+  beginner = 1,
+  intermediate,
+  expert,
+  main_menu
+} Menu_Choice;
+
+typedef struct menu {
+	SDL_Win window;
+	Menu_Choice state;
+	TTF_Font* menu_font; 
+	Area background;
+	Area logo;
+	Area canvas_button;
+	Area challenges_button;
+	Area menu_help_button;
+	Area quit_button;
+
+  Area header;
+  Area beginner;
+  Area intermediate;
+  Area expert;
+  Area main_menu;
+} Menu;
+
+typedef enum mode {
+   challenge_mode,
+   canvas_mode
+} Mode;
 
 typedef struct coordinates {
   int row;
@@ -128,8 +161,22 @@ typedef struct shape {
 // Located to draw attention to this issue with MACS.
 void fix_mac_flickering(Interface* interface, Mode mode);
 
-// MACS ARE TERRIBLE.
 
+// MACS ARE TERRIBLE.
+int challenge_menu(Menu* challenges);
+
+int SDL_Main_Menu_Events(Menu* main_menu);
+void main_menu_actions(Menu* main);
+
+int SDL_Challenges_Menu_Events(Menu* challenges);
+void challenge_menu_actions(Menu* challenges);
+
+int interface(Menu* main, Mode mode, char* file_name);
+
+void SDL_Win_Init(SDL_Win *w, char* win_name);
+void SDL_TTF_Init();
+TTF_Font* SDL_Load_Font(char* font_path, int font_size);
+void render_update_clear(SDL_Win window);
 
 void clear_area(SDL_Win *window, Area area);
 SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w);
@@ -137,6 +184,8 @@ void SDL_TTF_Quit(TTF_Font *font);
 SDL_Texture* load_image(char* filename, SDL_Win* window);
 SDL_Texture* surface_to_texture(SDL_Surface* surface, SDL_Win* window);
 
+void initialise_main_menu(Menu* main);
+// Functions that display main menu things.
 void display_menu_background(int win_width, int win_height, Menu* main_menu);
 void display_logo(int win_width, int win_height, Menu* main_menu);
 void display_canvas_button(int win_width, int win_height, Menu* main_menu);
@@ -144,6 +193,8 @@ void display_challenges_button(int win_width, int win_height, Menu* main_menu);
 void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
 void display_quit_button(int win_width, int win_height, Menu* main_menu);
 
+void initialise_challenges_menu(Menu* challenges_menu);
+// Functions that display challenge menu things.
 void display_challenges_background(int win_width, int win_height, Menu* challenges);
 void display_header(int win_width, int win_height, Menu* challenges_menu);
 void display_beginner_button(int win_width, int win_height, Menu* challenges_menu);
@@ -151,7 +202,8 @@ void display_intermediate_button(int win_width, int win_height, Menu* challenges
 void display_expert_button(int win_width, int win_height, Menu* challenges_menu);
 void display_main_menu_button(int win_width, int win_height, Menu* challenges_menu);
 
-void display_interface(Interface *interface, Mode mode);
+void initialise_interface(Menu* main, Interface* interface, Mode mode);
+// Functions that display interface things.
 void display_toolbar(int win_width, int win_height, Interface* interface, Mode mode);
 void display_menu_button(int win_width, int win_height, Interface* interface, Mode mode);
 void display_help_button(int win_width, int win_height, Interface* interface, Mode mode);
@@ -164,6 +216,7 @@ void display_previous_button(int win_width, int win_height, Interface* interface
 void display_current_challenge(int win_width, int win_height, Interface* interface);
 void display_next_button(int win_width, int win_height, Interface* interface);
 void display_dividers(int win_width, int win_height, Interface* interface, Mode mode);
+
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
