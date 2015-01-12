@@ -17,7 +17,6 @@ int interface(Menu* main, Mode mode, char* file_name) {
       if (interface.action == generate_clicked) {
          // COMMENT FUNCTION OUT IN ORDER TO USE FILE READY WRITTEN
          write_text_to_file(&interface, "user_code.artc");
-         clear_area(&interface.window, interface.canvas);
         
          /* START: only here due to parser update */
             Draw fractal; 

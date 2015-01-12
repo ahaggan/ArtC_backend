@@ -105,6 +105,7 @@ int Interface_Events(Interface* interface) {
                 }
 
                 if (within_button(x, y, interface->reset_button.rect)) {
+                     clear_area(&interface->window, interface->canvas);
                      printf("Reset the text!\n");
                      break;
                 }
