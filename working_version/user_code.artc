@@ -1,11 +1,11 @@
 run{
-size 100
-shape circle
-type star
-colour green
-linethickness 2
-iterations 1
-}
+   type tree
+   size 250
+   iterations 8
+   shape line
+   colour navy
+   linethickness 2
+}   
 
 
 

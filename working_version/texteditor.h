@@ -56,4 +56,4 @@ void add_tab_space(Interface* interface, Coordinates active, int tab);
 void tab_shift_row(Interface* interface, Coordinates active, char copy[interface->editor_columns][3], int tab);
 void tab_unindent_garbage_fix(Interface* interface, Coordinates active, int tab);
 
-void wipe_text_editor(Interface* interface);
+

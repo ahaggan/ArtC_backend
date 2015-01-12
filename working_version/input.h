@@ -32,3 +32,4 @@ void handle_backwriting(Coordinates active, Interface* interface);
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 
 void tab(Coordinates active, Interface* interface, int direction);
+void wipe_text_editor(Interface* interface);

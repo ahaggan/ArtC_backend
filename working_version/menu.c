@@ -3,7 +3,7 @@
 /* Main Menu */
 void launch_menu() {
   Menu menu;
-  SDL_Win_Init(&menu.window, "ART-C");
+  SDL_Win_Init(&menu.window, "Art.C");
   SDL_TTF_Init();
 
   do {

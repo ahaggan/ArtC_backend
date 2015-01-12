@@ -332,19 +332,13 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                     return text_edited;
                     break;
 
-                //ctrl + c copies text to the clipboard
-                case SDLK_c:
+                //ctrl + k wipes the entire text editor 
+                case SDLK_k:
                     if (SDL_GetModState() & KMOD_CTRL) {
-                        //this will only work if you have highlight functionality
+                        wipe_text_editor(interface);
                     }
                 break;
 
-                //ctrl + v copies text to the clipboard
-                case SDLK_v:
-                    if (SDL_GetModState() & KMOD_CTRL) {
-                       //this will only work if you have highlight functionality
-                    }
-                break;
             }   
     }
     return 0;
