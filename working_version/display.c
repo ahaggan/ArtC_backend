@@ -10,7 +10,7 @@ void SDL_Win_Init(SDL_Win *w, char* win_name) {
    
    w->win= SDL_CreateWindow(win_name, SDL_WINDOWPOS_UNDEFINED, 
                             SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, 
-                            SDL_WINDOW_SHOWN);
+                            SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
    if (w->win == NULL) {
       fprintf(stderr, "\nUnable to initialize SDL Win: %s\n", SDL_GetError());
