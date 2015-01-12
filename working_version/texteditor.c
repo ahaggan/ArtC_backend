@@ -194,6 +194,7 @@ void write_text_to_cell(Interface* interface, FILE* file_name, int row, int colu
    }
 }
 
+
 void load_text_into_text_editor(char* file_name, Interface* interface) {
     FILE* challenge = fopen(file_name, "r");
     int row = 0;
@@ -201,11 +202,22 @@ void load_text_into_text_editor(char* file_name, Interface* interface) {
     char c;
     TextNode* current = &interface->text_editor[row][column];
     
+    wipe_text_editor(interface);
     while ((c = fgetc(challenge)) != EOF) {
       current = load_text_into_cell(c, &row, &column, interface, current);
     }
+    SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
+   set_active_text_cell(0, 0, interface);
+   update_text_editor(interface->editor_columns, interface->editor_rows, interface);
 }
 
+void wipe_text_editor(Interface* interface) {
+  for (int row = 0; row < interface->editor_rows; row++) {
+    for (int column = 0; column < interface->editor_columns; column++) {
+      strcpy(interface->text_editor[row][column].character, EMPTY_CELL);
+    }
+  }
+}
 TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interface, TextNode* current) {
   
    if (c == '\n') {

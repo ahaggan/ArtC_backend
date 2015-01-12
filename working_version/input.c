@@ -107,6 +107,7 @@ int Interface_Events(Interface* interface) {
 
                 if (within_button(x, y, interface->reset_button.rect)) {
                      printf("Reset the text!\n");
+                     load_text_into_text_editor(interface->challenge, interface);
                      break;
                 }
               

@@ -118,6 +118,7 @@ typedef struct interface {
   Area toolbar;
   Area text_editor_panel;
   TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
+
   Area text_cursor;
   Area canvas; 
   Area reset_button;
@@ -129,6 +130,7 @@ typedef struct interface {
   Area current_challenge;
   Area current_challenge_text;
   Area next_button;
+  
   TTF_Font* text_ed_font;
   TTF_Font* button_font;
   TTF_Font* challenge_font;
@@ -142,10 +144,9 @@ typedef struct interface {
   Area learn_help_divider;
   Area reset_generate_divider;
   Area reset_generate_top_border;
-   Area prev_divider;
+  Area prev_divider;
   Area next_divider;
  
-
   char challenge[MAX_CHALLENGE_LEN];
 
 } Interface;	
