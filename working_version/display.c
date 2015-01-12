@@ -306,6 +306,7 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
   interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
   interface->button_font = main_menu->menu_font;
   interface->challenge_font = SDL_Load_Font("font/DroidSansMono.ttf", CHALLENGE_FONT);
+  interface->mode = mode;
 
    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
    display_toolbar(win_width, win_height, interface, mode);
@@ -323,6 +324,9 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
      display_next_button(win_width, win_height, interface);
    }
    display_dividers(win_width, win_height, interface, mode);
+
+   interface->click_location.row = interface->canvas.rect.x + (interface->canvas.rect.w/2);
+   interface->click_location.column = interface->canvas.rect.y + (interface->canvas.rect.h/2);
 }
 
 void display_dividers(int win_width, int win_height, Interface* interface, Mode mode) {

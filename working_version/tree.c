@@ -9,7 +9,7 @@ void tree(Draw *fractal, Interface interface, int limit)
   fractal->anglerange = 1;
     
   
-  make_shape(&trunk, fractal->startx, interface.canvas.rect.h - interface.canvas.rect.h / 5.5, fractal->size[0]/2, fractal->height[0]/2, 0);
+  make_shape(&trunk, fractal->startx, fractal->starty - ((fractal->size[0]/2)/2), fractal->size[0]/2, fractal->height[0]/2, 0);
 
   int iterations = 1;
   fractal->divisions = 2;

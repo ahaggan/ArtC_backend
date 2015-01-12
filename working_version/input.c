@@ -85,9 +85,8 @@ int Interface_Events(Interface* interface) {
     int x, y;
     SDL_GetMouseState(&x, &y);
    
-    
     while(SDL_PollEvent(&event)) { 
-   
+          
         SDL_Text_Editor_Events(event, interface);   
        
  
@@ -106,8 +105,14 @@ int Interface_Events(Interface* interface) {
                 }
 
                 if (within_button(x, y, interface->reset_button.rect)) {
-                     printf("Reset the text!\n");
-                     load_text_into_text_editor(interface->challenge, interface);
+                     if (interface->mode == challenge_mode) {
+                        load_text_into_text_editor(interface->challenge, interface);
+                     }
+                     else {
+                        ;
+                    }
+                    
+                     
                      break;
                 }
               
@@ -120,6 +125,13 @@ int Interface_Events(Interface* interface) {
                 if (within_button(x, y, interface->help_button.rect)) {
                     printf("Help is on the way!\n");     
                     break;
+                }
+
+                if (within_button(x, y, interface->canvas.rect)) {
+                    printf("New fractal position.\n");
+                    interface->click_location.row = x;
+                    interface->click_location.column = y;
+                    return change_position;
                 }
         }
     }

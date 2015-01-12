@@ -23,8 +23,9 @@ int interface(Menu* main, Mode mode, char* file_name) {
             Draw fractal; 
             //Sets default values to avoid missing values if the user only inputs a few things.(Small red square)
             parser(&fractal, "default.txt"); 
-            fractal.startx = interface.canvas.rect.x + (interface.canvas.rect.w/2);
-            fractal.starty = interface.canvas.rect.y + (interface.canvas.rect.h/2);
+            fractal.startx = interface.click_location.row;
+            fractal.starty = interface.click_location.column;
+
             fractal.endx = WIN_WIDTH/2 + 10; //How could we put this into the parser? Could we limit the values the user can enter(Make 0,0 the coordinates of the top left of the canvas?
             fractal.endy = WIN_HEIGHT/2 + 10; 
             
@@ -46,6 +47,10 @@ int interface(Menu* main, Mode mode, char* file_name) {
             } 
          } 
       }
+
+      else if(interface.action == change_position) {
+      }
+
       render_update_clear(interface.window);
    }
    return 0;
