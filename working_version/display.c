@@ -306,6 +306,7 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
   interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", FONT_SIZE);
   interface->button_font = main_menu->menu_font;
   interface->challenge_font = SDL_Load_Font("font/DroidSansMono.ttf", CHALLENGE_FONT);
+  interface->mode = mode;
 
    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
    display_toolbar(win_width, win_height, interface, mode);

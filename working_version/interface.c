@@ -60,7 +60,7 @@ void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
 
   interface->editor_columns /= 27;
   interface->editor_rows /= 27;
-  
+  strcpy(interface->challenge, file_name);
   make_text_editor(interface->editor_columns, interface->editor_rows, interface);
  
   SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
@@ -72,4 +72,5 @@ void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
   else {
     load_text_into_text_editor("user_code.artc", interface);
   }
+   update_text_editor(interface->editor_columns, interface->editor_rows, interface);
 }

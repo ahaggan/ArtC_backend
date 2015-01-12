@@ -105,9 +105,14 @@ int Interface_Events(Interface* interface) {
                 }
 
                 if (within_button(x, y, interface->reset_button.rect)) {
-                     clear_area(&interface->window, interface->canvas);
-                     printf("Reset the text!\n");
-                     break;
+
+                    if (interface->mode == challenge_mode) {
+                        load_text_into_text_editor(interface->challenge, interface);
+                     }
+                     else {
+                        clear_area(&interface->window, interface->canvas);
+                    }
+                    break;
                 }
               
                 if (within_button(x, y, interface->menu_button.rect)) {
