@@ -1,4 +1,4 @@
-    #include "display.h"
+#include "draw.h"
 
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle, int i) 
 {
@@ -119,3 +119,27 @@ void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, int thickn
     }
 }
 
+//Filled Circle centred at (cx,cy) of radius r
+void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r) {
+   for (double dy = 1; dy <= r; dy += 1.0) {
+      double dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
+      SDL_RenderDrawLine(rend, cx-dx, cy+r-dy, cx+dx, cy+r-dy);
+      SDL_RenderDrawLine(rend, cx-dx, cy-r+dy, cx+dx, cy-r+dy);
+   }
+}
+
+//Circle centred at (cx,cy) of radius r
+void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r) {
+   double dx, dy;
+   dx = floor(sqrt((2.0 * r ) ));
+   SDL_RenderDrawLine(rend, cx-dx, cy+r, cx+dx, cy+r);
+   SDL_RenderDrawLine(rend, cx-dx, cy-r, cx+dx, cy-r);
+
+   for (dy = 1; dy <= r; dy += 1.0) {
+      dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
+      SDL_RenderDrawPoint(rend, cx+dx, cy+r-dy);
+      SDL_RenderDrawPoint(rend, cx+dx, cy-r+dy);
+      SDL_RenderDrawPoint(rend, cx-dx, cy+r-dy);
+      SDL_RenderDrawPoint(rend, cx-dx, cy-r+dy);
+   }
+}

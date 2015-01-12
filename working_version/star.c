@@ -1,4 +1,4 @@
-#include "display.h"
+#include "fractals.h"
 
 int stariterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, float angle);
 

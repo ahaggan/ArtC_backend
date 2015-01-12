@@ -1,4 +1,4 @@
-#include "input.h"
+#include "display.h"
 
 void SDL_Win_Init(SDL_Win *w, char* win_name) {
    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -43,31 +43,6 @@ void clear_area(SDL_Win *window, Area area) {
                         255);
    SDL_RenderFillRect(window->renderer, &area.rect);  
    render_update_clear(*window);
-}
-
-//Filled Circle centred at (cx,cy) of radius r
-void SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r) {
-   for (double dy = 1; dy <= r; dy += 1.0) {
-      double dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
-      SDL_RenderDrawLine(rend, cx-dx, cy+r-dy, cx+dx, cy+r-dy);
-      SDL_RenderDrawLine(rend, cx-dx, cy-r+dy, cx+dx, cy-r+dy);
-   }
-}
-
-//Circle centred at (cx,cy) of radius r
-void SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r) {
-   double dx, dy;
-   dx = floor(sqrt((2.0 * r ) ));
-   SDL_RenderDrawLine(rend, cx-dx, cy+r, cx+dx, cy+r);
-   SDL_RenderDrawLine(rend, cx-dx, cy-r, cx+dx, cy-r);
-
-   for (dy = 1; dy <= r; dy += 1.0) {
-      dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
-      SDL_RenderDrawPoint(rend, cx+dx, cy+r-dy);
-      SDL_RenderDrawPoint(rend, cx+dx, cy-r+dy);
-      SDL_RenderDrawPoint(rend, cx-dx, cy+r-dy);
-      SDL_RenderDrawPoint(rend, cx-dx, cy-r+dy);
-   }
 }
 
 void SDL_TTF_Init() {
@@ -131,7 +106,7 @@ void display_logo(int win_width, int win_height, Menu* main_menu) {
    logo_x = win_width / LEFT_MARGIN;
    logo_h = LOGO_HEIGHT / 2;
    logo_y = win_height / TOP_MARGIN; 
-  make_rect(&main_menu->window, &main_menu->logo, logo_x, 
+   make_rect(&main_menu->window, &main_menu->logo, logo_x, 
             logo_y, logo_w, logo_h, 230, 230, 230);
   SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->logo.rect);
   SDL_DestroyTexture(image); 
@@ -209,6 +184,7 @@ void display_quit_button(int win_width, int win_height, Menu* main_menu) {
         SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->quit_button.rect);
    SDL_DestroyTexture(image); 
 }
+
 
 /* Challenges Menu */
 void display_challenges_menu(Menu* challenges) {

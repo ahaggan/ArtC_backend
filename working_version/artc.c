@@ -1,11 +1,5 @@
-#include "input.h"
+#include "artc.h"
 
-int challenges(Menu* main);
-int interface(Menu* main, Mode mode, char* file_name);
-void initialise_main_menu(Menu* main);
-void initialise_challenges_menu(Menu* main);
-void main_menu_actions(Menu* main);
-void challenge_menu_actions(Menu* challenges);
 /* Main Menu */
 int main(void) {
   Menu menu;  
@@ -23,6 +17,14 @@ int main(void) {
   return 0;
 }
 
+/* Create main window and init TTF fonts */ 
+void initialise_main_menu(Menu* menu) {
+  SDL_Win_Init(&menu->window, "ART-C");
+  SDL_TTF_Init();
+  menu->menu_font = SDL_Load_Font("font/Edo.ttf", BUTTON_FONT_SIZE);
+  menu->state = 0;
+}
+
 /* Challenges Menu */
 int challenges(Menu* challenges) {
   initialise_challenges_menu(challenges);
@@ -33,14 +35,6 @@ int challenges(Menu* challenges) {
     render_update_clear(challenges->window);
   }
   return 0;
-}
-
-/* Create main window and init TTF fonts */ 
-void initialise_main_menu(Menu* menu) {
-  SDL_Win_Init(&menu->window, "ART-C");
-  SDL_TTF_Init();
-  menu->menu_font = SDL_Load_Font("font/Edo.ttf", BUTTON_FONT_SIZE);
-  menu->state = 0;
 }
 
 /* Assign properties of menu_menu to challenge menu */
