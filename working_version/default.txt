@@ -1,0 +1,7 @@
+run {
+  size 500
+  shape line
+  type tree
+  linethickness 2
+  iterations 5
+}

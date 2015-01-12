@@ -1,11 +1,11 @@
 run{
-   type tree 
-   iterations 10
-   shape line
-   colour blue
+size 500
+shape line
+type tree
+colour red
+linethickness 2
+iterations 5
 }
-
-
 
 
 

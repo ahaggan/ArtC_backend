@@ -109,7 +109,8 @@ typedef TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
 typedef enum interface_action {
 	generate_clicked = 1,
 	text_edited,
-	back_to_menu
+	back_to_menu,
+    change_position
 } Interface_Action;
 
 typedef struct interface {
@@ -118,6 +119,7 @@ typedef struct interface {
   Area toolbar;
   Area text_editor_panel;
   TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
+  Coordinates click_location;
   Area text_cursor;
   Area canvas; 
   Area reset_button;

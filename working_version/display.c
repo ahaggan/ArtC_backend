@@ -323,6 +323,9 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
      display_next_button(win_width, win_height, interface);
    }
    display_dividers(win_width, win_height, interface, mode);
+
+   interface->click_location.row = interface->canvas.rect.x + (interface->canvas.rect.w/2);
+   interface->click_location.column = interface->canvas.rect.y + (interface->canvas.rect.h/2);
 }
 
 void display_dividers(int win_width, int win_height, Interface* interface, Mode mode) {

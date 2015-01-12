@@ -5,6 +5,7 @@
 
 int within_button(int x, int y, SDL_Rect button);
 
+void SDL_Window_Events(SDL_Event event, Interface* interface);
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface);
 
 void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y);
