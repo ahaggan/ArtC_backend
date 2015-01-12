@@ -1,7 +1,17 @@
-run {
-  size 500
-  shape line
-  type tree
-  linethickness 2
-  iterations 5
+run{ 
+    colour fuchsia
+    size 400
+    shape line
+    type tree
+    iterations 8
+    linethickness 100
+    for iterations 0 to iterations 2 {
+        colour brown
+    }
+    if iterations 4 then{
+        colour green
+    }
+    if iterations 5 then{
+        colour lime
+    }
 }
