@@ -6,7 +6,6 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
     SDL_GetMouseState(&x, &y);
     
     while(SDL_PollEvent(&event)) { 
-        //SDL_Window_Events
         
         switch (event.type) {
              //user requests quit
@@ -43,7 +42,6 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
     int x, y;
     SDL_GetMouseState(&x, &y);
     while(SDL_PollEvent(&event)) { 
-        //SDL_Window_Events
         switch (event.type) {
              //user requests quit
             case SDL_QUIT:
@@ -72,24 +70,6 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
     }
     return 0;
 }
-/*
-int Options_Menu_Events(Options_Menu* options) {
-    SDL_Event event;
-    int x, y;
-    SDL_GetMouseState(&x, &y);
-    while(SDL_PollEvent(&event)) { 
-        //SDL_Window_Events
-        switch (event.type) {
-             //user requests quit
-            case SDL_QUIT:
-                challenges->window.finished = 1;
-                break;
-            break;
-        }
-    }
-    return 0;
-}
-*/
 
 int within_button(int x, int y, SDL_Rect button) {
     if (x >= button.x && x <=  button.x + button.w) {
@@ -107,9 +87,6 @@ int Interface_Events(Interface* interface) {
    
     
     while(SDL_PollEvent(&event)) { 
-          
-        //need a way of breaking out of these so that not all events are checked
-        SDL_Window_Events(event, interface);
    
         SDL_Text_Editor_Events(event, interface);   
        
@@ -118,11 +95,6 @@ int Interface_Events(Interface* interface) {
             case SDL_QUIT:
                 SDL_Quit();
                 exit(1);
-                break;
-
-            //user changes window
-            case SDL_WINDOWEVENT:
-                SDL_Window_Events(event, interface);
                 break;
 
             //user clicks somewhere
@@ -151,28 +123,6 @@ int Interface_Events(Interface* interface) {
         }
     }
     return 0;
-}
-
-void SDL_Window_Events(SDL_Event event, Interface* interface) {
-    int win_width, win_height;
-    switch(event.window.event) {
-        //Get new dimensions and repaint on window size change.
-        case SDL_WINDOWEVENT_SIZE_CHANGED: 
-            SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
-            // Set resolution (size) of renderer to the same as window
-            SDL_RenderSetLogicalSize(interface->window.renderer, win_width, win_height); 
-            //display_interface(interface, mode);
-            SDL_GetWindowSize(interface->window.win, &interface->editor_columns , &interface->editor_rows);
-            interface->editor_columns /= 24;
-            interface->editor_rows /= 29.5;
-            make_text_editor(interface->editor_columns, interface->editor_rows, interface);
-            SDL_RenderPresent(interface->window.renderer);
-            break;
-        //exposed means that the window was obscured in some way, and now is not obscured.
-        case SDL_WINDOWEVENT_EXPOSED:
-            SDL_RenderPresent(interface->window.renderer);
-            break;
-    }    
 }
 
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
