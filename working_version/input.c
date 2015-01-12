@@ -6,7 +6,6 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
     SDL_GetMouseState(&x, &y);
     
     while(SDL_PollEvent(&event)) { 
-        //SDL_Window_Events
         
         switch (event.type) {
              //user requests quit
@@ -43,7 +42,6 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
     int x, y;
     SDL_GetMouseState(&x, &y);
     while(SDL_PollEvent(&event)) { 
-        //SDL_Window_Events
         switch (event.type) {
              //user requests quit
             case SDL_QUIT:
@@ -72,24 +70,6 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
     }
     return 0;
 }
-/*
-int Options_Menu_Events(Options_Menu* options) {
-    SDL_Event event;
-    int x, y;
-    SDL_GetMouseState(&x, &y);
-    while(SDL_PollEvent(&event)) { 
-        //SDL_Window_Events
-        switch (event.type) {
-             //user requests quit
-            case SDL_QUIT:
-                challenges->window.finished = 1;
-                break;
-            break;
-        }
-    }
-    return 0;
-}
-*/
 
 int within_button(int x, int y, SDL_Rect button) {
     if (x >= button.x && x <=  button.x + button.w) {
@@ -105,11 +85,8 @@ int Interface_Events(Interface* interface) {
     int x, y;
     SDL_GetMouseState(&x, &y);
    
-    
     while(SDL_PollEvent(&event)) { 
           
-        //need a way of breaking out of these so that not all events are checked
-   
         SDL_Text_Editor_Events(event, interface);   
        
  

@@ -49,7 +49,6 @@ int interface(Menu* main, Mode mode, char* file_name) {
       }
 
       else if(interface.action == change_position) {
-        
       }
 
       render_update_clear(interface.window);
