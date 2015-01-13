@@ -17,7 +17,7 @@
 #define MENU_BUTTON_DIST 20
 
 #define BUTTON_HEIGHT 18
-#define BUTTON_FONT_SIZE 45
+#define BUTTON_FONT_SIZE 40
 #define TEXT_ED_WIDTH 3.015
 
 #define EDITOR_COLUMNS 100
@@ -37,10 +37,13 @@
 #define INTERMEDIATE "challenges/intermediate_default.txt"
 #define EXPERT "challenges/expert_default.txt"
 
-#define CANVAS_MODE_TEXTBOX 18
+#define CANVAS_MODE_TEXTBOX 17
 #define CHALLENGE_MODE_TEXTBOX 12
 #define RESET_GENERATE_TEXTBOX 16
 #define PREV_NEXT_TEXTBOX 9
+
+#define MENU_POPUP_WIDTH 600
+#define MENU_POPUP_HEIGHT 91
 
 typedef struct SDL_Win {
    SDL_bool finished;
@@ -72,7 +75,9 @@ typedef struct menu {
 	Area background;
 	Area logo;
 	Area canvas_button;
-	Area challenges_button;
+  Area canvas_text;
+	Area challenges_button; 
+  Area challenges_text;
 	Area menu_help_button;
 	Area quit_button;
 

@@ -1,0 +1,11 @@
+
+PARSER TEST
+Below are the test results for this module
+
+Initialise words array test PASSED.
+
+Initialise interpreter array test PASSED.
+
+Validate test 1: Passed
+Validate test 2: Passed
+Validate test PASSED.

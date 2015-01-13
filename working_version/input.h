@@ -33,3 +33,6 @@ void handle_enter_shuffling(Coordinates active, Interface* interface);
 
 void tab(Coordinates active, Interface* interface, int direction);
 void wipe_text_editor(Interface* interface);
+
+void display_canvas_text(Menu* main_menu);
+void display_challenges_text(Menu* main_menu);

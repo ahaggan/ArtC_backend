@@ -4,7 +4,17 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
     SDL_Event event;
     int x, y;
     SDL_GetMouseState(&x, &y);
+
+    if (within_button(x, y, main_menu->canvas_button.rect)) {
+        display_canvas_text(main_menu);
+        render_update_clear(main_menu->window);
+    }
+    else if (within_button(x, y, main_menu->challenges_button.rect)) {
+        display_challenges_text(main_menu);
+        render_update_clear(main_menu->window);
+    }
     
+
     while(SDL_PollEvent(&event)) { 
         
         switch (event.type) {
@@ -14,6 +24,8 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
                 return quit;
                 break;
 
+            
+               
             case SDL_MOUSEBUTTONDOWN:
                 if (within_button(x, y, main_menu->canvas_button.rect)) {
                     printf("Canvas\n");

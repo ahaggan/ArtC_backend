@@ -94,13 +94,39 @@ void initialise_main_menu(Menu* menu) {
 
 }
 
-void display_canvas_text(Menu* menu) {
+void display_canvas_text(Menu* main_menu) {
+   int win_width, win_height;
+     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
+   SDL_Texture* image = load_image("menu_graphics/program_a_work_of_art.bmp", &main_menu->window);
+   int canvas_text_x, canvas_text_y, canvas_text_w, canvas_text_h;
+   canvas_text_w = MENU_POPUP_WIDTH;
+   canvas_text_x = main_menu->canvas_button.rect.w + win_width / LEFT_MARGIN;
+   canvas_text_h = MENU_POPUP_HEIGHT;
+   canvas_text_y = main_menu->canvas_button.rect.y;
 
+   make_rect(&main_menu->window, &main_menu->canvas_text, canvas_text_x, 
+            canvas_text_y, canvas_text_w, canvas_text_h, 230, 230, 230);
+  SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->canvas_text.rect);
+  SDL_DestroyTexture(image); 
 }
 
-void display_challenges_text(Menu* menu) {
 
+void display_challenges_text(Menu* main_menu) {
+   int win_width, win_height;
+     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
+   SDL_Texture* image = load_image("menu_graphics/learn_how_to_code.bmp", &main_menu->window);
+   int challenges_text_x, challenges_text_y, challenges_text_w, challenges_text_h;
+   challenges_text_w = MENU_POPUP_WIDTH;
+   challenges_text_x = main_menu->challenges_button.rect.w + win_width / LEFT_MARGIN;
+   challenges_text_h = MENU_POPUP_HEIGHT;
+   challenges_text_y = main_menu->challenges_button.rect.y;
+
+   make_rect(&main_menu->window, &main_menu->challenges_text, challenges_text_x, 
+            challenges_text_y, challenges_text_w, challenges_text_h, 230, 230, 230);
+  SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->challenges_text.rect);
+  SDL_DestroyTexture(image); 
 }
+
 
 void display_menu_background(int win_width, int win_height, Menu* main_menu) {
    int background_x, background_y, background_w, background_h;

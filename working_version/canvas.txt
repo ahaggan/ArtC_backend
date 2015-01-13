@@ -1,8 +1,8 @@
 run {
    type tree
    iterations 8
-   angle 135
-   shape circle
+   angle 356
+   shape line
    colour black
    size medium
 
