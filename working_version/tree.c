@@ -10,6 +10,9 @@ void tree(Draw *fractal, Interface interface, int limit)
   make_shape(&trunk, fractal->startx, fractal->starty - ((fractal->size[0]/2)/2), fractal->size[0]/2, fractal->height[0]/2, fractal->angle);
 
   int iterations = 1;
+  for(int i=0; i<10; i++) {
+    fractal->splits[i] = 2;
+  }
 
   printf("Tree Limit: %d\n", limit);
  

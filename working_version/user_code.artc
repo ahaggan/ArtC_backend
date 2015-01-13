@@ -1,10 +1,12 @@
-run{
+run {
    type tree
    size 500
    iterations 8
    shape line
    angle 0
-   splits 6
+   if iterations 3 then {
+      splits 6
+   }
    colour red
    linethickness 2
 }   

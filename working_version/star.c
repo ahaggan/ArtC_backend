@@ -7,6 +7,9 @@ void star(Draw *fractal, Interface interface, int limit)
   Shape centre;
   make_shape(&centre, fractal->startx, fractal->starty, fractal->size[0]/2, fractal->height[0]/2, fractal->angle);
   int iterations = 1;
+  for(int i=0; i<10; i++) {
+    fractal->splits[i] = 6;
+  }
 
   printf("Star Limit: %d\n", limit);
 
