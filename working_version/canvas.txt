@@ -2,12 +2,12 @@ run {
 
    type star
    size gargantuan
-   itions 8
+   iterations 8
    shape line
    colour blue
-   linethickess 5
+   linethickness 5
 
-
+}
 
 
 
