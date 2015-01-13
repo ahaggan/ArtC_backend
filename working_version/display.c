@@ -10,7 +10,7 @@ void SDL_Win_Init(SDL_Win *w, char* win_name) {
    
    w->win= SDL_CreateWindow(win_name, SDL_WINDOWPOS_UNDEFINED, 
                             SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, 
-                            SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+                            SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
 
    if (w->win == NULL) {
       fprintf(stderr, "\nUnable to initialize SDL Win: %s\n", SDL_GetError());
@@ -309,6 +309,7 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
   interface->mode = mode;
 
    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
+   printf("%d %d\n", win_width, win_height);
    display_toolbar(win_width, win_height, interface, mode);
   display_menu_button(win_width, win_height, interface, mode);
   display_help_button(win_width, win_height, interface, mode);
