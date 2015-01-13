@@ -1,19 +1,10 @@
 run{ 
-    colour fuchsia
-    size 400
+    colour black
+    size 200
     shape line
     type tree
+    iterations 7
+    linethickness 3
     splits 3
     angle 0
-    iterations 8
-    linethickness 100
-    for iterations 0 to iterations 2 {
-        colour brown
-    }
-    if iterations 4 then{
-        colour green
-    }
-    if iterations 5 then{
-        colour lime
-    }
 }

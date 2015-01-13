@@ -30,21 +30,22 @@ int interface(Menu* main, Mode mode, char* file_name) {
             
          /* END */
         // This needs to be an if statement? Parser will return True or False.
-         parser(&fractal, "user_code.artc");
+         if (parser(&fractal, "user_code.artc") == TRUE){
         
-         for (int i = 1; i <= fractal.iterations; i++) {
-            start_time = end_time = clock();
-            
-            generate_fractal(&fractal, interface, i);
-            
-            while(((double)end_time - (double)start_time)/(double)CLOCKS_PER_SEC < 0.15) {
-               Interface_Events(&interface); 
-               update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
-               SDL_RenderPresent(interface.window.renderer);
-               end_time = clock();
-          
-            } 
-         } 
+             for (int i = 1; i <= fractal.iterations; i++) {
+                start_time = end_time = clock();
+                
+                generate_fractal(&fractal, interface, i);
+                
+                while(((double)end_time - (double)start_time)/(double)CLOCKS_PER_SEC < 0.15) {
+                   Interface_Events(&interface); 
+                   update_text_editor(interface.editor_columns, interface.editor_rows, &interface);
+                   SDL_RenderPresent(interface.window.renderer);
+                   end_time = clock();
+              
+                } 
+             } 
+         }
       }
 
       else if(interface.action == change_position) {

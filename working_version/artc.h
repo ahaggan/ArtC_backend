@@ -4,6 +4,9 @@
  #define M_PI  3.14159265358979323846
 #endif 
 
+#define TRUE 1
+#define FALSE 0
+
 typedef struct draw{
   int iterations;
   char* type[10];
