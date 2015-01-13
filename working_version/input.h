@@ -36,3 +36,6 @@ void wipe_text_editor(Interface* interface);
 
 void display_canvas_text(Menu* main_menu);
 void display_challenges_text(Menu* main_menu);
+void display_beginner_text(Menu* challenges);
+void display_intermediate_text(Menu* challenges);
+void display_expert_text(Menu* challenges);

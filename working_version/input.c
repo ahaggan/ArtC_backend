@@ -53,6 +53,20 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
     SDL_Event event;
     int x, y;
     SDL_GetMouseState(&x, &y);
+
+     if (within_button(x, y, challenges->beginner.rect)) {
+       display_beginner_text(challenges);
+        render_update_clear(challenges->window);
+    }
+    else if (within_button(x, y, challenges->intermediate.rect)) {
+       display_intermediate_text(challenges);
+        render_update_clear(challenges->window);
+    }
+    else if (within_button(x, y, challenges->expert.rect)) {
+       display_expert_text(challenges);
+        render_update_clear(challenges->window);
+    }
+
     while(SDL_PollEvent(&event)) { 
         switch (event.type) {
              //user requests quit

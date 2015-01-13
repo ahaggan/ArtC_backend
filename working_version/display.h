@@ -83,8 +83,11 @@ typedef struct menu {
 
   Area header;
   Area beginner;
+  Area beginner_text;
   Area intermediate;
+   Area intermediate_text;
   Area expert;
+  Area expert_text;
   Area main_menu;
 } Menu;
 
