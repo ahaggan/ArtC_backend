@@ -16,7 +16,7 @@ int interface(Menu* main, Mode mode, char* file_name) {
     
       if (interface.action == generate_clicked) {
          // COMMENT FUNCTION OUT IN ORDER TO USE FILE READY WRITTEN
-         write_text_to_file(&interface, "user_code.artc");
+         write_text_to_file(&interface, "canvas.txt");
         
          /* START: only here due to parser update */
             Draw fractal; 
@@ -30,7 +30,7 @@ int interface(Menu* main, Mode mode, char* file_name) {
             
          /* END */
         // This needs to be an if statement? Parser will return True or False.
-         if (parser(&fractal, "user_code.artc") == TRUE){
+         if (parser(&fractal, "canvas.txt") == TRUE){
         
              for (int i = 1; i <= fractal.iterations; i++) {
                 start_time = end_time = clock();
@@ -74,9 +74,7 @@ void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
     load_text_into_text_editor(file_name, interface);
   }
   else {
-   
-    load_text_into_text_editor("user_code.artc", interface);
-    
+    load_text_into_text_editor("canvas.txt", interface);    
   }
   
 }

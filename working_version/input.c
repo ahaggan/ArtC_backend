@@ -100,7 +100,10 @@ int Interface_Events(Interface* interface) {
             case SDL_MOUSEBUTTONDOWN:                
                 if (within_button(x, y, interface->generate_button.rect)) {
                      printf("Generate!\n");
-                      clear_area(&interface->window, interface->canvas);
+                        if (interface->mode  == challenge_mode) {
+                              clear_area(&interface->window, interface->canvas);
+                        }
+                    
                      return generate_clicked;
                     break;
                 }
@@ -338,6 +341,8 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
                 case SDLK_k:
                     if (SDL_GetModState() & KMOD_CTRL) {
                         wipe_text_editor(interface);
+                         SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
+                set_active_text_cell(0, 0, interface);
                     }
                 break;
 
