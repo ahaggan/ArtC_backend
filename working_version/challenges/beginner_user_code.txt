@@ -1,0 +1,26 @@
+run {
+
+   type star
+   iterations 8
+   shape circle
+   colour lime
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

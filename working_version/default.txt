@@ -1,4 +1,4 @@
-run{ 
+run { 
     colour black
     size 200
     shape line

@@ -1,6 +1,6 @@
 run {
 
-   type sierpinski
+   type tree
    iterations 8
    shape line
    colour blue
