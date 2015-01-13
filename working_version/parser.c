@@ -8,7 +8,7 @@
 int parser(Draw *fractal, char *file_name){
     printf("\nParsing begin.\n");
     //test_parser();
-    int i;
+    int i;//Used to count through number of words in a program
     FILE *file_pointer;
     Prog program;
     
@@ -28,9 +28,9 @@ int parser(Draw *fractal, char *file_name){
     }
     
     i = 0;
-    //printf("\nCurrent word: %d\n", program.current_word);
-    while(fscanf(file_pointer, "%s", program.words[i]) == 1 && i < MAX_WORDS && !strings_match(program.words[i], " ")){
-        //printf("\nWord read: %s\n", program.words[i]);
+    printf("\nCurrent word: %d\n", program.current_word);
+    while(fscanf(file_pointer, "%s", program.words[i]) == 1 && i < MAX_WORDS && program.words[i] != NULL){
+        printf("\nWord read: %s\n", program.words[i]);
         i++;
     }
     
@@ -61,7 +61,7 @@ void initialise_interpreter_array(Prog *program){
 }
 
 void test_interpreter(Prog *program){
-     printf("\nInside test\n");
+     //printf("\nInside test\n");
     for(int i = 0; i < NO_OF_INSTRUCTIONS; i++){
     
         printf("\nInterpreter word: %s", program->interpreter[i]);
@@ -75,28 +75,17 @@ void test_interpreter(Prog *program){
     }
 }
 
-void make_default(Prog *program){
-    FILE *file_pointer;
-    int i;
-    if((file_pointer = fopen("default.txt", "r")) == NULL){
-        fprintf(stderr, "\nCannot open default file\n");
-        exit(2);
-    }
-    i = 0;
-    
-    while(fscanf(file_pointer, "%s", program->words[i]) == 1 && i < MAX_WORDS && !strings_match(program->words[i], " ")){
-        //printf("\nWord read: %s\n", program->words[i]);
-        i++;
-    }
-    validate(program);
-    printf("\nDefault parsed OK!\n");
-}
     
 
 int validate(Prog *program){
     
-    if(!strings_match(program->words[program->current_word], "run{")){
-        printf("\nProgram needs to start with the word 'run{'");
+    if(!strings_match(program->words[program->current_word], "run") || program->words[program->current_word] == NULL){
+        printf("\nProgram needs to start with 'run {'");
+        return FALSE;
+    }
+    program->current_word += 1;
+    if(!strings_match(program->words[program->current_word], "{") || program->words[program->current_word] == NULL){
+        printf("\nProgram needs to start with 'run {'");
         return FALSE;
     }
     program->current_word += 1;
@@ -208,8 +197,13 @@ void for_loop(Prog *program, int start, int end){
 int conditional(Prog *program){  //if function
     //statement(program);
     program->current_word += 1;
-    if(!strings_match(program->words[program->current_word], "then{")){
-        printf("\nIf condition needs to be followed with 'then{'");
+    if(!strings_match(program->words[program->current_word], "then")){
+        printf("\nIf condition needs to be followed with 'then {'");
+        return FALSE;
+    }
+    program->current_word += 1;
+    if(!strings_match(program->words[program->current_word], "{")){
+        printf("\nIf condition needs to be followed with 'then {'");
         return FALSE;
     }
     program->current_word += 1;

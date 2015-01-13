@@ -6,10 +6,8 @@
 #define MAX_ITERATIONS 10
 #define NO_OF_INSTRUCTIONS 60
 //#define VALID_SYMBOLS A-Z, a-z, 0-9, {, }
-#define MAX_WORDS 100
+#define MAX_WORDS 1000
 #define WORD_LENGTH 15
-#define TRUE 1
-#define FALSE 0
 #define strings_match(A, B) (strcmp(A, B) == 0)
 #define ACTION {"colour", "move", "size", "shape", "startx", "starty", "endx", "endy", "type", "iterations", "linethickness"}
 #define ACTION_SIZE 11
