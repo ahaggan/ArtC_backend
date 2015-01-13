@@ -177,7 +177,7 @@ FILE* make_file(char *file_name) {
 }
 
 void write_text_to_file(Interface* interface, char* file_name) {
-   FILE* user_code = fopen("user_code.artc", "w");
+   FILE* user_code = fopen("canvas.txt", "w");
    for (int row = 0; row < interface->editor_rows; row++) {
       for (int column = 0; column < interface->editor_columns; column++) {
          write_text_to_cell(interface, user_code, row, column); 

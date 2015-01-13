@@ -46,6 +46,9 @@ int interface(Menu* main, Mode mode, char* file_name) {
                 } 
              } 
          }
+         else {
+            display_error(&interface);
+         }
       }
 
       else if(interface.action == change_position) {
@@ -77,4 +80,29 @@ void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
     load_text_into_text_editor("canvas.txt", interface);    
   }
   
+}
+
+void display_error(Interface *interface) 
+{
+  Area box;
+  char message[ERROR_MAX];
+  char c;
+  int i=0;
+  FILE *file = fopen("error_message.artc", "r");
+
+  while((c=getc(file))!=EOF && i<ERROR_MAX-1) {
+    message[i] = c;
+    i++;
+  }    
+  message[i] = '\0';
+
+  SDL_Event event; 
+  do {
+
+    make_rect(&interface->window, &box, 0, 200, interface->text_editor_panel.rect.w, 100, 255,255,255);
+    make_text(&interface->window, &box.rect, 255,0,0, interface->challenge_font, message);
+
+    SDL_PollEvent(&event); 
+  }
+  while(event.type != SDL_MOUSEBUTTONDOWN);
 }

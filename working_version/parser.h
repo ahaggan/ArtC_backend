@@ -26,6 +26,7 @@ typedef struct prog {
 	Draw* fractal;
 	char interpreter[NO_OF_INSTRUCTIONS][WORD_LENGTH];
 	int interpreter_index;
+    FILE *error;
 } Prog;
 
 typedef enum action_word {
