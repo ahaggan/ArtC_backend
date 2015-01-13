@@ -5,5 +5,5 @@
  
 int test_initialise_words(FILE *test_results);
 int test_initialise_interpreter(FILE *test_results);
-
+int test_validate(FILE *test_results);
 

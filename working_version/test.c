@@ -20,6 +20,13 @@ void test_parser(void){
         fprintf(test_results, "\nInitialise interpreter array test FAILED.\n");
     } 
     
+    if (test_validate(test_results) == PASSED){
+        fprintf(test_results, "\nValidate test PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nValidate test FAILED.\n");
+    } 
+    
     
 }
 
@@ -46,9 +53,42 @@ int test_initialise_interpreter(FILE *test_results){
     }
     return PASSED;
 }
+
+int test_validate(FILE *test_results){
+    Prog test_program;
+    int pass_count = 0, no_of_tests = 0;
+    initialise_words_array(&test_program);
+    
+    //passes an incorrect word to instrctlst, this should be passes along and eventually return FALSE.
+    no_of_tests += 1;
+    strcpy(test_program.words[0], "Hello");
+    if (validate(&test_program) == FALSE){
+        fprintf(test_results, "\nValidate test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nValidate test 1: Failed");
+    }
+    
+    //passes an incorrect program end so should return FALSE
+    no_of_tests += 1;
+    strcpy(test_program.words[0], "run");
+    strcpy(test_program.words[1], "program");
+    if (validate(&test_program) == FALSE){
+        fprintf(test_results, "\nValidate test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nValidate test 2: Failed");
+    }
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
+}
     /*NEED TO TEST THESE
     If everything works, just a message saying all tests work.
-    test_initialise_interpreter
     test_validate
     test_funclist
     test_function
