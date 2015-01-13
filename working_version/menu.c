@@ -36,7 +36,7 @@ int challenge_menu(Menu* challenges) {
 void main_menu_actions(Menu* menu) {
   switch (menu->state) {
     case canvas: 
-      interface(menu, canvas_mode, "user_code.artc"); 
+      interface(menu, canvas_mode, "canvas.txt"); 
       //SDL_RenderClear(menu->window.renderer);
       //display_main_menu(menu); 
       break;
@@ -58,17 +58,16 @@ void challenge_menu_actions(Menu* challenges) {
     
     switch (challenges->state) {
       case beginner: 
-       // { "challenges/easydefault.txt", "easy1.txt", "easy2.txt", "easy3.txt" }
+       // { "Change the colour variable value", "Change the shape variable value to circle", "Change the type variable value to star.txt" }
 
         interface(challenges, challenge_mode, "challenges/easydefault.txt");
         break;
       case intermediate:
-        //{ "challenges/intermediatedefault.txt", "intermediate1.txt", "intermediate2.txt", "intermediate3.txt" }
+        //{ "Add the missing RUN statement and brackets", "Write an IF statement that changes the colour variable valuet", "Change the size variable value to a number below 500.txt" }
         interface(challenges, challenge_mode, "challenges/intermediatedefault.txt");
         break;
-      //also have an 'Read Me' button
       case expert:
-        //{ "challenges/expertdefault.txt", "expert1.txt", "expert2.txt", "expert3.txt" }
+        //{ "Create a tree fractal from scratch, and use two IF statements", "Replace one of the IF statements with a FOR loop", "Alter the linethickness to 5 within the FOR loop" }
         interface(challenges, challenge_mode, "challenges/expertdefault.txt");
         break;
       case main_menu:
