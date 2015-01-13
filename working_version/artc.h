@@ -26,3 +26,4 @@ typedef struct draw{
 } Draw;
 
 void launch_menu();
+void test_parser();
