@@ -139,6 +139,7 @@ void display_error(Interface *interface)
 
     make_rect(&interface->window, &box, 0, 200, interface->text_editor_panel.rect.w, 100, 255,255,255);
     make_text(&interface->window, &box.rect, 255,0,0, interface->challenge_font, message);
+    render_update_clear(interface->window);
 
     SDL_PollEvent(&event); 
   }
