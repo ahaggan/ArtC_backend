@@ -1,18 +1,18 @@
 run {
-
    type tree
    iterations 8
-   shape line
-   colour blue
+   angle 135
+   shape circle
+   colour black
+   size medium
 
+   for iterations 1 to iterations 3 {
+      colour turquoise
+   }
+   for iterations 4 to iterations 5 {
+      colour purple
+   }
 }
-
-
-
-
-
-
-
 
 
 

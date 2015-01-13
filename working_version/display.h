@@ -17,7 +17,7 @@
 #define MENU_BUTTON_DIST 20
 
 #define BUTTON_HEIGHT 18
-#define BUTTON_FONT_SIZE 50
+#define BUTTON_FONT_SIZE 45
 #define TEXT_ED_WIDTH 3.015
 
 #define EDITOR_COLUMNS 100
@@ -36,6 +36,11 @@
 #define BEGINNER "challenges/beginner_default.txt"
 #define INTERMEDIATE "challenges/intermediate_default.txt"
 #define EXPERT "challenges/expert_default.txt"
+
+#define CANVAS_MODE_TEXTBOX 18
+#define CHALLENGE_MODE_TEXTBOX 12
+#define RESET_GENERATE_TEXTBOX 16
+#define PREV_NEXT_TEXTBOX 9
 
 typedef struct SDL_Win {
    SDL_bool finished;
@@ -225,4 +230,4 @@ void display_dividers(int win_width, int win_height, Interface* interface, Mode 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
 
-void text_align_central(char centred_string[MAX_CHALLENGE_LEN], char* challenge);
+void text_align_central(char* centred_string, char* challenge, int textbox_width);

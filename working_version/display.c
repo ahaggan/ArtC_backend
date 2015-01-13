@@ -94,6 +94,14 @@ void initialise_main_menu(Menu* menu) {
 
 }
 
+void display_canvas_text(Menu* menu) {
+
+}
+
+void display_challenges_text(Menu* menu) {
+
+}
+
 void display_menu_background(int win_width, int win_height, Menu* main_menu) {
    int background_x, background_y, background_w, background_h;
 
@@ -415,7 +423,13 @@ void display_toolbar(int win_width, int win_height, Interface* interface, Mode m
 
 void display_reset_button(int win_width, int win_height, Interface* interface, Mode mode) {
    int reset_button_x, reset_button_y, reset_button_w, reset_button_h;
-
+  char reset_text[RESET_GENERATE_TEXTBOX];
+    if (mode == challenge_mode) {
+     text_align_central(reset_text, "Reset", RESET_GENERATE_TEXTBOX);
+    }
+    else {
+      text_align_central(reset_text, "Clear", RESET_GENERATE_TEXTBOX);
+    }
    reset_button_x = 0;
    reset_button_w = (win_width / TEXT_ED_WIDTH) / 2;
    reset_button_h = win_height / BUTTON_HEIGHT;
@@ -426,11 +440,11 @@ void display_reset_button(int win_width, int win_height, Interface* interface, M
 
    if (mode == challenge_mode) {
      make_text(&interface->window, &interface->reset_button.rect, 255, 255, 255, 
-            interface->button_font, "    Reset    ");
+            interface->button_font, reset_text);
   }
   else {
     make_text(&interface->window, &interface->reset_button.rect, 255, 255, 255, 
-            interface->button_font, "    Clear    ");
+            interface->button_font, reset_text);
   }
 
   
@@ -438,7 +452,10 @@ void display_reset_button(int win_width, int win_height, Interface* interface, M
 
    void display_generate_button(int win_width, int win_height, Interface* interface) {
    int generate_button_x, generate_button_y, generate_button_w, generate_button_h;
-
+    char generate_text[RESET_GENERATE_TEXTBOX];
+  
+    text_align_central(generate_text, "Generate", RESET_GENERATE_TEXTBOX);
+  
    generate_button_x = (win_width / TEXT_ED_WIDTH) / 2;
    generate_button_h = win_height / BUTTON_HEIGHT;
    generate_button_y = win_height - generate_button_h;
@@ -447,7 +464,7 @@ void display_reset_button(int win_width, int win_height, Interface* interface, M
    make_rect(&interface->window, &interface->generate_button, generate_button_x, 
             generate_button_y, generate_button_w, generate_button_h, 241, 35, 65);
    make_text(&interface->window, &interface->generate_button.rect, 255, 255, 255, 
-            interface->button_font, " Generate ");
+            interface->button_font, generate_text);
 
 } 
 
@@ -474,7 +491,15 @@ void display_canvas(int win_width, int win_height, Interface* interface, Mode mo
 /* dependent on challenges mode being active */
 void display_menu_button(int win_width, int win_height, Interface* interface, Mode mode) {
    int menu_button_x, menu_button_y, menu_button_w, menu_button_h;
+    char levels_text[CHALLENGE_MODE_TEXTBOX];
+    char menu_text[CANVAS_MODE_TEXTBOX];
+   if (mode == challenge_mode){
+         text_align_central(levels_text, "Levels", CHALLENGE_MODE_TEXTBOX);
+   }
+    else {
+       text_align_central(menu_text, "Menu", CANVAS_MODE_TEXTBOX);
 
+    }
    menu_button_y = 0;
    menu_button_h = interface->toolbar.rect.h - 1;
    menu_button_x = 0;
@@ -490,18 +515,21 @@ void display_menu_button(int win_width, int win_height, Interface* interface, Mo
 
    if (mode == challenge_mode) {
       make_text(&interface->window, &interface->menu_button.rect, 241, 35, 65, 
-      interface->button_font, "  Levels  ");
+      interface->button_font, levels_text);
    }
    else {
       make_text(&interface->window, &interface->menu_button.rect, 241, 35, 65, 
-      interface->button_font, "      Menu      ");
+      interface->button_font, menu_text);
       
    }
 }
 
+
 void display_learn_button(int win_width, int win_height, Interface* interface) {
    int learn_button_x, learn_button_y, learn_button_w, learn_button_h;
-
+     char learn_text[CHALLENGE_MODE_TEXTBOX];
+    text_align_central(learn_text, "Learn", CHALLENGE_MODE_TEXTBOX);
+  
    learn_button_x = interface->menu_button.rect.x + interface->menu_button.rect.w; 
                       
    learn_button_y = 0;
@@ -511,11 +539,20 @@ void display_learn_button(int win_width, int win_height, Interface* interface) {
    make_rect(&interface->window, &interface->learn_button, learn_button_x, 
             learn_button_y, learn_button_w, learn_button_h, 240, 240, 240);
    make_text(&interface->window, &interface->learn_button.rect, 241, 35, 65, 
-            interface->button_font, " Learn ");
+            interface->button_font, learn_text);
    }
 
 void display_help_button(int win_width, int win_height, Interface* interface, Mode mode) {
    int help_button_x, help_button_y, help_button_w, help_button_h;
+   char help_text[CHALLENGE_MODE_TEXTBOX];
+   char help_text_canvas[CANVAS_MODE_TEXTBOX];
+   if (mode == challenge_mode){
+         text_align_central(help_text, "Help", CHALLENGE_MODE_TEXTBOX);
+  }
+  else {
+    text_align_central(help_text_canvas, "Help", CANVAS_MODE_TEXTBOX);
+  }
+
 
    if (mode == challenge_mode) {
     help_button_x = interface->learn_button.rect.x + 
@@ -535,11 +572,11 @@ void display_help_button(int win_width, int win_height, Interface* interface, Mo
 
    if (mode == challenge_mode) {
     make_text(&interface->window, &interface->help_button.rect, 241, 35, 65, 
-            interface->button_font, "  Help  ");
+            interface->button_font, help_text);
    }
    else {
     make_text(&interface->window, &interface->help_button.rect, 241, 35, 65, 
-            interface->button_font, "     Help     ");
+            interface->button_font, help_text_canvas);
    }
    
 }
@@ -564,7 +601,7 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
    int curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h;
    char centred_string[MAX_CHALLENGE_LEN];
    
-   text_align_central(centred_string, interface->challenges[interface->challenge_num]);
+   text_align_central(centred_string, interface->challenges[interface->challenge_num], MAX_CHALLENGE_LEN);
 
    curr_chall_x = interface->previous_button.rect.x + interface->previous_button.rect.w;
    curr_chall_y = 0;
@@ -581,14 +618,14 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
  
 }
 
-void text_align_central( char centred_string[MAX_CHALLENGE_LEN], char* challenge) {
-  int length = strlen(challenge);
-  if (length > MAX_CHALLENGE_LEN) {
-    printf("Challenge name too long!\n");
-    exit(1);
+void text_align_central( char* centred_string, char* input_string, int textbox_width) {
+  int length = strlen(input_string);
+  if (length > textbox_width) {
+    printf("String too long for the textbox!\n");
+    return ;
   }
 
-  int difference = MAX_CHALLENGE_LEN - length;
+  int difference = textbox_width - length;
 
   for (int c = 0; c <= difference / 2; c++) {
   
@@ -596,18 +633,20 @@ void text_align_central( char centred_string[MAX_CHALLENGE_LEN], char* challenge
   }
   for (int c = difference / 2, i = 0; c < difference / 2 + length; c++, i++) {
   
-    centred_string[c] = challenge[i];
+    centred_string[c] = input_string[i];
   }
-  for (int c = difference / 2 + length; c < MAX_CHALLENGE_LEN; c++) {
+  for (int c = difference / 2 + length; c < textbox_width; c++) {
   
     centred_string[c] = ' ';
   }
-  centred_string[MAX_CHALLENGE_LEN - 1] = '\0';
+  centred_string[textbox_width - 1] = '\0';
  
 }
 
 void display_next_button(int win_width, int win_height, Interface* interface) {
    int next_button_x, next_button_y, next_button_w, next_button_h;
+    char next_text[PREV_NEXT_TEXTBOX];
+    text_align_central(next_text, "NEXT", PREV_NEXT_TEXTBOX);
 
    next_button_x = interface->current_challenge.rect.x + 
                   interface->current_challenge.rect.w;
@@ -618,11 +657,13 @@ void display_next_button(int win_width, int win_height, Interface* interface) {
    make_rect(&interface->window, &interface->next_button, next_button_x, 
             next_button_y, next_button_w, next_button_h, 241, 35, 65);
    make_text(&interface->window, &interface->next_button.rect, 255, 255, 255, 
-            interface->button_font, " NEXT ");   
+            interface->button_font, next_text);   
 }
 
 void display_previous_button(int win_width, int win_height, Interface* interface) {
    int previous_button_x, previous_button_y, previous_button_w, previous_button_h;
+        char prev_text[PREV_NEXT_TEXTBOX];
+    text_align_central(prev_text, "PREV", PREV_NEXT_TEXTBOX);
 
    previous_button_x = interface->text_editor_panel.rect.w + 1;
    previous_button_w = (win_width / TEXT_ED_WIDTH) / PREV_NEXT_BUTTON;
@@ -632,7 +673,7 @@ void display_previous_button(int win_width, int win_height, Interface* interface
    make_rect(&interface->window, &interface->previous_button, previous_button_x, 
             previous_button_y, previous_button_w, previous_button_h, 241, 35, 65);
    make_text(&interface->window, &interface->previous_button.rect, 255, 255, 255, 
-            interface->button_font, " PREV ");   
+            interface->button_font, prev_text);   
 }
 
 
