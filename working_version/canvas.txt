@@ -1,13 +1,13 @@
 run {
 
-   type star
-   size gargantuan
+   type sierpinski
    iterations 8
    shape line
    colour blue
-   linethickness 5
 
 }
+
+
 
 
 

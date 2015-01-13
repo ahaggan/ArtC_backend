@@ -5,6 +5,5 @@ run{
     type tree
     iterations 7
     linethickness 3
-    splits 3
     angle 0
 }
