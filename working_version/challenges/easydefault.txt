@@ -1,6 +1,8 @@
-run{
+run {
+
    type tree 
-   iterations 10
+   iterations 8
    shape line
    colour blue
+
 }

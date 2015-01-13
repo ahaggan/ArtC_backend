@@ -1,9 +1,1 @@
-run{
-   type sierpinski
-   iterations 9
-   shape triangle
-   colour black
-   if iterations 3
-      then{ colour fuchsia
-   }
-}
+Create a tree fractal from scratch, and use two IF statements

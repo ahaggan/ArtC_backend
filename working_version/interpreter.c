@@ -62,6 +62,7 @@ void search_for_end(Prog* program){
 }
 
 void assign_value(Prog* program, int iteration){
+    int size;
     if(strings_match(program->interpreter[program->interpreter_index], "colour")){
         program->interpreter_index += 1;
         program->fractal->colour[iteration] = (char*)malloc(strlen(program->interpreter[program->interpreter_index]) * sizeof(char));
@@ -75,7 +76,31 @@ void assign_value(Prog* program, int iteration){
     }
     else if(strings_match(program->interpreter[program->interpreter_index], "size")){
         program->interpreter_index += 1;
-        program->fractal->size[iteration] = atoi(program->interpreter[program->interpreter_index]);
+        size = atoi(program->interpreter[program->interpreter_index]);
+        if( size == 0){
+            
+            if(strings_match(program->interpreter[program->interpreter_index], "small")){
+                program->fractal->size[iteration] = 100;
+            }
+            else if(strings_match(program->interpreter[program->interpreter_index], "medium")){
+                program->fractal->size[iteration] = 200;
+            }
+            else if(strings_match(program->interpreter[program->interpreter_index], "large")){
+                program->fractal->size[iteration] = 300;
+            }
+            else if(strings_match(program->interpreter[program->interpreter_index], "micro")){
+                program->fractal->size[iteration] = 25;
+            }
+            else if(strings_match(program->interpreter[program->interpreter_index], "gargantuan")){
+                program->fractal->size[iteration] = 500;
+            }
+            else{
+                program->fractal->size[iteration] = 0;
+            }
+        }
+        else{
+            program->fractal->size[iteration] = size;
+        }
         
     }
     else if(strings_match(program->interpreter[program->interpreter_index], "height")){
