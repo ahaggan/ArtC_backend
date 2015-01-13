@@ -357,7 +357,7 @@ void display_dividers(int win_width, int win_height, Interface* interface, Mode 
 
   //Generate/Reset top border
   make_rect(&interface->window, &interface->reset_generate_top_border, interface->reset_button.rect.x, 
-            interface->reset_button.rect.y,  interface->reset_button.rect.w * 2, 1, 0, 0, 0);
+            interface->reset_button.rect.y,  interface->reset_button.rect.w * 2 + 1, 1, 0, 0, 0);
   
   //prev divider
   make_rect(&interface->window, &interface->prev_divider, interface->previous_button.rect.x + interface->previous_button.rect.w - 1, 

@@ -1,11 +1,12 @@
 run{
-   type tree
-   size 250
-   iterations 8
-   shape line
-   colour navy
-   linethickness 2
-}   
+fractal tree
+iterations 10
+shape line
+colour red
+if iterations 5
+then colour green 
+}
+
 
 
 
