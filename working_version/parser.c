@@ -15,7 +15,7 @@ int parser(Draw *fractal, char *file_name){
     
     program.interpreter_index = 0;
     program.fractal = fractal;
-    program.error = fopen("error_message.artc", "w");
+    
     
     initialise_words_array(&program);
     
@@ -49,6 +49,7 @@ int parser(Draw *fractal, char *file_name){
 
 void initialise_words_array(Prog *program){
     int i;
+    program->error = fopen("error_message.artc", "w");
     program->current_word = 0;
     for(i = 0; i < MAX_WORDS; i++){
         program->words[i][0] = '\0';
@@ -82,7 +83,9 @@ void test_interpreter(Prog *program){
 
 int validate(Prog *program){
     
-    if(!strings_match(program->words[program->current_word], "run") || program->words[program->current_word] == NULL){
+    if(!strings_match(program->words[program->current_word], "run") || program->words[program->current_word][0] == '\0'){
+        printf("\nInside validate if\n");
+        printf("\nWord: %s\n", program->words[program->current_word]);
         fprintf(program->error, "\nProgram needs to start with 'run {'");
         return FALSE;
     }

@@ -4,6 +4,7 @@
 void test_parser(void){
     FILE *test_results;
     //int test_count= 0;
+    printf("\nTEST FUNCTION!!!!\n");
     test_results = fopen("test_results.txt", "w");
     fprintf(test_results, "\nPARSER TEST\nBelow are the test results for this module\n");
     if (test_initialise_words(test_results) == PASSED){
@@ -26,7 +27,7 @@ void test_parser(void){
     else{
         fprintf(test_results, "\nValidate test FAILED.\n");
     } 
-    
+    fclose(test_results);
     
 }
 
@@ -60,9 +61,12 @@ int test_validate(FILE *test_results){
     initialise_words_array(&test_program);
     
     //passes an incorrect word to instrctlst, this should be passes along and eventually return FALSE.
+    
     no_of_tests += 1;
+    test_program.current_word = 0;
     strcpy(test_program.words[0], "Hello");
-    if (validate(&test_program) == FALSE){
+   
+    if (validate(&test_program) == FALSE){        
         fprintf(test_results, "\nValidate test 1: Passed");
         pass_count += 1;
     }
@@ -81,7 +85,7 @@ int test_validate(FILE *test_results){
     else{
         fprintf(test_results, "\nValidate test 2: Failed");
     }
-    
+   
     if(pass_count == no_of_tests){
         return PASSED;
     }
