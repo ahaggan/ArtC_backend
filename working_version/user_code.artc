@@ -1,16 +1,13 @@
 run{
    type tree
-   size 250
+   size 500
    iterations 8
    shape line
-   colour navy
+   angle 0
+   splits 6
+   colour red
    linethickness 2
 }   
-
-
-
-
-
 
 
 

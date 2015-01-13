@@ -3,6 +3,8 @@ run{
     size 400
     shape line
     type tree
+    splits 3
+    angle 0
     iterations 8
     linethickness 100
     for iterations 0 to iterations 2 {
