@@ -9,6 +9,9 @@ int interface(Menu* main, Mode mode, char* file_name) {
   if (mode == challenge_mode) { 
       set_challenges_based_on_level(file_name, &interface); 
   }
+  else {
+    strcpy(interface.code_file, "canvas.txt");
+  }
 
    initialise_interface(main, &interface, mode);
   

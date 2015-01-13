@@ -1,10 +1,9 @@
-run{ 
+run { 
     colour black
     size 200
     shape line
     type tree
-    iterations 7
-    linethickness 3
-    splits 3
+    iterations 1
+    linethickness 1
     angle 0
 }

@@ -1,11 +1,11 @@
 run {
 
-   type star
-   size gargantuan
-   itions 8
+   type tree
+   iterations 8
    shape line
    colour blue
-   linethickess 5
+
+}
 
 
 
