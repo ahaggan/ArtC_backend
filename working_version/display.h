@@ -124,6 +124,7 @@ typedef struct text_node {
 typedef TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
 
 typedef enum interface_action {
+
 	generate_clicked = 1,
 	text_edited,
 	back_to_menu,
