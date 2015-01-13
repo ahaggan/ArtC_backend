@@ -4,7 +4,7 @@ int sierpinskiiterate(Draw *fractal, Interface interface, Shape shape, int itera
 
 void sierpinski(Draw *fractal, Interface interface, int limit) {
     Shape shape;
-    make_shape(&shape, fractal->startx, fractal->starty, fractal->size[0], fractal->height[0], 0);
+    make_shape(&shape, fractal->startx, fractal->starty, fractal->size[0], fractal->height[0], fractal->angle);
 
     int iterations = 1; //One iteration is just the shape.
 
@@ -34,9 +34,9 @@ int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int ite
     }
 
     Shape top, left, right;
-    make_shape(&top, current.x, current.y - (current.height / 4), current.size / 2, current.height / 2, 0);
-    make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, -2.0*M_PI/3.0);
-    make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, 2.0*M_PI/3.0);
+    make_shape(&top, current.x, current.y - (current.height / 4), current.size / 2, current.height / 2, fractal->angle);
+    make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, -2.0*M_PI/3.0 + fractal->angle);
+    make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, 2.0*M_PI/3.0 + fractal->angle);
 
     iterations++;
 
