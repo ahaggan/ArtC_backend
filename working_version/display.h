@@ -16,6 +16,10 @@
 #define MENU_BUTTON_HEIGHT 91
 #define MENU_BUTTON_DIST 20
 
+#define BACK_BUTTON_WIDTH 156
+#define BACK_BUTTON_HEIGHT 60
+#define BACK_BUTTON_MARGIN 60
+
 #define BUTTON_HEIGHT 18
 #define BUTTON_FONT_SIZE 40
 #define TEXT_ED_WIDTH 3.015
@@ -65,7 +69,9 @@ typedef enum menu_choice {
   beginner = 1,
   intermediate,
   expert,
-  main_menu
+  main_menu,
+ 
+  back
 } Menu_Choice;
 
 typedef struct menu {
@@ -85,10 +91,14 @@ typedef struct menu {
   Area beginner;
   Area beginner_text;
   Area intermediate;
-   Area intermediate_text;
+  Area intermediate_text;
   Area expert;
   Area expert_text;
   Area main_menu;
+
+  Area help_screen;
+  Area back_button;
+
 } Menu;
 
 typedef enum mode {
@@ -118,7 +128,8 @@ typedef enum interface_action {
 	text_edited,
 	back_to_menu,
   change_position,
-  load_challenge
+  load_challenge,
+  load_help
 } Interface_Action;
 
 typedef struct interface {
@@ -188,6 +199,9 @@ void main_menu_actions(Menu* main);
 int SDL_Challenges_Menu_Events(Menu* challenges);
 void challenge_menu_actions(Menu* challenges);
 
+int SDL_Help_Menu_Events(Menu* help);
+void help_menu_actions(Menu* help);
+
 int interface(Menu* main, Mode mode, char* file_name);
 
 void SDL_Win_Init(SDL_Win *w, char* win_name);
@@ -202,7 +216,7 @@ SDL_Texture* load_image(char* filename, SDL_Win* window);
 SDL_Texture* surface_to_texture(SDL_Surface* surface, SDL_Win* window);
 
 void initialise_main_menu(Menu* main);
-// Functions that display main menu things.
+// Functions that display main menu.
 void display_menu_background(int win_width, int win_height, Menu* main_menu);
 void display_logo(int win_width, int win_height, Menu* main_menu);
 void display_canvas_button(int win_width, int win_height, Menu* main_menu);
@@ -211,7 +225,7 @@ void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
 void display_quit_button(int win_width, int win_height, Menu* main_menu);
 
 void initialise_challenges_menu(Menu* challenges_menu);
-// Functions that display challenge menu things.
+// Functions that display challenge menu.
 void display_challenges_background(int win_width, int win_height, Menu* challenges);
 void display_header(int win_width, int win_height, Menu* challenges_menu);
 void display_beginner_button(int win_width, int win_height, Menu* challenges_menu);
@@ -219,8 +233,13 @@ void display_intermediate_button(int win_width, int win_height, Menu* challenges
 void display_expert_button(int win_width, int win_height, Menu* challenges_menu);
 void display_main_menu_button(int win_width, int win_height, Menu* challenges_menu);
 
+//Functions that display help menu.
+void display_help_menu(Menu* help);
+void display_help_screen(Menu* help, int win_width, int win_height);
+void display_back_button(Menu* help, int win_width, int win_height);
+
 void initialise_interface(Menu* main, Interface* interface, Mode mode);
-// Functions that display interface things.
+// Functions that display interface.
 void display_toolbar(int win_width, int win_height, Interface* interface, Mode mode);
 void display_menu_button(int win_width, int win_height, Interface* interface, Mode mode);
 void display_help_button(int win_width, int win_height, Interface* interface, Mode mode);
@@ -239,3 +258,5 @@ void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int 
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
 
 void text_align_central(char* centred_string, char* challenge, int textbox_width);
+
+

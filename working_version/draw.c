@@ -52,7 +52,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
     }
 
     else if (strcmp(fractal->colour[i-1], "gold") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 255, 215, 0, 255);
+        SDL_SetRenderDrawColor(interface.window.renderer, 240, 205, 17, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "orange") == 0) {

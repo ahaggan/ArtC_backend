@@ -62,6 +62,10 @@ int interface(Menu* main, Mode mode, char* file_name) {
             display_error(&interface);
          }
       }
+      else if (interface.action == load_help) {
+        printf("Load help menu\n");
+        help_menu(main);
+      }
 
 
 

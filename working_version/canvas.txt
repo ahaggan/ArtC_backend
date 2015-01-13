@@ -3,8 +3,9 @@ run {
    iterations 8
    angle 180
    shape line
-   colour black
+   colour gold
    size medium
+   linethickness 4
 
    for iterations 1 to iterations 3 {
       colour turquoise
@@ -13,7 +14,6 @@ run {
       colour purple
    }
 }
-
 
 
 

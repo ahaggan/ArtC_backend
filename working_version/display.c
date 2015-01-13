@@ -378,6 +378,43 @@ void display_main_menu_button(int win_width, int win_height, Menu* challenges) {
    SDL_DestroyTexture(image); 
 }
 
+void display_help_menu(Menu* help) {
+  int win_width, win_height;
+  SDL_GetWindowSize(help->window.win, &win_width, &win_height);
+  display_help_screen(help, win_width, win_height);
+  display_back_button(help, win_width, win_height);
+  render_update_clear(help->window);
+}
+
+void display_help_screen(Menu* help, int win_width, int win_height) {
+
+  SDL_Texture* image = load_image("menu_graphics/help_screen.bmp", &help->window);
+  int help_x, help_y, help_w, help_h;
+  
+   help_w = win_width;
+   help_x = 0;
+   help_h = win_height;
+   help_y = 0;
+   make_rect(&help->window, &help->help_screen, help_x, 
+            help_y, help_w, help_h, 230, 230, 230);
+  SDL_RenderCopy(help->window.renderer, image, NULL, &help->help_screen.rect);
+  SDL_DestroyTexture(image); 
+}
+
+void display_back_button(Menu* help, int win_width, int win_height) {
+  SDL_Texture* image = load_image("menu_graphics/back.bmp", &help->window);
+  int back_button_x, back_button_y, back_button_w, back_button_h;
+  back_button_w = BACK_BUTTON_WIDTH;
+  back_button_x = win_width / BACK_BUTTON_MARGIN;
+  back_button_h = BACK_BUTTON_HEIGHT;
+  back_button_y = win_height / BACK_BUTTON_MARGIN;
+
+  make_rect(&help->window, &help->back_button, back_button_x, 
+            back_button_y, back_button_w, back_button_h, 100, 90, 90);
+  SDL_RenderCopy(help->window.renderer, image, NULL, &help->back_button.rect);
+   SDL_DestroyTexture(image); 
+}
+
 /* Interface */
 //this needs a flag sent to it: request either canvas interface or challenge interface
 

@@ -19,7 +19,6 @@ void launch_menu() {
   atexit(SDL_Quit);
 }
 
-/* Challenges Menu */
 int challenge_menu(Menu* challenges) {
 
 
@@ -28,6 +27,17 @@ int challenge_menu(Menu* challenges) {
     render_update_clear(challenges->window);
     challenges->state = SDL_Challenges_Menu_Events(challenges);
     challenge_menu_actions(challenges);
+  }
+  return 0;
+}
+
+int help_menu(Menu* help) {
+
+  while(help->state != main_menu) {
+    display_help_menu(help);
+    render_update_clear(help->window);
+    help->state = SDL_Help_Menu_Events(help);
+    help_menu_actions(help);
   }
   return 0;
 }
@@ -46,6 +56,7 @@ void main_menu_actions(Menu* menu) {
       //display_main_menu(menu); 
       break;
     case options_menu:
+      help_menu(menu);
       break;
     case quit:
       menu->window.finished = 1;
@@ -68,6 +79,15 @@ void challenge_menu_actions(Menu* challenges) {
         break;
       case main_menu:
         challenges->state = main_menu;
+        break;
+    }
+}
+
+void help_menu_actions(Menu* help) {
+    
+    switch (help->state) {
+      case back: 
+        help->state = main_menu;
         break;
     }
 }

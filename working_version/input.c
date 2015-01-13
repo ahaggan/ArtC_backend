@@ -97,6 +97,28 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
     return 0;
 }
 
+int SDL_Help_Menu_Events(Menu* help) {
+    SDL_Event event;
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    while(SDL_PollEvent(&event)) { 
+        switch (event.type) {
+             //user requests quit
+            case SDL_QUIT:
+                help->window.finished = 1;
+                return quit;
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (within_button(x, y, help->back_button.rect)) {
+                    printf("Back\n");
+                    return back;
+                }
+            break;
+        }
+    }
+    return 0;
+}
+
 int within_button(int x, int y, SDL_Rect button) {
     if (x >= button.x && x <=  button.x + button.w) {
         if (y >= button.y && y <= button.y + button.h) {
@@ -159,7 +181,9 @@ int Interface_Events(Interface* interface) {
                 }
                     
                 if (within_button(x, y, interface->help_button.rect)) {
-                    printf("Help is on the way!\n");     
+
+                    return load_help;
+                    printf("Help\n");     
                     break;
                 }
 
