@@ -58,17 +58,13 @@ void challenge_menu_actions(Menu* challenges) {
     
     switch (challenges->state) {
       case beginner: 
-       // { "Change the colour variable value", "Change the shape variable value to circle", "Change the type variable value to star.txt" }
-
-        interface(challenges, challenge_mode, "challenges/easydefault.txt");
+        interface(challenges, challenge_mode, BEGINNER);
         break;
       case intermediate:
-        //{ "Add the missing RUN statement and brackets", "Write an IF statement that changes the colour variable valuet", "Change the size variable value to a number below 500.txt" }
-        interface(challenges, challenge_mode, "challenges/intermediatedefault.txt");
+        interface(challenges, challenge_mode, INTERMEDIATE);
         break;
       case expert:
-        //{ "Create a tree fractal from scratch, and use two IF statements", "Replace one of the IF statements with a FOR loop", "Alter the linethickness to 5 within the FOR loop" }
-        interface(challenges, challenge_mode, "challenges/expertdefault.txt");
+        interface(challenges, challenge_mode, EXPERT);
         break;
       case main_menu:
         challenges->state = main_menu;

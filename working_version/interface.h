@@ -14,3 +14,5 @@ int parser(Draw *fractal, char *file_name);
 void generate_fractal(Draw *fractal, Interface interface, int i);
 
 int Interface_Events(Interface* interface);
+
+void set_challenges_based_on_level(char* file_name, Interface* interface);

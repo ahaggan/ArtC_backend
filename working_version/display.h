@@ -24,6 +24,7 @@
 #define EDITOR_ROWS 100
 
 #define MAX_CHALLENGE_LEN 69
+#define MAX_FILE 100
 
 #define CHALLENGE_FONT 16
 #define FONT_SIZE 15
@@ -31,6 +32,10 @@
 #define PREV_NEXT_BUTTON 4 
 
 #define LEVEL_NUM 4
+
+#define BEGINNER "challenges/beginner_default.txt"
+#define INTERMEDIATE "challenges/intermediate_default.txt"
+#define EXPERT "challenges/expert_default.txt"
 
 typedef struct SDL_Win {
    SDL_bool finished;
@@ -99,7 +104,8 @@ typedef enum interface_action {
 	generate_clicked = 1,
 	text_edited,
 	back_to_menu,
-  change_position
+  change_position,
+  load_challenge
 } Interface_Action;
 
 typedef struct interface {
@@ -139,7 +145,10 @@ typedef struct interface {
   Area prev_divider;
   Area next_divider;
  
+  char default_file[MAX_FILE];
+  char code_file[MAX_FILE];
   char challenges[LEVEL_NUM][MAX_CHALLENGE_LEN];
+  int challenge_num;
 
   Mode mode;
 

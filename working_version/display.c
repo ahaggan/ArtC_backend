@@ -309,7 +309,7 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
   interface->mode = mode;
 
    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
-   printf("%d %d\n", win_width, win_height);
+
    display_toolbar(win_width, win_height, interface, mode);
   display_menu_button(win_width, win_height, interface, mode);
   display_help_button(win_width, win_height, interface, mode);
@@ -317,11 +317,14 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
    display_generate_button(win_width, win_height, interface);
   display_canvas(win_width, win_height, interface, mode);
    display_text_editor(win_width, win_height, interface); 
-
+   
    if (mode == challenge_mode) {
+    interface->challenge_num = 0;
      display_learn_button(win_width, win_height, interface);
      display_previous_button(win_width, win_height, interface);
+
      display_current_challenge(win_width, win_height, interface);
+    
      display_next_button(win_width, win_height, interface);
    }
    display_dividers(win_width, win_height, interface, mode);
@@ -560,40 +563,8 @@ void display_text_editor(int win_width, int win_height, Interface* interface) {
 void display_current_challenge(int win_width, int win_height, Interface* interface) {
    int curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h;
    char centred_string[MAX_CHALLENGE_LEN];
-   text_align_central(centred_string, "Create a tree fractal from scratch, and use two IF statements");
-   //Line 1
-
-   /*
-   // not sure about the situation with the level structures
-   if (level == beginner->1){
-      text_align_central(centred_string, "Change the colour variable value");
-   }
-   if (level == beginner->2){
-      text_align_central(centred_string, "Change the shape variable value to circle");
-   }
-   if (level == beginner->3){
-      text_align_central(centred_string, "Change the type variable value to star");
-   }
-   if (level == I1){
-      text_align_central(centred_string, "Add the missing RUN statement and brackets");
-   }
-   if (level == I2){
-      text_align_central(centred_string, "Write an IF statement that changes the colour variable value");
-   }
-   if (level == I3){
-      text_align_central(centred_string, "Change the size variable value to a number below 500");
-   }
-   if (level == E1){
-      text_align_central(centred_string, "Create a tree fractal from scratch, and use two IF statements");
-   }
-   if (level == E2){
-      text_align_central(centred_string, "Replace one of the IF statements with a FOR loop");
-   }
-   if (level == E3){
-      text_align_central(centred_string, "Alter the linethickness to 5 within the FOR loop");
-   }
-   */
-
+   
+   text_align_central(centred_string, interface->challenges[interface->challenge_num]);
 
    curr_chall_x = interface->previous_button.rect.x + interface->previous_button.rect.w;
    curr_chall_y = 0;

@@ -110,9 +110,15 @@ int Interface_Events(Interface* interface) {
 
                 if (within_button(x, y, interface->reset_button.rect)) {
 
-                    if (interface->mode == challenge_mode) {
+                    if (interface->mode == challenge_mode) { 
+                        if (interface->challenge_num == 0) {
+                            load_text_into_text_editor(interface->default_file, interface);
+                        }
+                        else {
+                             load_text_into_text_editor(interface->code_file, interface);
+                        }
                         clear_area(&interface->window, interface->canvas);
-                        load_text_into_text_editor(interface->challenges[0], interface);
+                        
                      }
                      else {
                         clear_area(&interface->window, interface->canvas);
@@ -128,6 +134,26 @@ int Interface_Events(Interface* interface) {
                     
                 if (within_button(x, y, interface->help_button.rect)) {
                     printf("Help is on the way!\n");     
+                    break;
+                }
+
+                if (within_button(x, y, interface->next_button.rect)) {
+                    if (interface->challenge_num < LEVEL_NUM - 1) {
+                        interface->challenge_num++;
+                        return load_challenge;
+                    }
+                    printf("%d\n", interface->challenge_num); 
+                    printf("Next!\n");     
+                    break;
+                }
+
+                if (within_button(x, y, interface->previous_button.rect)) {
+                    if (interface->challenge_num > 0) {
+                        interface->challenge_num--;
+                        return load_challenge;
+                    }
+                    printf("%d\n", interface->challenge_num);
+                    printf("Previous!\n");     
                     break;
                 }
 
