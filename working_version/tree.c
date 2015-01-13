@@ -5,25 +5,22 @@ int treeiterate(Draw *fractal, Interface interface, Shape current, int iteration
 void tree(Draw *fractal, Interface interface, int limit)
 {
   Shape trunk;
-  float angle = 0;
   fractal->anglerange = 1;
-    
-  
-  make_shape(&trunk, fractal->startx, fractal->starty - ((fractal->size[0]/2)/2), fractal->size[0]/2, fractal->height[0]/2, 0);
+
+  make_shape(&trunk, fractal->startx, fractal->starty - ((fractal->size[0]/2)/2), fractal->size[0]/2, fractal->height[0]/2, fractal->angle);
 
   int iterations = 1;
-  fractal->divisions = 2;
 
   printf("Tree Limit: %d\n", limit);
  
   Shape current = trunk;
   
-  draw_sdl(interface, fractal, current.x, current.y, current.size/fractal->divisions, angle, iterations);
+  draw_sdl(interface, fractal, current.x, current.y, current.size/fractal->splits[0], fractal->angle, iterations);
 
-  int branchx = current.x + ((current.size*sin(angle))/fractal->divisions);
-  int branchy = current.y - ((current.size*cos(angle))/fractal->divisions);
+  int branchx = current.x + ((current.size*sin(fractal->angle))/fractal->splits[0]);
+  int branchy = current.y - ((current.size*cos(fractal->angle))/fractal->splits[0]);
 
-  iterations = treeiterate(fractal, interface, current, iterations, limit, angle, branchx, branchy);
+  iterations = treeiterate(fractal, interface, current, iterations, limit, fractal->angle, branchx, branchy);
 
   printf("Tree completed with %d iterations.\n", iterations);
   //SDL_RenderPresent(interface.window.renderer);
@@ -38,25 +35,25 @@ int treeiterate(Draw *fractal, Interface interface, Shape current, int iteration
 
   float newangle;
   int cx, cy;
-  Shape *shapes = malloc(fractal->divisions*sizeof(Shape));
+  Shape *shapes = malloc(fractal->splits[iterations]*sizeof(Shape));
   iterations++; 
  
-  for(int i=0; i<fractal->divisions/2; i++) {
-    newangle = angle - (fractal->anglerange/2.0) + i*(fractal->anglerange/fractal->divisions);
-    cx = branchx + ((current.size/fractal->divisions)*sin(newangle));
-    cy = branchy - ((current.size/fractal->divisions)*cos(newangle));
-    make_shape(&shapes[i], cx, cy, current.size/fractal->divisions, current.height/fractal->divisions, newangle);
-    draw_sdl(interface, fractal, cx, cy, current.size/fractal->divisions, newangle, iterations);
+  for(int i=0; i<fractal->splits[iterations]/2; i++) {
+    newangle = angle - (fractal->anglerange/2.0) + i*(fractal->anglerange/fractal->splits[iterations]);
+    cx = branchx + ((current.size/fractal->splits[iterations])*sin(newangle));
+    cy = branchy - ((current.size/fractal->splits[iterations])*cos(newangle));
+    make_shape(&shapes[i], cx, cy, current.size/fractal->splits[iterations], current.height/fractal->splits[iterations], newangle);
+    draw_sdl(interface, fractal, cx, cy, current.size/fractal->splits[iterations], newangle, iterations);
 
-    newangle = angle + (fractal->anglerange/2.0) - i*(fractal->anglerange/fractal->divisions);
-    cx = branchx + (sin(newangle)*(current.size/fractal->divisions));
-    cy = branchy - (cos(newangle)*(current.size/fractal->divisions));
+    newangle = angle + (fractal->anglerange/2.0) - i*(fractal->anglerange/fractal->splits[iterations]);
+    cx = branchx + (sin(newangle)*(current.size/fractal->splits[iterations]));
+    cy = branchy - (cos(newangle)*(current.size/fractal->splits[iterations]));
    
     
   
-    make_shape(&shapes[fractal->divisions-1-i], cx, cy, current.size/fractal->divisions, current.height/fractal->divisions, newangle);
+    make_shape(&shapes[fractal->splits[iterations]-1-i], cx, cy, current.size/fractal->splits[iterations], current.height/fractal->splits[iterations], newangle);
    
-  draw_sdl(interface, fractal, cx, cy, current.size/fractal->divisions, newangle, iterations);
+  draw_sdl(interface, fractal, cx, cy, current.size/fractal->splits[iterations], newangle, iterations);
   }
 
 //  FROM ABOVE:
@@ -64,11 +61,11 @@ int treeiterate(Draw *fractal, Interface interface, Shape current, int iteration
 //  int branchy = current.y - ((current.size*cos(angle))/2.0);
 
   int newits;
-  for(int i=0; i<fractal->divisions/2; i++) {
-    newangle = angle - (fractal->anglerange/2.0) + i*(fractal->anglerange/fractal->divisions);
-    treeiterate(fractal, interface, shapes[i], iterations, limit, newangle, branchx + (sin(newangle)*current.size/(fractal->divisions/2)), branchy - (cos(newangle)*current.size/(fractal->divisions/2)));
-    newangle = angle + (fractal->anglerange/2.0) - i*(fractal->anglerange/fractal->divisions);
-    newits = treeiterate(fractal, interface, shapes[fractal->divisions-1-i], iterations, limit, newangle, branchx + (sin(newangle)*current.size/(fractal->divisions/2)), branchy - (cos(newangle)*current.size/(fractal->divisions/2)));
+  for(int i=0; i<fractal->splits[iterations]/2; i++) {
+    newangle = angle - (fractal->anglerange/2.0) + i*(fractal->anglerange/fractal->splits[iterations]);
+    treeiterate(fractal, interface, shapes[i], iterations, limit, newangle, branchx + (sin(newangle)*current.size/(fractal->splits[iterations]/2)), branchy - (cos(newangle)*current.size/(fractal->splits[iterations]/2)));
+    newangle = angle + (fractal->anglerange/2.0) - i*(fractal->anglerange/fractal->splits[iterations]);
+    newits = treeiterate(fractal, interface, shapes[fractal->splits[iterations]-1-i], iterations, limit, newangle, branchx + (sin(newangle)*current.size/(fractal->splits[iterations]/2)), branchy - (cos(newangle)*current.size/(fractal->splits[iterations]/2)));
   }
   free(shapes);
   return newits;

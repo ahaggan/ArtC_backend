@@ -119,6 +119,14 @@ void assign_value(Prog* program, int iteration){
         program->fractal->linethickness[iteration] = atoi(program->interpreter[program->interpreter_index]);
         
     }
+    else if(strings_match(program->interpreter[program->interpreter_index], "angle")){
+        program->interpreter_index += 1;
+        program->fractal->angle = (atoi(program->interpreter[program->interpreter_index])*M_PI)/180.0;
+    }
+    else if(strings_match(program->interpreter[program->interpreter_index], "splits")){
+        program->interpreter_index += 1;
+        program->fractal->splits[iteration] = atoi(program->interpreter[program->interpreter_index]);
+    }
 }
             
         

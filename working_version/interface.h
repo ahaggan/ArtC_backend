@@ -3,7 +3,6 @@
 #include <time.h>
 
 
-
 void initialise_text_editor(Interface* interface, Mode mode, char* file_name);
 void make_text_editor(int width, int height, Interface* interface);
 void update_text_editor(int width, int height, Interface* interface);
