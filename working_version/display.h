@@ -24,24 +24,14 @@
 #define EDITOR_COLUMNS 100
 #define EDITOR_ROWS 100
 
-#define MAX_CHALLENGE_LEN 59
+#define MAX_CHALLENGE_LEN 69
 
-#define CHALLENGE_FONT 19
+#define CHALLENGE_FONT 16
 #define FONT_SIZE 15
 
 #define PREV_NEXT_BUTTON 4 
 
-/*
-typedef struct options_menu {
-   SDL_Win window;
-   Option_Choice state;
-   TTF_Font* menu_font; 
-   Area background;
-   Area header;
-   Area resolution;
-   Area main_menu;
-} Options_Menu;
-*/
+#define LEVEL_NUM 4
 
 typedef struct SDL_Win {
    SDL_bool finished;
@@ -110,7 +100,7 @@ typedef enum interface_action {
 	generate_clicked = 1,
 	text_edited,
 	back_to_menu,
-    change_position
+  change_position
 } Interface_Action;
 
 typedef struct interface {
@@ -150,7 +140,7 @@ typedef struct interface {
   Area prev_divider;
   Area next_divider;
  
-  char challenge[MAX_CHALLENGE_LEN];
+  char challenges[LEVEL_NUM][MAX_CHALLENGE_LEN];
 
   Mode mode;
 

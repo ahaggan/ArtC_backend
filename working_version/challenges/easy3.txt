@@ -1,6 +1,1 @@
-run{
-   type sierpinski   
-   iterations 5
-   shape square
-   colour purple
-}
+Change the type variable value to star

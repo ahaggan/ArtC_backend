@@ -60,9 +60,9 @@ void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
 
   interface->editor_columns /= 27;
   interface->editor_rows /= 27;
-   printf("PASS\n");
-  printf("%s\n", file_name);
-  strcpy(interface->challenge, file_name);
+
+  //load default challenge text
+  strcpy(interface->challenges[0], file_name);
     
   make_text_editor(interface->editor_columns, interface->editor_rows, interface);
   

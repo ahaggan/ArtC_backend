@@ -1,6 +1,1 @@
-run{
-   type tree 
-   iterations 10
-   shape line
-   colour red
-}
+Change the colour variable value

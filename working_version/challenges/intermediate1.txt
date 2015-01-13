@@ -1,8 +1,1 @@
-run{
-fractal tree
-iterations 10
-shape circle
-colour red
-if iterations 2
-then colour blue 
-}
+Add the missing RUN statement and brackets

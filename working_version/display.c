@@ -10,7 +10,7 @@ void SDL_Win_Init(SDL_Win *w, char* win_name) {
    
    w->win= SDL_CreateWindow(win_name, SDL_WINDOWPOS_UNDEFINED, 
                             SDL_WINDOWPOS_UNDEFINED, WIN_WIDTH, WIN_HEIGHT, 
-                            SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
+                            SDL_WINDOW_SHOWN);
 
    if (w->win == NULL) {
       fprintf(stderr, "\nUnable to initialize SDL Win: %s\n", SDL_GetError());
@@ -560,37 +560,37 @@ void display_text_editor(int win_width, int win_height, Interface* interface) {
 void display_current_challenge(int win_width, int win_height, Interface* interface) {
    int curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h;
    char centred_string[MAX_CHALLENGE_LEN];
-   text_align_central(centred_string, "CHANGE THE COLOUR VARIABLES");
+   text_align_central(centred_string, "Create a tree fractal from scratch, and use two IF statements");
    //Line 1
 
    /*
    // not sure about the situation with the level structures
    if (level == beginner->1){
-      text_align_central(centred_string, " Create a RED tree fractal! ");
+      text_align_central(centred_string, "Change the colour variable value");
    }
    if (level == beginner->2){
-      text_align_central(centred_string, " Create a blue SIERPINSKI fractal that iterates 7 times! ");
+      text_align_central(centred_string, "Change the shape variable value to circle");
    }
    if (level == beginner->3){
-      text_align_central(centred_string, " Create a PURPLE SIERPINSKI fractal made of SQUARES that iterates 5 times! ");
+      text_align_central(centred_string, "Change the type variable value to star");
    }
    if (level == I1){
-      text_align_central(centred_string, " Create a red tree fractal made of CIRCLES, after 2 iterations change the colour to BLUE! ");
+      text_align_central(centred_string, "Add the missing RUN statement and brackets");
    }
    if (level == I2){
-      text_align_central(centred_string, " Create a red SIERPINSKI fractal that after 2 iterations changes to GREEN, and after 7 iterations changes to TRIANGLES! ");
+      text_align_central(centred_string, "Write an IF statement that changes the colour variable value");
    }
    if (level == I3){
-      text_align_central(centred_string, " Create a PURPLE tree fractal that after 4 iterations changes to RED, and after 7 iterations changes to PINK CIRCLES! ");
+      text_align_central(centred_string, "Change the size variable value to a number below 500");
    }
    if (level == E1){
-      text_align_central(centred_string, " Create a black Sierpinski fractal made of triangles that iterates 9 times, and turns fuchsia after 3 iterations.");
+      text_align_central(centred_string, "Create a tree fractal from scratch, and use two IF statements");
    }
    if (level == E2){
-      text_align_central(centred_string, " Create a brown tree fractal made of lines that iterates 10 times, after 6 iterations change the colour to lime, make the final iteration olive.");
+      text_align_central(centred_string, "Replace one of the IF statements with a FOR loop");
    }
    if (level == E3){
-      text_align_central(centred_string, " Create a Sierpinski fractal made of circles that changes from navy -> blue -> turquoise -> white every 2 iterations for 8 iterations. ");
+      text_align_central(centred_string, "Alter the linethickness to 5 within the FOR loop");
    }
    */
 

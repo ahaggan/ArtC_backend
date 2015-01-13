@@ -1,10 +1,1 @@
-run{
-fractal sierpinski
-iterations 10
-shape line
-colour red
-if iterations 2
-then colour green
-if iterations 7
-then shape triangle
-}
+Write an IF statement that changes the colour variable value

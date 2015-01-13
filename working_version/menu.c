@@ -55,16 +55,21 @@ void main_menu_actions(Menu* menu) {
 }
 
 void challenge_menu_actions(Menu* challenges) {
+    
     switch (challenges->state) {
       case beginner: 
+       // { "challenges/easydefault.txt", "easy1.txt", "easy2.txt", "easy3.txt" }
+
         interface(challenges, challenge_mode, "challenges/easydefault.txt");
         break;
       case intermediate:
+        //{ "challenges/intermediatedefault.txt", "intermediate1.txt", "intermediate2.txt", "intermediate3.txt" }
         interface(challenges, challenge_mode, "challenges/intermediatedefault.txt");
         break;
       //also have an 'Read Me' button
       case expert:
-        interface(challenges, challenge_mode, "challenges/expert1.txt");
+        //{ "challenges/expertdefault.txt", "expert1.txt", "expert2.txt", "expert3.txt" }
+        interface(challenges, challenge_mode, "challenges/expertdefault.txt");
         break;
       case main_menu:
         challenges->state = main_menu;

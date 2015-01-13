@@ -1,8 +1,7 @@
-run{
-fractal tree
-iterations 10
-shape line
-colour red
-if iterations 5
-then colour green 
-}
+   
+   fractal tree
+   iterations 10
+   shape line
+   colour purple
+   size large
+
