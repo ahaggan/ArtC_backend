@@ -66,6 +66,7 @@ int interface(Menu* main, Mode mode, char* file_name) {
         printf("Load help menu\n");
         main->state = options_menu;
         help_menu(main);
+        clear_area(&interface.window, interface.canvas);
       }
 
 
