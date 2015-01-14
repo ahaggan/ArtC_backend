@@ -129,6 +129,8 @@ void set_challenges_based_on_level(char* file_name, Interface* interface) {
 }
 
 void display_error(Interface *interface) {
+  int i=0, j=0; 
+
   Area box;
   Area text_box_top;
   Area text_box_bottom;
@@ -139,9 +141,12 @@ void display_error(Interface *interface) {
   char aligned_message_top[ERROR_TEXTBOX];
   char aligned_message_bottom[ERROR_TEXTBOX];
 
-  char c;
+  for(int i=0; i<ERROR_TEXTBOX; i++) {
+    message_top[i] = '\0';
+    message_bottom[i] = '\0';
+  }
 
-  int i=0, j=0;
+  char c;
 
   FILE *file = fopen("error_message.artc", "r");
 
