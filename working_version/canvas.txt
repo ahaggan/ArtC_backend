@@ -1,18 +1,18 @@
 run {
-   type sierpinski
+   type tree
    iterations 8
-   angle 0
-   shape triangle
-   colour grey
+   angle 45
+   shape line
+   colour red
    size 600
-   linethickness 3
+   linethickness 8
 
-   for iterations 0 to iterations 2 {
-      colour turquoise
+   for iterations 0 to iterations 4 {
+      colour brown
    }
 
-   for iterations 3 to iterations 4 {
-      colour lime
+   for iterations 3 to iterations 8 {
+      colour green
    }
 
    
