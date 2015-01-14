@@ -68,7 +68,7 @@ typedef enum menu_choice {
 	options_menu,
 	quit,
 
-  beginner = 1,
+  beginner,
   intermediate,
   expert,
   main_menu,
@@ -79,6 +79,7 @@ typedef enum menu_choice {
 typedef struct menu {
 	SDL_Win window;
 	Menu_Choice state;
+    Menu_Choice hover;
 	TTF_Font* menu_font; 
 	Area background;
 	Area logo;
@@ -256,6 +257,11 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
 void display_next_button(int win_width, int win_height, Interface* interface);
 void display_dividers(int win_width, int win_height, Interface* interface, Mode mode);
 
+void display_canvas_text(Menu* main_menu);
+void display_challenges_text(Menu* main_menu);
+void display_beginner_text(Menu* challenges);
+void display_intermediate_text(Menu* challenges);
+void display_expert_text(Menu* challenges);
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);
 void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);

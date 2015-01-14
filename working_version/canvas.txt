@@ -7,12 +7,12 @@ run {
    size medium
    linethickness 5
 
-   for iterations 1 to iterations 3 {
+   for iterations 2 to iterations 3 {
       colour turquoise
    }
    for iterations 4 to iterations 5 {
       colour purple
-   }
+   
 }
 
 

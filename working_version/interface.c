@@ -147,8 +147,10 @@ void display_error(Interface *interface) {
 
   while((c=getc(file))!=EOF && i < (ERROR_TEXTBOX * 2) - 2) {
    printf("i is %d\n", i);
+  printf("Char: %c\n", c);
+  printf("Char: %d\n", c);
     if (i < ERROR_TEXTBOX - 1) {
-       printf("Top: %c\n", c);
+       
        message_top[i] = c;
     }
     else {

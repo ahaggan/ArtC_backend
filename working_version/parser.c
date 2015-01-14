@@ -108,11 +108,11 @@ int funclist(Prog *program){
         program->interpreter_index += 1;
         return TRUE;
     }
-    else if(strings_match(program->words[program->current_word], "")){      //Should this be something else, EOF?
-        fprintf(program->error, "Program needs to end with '}'.");
+    else if(program->words[program->current_word][0] == '\0'){      //Should this be something else, EOF?
+        fprintf(program->error, "Program needs to end with '}'");
         return FALSE;
     }
-    if(function(program)){
+    if(function(program) == TRUE){
         program->current_word += 1;
         return funclist(program);
     }
@@ -137,7 +137,7 @@ int function(Prog *program){
             return conditional(program);
         }
         else {
-            fprintf(program->error, "The action %s is not a valid condition for an if statement.\n", program->words[program->current_word]);
+            fprintf(program->error, "The action %s is not a valid condition for an if statement.", program->words[program->current_word]);
         return FALSE;
         }
         
@@ -154,7 +154,7 @@ int function(Prog *program){
 int loop(Prog *program){  
     int start_iteration, end_iteration;
     if(!strings_match(program->words[program->current_word], "iterations")){
-            fprintf(program->error, "For loop only works for iterations");
+            fprintf(program->error, "For loop only works with iterations");
             return FALSE;
     }
     statement(program);
@@ -166,19 +166,19 @@ int loop(Prog *program){
     }
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "iterations")){
-            fprintf(program->error, "For loop only works for iterations");
+            fprintf(program->error, "For loop only works with iterations");
             return FALSE;
     }
     statement(program);
     end_iteration = atoi(program->words[program->current_word]);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "{")){
-            fprintf(program->error, "For loop starts with '{'");
+            fprintf(program->error, "For loop must start with '{'");
             return FALSE;
     }
     program->current_word += 1;
     if(start_iteration > end_iteration){
-        fprintf(program->error, "Start iteration needs to be lower than the end iteration in your for loop.");
+        fprintf(program->error, "Start iteration must be less than than the end iteration in a for loop");
         return FALSE;
     }
     
@@ -207,12 +207,12 @@ int conditional(Prog *program){  //if function
     //statement(program);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "then")){
-        fprintf(program->error, "If condition needs to be followed with 'then {'");
+        fprintf(program->error, "If condition must be followed with 'then {'");
         return FALSE;
     }
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "{")){
-        fprintf(program->error, "If condition needs to be followed with 'then {'");
+        fprintf(program->error, "If condition must be followed with 'then {'");
         return FALSE;
     }
     program->current_word += 1;
@@ -232,7 +232,7 @@ int statement(Prog *program){
         }
     }
     else{
-        fprintf(program->error, "Action word %s is not valid.", program->words[program->current_word]);
+        fprintf(program->error, "Action word %s is not valid", program->words[program->current_word]);
         return FALSE;
     }
 }
@@ -274,6 +274,11 @@ int attribute(Prog *program){
                     return TRUE;
                 }
                 else if (atoi(program->words[program->current_word]) != 0){  //MEANS YOU CAN ENTER A NUMERIC VALUE FOR ANY ACTION!
+                    if(strings_match(program->words[program->current_word-1], "iterations") && (atoi(program->words[program->current_word]) > 10)){
+                        fprintf(program->error, "Iterations value must be between 0 to 10.");
+                        return FALSE;
+                    }
+
                     if(strings_match(program->words[program->current_word-2], "if")){
                     }
                     else if (strings_match(program->words[program->current_word-2], "for")){

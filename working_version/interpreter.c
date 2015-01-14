@@ -76,7 +76,7 @@ void assign_value(Prog* program, int iteration){
     }
     else if(strings_match(program->interpreter[program->interpreter_index], "size")){
         program->interpreter_index += 1;
-        size = atoi(program->interpreter[program->interpreter_index]);
+        size = abs(atoi(program->interpreter[program->interpreter_index]));
         if( size == 0){
             
             if(strings_match(program->interpreter[program->interpreter_index], "small")){

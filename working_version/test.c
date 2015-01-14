@@ -27,6 +27,23 @@ void test_parser(void){
     else{
         fprintf(test_results, "\nValidate test FAILED.\n");
     } 
+    
+    if (test_funclist(test_results) == PASSED){
+        fprintf(test_results, "\nFunclist test PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nFunclist test FAILED.\n");
+    } 
+    
+    if (test_check_action(test_results) == PASSED){
+        fprintf(test_results, "\nFunction test PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nFunction test FAILED.\n");
+    } 
+    
+    
+    
     fclose(test_results);
     
 }
@@ -91,15 +108,123 @@ int test_validate(FILE *test_results){
     }
     return FAILED;
 }
+
+int test_funclist(FILE *test_results){
+    Prog test_program;
+    int pass_count = 0, no_of_tests = 0;
+    initialise_words_array(&test_program);
+    
+    no_of_tests += 1;
+    test_program.current_word = 0;
+    strcpy(test_program.words[0], "}");
+   
+    if (funclist(&test_program) == TRUE){        
+        fprintf(test_results, "\nFunclist test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nFunclist test 1: Failed");
+    }
+    
+    no_of_tests += 1;
+    test_program.current_word = 0;
+    test_program.words[0][0] = '\0';
+   
+    if (funclist(&test_program) == FALSE){        
+        fprintf(test_results, "\nFunclist test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nFunclist test 2: Failed");
+    }
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
+    
+}
+
+int test_function(FILE *test_results){
+    Prog test_program;
+    int pass_count = 0, no_of_tests = 0;
+    initialise_words_array(&test_program);
+    
+    no_of_tests += 1;
+    test_program.current_word = 0;
+    strcpy(test_program.words[0], "}");
+   
+    if (function(&test_program) == TRUE){        
+        fprintf(test_results, "\nFunction test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nFunction test 1: Failed");
+    }
+    
+     if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
+}
+
+int test_check_action(FILE *test_results){
+    char test_word[WORD_LENGTH];
+    
+    int pass_count = 0, no_of_tests = 0;
+    no_of_tests += 1;
+    strcpy(test_word, "Hello");
+    //Function should return FALSE
+    if (check_action(test_word) == FALSE){        
+        fprintf(test_results, "\nCheck action test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nCheck action test 1: Failed");
+    }
+    
+    no_of_tests += 1;
+    strcpy(test_word, "colour");
+    //Function should return TRUE
+    if (check_action(test_word) == TRUE){        
+        fprintf(test_results, "\nCheck action test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nCheck action test 2: Failed");
+    }
+    
+    no_of_tests += 1;
+    strcpy(test_word, "Colour");
+    //Function should return FALSE
+    if (check_action(test_word) == FALSE){        
+        fprintf(test_results, "\nCheck action test 3: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nCheck action test 3: Failed");
+    }
+    
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
+}
+
+int test_statement(FILE *test_results){
+    
+}
+
     /*NEED TO TEST THESE
     If everything works, just a message saying all tests work.
-    test_validate
-    test_funclist
+    
+    
     test_function
     test_loop
     test_for_loop
     test_conditional
-    test_statement
+    
     test_attribute
     test_check_action
     test_check_if

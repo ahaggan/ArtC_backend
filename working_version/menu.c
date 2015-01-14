@@ -5,9 +5,11 @@ void launch_menu() {
   Menu menu;
   SDL_Win_Init(&menu.window, "Art.C");
   SDL_TTF_Init();
+  menu.hover = 0;
 
   do {
     initialise_main_menu(&menu);
+    display_popup_text(&menu);
     render_update_clear(menu.window);
  
     menu.state = SDL_Main_Menu_Events(&menu);
@@ -21,10 +23,12 @@ void launch_menu() {
 
 int challenge_menu(Menu* challenges) {
 
-
+  challenges->hover = 0;
   while(challenges->state != main_menu) {
     initialise_challenges_menu(challenges);
+    display_popup_text(challenges);
     render_update_clear(challenges->window);
+
     challenges->state = SDL_Challenges_Menu_Events(challenges);
     challenge_menu_actions(challenges);
   }
