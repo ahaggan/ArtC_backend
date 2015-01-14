@@ -72,30 +72,33 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
     }
 
     if (strcmp(fractal->shape[i-1], "square") == 0) {
-        SDL_Line(interface.window.renderer, x-(size*sin(angle)/2.0), y+(size*cos(angle)/2.0), x+(size*sin(angle)/2.0), y-(size*cos(angle)/2.0), size, angle);
-       /* SDL_Rect rectangle;
-        rectangle.w = size;
-        rectangle.h = size;
-        rectangle.x = x - size/2;
-        rectangle.y = y - size/2;
-        SDL_RenderFillRect(interface.window.renderer, &rectangle);
-*/
+        int x1 = x-(size*sin(angle)/2);
+        int y1 = y+(size*cos(angle)/2);
+        int x2 = x+(size*sin(angle)/2);
+        int y2 = y-(size*cos(angle)/2);
+        SDL_Line(interface.window.renderer, x1, y1, x2, y2, size, angle);
     }
 
     else if (strcmp(fractal->shape[i-1], "circle") == 0) {
-        SDL_RenderFillCircle(interface.window.renderer, x, y, size / 2);
-
+        SDL_RenderFillCircle(interface.window.renderer, x, y, size/2);
     }
 
     else if (strcmp(fractal->shape[i-1], "line") == 0) {
-        SDL_Line(interface.window.renderer, x-(size*sin(angle)), y+(size*cos(angle)), x+(size*sin(angle)), y-(size*cos(angle)), fractal->linethickness[i-1], angle);
-//printf("%f|%f|%f|%f\n", (x-size/2.0)*sin(angle), (y-size/2.0)*cos(angle), (x+size/2.0)*sin(angle), (y+size/2.0)*cos(angle));
+        int x1 = x-(size*sin(angle));
+        int y1 = y+(size*cos(angle));
+        int x2 = x+(size*sin(angle));
+        int y2 = y-(size*cos(angle));
+        SDL_Line(interface.window.renderer, x1, y1, x2, y2, 
+                          fractal->linethickness[i-1], angle);
     }
 
     else if(strcmp(fractal->shape[i-1], "triangle") == 0) {
-        int c1x = x+((size/2.0)*sin(angle)), c1y = y-((size/2.0)*cos(angle));
-        int c2x = x+((size/2.0)*sin(angle+(M_PI*(2.0/3.0)))), c2y = y-((size/2.0)*cos(angle+(M_PI*(2.0/3.0))));
-        int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0)))), c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
+        int c1x = x+((size/2.0)*sin(angle));
+        int c1y = y-((size/2.0)*cos(angle));
+        int c2x = x+((size/2.0)*sin(angle+(M_PI*(2.0/3.0))));
+        int c2y = y-((size/2.0)*cos(angle+(M_PI*(2.0/3.0))));
+        int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0))));
+        int c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
 
         SDL_RenderDrawLine(interface.window.renderer, c1x, c1y, c2x, c2y);
         SDL_RenderDrawLine(interface.window.renderer, c2x, c2y, c3x, c3y);

@@ -13,7 +13,7 @@ void star(Draw *fractal, Interface interface, int limit)
 
   printf("Star Limit: %d\n", limit);
 
-  iterations = stariterate(fractal, interface, centre, iterations, limit, 0);
+  iterations = stariterate(fractal, interface, centre, iterations, limit, fractal->angle);
   printf("Star completed with %d iterations.\n", iterations);
   
   SDL_RenderPresent(interface.window.renderer);
