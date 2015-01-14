@@ -22,32 +22,46 @@ void test_parser(void){
     } 
     
     if (test_validate(test_results) == PASSED){
-        fprintf(test_results, "\nValidate test PASSED.\n");
+        fprintf(test_results, "\nValidate tests PASSED.\n");
     }
     else{
-        fprintf(test_results, "\nValidate test FAILED.\n");
+        fprintf(test_results, "\nValidate tests FAILED.\n");
     } 
     
     if (test_funclist(test_results) == PASSED){
-        fprintf(test_results, "\nFunclist test PASSED.\n");
+        fprintf(test_results, "\nFunclist tests PASSED.\n");
     }
     else{
-        fprintf(test_results, "\nFunclist test FAILED.\n");
+        fprintf(test_results, "\nFunclist tests FAILED.\n");
     } 
     
     if (test_check_action(test_results) == PASSED){
-        fprintf(test_results, "\nCheck action test PASSED.\n");
+        fprintf(test_results, "\nCheck action tests PASSED.\n");
     }
     else{
-        fprintf(test_results, "\nCheck action test FAILED.\n");
+        fprintf(test_results, "\nCheck action tests FAILED.\n");
     } 
     
     if (test_attribute(test_results) == PASSED){
-        fprintf(test_results, "\nAttribute test PASSED.\n");
+        fprintf(test_results, "\nAttribute tests PASSED.\n");
     }
     else{
-        fprintf(test_results, "\nAttribute test FAILED.\n");
+        fprintf(test_results, "\nAttribute tests FAILED.\n");
     } 
+    
+    if (test_check_if(test_results) == PASSED){
+        fprintf(test_results, "\nCheck if tests PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nCheck if tests FAILED.\n");
+    }
+    
+    if (test_statement(test_results) == PASSED){
+        fprintf(test_results, "\nStatement tests PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nStatement tests FAILED.\n");
+    }
     
     
     
@@ -220,7 +234,59 @@ int test_check_action(FILE *test_results){
 }
 
 int test_statement(FILE *test_results){
-    return PASSED;
+    Prog test_program;
+    int pass_count = 0, no_of_tests = 0;
+    initialise_words_array(&test_program);
+    create_struct_array(test_program.actions);
+    initialise_interpreter_array(&test_program);
+    
+    no_of_tests += 1;
+    test_program.current_word = 1;
+    strcpy(test_program.words[0], "Hello"); //Arbitrary, needs to be there for function test.
+    strcpy(test_program.words[1], "colour");
+    strcpy(test_program.words[2], "blue");
+    //Correct statement, should return TRUE
+    if (statement(&test_program) == TRUE){        
+        fprintf(test_results, "\nStatement test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nStatement test 1: Failed");
+    }
+    
+    no_of_tests += 1;
+    test_program.current_word = 1;
+    strcpy(test_program.words[0], "Hello"); //Arbitrary, needs to be there for function test.
+    strcpy(test_program.words[1], "colour");
+    strcpy(test_program.words[2], "Hello");
+    //Incorrect statement, should return FALSE
+    if (statement(&test_program) == FALSE){        
+        fprintf(test_results, "\nStatement test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nStatement test 2: Failed");
+    }
+    
+    no_of_tests += 1;
+    test_program.current_word = 1;
+    strcpy(test_program.words[0], "Hello"); //Arbitrary, needs to be there for function test.
+    strcpy(test_program.words[1], "colou");
+    strcpy(test_program.words[2], "blue");
+    //Incorrect statement, should return FALSE
+    if (statement(&test_program) == FALSE){        
+        fprintf(test_results, "\nStatement test 3: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nStatement test 3: Failed");
+    }
+    
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
 }
 
 int test_attribute(FILE *test_results){
@@ -295,6 +361,49 @@ int test_attribute(FILE *test_results){
     return FAILED;
 }
 
+int test_check_if(FILE *test_results){
+    char test_word[WORD_LENGTH];
+    
+    int pass_count = 0, no_of_tests = 0;
+    no_of_tests += 1;
+    strcpy(test_word, "Hello");
+    //Function should return FALSE
+    if (check_if(test_word) == FALSE){        
+        fprintf(test_results, "\nCheck if test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nCheck if test 1: Failed");
+    }
+    
+    no_of_tests += 1;
+    strcpy(test_word, "iterations");
+    //Function should return TRUE
+    if (check_if(test_word) == TRUE){        
+        fprintf(test_results, "\nCheck if test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nCheck if test 2: Failed");
+    }
+    
+    no_of_tests += 1;
+    strcpy(test_word, "colour");
+    //Function should return TRUE
+    if (check_if(test_word) == TRUE){        
+        fprintf(test_results, "\nCheck if test 3: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nCheck if test 3: Failed");
+    }
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
+}
+
     /*NEED TO TEST THESE
     If everything works, just a message saying all tests work.
     
@@ -303,10 +412,8 @@ int test_attribute(FILE *test_results){
     test_loop
     test_for_loop
     test_conditional
+
     
-   
-    test_check_action
-    test_check_if
     test_create_struct_array
     
     
