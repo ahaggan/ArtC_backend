@@ -36,10 +36,17 @@ void test_parser(void){
     } 
     
     if (test_check_action(test_results) == PASSED){
-        fprintf(test_results, "\nFunction test PASSED.\n");
+        fprintf(test_results, "\nCheck action test PASSED.\n");
     }
     else{
-        fprintf(test_results, "\nFunction test FAILED.\n");
+        fprintf(test_results, "\nCheck action test FAILED.\n");
+    } 
+    printf("\nBefore MAIN attribute test");
+    if (test_attribute(test_results) == PASSED){
+        fprintf(test_results, "\nAttribute test PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nAttribute test FAILED.\n");
     } 
     
     
@@ -216,6 +223,77 @@ int test_statement(FILE *test_results){
     
 }
 
+int test_attribute(FILE *test_results){
+    printf("\nStart of attribute test");
+    Prog test_program;
+    
+    int pass_count = 0, no_of_tests = 0;
+    initialise_words_array(&test_program);
+    printf("\nAfter initialise array.");
+    create_struct_array(test_program.actions);
+    printf("\nAfter create struct array.");
+    initialise_interpreter_array(&test_program);
+    printf("\nAfter interpreter array.");
+    printf("\nBefore attribute test 1.");
+    test_program.current_word = 2;
+    printf("\nAfter set current word");
+    no_of_tests += 1;
+    printf("\nBefore String copy");
+    strcpy(test_program.words[0], "arbitrary"); //Just needs to be a word other than if, for or to.
+    printf("\nAfter string copy 1");
+    
+    strcpy(test_program.words[1], "colour");
+    printf("\nAfter string copy 2");
+    strcpy(test_program.words[2], "blue");
+    printf("\nAfter string copy 3");
+    printf("\nCurrent word = %d", test_program.current_word);
+    printf("\nAfter string copy 3");
+    //correct input, should return TRUE
+    if (attribute(&test_program) == TRUE){  
+        printf("\nInside attribute");      
+        fprintf(test_results, "\nAttribute test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nAttribute test 1: Failed");
+    }
+    
+    printf("\nBefore attribute test 2.");
+    test_program.current_word = 2;
+    no_of_tests += 1;
+    strcpy(test_program.words[0], "arbitrary");
+    strcpy(test_program.words[1], "colour");
+    strcpy(test_program.words[2], "Hello");
+    //correct input, should return FALSE
+    if (attribute(&test_program) == FALSE){        
+        fprintf(test_results, "\nAttribute test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nAttribute test 2: Failed");
+    }
+    
+    printf("\nBefore attribute test 3.");
+    test_program.current_word = 2;
+    no_of_tests += 1;
+    strcpy(test_program.words[0], "arbitrary");
+    strcpy(test_program.words[1], "colour");
+    strcpy(test_program.words[2], "");
+    //correct input, should return FALSE
+    if (attribute(&test_program) == FALSE){        
+        fprintf(test_results, "\nAttribute test 3: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nAttribute test 3: Failed");
+    }
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
+}
+
     /*NEED TO TEST THESE
     If everything works, just a message saying all tests work.
     
@@ -225,7 +303,7 @@ int test_statement(FILE *test_results){
     test_for_loop
     test_conditional
     
-    test_attribute
+   
     test_check_action
     test_check_if
     test_create_struct_array

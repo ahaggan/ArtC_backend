@@ -13,7 +13,7 @@ int parser(Draw *fractal, char *file_name){
     Prog program;
        
     
-    program.interpreter_index = 0;
+    
     program.fractal = fractal;
     
     
@@ -58,7 +58,7 @@ void initialise_words_array(Prog *program){
 
 void initialise_interpreter_array(Prog *program){
     int i;
-    
+    program->interpreter_index = 0;
     for(i = 0; i < NO_OF_INSTRUCTIONS; i++){
         program->interpreter[i][0] = '\0';
     }
@@ -249,12 +249,17 @@ int check_action(char *word){
 }
 
 int attribute(Prog *program){
+    
     int i, j;
+    
     for(i = 0; i < ACTION_SIZE; i++){
+        
         if(strings_match(program->actions[i].name, program->words[program->current_word-1])){
+            
             for(j = 0; !(strings_match(program->actions[i].instruction[j], "STOP")); j++){
+                
                 if (strings_match(program->words[program->current_word], program->actions[i].instruction[j])){
-                    
+                   
                     if(strings_match(program->words[program->current_word-2], "if")){
                         
                     }
@@ -263,6 +268,7 @@ int attribute(Prog *program){
                     else if (strings_match(program->words[program->current_word-2], "to")){
                     }
                     else{
+                        
                         strcpy(program->interpreter[program->interpreter_index], "assign");
                         program->interpreter_index += 1;
                         strcpy(program->interpreter[program->interpreter_index], program->words[program->current_word-1] );

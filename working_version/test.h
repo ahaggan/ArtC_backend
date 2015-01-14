@@ -9,3 +9,4 @@ int test_validate(FILE *test_results);
 int test_funclist(FILE *test_results);
 int test_function(FILE *test_results);
 int test_check_action(FILE *test_results);
+int test_attribute(FILE *test_results);
