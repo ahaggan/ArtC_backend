@@ -251,7 +251,7 @@ int check_action(char *word){
 int attribute(Prog *program){
     
     int i, j;
-    
+    int number = atoi(program->words[program->current_word]);
     for(i = 0; i < ACTION_SIZE; i++){
         
         if(strings_match(program->actions[i].name, program->words[program->current_word-1])){
@@ -279,12 +279,24 @@ int attribute(Prog *program){
                     }
                     return TRUE;
                 }
-                else if (atoi(program->words[program->current_word]) != 0){  //MEANS YOU CAN ENTER A NUMERIC VALUE FOR ANY ACTION!
-                    if(strings_match(program->words[program->current_word-1], "iterations") && (atoi(program->words[program->current_word]) > 10)){
-                        fprintf(program->error, "Iterations value must be between 0 to 10.");
+                
+                else if(number != 0){  //MEANS YOU CAN ENTER A NUMERIC VALUE FOR ANY ACTION!
+                    if(strings_match(program->words[program->current_word-1], "iterations") && (number > 10)){
+                        fprintf(program->error, "");
                         return FALSE;
                     }
-
+                    else if(strings_match(program->words[program->current_word-1], "linethickness") && (number > 1000)){
+                        fprintf(program->error, "");
+                        return FALSE;
+                    }
+                    else if(strings_match(program->words[program->current_word-1], "size") && (number > 2500)){
+                        fprintf(program->error, "");
+                        return FALSE;
+                    }
+                    else if(strings_match(program->words[program->current_word-1], "angle") && (number > 360)){
+                        fprintf(program->error, "");
+                        return FALSE;
+                    }
                     if(strings_match(program->words[program->current_word-2], "if")){
                     }
                     else if (strings_match(program->words[program->current_word-2], "for")){
