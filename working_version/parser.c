@@ -108,11 +108,11 @@ int funclist(Prog *program){
         program->interpreter_index += 1;
         return TRUE;
     }
-    else if(strings_match(program->words[program->current_word], "")){      //Should this be something else, EOF?
+    else if(program->words[program->current_word][0] == '\0'){      //Should this be something else, EOF?
         fprintf(program->error, "\nProgram needs to end with '}'.\n");
         return FALSE;
     }
-    if(function(program)){
+    if(function(program) == TRUE){
         program->current_word += 1;
         return funclist(program);
     }
