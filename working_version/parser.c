@@ -154,7 +154,7 @@ int function(Prog *program){
 int loop(Prog *program){  
     int start_iteration, end_iteration;
     if(!strings_match(program->words[program->current_word], "iterations")){
-            fprintf(program->error, "\nFor loop only works for iterations\n");
+            fprintf(program->error, "\nFor loop only works with iterations\n");
             return FALSE;
     }
     statement(program);
@@ -166,14 +166,14 @@ int loop(Prog *program){
     }
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "iterations")){
-            fprintf(program->error, "\nFor loop only works for iterations\n");
+            fprintf(program->error, "\nFor loop only works with iterations\n");
             return FALSE;
     }
     statement(program);
     end_iteration = atoi(program->words[program->current_word]);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "{")){
-            fprintf(program->error, "\nFor loop starts with '{'\n");
+            fprintf(program->error, "\nFor loop needs to start with '{'\n");
             return FALSE;
     }
     program->current_word += 1;
