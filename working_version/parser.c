@@ -274,6 +274,11 @@ int attribute(Prog *program){
                     return TRUE;
                 }
                 else if (atoi(program->words[program->current_word]) != 0){  //MEANS YOU CAN ENTER A NUMERIC VALUE FOR ANY ACTION!
+                    if(strings_match(program->words[program->current_word-1], "iterations") && (atoi(program->words[program->current_word]) > 10)){
+                        fprintf(program->error, "\nIterations value should be from 0 to 10.");
+                        return FALSE;
+                    }
+
                     if(strings_match(program->words[program->current_word-2], "if")){
                     }
                     else if (strings_match(program->words[program->current_word-2], "for")){
