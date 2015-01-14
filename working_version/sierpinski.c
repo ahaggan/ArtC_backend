@@ -18,7 +18,6 @@ void sierpinski(Draw *fractal, Interface interface, int limit) {
 }
 
 int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int iterations, int limit, char c) {
-    //If the fractal shapes reach a size smaller than 2 pixels, or if we reach the desired no. of iterations
     if (current.size < 2 || iterations == limit) {
 /*        float angle;
         switch (c) {
@@ -34,9 +33,9 @@ int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int ite
     }
 
     Shape top, left, right;
-    make_shape(&top, current.x, current.y - (current.size / 4), current.size / 2, current.height / 2, fractal->angle);
-    make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, -2.0*M_PI/3.0 + fractal->angle);
-    make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, 2.0*M_PI/3.0 + fractal->angle);
+    make_shape(&top, current.x + ((current.size/4)*sin(fractal->angle)), current.y - ((current.size / 4)*cos(fractal->angle)), current.size / 2, current.height / 2, fractal->angle);
+    make_shape(&left, current.x + ((current.size / 4))*sin(fractal->angle - ((2*M_PI)/3.0)), current.y - ((current.size / 4))*cos(fractal->angle - ((2*M_PI)/3.0)), current.size / 2, current.height / 2, fractal->angle - ((2*M_PI)/3.0));
+    make_shape(&right, current.x + ((current.size / 4))*sin(fractal->angle + ((2*M_PI)/3.0)), current.y - ((current.size / 4))*cos(fractal->angle + ((2*M_PI)/3.0)), current.size / 2, current.height / 2, fractal->angle + ((2*M_PI)/3.0));
 
     iterations++;
 
