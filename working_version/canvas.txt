@@ -1,23 +1,23 @@
 run {
-   type star
-   iterations 5
+   type sierpinski
+   iterations 8
    angle 0
    shape triangle
-   colour gold
-   size 500
-   linethickness 5
+   colour grey
+   size 600
+   linethickness 3
 
-   for iterations 2 to iterations 3 {
+   for iterations 0 to iterations 2 {
       colour turquoise
    }
-   for iterations 4 to iterations 5 {
-      colour purple
-   } 
+
+   for iterations 3 to iterations 4 {
+      colour lime
+   }
+
+   
+
 }
-
-
-
-
 
 
 
