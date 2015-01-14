@@ -196,6 +196,7 @@ void fix_mac_flickering(Interface* interface, Mode mode);
 
 // MACS ARE TERRIBLE.
 int challenge_menu(Menu* challenges);
+int help_menu(Menu* help);
 
 int SDL_Main_Menu_Events(Menu* main_menu);
 void main_menu_actions(Menu* main);
@@ -257,6 +258,7 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
 void display_next_button(int win_width, int win_height, Interface* interface);
 void display_dividers(int win_width, int win_height, Interface* interface, Mode mode);
 
+void display_popup_text(Menu* menu);
 void display_canvas_text(Menu* main_menu);
 void display_challenges_text(Menu* main_menu);
 void display_beginner_text(Menu* challenges);

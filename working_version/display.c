@@ -203,6 +203,7 @@ void display_popup_text(Menu* menu) {
         break;
     case expert : display_expert_text(menu);
         break;
+    default : return;
   }
 }
 

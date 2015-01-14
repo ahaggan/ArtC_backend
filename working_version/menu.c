@@ -64,8 +64,8 @@ void main_menu_actions(Menu* menu) {
     case quit:
       menu->window.finished = 1;
       break;
+    default: return;
   }
- 
 }
 
 void challenge_menu_actions(Menu* challenges) {
@@ -83,6 +83,7 @@ void challenge_menu_actions(Menu* challenges) {
       case main_menu:
         challenges->state = main_menu;
         break;
+      default: return;
     }
 }
 
@@ -92,5 +93,6 @@ void help_menu_actions(Menu* help) {
       case back: 
         help->state = main_menu;
         break;
+      default: return;
     }
 }

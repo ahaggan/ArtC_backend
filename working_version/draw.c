@@ -100,6 +100,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
         SDL_RenderDrawLine(interface.window.renderer, c1x, c1y, c2x, c2y);
         SDL_RenderDrawLine(interface.window.renderer, c2x, c2y, c3x, c3y);
         SDL_RenderDrawLine(interface.window.renderer, c3x, c3y, c1x, c1y);
+
     }
 }
 
