@@ -36,7 +36,6 @@ int challenge_menu(Menu* challenges) {
 }
 
 int help_menu(Menu* help) {
-
   while(help->state != main_menu) {
     display_help_menu(help);
     render_update_clear(help->window);

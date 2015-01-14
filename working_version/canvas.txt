@@ -1,18 +1,18 @@
 run {
-   type tree
-   iterations 8
-   angle 180
-   shape line
+   type star
+   iterations 5
+   angle 0
+   shape triangle
    colour gold
-   size medium
-   linethickness 4
+   size 500
+   linethickness 5
 
-   for iterations 1 to iterations 3 {
+   for iterations 2 to iterations 3 {
       colour turquoise
    }
    for iterations 4 to iterations 5 {
       colour purple
-   }
+   } 
 }
 
 
