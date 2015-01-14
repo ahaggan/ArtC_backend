@@ -89,7 +89,10 @@ void assign_value(Prog* program, int iteration){
                 program->fractal->size[iteration] = 300;
             }
             else if(strings_match(program->interpreter[program->interpreter_index], "micro")){
-                program->fractal->size[iteration] = 25;
+                program->fractal->size[iteration] = 50;
+            }
+            else if(strings_match(program->interpreter[program->interpreter_index], "tidly")){
+                program->fractal->size[iteration] = 20;
             }
             else if(strings_match(program->interpreter[program->interpreter_index], "gargantuan")){
                 program->fractal->size[iteration] = 500;
@@ -141,7 +144,26 @@ void assign_value(Prog* program, int iteration){
     }
     else if(strings_match(program->interpreter[program->interpreter_index], "linethickness")){
         program->interpreter_index += 1;
-        program->fractal->linethickness[iteration] = atoi(program->interpreter[program->interpreter_index]);
+        size = abs(atoi(program->interpreter[program->interpreter_index]));
+        if( size == 0){
+        
+            if(strings_match(program->interpreter[program->interpreter_index], "thin")){
+                program->fractal->linethickness[iteration] = 1;
+            }
+            else if(strings_match(program->interpreter[program->interpreter_index], "thick")){
+                program->fractal->linethickness[iteration] = 5;
+            }
+            else if(strings_match(program->interpreter[program->interpreter_index], "sam")){
+                program->fractal->linethickness[iteration] = 15;
+            }
+            else{
+                //Will not be able to see this line
+                program->fractal->linethickness[iteration] = 0;
+            }
+        }
+        else{
+            program->fractal->linethickness[iteration] = size;
+        }
         
     }
     else if(strings_match(program->interpreter[program->interpreter_index], "angle")){
