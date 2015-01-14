@@ -394,6 +394,7 @@ void display_main_menu_button(int win_width, int win_height, Menu* challenges) {
 
 void display_help_menu(Menu* help) {
   int win_width, win_height;
+  render_update_clear(help->window);
   SDL_GetWindowSize(help->window.win, &win_width, &win_height);
   display_help_screen(help, win_width, win_height);
   display_back_button(help, win_width, win_height);
