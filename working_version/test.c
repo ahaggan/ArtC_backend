@@ -41,7 +41,7 @@ void test_parser(void){
     else{
         fprintf(test_results, "\nCheck action test FAILED.\n");
     } 
-    printf("\nBefore MAIN attribute test");
+    
     if (test_attribute(test_results) == PASSED){
         fprintf(test_results, "\nAttribute test PASSED.\n");
     }
@@ -220,37 +220,26 @@ int test_check_action(FILE *test_results){
 }
 
 int test_statement(FILE *test_results){
-    
+    return PASSED;
 }
 
 int test_attribute(FILE *test_results){
-    printf("\nStart of attribute test");
+    
     Prog test_program;
     
     int pass_count = 0, no_of_tests = 0;
     initialise_words_array(&test_program);
-    printf("\nAfter initialise array.");
     create_struct_array(test_program.actions);
-    printf("\nAfter create struct array.");
+    
     initialise_interpreter_array(&test_program);
-    printf("\nAfter interpreter array.");
-    printf("\nBefore attribute test 1.");
     test_program.current_word = 2;
-    printf("\nAfter set current word");
     no_of_tests += 1;
-    printf("\nBefore String copy");
     strcpy(test_program.words[0], "arbitrary"); //Just needs to be a word other than if, for or to.
-    printf("\nAfter string copy 1");
     
     strcpy(test_program.words[1], "colour");
-    printf("\nAfter string copy 2");
     strcpy(test_program.words[2], "blue");
-    printf("\nAfter string copy 3");
-    printf("\nCurrent word = %d", test_program.current_word);
-    printf("\nAfter string copy 3");
     //correct input, should return TRUE
-    if (attribute(&test_program) == TRUE){  
-        printf("\nInside attribute");      
+    if (attribute(&test_program) == TRUE){        
         fprintf(test_results, "\nAttribute test 1: Passed");
         pass_count += 1;
     }
@@ -258,7 +247,6 @@ int test_attribute(FILE *test_results){
         fprintf(test_results, "\nAttribute test 1: Failed");
     }
     
-    printf("\nBefore attribute test 2.");
     test_program.current_word = 2;
     no_of_tests += 1;
     strcpy(test_program.words[0], "arbitrary");
@@ -273,7 +261,6 @@ int test_attribute(FILE *test_results){
         fprintf(test_results, "\nAttribute test 2: Failed");
     }
     
-    printf("\nBefore attribute test 3.");
     test_program.current_word = 2;
     no_of_tests += 1;
     strcpy(test_program.words[0], "arbitrary");
@@ -286,6 +273,20 @@ int test_attribute(FILE *test_results){
     }
     else{
         fprintf(test_results, "\nAttribute test 3: Failed");
+    }
+    
+    test_program.current_word = 2;
+    no_of_tests += 1;
+    strcpy(test_program.words[0], "arbitrary");
+    strcpy(test_program.words[1], "size");
+    strcpy(test_program.words[2], "10");
+    //correct input, should return TRUE
+    if (attribute(&test_program) == TRUE){        
+        fprintf(test_results, "\nAttribute test 4: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nAttribute test 4: Failed");
     }
     
     if(pass_count == no_of_tests){
