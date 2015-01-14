@@ -73,9 +73,9 @@ void test_interpreter(Prog *program){
     }
     for(int i = 0; i < MAX_ITERATIONS; i++){
     
-        printf("\nFactal colour %d: %s", i, program->fractal->colour[i]);
-        printf("\nFactal shape %d: %s", i, program->fractal->shape[i]);
-        printf("\nFactal type %d: %s", i, program->fractal->type[i]);
+        printf("\nFractal colour %d: %s", i, program->fractal->colour[i]);
+        printf("\nFractal shape %d: %s", i, program->fractal->shape[i]);
+        printf("\nFractal type %d: %s", i, program->fractal->type[i]);
     }
 }
 
@@ -86,12 +86,12 @@ int validate(Prog *program){
     if(!strings_match(program->words[program->current_word], "run") || program->words[program->current_word][0] == '\0'){
         printf("\nInside validate if\n");
         printf("\nWord: %s\n", program->words[program->current_word]);
-        fprintf(program->error, "\nProgram needs to start with 'run {'");
+        fprintf(program->error, "Program needs to start with 'run {'");
         return FALSE;
     }
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "{") || program->words[program->current_word] == NULL){
-        fprintf(program->error, "\nProgram needs to start with 'run {'");
+        fprintf(program->error, "Program needs to start with 'run {'");
         return FALSE;
     }
     program->current_word += 1;
@@ -109,7 +109,7 @@ int funclist(Prog *program){
         return TRUE;
     }
     else if(strings_match(program->words[program->current_word], "")){      //Should this be something else, EOF?
-        fprintf(program->error, "\nProgram needs to end with '}'.\n");
+        fprintf(program->error, "Program needs to end with '}'.");
         return FALSE;
     }
     if(function(program)){
@@ -137,7 +137,7 @@ int function(Prog *program){
             return conditional(program);
         }
         else {
-            fprintf(program->error, "\nThe action %s is not a valid condition for an if statement.\n", program->words[program->current_word]);
+            fprintf(program->error, "The action %s is not a valid condition for an if statement.\n", program->words[program->current_word]);
         return FALSE;
         }
         
@@ -154,31 +154,31 @@ int function(Prog *program){
 int loop(Prog *program){  
     int start_iteration, end_iteration;
     if(!strings_match(program->words[program->current_word], "iterations")){
-            fprintf(program->error, "\nFor loop only works for iterations\n");
+            fprintf(program->error, "For loop only works for iterations");
             return FALSE;
     }
     statement(program);
     start_iteration = atoi(program->words[program->current_word]);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "to")){
-            fprintf(program->error, "\nFor loop needs the word 'to' between the two conditions\n");
+            fprintf(program->error, "For loop needs the word 'to' between the two conditions");
             return FALSE;
     }
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "iterations")){
-            fprintf(program->error, "\nFor loop only works for iterations\n");
+            fprintf(program->error, "For loop only works for iterations");
             return FALSE;
     }
     statement(program);
     end_iteration = atoi(program->words[program->current_word]);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "{")){
-            fprintf(program->error, "\nFor loop starts with '{'\n");
+            fprintf(program->error, "For loop starts with '{'");
             return FALSE;
     }
     program->current_word += 1;
     if(start_iteration > end_iteration){
-        fprintf(program->error, "\nStart iteration needs to be lower than the end iteration in your for loop.\n");
+        fprintf(program->error, "Start iteration needs to be lower than the end iteration in your for loop.");
         return FALSE;
     }
     
@@ -207,12 +207,12 @@ int conditional(Prog *program){  //if function
     //statement(program);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "then")){
-        fprintf(program->error, "\nIf condition needs to be followed with 'then {'");
+        fprintf(program->error, "If condition needs to be followed with 'then {'");
         return FALSE;
     }
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "{")){
-        fprintf(program->error, "\nIf condition needs to be followed with 'then {'");
+        fprintf(program->error, "If condition needs to be followed with 'then {'");
         return FALSE;
     }
     program->current_word += 1;
@@ -227,12 +227,12 @@ int statement(Prog *program){
             return TRUE;
         }
         else{
-            fprintf(program->error, "\n Attribute word %s is not valid with action %s", program->words[program->current_word], program->words[program->current_word-1] );
+            fprintf(program->error, "Attribute word %s is not valid with action %s", program->words[program->current_word], program->words[program->current_word-1] );
             return FALSE;
         }
     }
     else{
-        fprintf(program->error, "\n Action word %s is not valid.", program->words[program->current_word]);
+        fprintf(program->error, "Action word %s is not valid.", program->words[program->current_word]);
         return FALSE;
     }
 }

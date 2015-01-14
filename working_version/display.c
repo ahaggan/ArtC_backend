@@ -732,6 +732,8 @@ void display_current_challenge(int win_width, int win_height, Interface* interfa
 void text_align_central( char* centred_string, char* input_string, int textbox_width) {
   int length = strlen(input_string);
   if (length > textbox_width) {
+    printf("%d\n", length);
+    printf("%d\n", textbox_width);
     printf("String too long for the textbox!\n");
     return ;
   }

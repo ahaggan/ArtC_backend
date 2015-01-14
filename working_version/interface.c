@@ -128,28 +128,70 @@ void set_challenges_based_on_level(char* file_name, Interface* interface) {
   }
 }
 
-void display_error(Interface *interface) 
-{
+void display_error(Interface *interface) {
   Area box;
-  char message[ERROR_MAX];
+  Area text_box_top;
+  Area text_box_bottom;
+
+  char message_top[ERROR_TEXTBOX];
+  char message_bottom[ERROR_TEXTBOX];
+
+  char aligned_message_top[ERROR_TEXTBOX];
+  char aligned_message_bottom[ERROR_TEXTBOX];
+
   char c;
-  int i=0;
+
+  int i=0, j=0;
+
   FILE *file = fopen("error_message.artc", "r");
 
-  while((c=getc(file))!=EOF && i<ERROR_MAX-1) {
-    message[i] = c;
+  while((c=getc(file))!=EOF && i < (ERROR_TEXTBOX * 2) - 2) {
+   printf("i is %d\n", i);
+    if (i < ERROR_TEXTBOX - 1) {
+       printf("Top: %c\n", c);
+       message_top[i] = c;
+    }
+    else {
+      if (message_top[ERROR_TEXTBOX - 2] != ' ') {
+        printf("Message top final cell not ' '\n Do i-- while not ' '.\n");
+        do {
+          i--;
+          printf("%c\n", message_top[i]);
+        } while (message_top[i] != ' ');
+        while (i < ERROR_TEXTBOX - 1) {
+          message_bottom[j++] = message_top[i+1];
+          message_top[i+1] = ' ';
+          i++;
+        }
+        i += j - 1;
+      }    
+      printf("Bottom: %c\n", c);
+      message_bottom[i- ERROR_TEXTBOX + 1] = c;
+    }
     i++;
   }    
-  message[i] = '\0';
 
-  SDL_Event event; 
+  message_top[ERROR_TEXTBOX - 1] = '\0';
+  message_bottom[ERROR_TEXTBOX - 1] = '\0';
+   
+//message_bottom[i] = '\0';
+
+  printf("top: %lu bottom: %lu\n", strlen(message_top), strlen(message_bottom)); 
+  text_align_central(aligned_message_top, message_top, ERROR_TEXTBOX);
+ 
+  text_align_central(aligned_message_bottom, message_bottom, ERROR_TEXTBOX);
+ 
+   SDL_Event event; 
   do {
-
     make_rect(&interface->window, &box, 0, 200, interface->text_editor_panel.rect.w, 100, 255,255,255);
-    make_text(&interface->window, &box.rect, 255,0,0, interface->challenge_font, message);
-    render_update_clear(interface->window);
 
+    make_rect(&interface->window, &text_box_top, 0, box.rect.y + (box.rect.h / 4), interface->text_editor_panel.rect.w, CHALLENGE_FONT * 1.45, 255,255,255);
+    make_text(&interface->window, &text_box_top.rect, 241, 35, 65, interface->challenge_font, aligned_message_top);
+
+    make_rect(&interface->window, &text_box_bottom, 0, text_box_top.rect.y + text_box_top.rect.h, interface->text_editor_panel.rect.w, CHALLENGE_FONT * 1.45, 255,255,255);
+    make_text(&interface->window, &text_box_bottom.rect, 241, 35, 65, interface->challenge_font, aligned_message_bottom);
+
+    render_update_clear(interface->window);
     SDL_PollEvent(&event); 
-  }
-  while(event.type != SDL_MOUSEBUTTONDOWN);
+  } while(event.type != SDL_MOUSEBUTTONDOWN);
 }
