@@ -6,14 +6,14 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
     SDL_GetMouseState(&x, &y);
 
     if (within_button(x, y, main_menu->canvas_button.rect)) {
-        display_canvas_text(main_menu);
-        render_update_clear(main_menu->window);
+        main_menu->hover = canvas;
     }
     else if (within_button(x, y, main_menu->challenges_button.rect)) {
-        display_challenges_text(main_menu);
-        render_update_clear(main_menu->window);
+        main_menu->hover = challenges_menu;
     }
-    
+    else {
+        main_menu->hover = 0;
+    }    
 
     while(SDL_PollEvent(&event)) { 
         
@@ -53,18 +53,19 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
     SDL_Event event;
     int x, y;
     SDL_GetMouseState(&x, &y);
+    challenges->hover = 0;
 
-     if (within_button(x, y, challenges->beginner.rect)) {
-       display_beginner_text(challenges);
-        render_update_clear(challenges->window);
+    if (within_button(x, y, challenges->beginner.rect)) {
+        challenges->hover = beginner;
     }
     else if (within_button(x, y, challenges->intermediate.rect)) {
-       display_intermediate_text(challenges);
-        render_update_clear(challenges->window);
+        challenges->hover = intermediate;
     }
     else if (within_button(x, y, challenges->expert.rect)) {
-       display_expert_text(challenges);
-        render_update_clear(challenges->window);
+        challenges->hover = expert;
+    }
+    else {
+        challenges->hover = 0;
     }
 
     while(SDL_PollEvent(&event)) { 
@@ -244,6 +245,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
             console_text_editor(*interface);
             return text_edited;
         break;
+
 
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.
         case SDL_TEXTINPUT:

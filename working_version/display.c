@@ -191,6 +191,21 @@ void display_quit_button(int win_width, int win_height, Menu* main_menu) {
    SDL_DestroyTexture(image); 
 }
 
+void display_popup_text(Menu* menu) {
+  switch(menu->hover) {
+    case canvas : display_canvas_text(menu);
+        break;
+    case challenges_menu : display_challenges_text(menu);
+        break;
+    case beginner : display_beginner_text(menu);
+        break;
+    case intermediate : display_intermediate_text(menu);
+        break;
+    case expert : display_expert_text(menu);
+        break;
+  }
+}
+
 void display_canvas_text(Menu* main_menu) {
    int win_width, win_height;
      SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
@@ -206,7 +221,6 @@ void display_canvas_text(Menu* main_menu) {
   SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->canvas_text.rect);
   SDL_DestroyTexture(image); 
 }
-
 
 void display_challenges_text(Menu* main_menu) {
    int win_width, win_height;
@@ -237,7 +251,6 @@ void initialise_challenges_menu(Menu* challenges) {
    display_expert_button(win_width, win_height, challenges);
    display_main_menu_button(win_width, win_height, challenges);
 }
-
 
 void display_beginner_text(Menu* challenges) {
    int win_width, win_height;
