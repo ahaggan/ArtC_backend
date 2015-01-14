@@ -34,7 +34,7 @@ int sierpinskiiterate(Draw *fractal, Interface interface, Shape current, int ite
     }
 
     Shape top, left, right;
-    make_shape(&top, current.x, current.y - (current.height / 4), current.size / 2, current.height / 2, fractal->angle);
+    make_shape(&top, current.x, current.y - (current.size / 4), current.size / 2, current.height / 2, fractal->angle);
     make_shape(&left, current.x - (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, -2.0*M_PI/3.0 + fractal->angle);
     make_shape(&right, current.x + (current.size / 4), current.y + (current.size / 4), current.size / 2, current.height / 2, 2.0*M_PI/3.0 + fractal->angle);
 

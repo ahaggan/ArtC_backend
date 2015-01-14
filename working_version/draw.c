@@ -92,15 +92,14 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 //printf("%f|%f|%f|%f\n", (x-size/2.0)*sin(angle), (y-size/2.0)*cos(angle), (x+size/2.0)*sin(angle), (y+size/2.0)*cos(angle));
     }
 
-    else if(strcmp(fractal->shape[i-1], "triangle_outline") == 0) {
-    angle = 0; // THIS MAKES THE TRIANGLES ALL DRAW STRAIGHT FOR NOW.
-    int c1x = x+((size/2.0)*sin(angle)), c1y = y-((size/2.0)*cos(angle));
-    int c2x = x+((size/2.0)*sin(angle+(M_PI*(2.0/3.0)))), c2y = y-((size/2.0)*cos(angle+(M_PI*(2.0/3.0))));
-    int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0)))), c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
+    else if(strcmp(fractal->shape[i-1], "triangle") == 0) {
+        int c1x = x+((size/2.0)*sin(angle)), c1y = y-((size/2.0)*cos(angle));
+        int c2x = x+((size/2.0)*sin(angle+(M_PI*(2.0/3.0)))), c2y = y-((size/2.0)*cos(angle+(M_PI*(2.0/3.0))));
+        int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0)))), c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
 
-    SDL_RenderDrawLine(interface.window.renderer, c1x, c1y, c2x, c2y);
-    SDL_RenderDrawLine(interface.window.renderer, c2x, c2y, c3x, c3y);
-    SDL_RenderDrawLine(interface.window.renderer, c3x, c3y, c1x, c1y);
+        SDL_RenderDrawLine(interface.window.renderer, c1x, c1y, c2x, c2y);
+        SDL_RenderDrawLine(interface.window.renderer, c2x, c2y, c3x, c3y);
+        SDL_RenderDrawLine(interface.window.renderer, c3x, c3y, c1x, c1y);
     }
 }
 
