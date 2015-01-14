@@ -66,7 +66,6 @@ int interface(Menu* main, Mode mode, char* file_name) {
         printf("Load help menu\n");
         main->state = options_menu;
         help_menu(main);
-        clear_area(&interface.window, interface.canvas);
       }
 
 
@@ -147,19 +146,14 @@ void display_error(Interface *interface) {
   FILE *file = fopen("error_message.artc", "r");
 
   while((c=getc(file))!=EOF && i < (ERROR_TEXTBOX * 2) - 2) {
-   printf("i is %d\n", i);
-  printf("Char: %c\n", c);
-  printf("Char: %d\n", c);
     if (i < ERROR_TEXTBOX - 1) {
        
        message_top[i] = c;
     }
     else {
       if (message_top[ERROR_TEXTBOX - 2] != ' ') {
-        printf("Message top final cell not ' '\n Do i-- while not ' '.\n");
         do {
           i--;
-          printf("%c\n", message_top[i]);
         } while (message_top[i] != ' ');
         while (i < ERROR_TEXTBOX - 1) {
           message_bottom[j++] = message_top[i+1];
@@ -168,7 +162,6 @@ void display_error(Interface *interface) {
         }
         i += j - 1;
       }    
-      printf("Bottom: %c\n", c);
       message_bottom[i- ERROR_TEXTBOX + 1] = c;
     }
     i++;
@@ -177,7 +170,6 @@ void display_error(Interface *interface) {
   message_top[ERROR_TEXTBOX - 1] = '\0';
   message_bottom[ERROR_TEXTBOX - 1] = '\0';
    
-  printf("top: %lu bottom: %lu\n", strlen(message_top), strlen(message_bottom)); 
   text_align_central(aligned_message_top, message_top, ERROR_TEXTBOX);
  
   text_align_central(aligned_message_bottom, message_bottom, ERROR_TEXTBOX);
