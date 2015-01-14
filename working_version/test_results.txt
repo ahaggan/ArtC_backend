@@ -17,4 +17,9 @@ Funclist test PASSED.
 Check action test 1: Passed
 Check action test 2: Passed
 Check action test 3: Passed
-Function test PASSED.
+Check action test PASSED.
+
+Attribute test 1: Passed
+Attribute test 2: Passed
+Attribute test 3: Passed
+Attribute test PASSED.
