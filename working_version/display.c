@@ -65,12 +65,6 @@ TTF_Font* SDL_Load_Font(char* font_path, int font_size) {
    return font;
 }
 
-SDL_Texture* SurfaceToTexture(SDL_Surface* surface, SDL_Win* w) {
-   SDL_Texture* texture = SDL_CreateTextureFromSurface(w->renderer, surface);
-   SDL_FreeSurface(surface);
-   return texture;
-}
-
 void SDL_TTF_Quit(TTF_Font *font) {
    TTF_CloseFont(font);
    TTF_Quit();
@@ -824,7 +818,7 @@ void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b,
                TTF_Font *font, char* text) {
    SDL_Color textcolour = {r,g,b,255};
    SDL_Surface* textsurface = TTF_RenderText_Blended(font, text, textcolour);
-   SDL_Texture* texttexture = SurfaceToTexture(textsurface, win);
+   SDL_Texture* texttexture = surface_to_texture(textsurface, win);
    SDL_RenderCopy(win->renderer, texttexture, NULL, location);
    SDL_DestroyTexture(texttexture);
 }
