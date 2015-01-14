@@ -176,8 +176,6 @@ void display_error(Interface *interface) {
   message_top[ERROR_TEXTBOX - 1] = '\0';
   message_bottom[ERROR_TEXTBOX - 1] = '\0';
    
-//message_bottom[i] = '\0';
-
   printf("top: %lu bottom: %lu\n", strlen(message_top), strlen(message_bottom)); 
   text_align_central(aligned_message_top, message_top, ERROR_TEXTBOX);
  
@@ -195,5 +193,5 @@ void display_error(Interface *interface) {
 
     render_update_clear(interface->window);
     SDL_PollEvent(&event); 
-  } while(event.type != SDL_MOUSEBUTTONDOWN);
+  } while(event.type != SDL_MOUSEBUTTONDOWN && event.type != SDL_KEYDOWN);
 }
