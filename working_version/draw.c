@@ -122,6 +122,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
         int y1 = y+(size*cos(angle));
         int x2 = x+(size*sin(angle));
         int y2 = y-(size*cos(angle));
+
         SDL_Line(interface.window.renderer, x1, y1, x2, y2, 
                           fractal->linethickness[i-1], angle);
     }
@@ -137,7 +138,22 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
         SDL_RenderDrawLine(interface.window.renderer, c1x, c1y, c2x, c2y);
         SDL_RenderDrawLine(interface.window.renderer, c2x, c2y, c3x, c3y);
         SDL_RenderDrawLine(interface.window.renderer, c3x, c3y, c1x, c1y);
+    }
 
+    else if(strcmp(fractal->shape[i-1], "image") == 0) {
+        int image_x, image_y, image_w, image_h;
+        SDL_Texture* image = load_image("image.bmp", &interface.window);
+        Area img;
+
+        image_x = x - (size/2);
+        image_y = y - (size/2);
+        image_w = image_h = 150;
+
+        make_rect(&interface.window, &img, image_x, image_y, image_w, image_h, 0, 0, 0);
+
+        SDL_RenderCopy(interface.window.renderer, image, 
+                         NULL, &img.rect);
+        SDL_DestroyTexture(image); 
     }
 }
 

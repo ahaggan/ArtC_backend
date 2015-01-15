@@ -2,14 +2,19 @@ run {
    type star
    iterations 8
    angle 0
-   shape random
+   shape image
    colour random
+<<<<<<< HEAD
    size medium
    linethickness 4
 }
 
 
 
+=======
+   size 500
+   linethickness 8
+>>>>>>> FETCH_HEAD
 
 
 
