@@ -2,6 +2,27 @@
 
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle, int i) 
 {
+    if(strcmp(fractal->colour[i-1], "random") == 0) {
+        switch(rand()%COLOUR_SIZE) {
+            case 0 : strcpy(fractal->colour[i-1], "black"); break;
+            case 1 : strcpy(fractal->colour[i-1], "red"); break;
+            case 2 : strcpy(fractal->colour[i-1], "pink"); break;
+            case 3 : strcpy(fractal->colour[i-1], "fuchsia"); break;
+            case 4 : strcpy(fractal->colour[i-1], "purple"); break;
+            case 5 : strcpy(fractal->colour[i-1], "blue"); break;
+            case 6 : strcpy(fractal->colour[i-1], "navy"); break;
+            case 7 : strcpy(fractal->colour[i-1], "turquoise"); break;
+            case 8 : strcpy(fractal->colour[i-1], "green"); break;
+            case 9 : strcpy(fractal->colour[i-1], "lime"); break;
+            case 10: strcpy(fractal->colour[i-1], "yellow"); break;
+            case 11: strcpy(fractal->colour[i-1], "olive"); break;
+            case 12: strcpy(fractal->colour[i-1], "gold"); break;
+            case 13: strcpy(fractal->colour[i-1], "orange"); break;
+            case 14: strcpy(fractal->colour[i-1], "grey"); break;
+            case 15: strcpy(fractal->colour[i-1], "brown"); break;
+            case 16: strcpy(fractal->colour[i-1], "white"); break;
+        }
+    }
 
     if (strcmp(fractal->colour[i-1], "black") == 0) {
         SDL_SetRenderDrawColor(interface.window.renderer, 0, 0, 0, 255);
@@ -69,6 +90,19 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 
     else if (strcmp(fractal->colour[i-1], "white") == 0) {
         SDL_SetRenderDrawColor(interface.window.renderer, 240, 240, 240, 255);
+    }
+
+    else if (strcmp(fractal->colour[i-1], "random") == 0) {
+        SDL_SetRenderDrawColor(interface.window.renderer, rand(), rand(), rand(), 255);
+    }
+
+    if(strcmp(fractal->shape[i-1], "random") == 0) {
+        switch(rand()%4) {
+            case 0 : strcpy(fractal->shape[i-1], "square"); break;
+            case 1 : strcpy(fractal->shape[i-1], "circle"); break;
+            case 2 : strcpy(fractal->shape[i-1], "line"); break;
+            case 3 : strcpy(fractal->shape[i-1], "triangle"); break;
+        }
     }
 
     if (strcmp(fractal->shape[i-1], "square") == 0) {

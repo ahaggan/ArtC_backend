@@ -1,18 +1,21 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include "artc.h"
 
 #define MAX_ITERATIONS 10
+
 #define NO_OF_INSTRUCTIONS 1000
+
+#define NO_OF_INSTRUCTIONS 60
+
 //#define VALID_SYMBOLS A-Z, a-z, 0-9, {, }
 #define MAX_WORDS 1000
 #define WORD_LENGTH 15
 #define strings_match(A, B) (strcmp(A, B) == 0)
 #define ACTION {"colour", "move", "size", "shape", "startx", "starty", "endx", "endy", "type", "iterations", "linethickness", "angle", "splits"}
 #define ACTION_SIZE 13
-#define ATTRIBUTE { "black", "red", "pink", "fuchsia", "purple", "blue", "navy", "turquoise", "green", "lime", "yellow", "olive", "gold", "orange", "grey", "brown", "white", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "small", "medium", "large", "micro", "gargantuan", "tidly", "0", "STOP", "NEXT", "circle", "triangle", "square", "line", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "sierpinski", "tree", "carpet", "snowflake", "star", "STOP", "NEXT", "0", "STOP", "NEXT", "thin", "thick", "sam", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT"}
-#define ATTRIBUTE_SIZE 78
+#define ATTRIBUTE { "black", "red", "pink", "fuchsia", "purple", "blue", "navy", "turquoise", "green", "lime", "yellow", "olive", "gold", "orange", "grey", "brown", "white", "random", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "small", "medium", "large", "micro", "gargantuan", "tidly", "0", "STOP", "NEXT", "circle", "triangle", "square", "line", "random", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "sierpinski", "tree", "carpet", "snowflake", "star", "STOP", "NEXT", "0", "STOP", "NEXT", "thin", "thick", "sam", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT"}
+#define ATTRIBUTE_SIZE 80
 
 
 typedef struct action {
@@ -36,7 +39,7 @@ typedef enum action_word {
 /*
 typedef enum attribute_word{red, green, blue, pink, purple, brown, up, down, left, right, circle, triangle, square, line, triangle, sierpinski, tree, carpet, snowflake, star}attribute_word;
 */
-int for_loop(Prog* program, int start, int end);
+void for_loop(Prog* program, int start, int end);
 int check_condition(Prog* program, int iteration);
 void search_for_end(Prog* program);
 void interpreter(Prog* program);

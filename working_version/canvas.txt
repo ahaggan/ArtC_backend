@@ -1,23 +1,23 @@
 run {
    type tree
    iterations 8
-   angle 45
-   shape line
-   colour red
-   size 600
+   angle 0
+   shape random
+   colour random
+   size gargantuan
    linethickness 8
 
    for iterations 0 to iterations 4 {
-      colour brown
+      colour random
    }
 
-   for iterations 3 to iterations 8 {
-      colour green
-   }
-
-   
 
 }
+
+
+
+
+
 
 
 
