@@ -516,305 +516,373 @@ void display_help_button(int win_width, int win_height,
     }
 }
 
-void display_canvas(int win_width, int win_height, Interface* interface, Mode mode) {
-  int canvas_x, canvas_y, canvas_w, canvas_h;
+void display_canvas(int win_width, int win_height, 
+                      Interface* interface, Mode mode) {
+    int canvas_x, canvas_y, canvas_w, canvas_h;
 
-  canvas_x = win_width / TEXT_ED_WIDTH + 1;
-  canvas_w = win_width - win_width / TEXT_ED_WIDTH;
+    canvas_x = win_width / TEXT_ED_WIDTH + 1;
+    canvas_w = win_width - win_width / TEXT_ED_WIDTH;
 
-  if (mode == challenge_mode) {
-    canvas_y = interface->toolbar.rect.h;
-    canvas_h = win_height - interface->toolbar.rect.h;
-  }
-  else {
-    canvas_y = 0;
-    canvas_h = win_height;
-  }
+    if (mode == challenge_mode) {
+        canvas_y = interface->toolbar.rect.h;
+        canvas_h = win_height - interface->toolbar.rect.h;
+    }
+    else {
+        canvas_y = 0;
+        canvas_h = win_height;
+    }
 
-  make_rect(&interface->window, &interface->canvas, canvas_x, canvas_y, canvas_w,
-           canvas_h, 255, 255, 255);
+    make_rect(&interface->window, &interface->canvas, 
+                canvas_x, canvas_y, canvas_w, canvas_h, 
+                  255, 255, 255);
 }
 
 void display_text_editor(int win_width, int win_height, Interface* interface) {
    int texted_x, texted_y, texted_w, texted_h;
 
-   texted_y = interface->toolbar.rect.h;
+    texted_x = 0;
+    texted_y = interface->toolbar.rect.h;
+    texted_w = win_width / TEXT_ED_WIDTH;
+    texted_h = win_height - interface->toolbar.rect.h - 
+                 interface->generate_button.rect.h;
 
-   texted_x = 0;
-   texted_w = win_width / TEXT_ED_WIDTH;
-   texted_h = win_height - interface->toolbar.rect.h - 
-              interface->generate_button.rect.h;
-
-   make_rect(&interface->window, &interface->text_editor_panel, texted_x, 
-            texted_y, texted_w, texted_h,  43, 43, 39);
+    make_rect(&interface->window, &interface->text_editor_panel, 
+                texted_x, texted_y, texted_w, texted_h, 
+                  43, 43, 39);
 }
 
-void display_current_challenge(int win_width, int win_height, Interface* interface) {
-   int curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h;
-   char centred_string[MAX_CHALLENGE_LEN];
-   
-   text_align_central(centred_string, interface->challenges[interface->challenge_num], MAX_CHALLENGE_LEN);
+void display_current_challenge(int win_width, int win_height, 
+                                 Interface* interface) {
+    int curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h;
+    char centred_string[MAX_CHALLENGE_LEN];
 
-   curr_chall_x = interface->previous_button.rect.x + interface->previous_button.rect.w;
-   curr_chall_y = 0;
-   curr_chall_w = win_width - (win_width / TEXT_ED_WIDTH) - interface->previous_button.rect.w * 2;
-                
-   curr_chall_h = interface->menu_button.rect.h;
+    curr_chall_x = interface->previous_button.rect.x + 
+                     interface->previous_button.rect.w;
+    curr_chall_y = 0;
+    curr_chall_w = win_width - (win_width / TEXT_ED_WIDTH) - 
+                     (interface->previous_button.rect.w * 2);
+    curr_chall_h = interface->menu_button.rect.h;
 
-   make_rect(&interface->window, &interface->current_challenge, curr_chall_x, 
-            curr_chall_y, curr_chall_w, curr_chall_h, 240, 240, 240);
-  make_rect(&interface->window, &interface->current_challenge_text, curr_chall_x, 
-            curr_chall_y + curr_chall_h / 5, curr_chall_w, CHALLENGE_FONT_SIZE * 1.45, 240, 240, 240);
-   make_text(&interface->window, &interface->current_challenge_text.rect, 
-                interface->challenge_font, centred_string, 0, 0, 0);
- 
+    make_rect(&interface->window, &interface->current_challenge, 
+                curr_chall_x, curr_chall_y, curr_chall_w, curr_chall_h, 
+                  240, 240, 240);
+
+    make_rect(&interface->window, &interface->current_challenge_text, 
+                curr_chall_x, curr_chall_y + curr_chall_h / 5, 
+                curr_chall_w, CHALLENGE_FONT_SIZE * 1.45, 
+                  240, 240, 240);
+
+    text_align_central(centred_string, 
+                         interface->challenges[interface->challenge_num], 
+                           MAX_CHALLENGE_LEN);
+    make_text(&interface->window, &interface->current_challenge_text.rect, 
+                interface->challenge_font, centred_string, 
+                  0, 0, 0); 
 }
 
-void display_previous_button(int win_width, int win_height, Interface* interface) {
-   int previous_button_x, previous_button_y, previous_button_w, previous_button_h;
-        char prev_text[PREV_NEXT_TEXTBOX];
+void display_previous_button(int win_width, int win_height, 
+                               Interface* interface) {
+    int previous_button_x, previous_button_y;
+    int previous_button_w, previous_button_h;
+    char prev_text[PREV_NEXT_TEXTBOX];
+
+    previous_button_x = interface->text_editor_panel.rect.w + 1;
+    previous_button_y = 0;
+    previous_button_w = (win_width / TEXT_ED_WIDTH) / PREV_NEXT_BUTTON;
+    previous_button_h = interface->menu_button.rect.h;
+
+    make_rect(&interface->window, &interface->previous_button, 
+                previous_button_x, previous_button_y, 
+                previous_button_w, previous_button_h, 
+                  241, 35, 65);
+
     text_align_central(prev_text, "PREV", PREV_NEXT_TEXTBOX);
-
-   previous_button_x = interface->text_editor_panel.rect.w + 1;
-   previous_button_w = (win_width / TEXT_ED_WIDTH) / PREV_NEXT_BUTTON;
-   previous_button_h = interface->menu_button.rect.h;
-   previous_button_y = 0;
-
-   make_rect(&interface->window, &interface->previous_button, previous_button_x, 
-            previous_button_y, previous_button_w, previous_button_h, 241, 35, 65);
-   make_text(&interface->window, &interface->previous_button.rect,
-            interface->button_font, prev_text, 255, 255, 255);   
+    make_text(&interface->window, &interface->previous_button.rect,
+                interface->button_font, prev_text, 
+                  255, 255, 255);   
 }
 
 void display_next_button(int win_width, int win_height, Interface* interface) {
-   int next_button_x, next_button_y, next_button_w, next_button_h;
+    int next_button_x, next_button_y, next_button_w, next_button_h;
     char next_text[PREV_NEXT_TEXTBOX];
+
+    next_button_x = interface->current_challenge.rect.x + 
+                      interface->current_challenge.rect.w;
+    next_button_y = interface->current_challenge.rect.y;
+    next_button_w = (win_width / TEXT_ED_WIDTH) / PREV_NEXT_BUTTON;
+    next_button_h = interface->menu_button.rect.h;
+
+    make_rect(&interface->window, &interface->next_button, 
+                next_button_x, next_button_y, next_button_w, next_button_h, 
+                  241, 35, 65);
+
     text_align_central(next_text, "NEXT", PREV_NEXT_TEXTBOX);
-
-   next_button_x = interface->current_challenge.rect.x + 
-                  interface->current_challenge.rect.w;
-   next_button_w = (win_width / TEXT_ED_WIDTH) / PREV_NEXT_BUTTON;
-   next_button_h = interface->menu_button.rect.h;
-   next_button_y = interface->current_challenge.rect.y;
-
-   make_rect(&interface->window, &interface->next_button, next_button_x, 
-            next_button_y, next_button_w, next_button_h, 241, 35, 65);
-   make_text(&interface->window, &interface->next_button.rect,
-            interface->button_font, next_text,  255, 255, 255);   
+    make_text(&interface->window, &interface->next_button.rect,
+                interface->button_font, next_text,  
+                  255, 255, 255);   
 }
 
-void display_dividers(int win_width, int win_height, Interface* interface, Mode mode) {
-  /* Toolbar */
-  //bottom divider
-   make_rect(&interface->window, &interface->toolbar_bottom_divider, 0, interface->toolbar.rect.h - 1, 
-             interface->toolbar.rect.w, 1, 20, 20, 20);
-   if (mode == challenge_mode) {
-
-    //Menu/Learn divider
-    make_rect(&interface->window, &interface->menu_learn_divider, interface->learn_button.rect.x - 1, 0, 
-            1, interface->menu_button.rect.h, 20, 20, 20);
-   
-   
-  }
-   //Learn/Help divider OR menu/help divider
-    make_rect(&interface->window, &interface->learn_help_divider, interface->help_button.rect.x - 1, 0,
-            1, interface->menu_button.rect.h, 20, 20, 20);
-
-  //Text Editor/Canvas divider
-   make_rect(&interface->window, &interface->toolbar_bottom_divider, interface->text_editor_panel.rect.w,
-            0, 1, win_height, 20, 20, 20);
-
-  //Generate/Reset divider
-  make_rect(&interface->window, &interface->reset_generate_divider, interface->generate_button.rect.x - 1, 
-            interface->generate_button.rect.y,  1, interface->generate_button.rect.h, 0, 0, 0);
-
-  //Generate/Reset top border
-  make_rect(&interface->window, &interface->reset_generate_top_border, interface->reset_button.rect.x, 
-            interface->reset_button.rect.y,  interface->reset_button.rect.w * 2 + 1, 1, 0, 0, 0);
-  
-  //prev divider
-  make_rect(&interface->window, &interface->prev_divider, interface->previous_button.rect.x + interface->previous_button.rect.w - 1, 
-            interface->previous_button.rect.y,  1, interface->previous_button.rect.h, 20, 20, 20);
-
-   //next divider
-  make_rect(&interface->window, &interface->next_divider, interface->next_button.rect.x - 1, 
-            interface->next_button.rect.y,  1, interface->next_button.rect.h, 20, 20, 20);
+void display_dividers(int win_width, int win_height, 
+                        Interface* interface, Mode mode) {
+    //bottom divider
+    make_rect(&interface->window, &interface->toolbar_bottom_divider, 
+                0, interface->toolbar.rect.h - 1, interface->toolbar.rect.w, 1, 
+                  20, 20, 20);
+    if (mode == challenge_mode) {
+        //Menu/Learn divider
+        make_rect(&interface->window, &interface->menu_learn_divider, 
+                    interface->learn_button.rect.x - 1, 0, 
+                    1, interface->menu_button.rect.h, 
+                      20, 20, 20);
+    }
+    //Learn/Help divider OR menu/help divider
+    make_rect(&interface->window, &interface->learn_help_divider, 
+                interface->help_button.rect.x - 1, 0,
+                1, interface->menu_button.rect.h, 
+                  20, 20, 20);
+    //Text Editor/Canvas divider
+    make_rect(&interface->window, &interface->toolbar_bottom_divider, 
+                interface->text_editor_panel.rect.w, 0, 1, win_height, 
+                  20, 20, 20);
+    //Generate/Reset divider
+    make_rect(&interface->window, &interface->reset_generate_divider, 
+                interface->generate_button.rect.x - 1, 
+                interface->generate_button.rect.y, 
+                1, interface->generate_button.rect.h, 
+                  0, 0, 0);
+    //Generate/Reset top border
+    make_rect(&interface->window, &interface->reset_generate_top_border, 
+                interface->reset_button.rect.x, interface->reset_button.rect.y, 
+                interface->reset_button.rect.w * 2 + 1, 1, 
+                  0, 0, 0);  
+    //prev divider
+    make_rect(&interface->window, &interface->prev_divider, 
+                interface->previous_button.rect.x + 
+                  interface->previous_button.rect.w - 1, 
+                interface->previous_button.rect.y,  
+                1, interface->previous_button.rect.h, 
+                  20, 20, 20);
+    //next divider
+    make_rect(&interface->window, &interface->next_divider, 
+                interface->next_button.rect.x - 1, 
+                interface->next_button.rect.y, 
+                1, interface->next_button.rect.h, 
+                  20, 20, 20);
 }
 
 void fix_mac_flickering(Interface* interface, Mode mode) {
-   int win_width, win_height;
-   SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
-    
-   display_toolbar(win_width, win_height, interface, mode);
-  display_menu_button(win_width, win_height, interface, mode);
-  display_help_button(win_width, win_height, interface, mode);
-   display_reset_button(win_width, win_height, interface, mode);
-   display_generate_button(win_width, win_height, interface);
-   display_text_editor(win_width, win_height, interface); 
-   
-   if (mode == challenge_mode) {
-     display_learn_button(win_width, win_height, interface);
-     display_previous_button(win_width, win_height, interface);
-     display_current_challenge(win_width, win_height, interface);
-     display_next_button(win_width, win_height, interface);
-   }
+    int win_width, win_height;
 
-  display_dividers(win_width, win_height, interface, mode);  
+    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
+    
+    display_toolbar(win_width, win_height, interface, mode);
+    display_menu_button(win_width, win_height, interface, mode);
+    display_help_button(win_width, win_height, interface, mode);
+    display_reset_button(win_width, win_height, interface, mode);
+    display_generate_button(win_width, win_height, interface);
+    display_text_editor(win_width, win_height, interface); 
+   
+    if (mode == challenge_mode) {
+        display_learn_button(win_width, win_height, interface);
+        display_previous_button(win_width, win_height, interface);
+        display_current_challenge(win_width, win_height, interface);
+        display_next_button(win_width, win_height, interface);
+    }
+    display_dividers(win_width, win_height, interface, mode);  
 }
 
 void display_popup_text(Menu* menu) {
-  switch(menu->hover) {
-    case canvas : display_canvas_text(menu);
-        break;
-    case challenges_menu : display_challenges_text(menu);
-        break;
-    case beginner : display_beginner_text(menu);
-        break;
-    case intermediate : display_intermediate_text(menu);
-        break;
-    case expert : display_expert_text(menu);
-        break;
-    default : return;
-  }
+    switch(menu->hover) {
+        case canvas :
+            display_canvas_text(menu);
+            break;
+        case challenges_menu :
+            display_challenges_text(menu);
+            break;
+        case beginner :
+            display_beginner_text(menu);
+            break;
+        case intermediate :
+            display_intermediate_text(menu);
+            break;
+        case expert :
+            display_expert_text(menu);
+            break;
+        default :
+            return;
+    }
 }
 
 void display_canvas_text(Menu* main_menu) {
-   int win_width, win_height;
-     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
-   SDL_Texture* image = load_image("menu_graphics/program_a_work_of_art.bmp", &main_menu->window);
-   int canvas_text_x, canvas_text_y, canvas_text_w, canvas_text_h;
-   canvas_text_w = MENU_POPUP_WIDTH;
-   canvas_text_x = main_menu->canvas_button.rect.w + win_width / LEFT_MARGIN;
-   canvas_text_h = MENU_POPUP_HEIGHT;
-   canvas_text_y = main_menu->canvas_button.rect.y;
+    int win_width, win_height;
+    int canvas_text_x, canvas_text_y, canvas_text_w, canvas_text_h;
+    SDL_Texture* image = load_image("menu_graphics/program_a_work_of_art.bmp", 
+                                      &main_menu->window);
 
-   make_rect(&main_menu->window, &main_menu->canvas_text, canvas_text_x, 
-            canvas_text_y, canvas_text_w, canvas_text_h, 230, 230, 230);
-  SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->canvas_text.rect);
-  SDL_DestroyTexture(image); 
+    SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
+
+    canvas_text_x = main_menu->canvas_button.rect.w + win_width / LEFT_MARGIN;
+    canvas_text_y = main_menu->canvas_button.rect.y;
+    canvas_text_w = MENU_POPUP_WIDTH;
+    canvas_text_h = MENU_POPUP_HEIGHT;
+
+    make_rect(&main_menu->window, &main_menu->canvas_text, 
+                canvas_text_x, canvas_text_y, canvas_text_w, canvas_text_h, 
+                  230, 230, 230);
+
+    SDL_RenderCopy(main_menu->window.renderer, image, 
+                     NULL, &main_menu->canvas_text.rect);
+    SDL_DestroyTexture(image); 
 }
 
 void display_challenges_text(Menu* main_menu) {
-   int win_width, win_height;
-     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
-   SDL_Texture* image = load_image("menu_graphics/learn_how_to_code.bmp", &main_menu->window);
-   int challenges_text_x, challenges_text_y, challenges_text_w, challenges_text_h;
-   challenges_text_w = MENU_POPUP_WIDTH;
-   challenges_text_x = main_menu->challenges_button.rect.w + win_width / LEFT_MARGIN;
-   challenges_text_h = MENU_POPUP_HEIGHT;
-   challenges_text_y = main_menu->challenges_button.rect.y;
+    int win_width, win_height;
+    int challenges_text_x, challenges_text_y;
+    int challenges_text_w, challenges_text_h;
+    SDL_Texture* image = load_image("menu_graphics/learn_how_to_code.bmp", 
+                                      &main_menu->window);
 
-   make_rect(&main_menu->window, &main_menu->challenges_text, challenges_text_x, 
-            challenges_text_y, challenges_text_w, challenges_text_h, 230, 230, 230);
-  SDL_RenderCopy(main_menu->window.renderer, image, NULL, &main_menu->challenges_text.rect);
-  SDL_DestroyTexture(image); 
+    SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
+
+    challenges_text_x = main_menu->challenges_button.rect.w + 
+                          (win_width / LEFT_MARGIN);
+    challenges_text_y = main_menu->challenges_button.rect.y;
+    challenges_text_w = MENU_POPUP_WIDTH;
+    challenges_text_h = MENU_POPUP_HEIGHT;
+
+    make_rect(&main_menu->window, &main_menu->challenges_text, 
+                challenges_text_x, challenges_text_y, 
+                challenges_text_w, challenges_text_h, 
+                  230, 230, 230);
+
+    SDL_RenderCopy(main_menu->window.renderer, image, 
+                     NULL, &main_menu->challenges_text.rect);
+    SDL_DestroyTexture(image); 
 }
 
 void display_beginner_text(Menu* challenges) {
-   int win_width, win_height;
-     SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
-   SDL_Texture* image = load_image("menu_graphics/beginner_text.bmp", &challenges->window);
-   int beginner_text_x, beginner_text_y, beginner_text_w, beginner_text_h;
-   beginner_text_w = MENU_POPUP_WIDTH;
-   beginner_text_x = challenges->beginner.rect.w + win_width / LEFT_MARGIN;
-   beginner_text_h = MENU_POPUP_HEIGHT;
-   beginner_text_y = challenges->beginner.rect.y;
+    int win_width, win_height;
+    int beginner_text_x, beginner_text_y, beginner_text_w, beginner_text_h;
+    SDL_Texture* image = load_image("menu_graphics/beginner_text.bmp", 
+                                      &challenges->window);
 
-   make_rect(&challenges->window, &challenges->beginner_text, beginner_text_x, 
-            beginner_text_y, beginner_text_w, beginner_text_h, 230, 230, 230);
-  SDL_RenderCopy(challenges->window.renderer, image, NULL, &challenges->beginner_text.rect);
-  SDL_DestroyTexture(image); 
+    SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
+
+    beginner_text_x = challenges->beginner.rect.w + win_width / LEFT_MARGIN;
+    beginner_text_y = challenges->beginner.rect.y;
+    beginner_text_w = MENU_POPUP_WIDTH;
+    beginner_text_h = MENU_POPUP_HEIGHT;
+
+    make_rect(&challenges->window, &challenges->beginner_text, 
+                beginner_text_x, beginner_text_y, beginner_text_w, beginner_text_h, 
+                  230, 230, 230);
+
+    SDL_RenderCopy(challenges->window.renderer, image, 
+                     NULL, &challenges->beginner_text.rect);
+    SDL_DestroyTexture(image); 
 }
 
 void display_intermediate_text(Menu* challenges) {
-   int win_width, win_height;
-     SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
-   SDL_Texture* image = load_image("menu_graphics/intermediate_text.bmp", &challenges->window);
-   int intermediate_text_x, intermediate_text_y, intermediate_text_w, intermediate_text_h;
-   intermediate_text_w = MENU_POPUP_WIDTH;
-   intermediate_text_x = challenges->intermediate.rect.w + win_width / LEFT_MARGIN;
-   intermediate_text_h = MENU_POPUP_HEIGHT;
-   intermediate_text_y = challenges->intermediate.rect.y;
+    int win_width, win_height;
+    int intermediate_text_x, intermediate_text_y;
+    int intermediate_text_w, intermediate_text_h;
+    SDL_Texture* image = load_image("menu_graphics/intermediate_text.bmp", 
+                                      &challenges->window);
 
-   make_rect(&challenges->window, &challenges->intermediate_text, intermediate_text_x, 
-            intermediate_text_y, intermediate_text_w, intermediate_text_h, 230, 230, 230);
-  SDL_RenderCopy(challenges->window.renderer, image, NULL, &challenges->intermediate_text.rect);
-  SDL_DestroyTexture(image); 
+    SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
+
+    intermediate_text_x = challenges->intermediate.rect.w + 
+                            win_width / LEFT_MARGIN;
+    intermediate_text_y = challenges->intermediate.rect.y;
+    intermediate_text_w = MENU_POPUP_WIDTH;
+    intermediate_text_h = MENU_POPUP_HEIGHT;
+
+    make_rect(&challenges->window, &challenges->intermediate_text, 
+                intermediate_text_x, intermediate_text_y, 
+                intermediate_text_w, intermediate_text_h, 
+                  230, 230, 230);
+
+    SDL_RenderCopy(challenges->window.renderer, image, 
+                     NULL, &challenges->intermediate_text.rect);
+    SDL_DestroyTexture(image); 
 }
 
 void display_expert_text(Menu* challenges) {
-   int win_width, win_height;
-     SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
-   SDL_Texture* image = load_image("menu_graphics/expert_text.bmp", &challenges->window);
-   int expert_text_x, expert_text_y, expert_text_w, expert_text_h;
-   expert_text_w = MENU_POPUP_WIDTH;
-   expert_text_x = challenges->expert.rect.w + win_width / LEFT_MARGIN;
-   expert_text_h = MENU_POPUP_HEIGHT;
-   expert_text_y = challenges->expert.rect.y;
+    int win_width, win_height;
+    int expert_text_x, expert_text_y, expert_text_w, expert_text_h;
+    SDL_Texture* image = load_image("menu_graphics/expert_text.bmp", 
+                                      &challenges->window);
 
-   make_rect(&challenges->window, &challenges->expert_text, expert_text_x, 
-            expert_text_y, expert_text_w, expert_text_h, 230, 230, 230);
-  SDL_RenderCopy(challenges->window.renderer, image, NULL, &challenges->expert_text.rect);
-  SDL_DestroyTexture(image); 
+    SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
+
+    expert_text_x = challenges->expert.rect.w + win_width / LEFT_MARGIN;
+    expert_text_y = challenges->expert.rect.y;
+    expert_text_w = MENU_POPUP_WIDTH;
+    expert_text_h = MENU_POPUP_HEIGHT;
+
+    make_rect(&challenges->window, &challenges->expert_text, 
+                expert_text_x, expert_text_y, expert_text_w, expert_text_h, 
+                  230, 230, 230);
+
+    SDL_RenderCopy(challenges->window.renderer, image, 
+                     NULL, &challenges->expert_text.rect);
+    SDL_DestroyTexture(image); 
 }
 
-void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b) {
+void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, 
+                 int r, int g, int b) {
+    area->rect.w = w;
+    area->rect.h = h;
+    area->rect.x = x;
+    area->rect.y = y;
 
-   area->rect.w = w;
-   area->rect.h = h;
-   area->rect.x = x;
-   area->rect.y = y;
+    area->col.r = r;
+    area->col.g = g;
+    area->col.b = b;
 
-   area->col.r = r;
-   area->col.g = g;
-   area->col.b = b;
-  
-   SDL_SetRenderDrawColor(win->renderer, r, g, b, 255);
-   SDL_RenderFillRect(win->renderer, &area->rect);
+    SDL_SetRenderDrawColor(win->renderer, r, g, b, 255);
+    SDL_RenderFillRect(win->renderer, &area->rect);
 }
 
-void text_align_central( char* centred_string, char* input_string, int textbox_width) {
-  int length = strlen(input_string);
-  if (length > textbox_width) {
-    printf("%d\n", length);
-    printf("%d\n", textbox_width);
-    printf("String too long for the textbox!\n");
-    return ;
-  }
+void text_align_central(char* centred_string, char* input_string, 
+                          int textbox_width) {
+    int length = strlen(input_string);
+    if(length > textbox_width) {
+        printf("%d\n", length);
+        printf("%d\n", textbox_width);
+        printf("String too long for the textbox!\n");
+        return;
+    }
 
-  int difference = textbox_width - length;
+    int c, i=0;
+    int difference = textbox_width - length;
 
-  for (int c = 0; c <= difference / 2; c++) {
-  
-    centred_string[c] = ' ';
-  }
-  for (int c = difference / 2, i = 0; c < difference / 2 + length; c++, i++) {
-  
-    centred_string[c] = input_string[i];
-  }
-  for (int c = difference / 2 + length; c < textbox_width; c++) {
-  
-    centred_string[c] = ' ';
-  }
-  centred_string[textbox_width - 1] = '\0';
- 
+    for (c = 0; c <= difference/2; c++) {
+        centred_string[c] = ' ';
+    }
+    for (c = difference/2; c < difference/2 + length; c++) {
+        centred_string[c] = input_string[i++];
+    }
+    for (c = difference/2 + length; c < textbox_width; c++) {
+        centred_string[c] = ' ';
+    }
+    centred_string[textbox_width - 1] = '\0';
 }
 
-void make_text(SDL_Win *win, SDL_Rect *location, TTF_Font *font, char* text, int r, int g, int b) {
-   SDL_Color textcolour = {r,g,b,255};
-   SDL_Surface* textsurface = TTF_RenderText_Blended(font, text, textcolour);
-   SDL_Texture* texttexture = surface_to_texture(textsurface, win);
-   SDL_RenderCopy(win->renderer, texttexture, NULL, location);
-   SDL_DestroyTexture(texttexture);
+void make_text(SDL_Win *win, SDL_Rect *location, TTF_Font *font, char* text, 
+                 int r, int g, int b) {
+    SDL_Color textcolour = {r,g,b,255};
+    SDL_Surface* textsurface = TTF_RenderText_Blended(font, text, textcolour);
+    SDL_Texture* texttexture = surface_to_texture(textsurface, win);
+    SDL_RenderCopy(win->renderer, texttexture, NULL, location);
+    SDL_DestroyTexture(texttexture);
 }
 
 void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
+    shape->x = x;
+    shape->y = y;
+    shape->size = size;
   
-   shape->x = x;
-   shape->y = y;
-   shape->size = size;
-  
-   shape->height = height;
-   shape->rotation = angle;
-
+    shape->height = height;
+    shape->rotation = angle;
 }

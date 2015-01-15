@@ -142,7 +142,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
 
     else if(strcmp(fractal->shape[i-1], "image") == 0) {
         int image_x, image_y, image_w, image_h;
-        SDL_Texture* image = load_image("image.bmp", &interface.window);
+        SDL_Texture* image = load_image("ashley_head", &interface.window);
         Area img;
 
         image_x = x - (size/2);
