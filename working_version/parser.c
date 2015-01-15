@@ -190,7 +190,7 @@ int loop(Prog *program){
     return TRUE;
 }
 
-void for_loop(Prog *program, int start, int end){
+int for_loop(Prog *program, int start, int end){
     int start_counter = program->current_word;
     int i;
     for(i = start; i <= end; i++){
@@ -202,8 +202,11 @@ void for_loop(Prog *program, int start, int end){
         sprintf(program->interpreter[program->interpreter_index], "%d", i);
         
         program->interpreter_index += 1;
-        funclist(program);
+        if (funclist(program) == FALSE){
+            return FALSE;
+        }
     }
+    return TRUE;
 }
        
         

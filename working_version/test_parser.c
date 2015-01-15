@@ -516,7 +516,37 @@ int test_conditional(FILE *test_results){
 }
 
 int test_loop(FILE *test_results){
-    return PASSED;
+    Prog test_program;
+    int pass_count = 0, no_of_tests = 0;
+    initialise_words_array(&test_program);
+    create_struct_array(test_program.actions);
+    initialise_interpreter_array(&test_program);
+   
+    no_of_tests += 1;
+    //Tests an empty for loop, correct syntax so should return TRUE
+    test_program.current_word = 0;
+    
+    strcpy(test_program.words[0], "iterations");
+    strcpy(test_program.words[1], "5");
+    strcpy(test_program.words[2], "to");
+    strcpy(test_program.words[3], "iterations");
+    strcpy(test_program.words[4], "10");
+    strcpy(test_program.words[5], "{");
+    strcpy(test_program.words[6], "}");
+    
+    if (loop(&test_program) == TRUE){        
+        fprintf(test_results, "\nLoop test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nLoop test 1: Failed");
+    }
+    
+     if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
+    
 }
     /*NEED TO TEST THESE
     If everything works, just a message saying all tests work.

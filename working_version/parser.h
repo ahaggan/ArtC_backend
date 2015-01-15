@@ -37,7 +37,7 @@ typedef enum action_word {
 /*
 typedef enum attribute_word{red, green, blue, pink, purple, brown, up, down, left, right, circle, triangle, square, line, triangle, sierpinski, tree, carpet, snowflake, star}attribute_word;
 */
-void for_loop(Prog* program, int start, int end);
+int for_loop(Prog* program, int start, int end);
 int check_condition(Prog* program, int iteration);
 void search_for_end(Prog* program);
 void interpreter(Prog* program);
