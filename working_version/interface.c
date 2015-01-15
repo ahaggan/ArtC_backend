@@ -171,7 +171,8 @@ void display_error(Interface *interface) {
       message_bottom[i- ERROR_TEXTBOX + 1] = c;
     }
     i++;
-  }    
+  }
+  fclose(file); 
 
   message_top[ERROR_TEXTBOX - 1] = '\0';
   message_bottom[ERROR_TEXTBOX - 1] = '\0';
