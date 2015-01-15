@@ -4,7 +4,7 @@
 #include "artc.h"
 
 #define MAX_ITERATIONS 10
-#define NO_OF_INSTRUCTIONS 60
+#define NO_OF_INSTRUCTIONS 100
 //#define VALID_SYMBOLS A-Z, a-z, 0-9, {, }
 #define MAX_WORDS 1000
 #define WORD_LENGTH 15
@@ -36,7 +36,7 @@ typedef enum action_word {
 /*
 typedef enum attribute_word{red, green, blue, pink, purple, brown, up, down, left, right, circle, triangle, square, line, triangle, sierpinski, tree, carpet, snowflake, star}attribute_word;
 */
-void for_loop(Prog* program, int start, int end);
+int for_loop(Prog* program, int start, int end);
 int check_condition(Prog* program, int iteration);
 void search_for_end(Prog* program);
 void interpreter(Prog* program);
