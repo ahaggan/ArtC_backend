@@ -14,8 +14,8 @@
 #define strings_match(A, B) (strcmp(A, B) == 0)
 #define ACTION {"colour", "move", "size", "shape", "startx", "starty", "endx", "endy", "type", "iterations", "linethickness", "angle", "splits"}
 #define ACTION_SIZE 13
-#define ATTRIBUTE { "black", "red", "pink", "fuchsia", "purple", "blue", "navy", "turquoise", "green", "lime", "yellow", "olive", "gold", "orange", "grey", "brown", "white", "random", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "small", "medium", "large", "micro", "gargantuan", "tidly", "0", "STOP", "NEXT", "circle", "triangle", "square", "line", "random", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "sierpinski", "tree", "carpet", "snowflake", "star", "STOP", "NEXT", "0", "STOP", "NEXT", "thin", "thick", "sam", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT"}
-#define ATTRIBUTE_SIZE 80
+#define ATTRIBUTE { "black", "red", "pink", "fuchsia", "purple", "blue", "navy", "turquoise", "green", "lime", "yellow", "olive", "gold", "orange", "grey", "brown", "white", "random", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "small", "medium", "large", "micro", "gargantuan", "tidly", "0", "STOP", "NEXT", "circle", "triangle", "square", "line", "image", "random", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "sierpinski", "tree", "carpet", "snowflake", "star", "STOP", "NEXT", "0", "STOP", "NEXT", "thin", "thick", "sam", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT"}
+#define ATTRIBUTE_SIZE 77
 
 
 typedef struct action {
