@@ -4,7 +4,7 @@
 #include "artc.h"
 
 #define MAX_ITERATIONS 10
-#define NO_OF_INSTRUCTIONS 100
+#define NO_OF_INSTRUCTIONS 1000
 //#define VALID_SYMBOLS A-Z, a-z, 0-9, {, }
 #define MAX_WORDS 1000
 #define WORD_LENGTH 15

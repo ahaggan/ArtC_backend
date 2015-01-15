@@ -12,3 +12,5 @@ int test_check_action(FILE *test_results);
 int test_attribute(FILE *test_results);
 int test_check_if(FILE *test_results);
 int test_statement(FILE *test_results);
+int test_conditional(FILE *test_results);
+int test_loop(FILE *test_results);

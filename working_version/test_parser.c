@@ -20,7 +20,7 @@ void test_parser(void){
     else{
         fprintf(test_results, "\nInitialise interpreter array test FAILED.\n");
     } 
-    
+    printf("\nBefore calling validate main");
     if (test_validate(test_results) == PASSED){
         fprintf(test_results, "\nValidate tests PASSED.\n");
     }
@@ -28,6 +28,8 @@ void test_parser(void){
         fprintf(test_results, "\nValidate tests FAILED.\n");
     } 
     
+    printf("\nBefore calling funclist main");
+    printf("\nBefore calling funclist main");
     if (test_funclist(test_results) == PASSED){
         fprintf(test_results, "\nFunclist tests PASSED.\n");
     }
@@ -35,12 +37,14 @@ void test_parser(void){
         fprintf(test_results, "\nFunclist tests FAILED.\n");
     } 
     
+    printf("\nBefore calling check action main");
     if (test_check_action(test_results) == PASSED){
         fprintf(test_results, "\nCheck action tests PASSED.\n");
     }
     else{
         fprintf(test_results, "\nCheck action tests FAILED.\n");
     } 
+    printf("\nBefore calling test attributes main");
     
     if (test_attribute(test_results) == PASSED){
         fprintf(test_results, "\nAttribute tests PASSED.\n");
@@ -48,6 +52,7 @@ void test_parser(void){
     else{
         fprintf(test_results, "\nAttribute tests FAILED.\n");
     } 
+    printf("\nBefore calling check if main");
     
     if (test_check_if(test_results) == PASSED){
         fprintf(test_results, "\nCheck if tests PASSED.\n");
@@ -56,11 +61,28 @@ void test_parser(void){
         fprintf(test_results, "\nCheck if tests FAILED.\n");
     }
     
+    printf("\nBefore calling statement main");
     if (test_statement(test_results) == PASSED){
         fprintf(test_results, "\nStatement tests PASSED.\n");
     }
     else{
         fprintf(test_results, "\nStatement tests FAILED.\n");
+    }
+    
+    printf("\nBefore calling conditional main");
+    
+    if (test_conditional(test_results) == PASSED){
+        fprintf(test_results, "\nConditional tests PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nConditional tests FAILED.\n");
+    }
+    
+    if (test_loop(test_results) == PASSED){
+         fprintf(test_results, "\nLoop tests PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nLoop tests FAILED.\n");
     }
     
     
@@ -103,7 +125,7 @@ int test_validate(FILE *test_results){
     no_of_tests += 1;
     test_program.current_word = 0;
     strcpy(test_program.words[0], "Hello");
-   
+    printf("\nFirst Validate");
     if (validate(&test_program) == FALSE){        
         fprintf(test_results, "\nValidate test 1: Passed");
         pass_count += 1;
@@ -114,6 +136,7 @@ int test_validate(FILE *test_results){
     
     //passes an incorrect program end so should return FALSE
     no_of_tests += 1;
+    printf("\nSecond Validate");
     strcpy(test_program.words[0], "run");
     strcpy(test_program.words[1], "program");
     if (validate(&test_program) == FALSE){
@@ -123,7 +146,7 @@ int test_validate(FILE *test_results){
     else{
         fprintf(test_results, "\nValidate test 2: Failed");
     }
-   
+   printf("\nEnd of Validate");
     if(pass_count == no_of_tests){
         return PASSED;
     }
@@ -134,11 +157,11 @@ int test_funclist(FILE *test_results){
     Prog test_program;
     int pass_count = 0, no_of_tests = 0;
     initialise_words_array(&test_program);
-    
+    initialise_interpreter_array(&test_program);
     no_of_tests += 1;
     test_program.current_word = 0;
     strcpy(test_program.words[0], "}");
-   
+    
     if (funclist(&test_program) == TRUE){        
         fprintf(test_results, "\nFunclist test 1: Passed");
         pass_count += 1;
@@ -150,7 +173,7 @@ int test_funclist(FILE *test_results){
     no_of_tests += 1;
     test_program.current_word = 0;
     test_program.words[0][0] = '\0';
-   
+    
     if (funclist(&test_program) == FALSE){        
         fprintf(test_results, "\nFunclist test 2: Passed");
         pass_count += 1;
@@ -404,8 +427,97 @@ int test_check_if(FILE *test_results){
     return FAILED;
 }
 
+int test_conditional(FILE *test_results){
+    printf("\nStart of conditional");
+    Prog test_program;
+    int pass_count = 0, no_of_tests = 0;
+    initialise_words_array(&test_program);
+    create_struct_array(test_program.actions);
+    initialise_interpreter_array(&test_program);
+    //Tests empty if statements so that the interpreter array doesn't need to be initiated - the test is just to 
+    
+    //Passes an incorrect(empty) if statement, should return FALSE 
+    no_of_tests += 1;
+    test_program.current_word = 0;
+    //Function increases current word before anything else
+    
+    strcpy(test_program.words[0], "Hello");
+    strcpy(test_program.words[1], "Hello");
+    strcpy(test_program.words[2], "{");
+    strcpy(test_program.words[3], "}");
+    
+    if (conditional(&test_program) == FALSE){        
+        fprintf(test_results, "\nConditional test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nConditional test 1: Failed");
+    }
+    
+    //Passes an correct(empty) if statement, should return TRUE 
+    no_of_tests += 1;
+    test_program.current_word = 0;
+    //Function increases current word before anything else
+    
+    strcpy(test_program.words[0], "Hello"); //arbitrary word
+    strcpy(test_program.words[1], "then");
+    strcpy(test_program.words[2], "{");
+    strcpy(test_program.words[3], "}");
+    
+    if (conditional(&test_program) == TRUE){        
+        fprintf(test_results, "\nConditional test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nConditional test 2: Failed");
+    }
+    
+    //Passes an incorrect(empty) if statement, should return FALSE 
+    no_of_tests += 1;
+    test_program.current_word = 0;
+    //Function increases current word before anything else
+    
+    strcpy(test_program.words[0], "Hello");
+    strcpy(test_program.words[1], "then");
+    strcpy(test_program.words[2], "Hello");
+    strcpy(test_program.words[3], "}");
+    
+    if (conditional(&test_program) == FALSE){        
+        fprintf(test_results, "\nConditional test 3: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nConditional test 3: Failed");
+    }
+    
+    //Passes an incorrect if statement, should return FALSE 
+    no_of_tests += 1;
+    test_program.current_word = 0;
+    //Function increases current word before anything else
+    
+    strcpy(test_program.words[0], "Hello");
+    strcpy(test_program.words[1], "then");
+    strcpy(test_program.words[2], "{");
+    strcpy(test_program.words[3], "green");
+    
+    if (conditional(&test_program) == FALSE){        
+        fprintf(test_results, "\nConditional test 4: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nConditional test 4: Failed");
+    }
+    
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
+}
 
-
+int test_loop(FILE *test_results){
+    return PASSED;
+}
     /*NEED TO TEST THESE
     If everything works, just a message saying all tests work.
     
@@ -413,7 +525,7 @@ int test_check_if(FILE *test_results){
     test_function - done but very basic, relys on other tests not done yet.
     test_loop
     test_for_loop
-    test_conditional
+    
 
     
     test_create_struct_array

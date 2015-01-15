@@ -157,7 +157,11 @@ int loop(Prog *program){
             fprintf(program->error, "For loop only works with iterations");
             return FALSE;
     }
-    statement(program);
+    
+    if (statement(program) == FALSE){
+        return FALSE;
+    }
+    
     start_iteration = atoi(program->words[program->current_word]);
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "to")){
@@ -206,8 +210,7 @@ int for_loop(Prog *program, int start, int end){
 }
        
         
-int conditional(Prog *program){  //if function
-    //statement(program);
+int conditional(Prog *program){  //checks the if function after the statement
     program->current_word += 1;
     if(!strings_match(program->words[program->current_word], "then")){
         fprintf(program->error, "If condition must be followed with 'then {'");
