@@ -4,17 +4,12 @@ run {
    angle 0
    shape image
    colour random
-<<<<<<< HEAD
-   size medium
+   size large
    linethickness 4
 }
 
+   
 
-
-=======
-   size 500
-   linethickness 8
->>>>>>> FETCH_HEAD
 
 
 
