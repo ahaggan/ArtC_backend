@@ -285,19 +285,19 @@ int attribute(Prog *program){
                 
                 else if(number != 0){  //MEANS YOU CAN ENTER A NUMERIC VALUE FOR ANY ACTION!
                     if(strings_match(program->words[program->current_word-1], "iterations") && (number > 10)){
-                        fprintf(program->error, "");
+                        fprintf(program->error, "Iterations error: ");
                         return FALSE;
                     }
                     else if(strings_match(program->words[program->current_word-1], "linethickness") && (number > 1000)){
-                        fprintf(program->error, "");
+                        fprintf(program->error, "Line thickness error: ");
                         return FALSE;
                     }
                     else if(strings_match(program->words[program->current_word-1], "size") && (number > 2500)){
-                        fprintf(program->error, "");
+                        fprintf(program->error, "Size error: ");
                         return FALSE;
                     }
                     else if(strings_match(program->words[program->current_word-1], "angle") && (number > 360)){
-                        fprintf(program->error, "");
+                        fprintf(program->error, "Angle error: ");
                         return FALSE;
                     }
                     if(strings_match(program->words[program->current_word-2], "if")){

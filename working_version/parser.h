@@ -6,8 +6,6 @@
 
 #define NO_OF_INSTRUCTIONS 1000
 
-#define NO_OF_INSTRUCTIONS 60
-
 //#define VALID_SYMBOLS A-Z, a-z, 0-9, {, }
 #define MAX_WORDS 1000
 #define WORD_LENGTH 15
