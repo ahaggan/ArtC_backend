@@ -123,7 +123,7 @@ void set_node_text(Interface* interface, char* text, TextNode* new_node) {
    /* if there's no character to render, skip make_text */
    if (character_provided(new_node, text)) {
       make_text(&interface->window, &interface->text_editor[new_node->text_cell.row][new_node->text_cell.column].box.rect, 
-               240, 240, 240, interface->text_ed_font, new_node->character);
+              interface->text_ed_font, new_node->character, 240, 240, 240);
    }
 }
 
@@ -132,8 +132,8 @@ void update_text_node(TextNode* current, Interface* interface) {
             current->location.row, current->w, current->h, 43, 43, 39);
    /* if there's no character to render, skip make_text */
    if (strcmp(current->character, EMPTY_CELL) != 0) {
-      make_text(&interface->window, &current->box.rect, 240, 240, 240, 
-               interface->text_ed_font, current->character);
+      make_text(&interface->window, &current->box.rect,
+               interface->text_ed_font, current->character, 240, 240, 240);
    }
 }
 

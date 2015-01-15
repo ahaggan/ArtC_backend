@@ -184,11 +184,11 @@ void display_error(Interface *interface) {
   do {
     make_rect(&interface->window, &box, 0, 200, interface->text_editor_panel.rect.w, 100, 255,255,255);
 
-    make_rect(&interface->window, &text_box_top, 0, box.rect.y + (box.rect.h / 4), interface->text_editor_panel.rect.w, CHALLENGE_FONT * 1.45, 255,255,255);
-    make_text(&interface->window, &text_box_top.rect, 241, 35, 65, interface->challenge_font, aligned_message_top);
+    make_rect(&interface->window, &text_box_top, 0, box.rect.y + (box.rect.h / 4), interface->text_editor_panel.rect.w, CHALLENGE_FONT_SIZE * 1.45, 255,255,255);
+    make_text(&interface->window, &text_box_top.rect, interface->challenge_font, aligned_message_top, 241, 35, 65);
 
-    make_rect(&interface->window, &text_box_bottom, 0, text_box_top.rect.y + text_box_top.rect.h, interface->text_editor_panel.rect.w, CHALLENGE_FONT * 1.45, 255,255,255);
-    make_text(&interface->window, &text_box_bottom.rect, 241, 35, 65, interface->challenge_font, aligned_message_bottom);
+    make_rect(&interface->window, &text_box_bottom, 0, text_box_top.rect.y + text_box_top.rect.h, interface->text_editor_panel.rect.w, CHALLENGE_FONT_SIZE * 1.45, 255,255,255);
+    make_text(&interface->window, &text_box_bottom.rect, interface->challenge_font, aligned_message_bottom, 241, 35, 65);
 
     render_update_clear(interface->window);
     SDL_PollEvent(&event); 

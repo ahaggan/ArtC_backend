@@ -1,4 +1,5 @@
 #include "display.h"
+#include <stdlib.h>
 
 void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float angle, int i);
 

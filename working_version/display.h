@@ -4,8 +4,8 @@
 #define LEFT_MARGIN 15
 #define TOP_MARGIN 20
 
-#define LOGO_WIDTH 761
-#define LOGO_HEIGHT 263
+#define LOGO_WIDTH 380
+#define LOGO_HEIGHT 131
 #define MENU_BUTTON_WIDTH 237
 #define MENU_BUTTON_HEIGHT 91
 #define MENU_BUTTON_DIST 20
@@ -25,7 +25,7 @@
 #define MAX_CHALLENGE_LEN 69
 #define MAX_FILE 100
 
-#define CHALLENGE_FONT 16
+#define CHALLENGE_FONT_SIZE 16
 #define FONT_SIZE 15
 
 #define PREV_NEXT_BUTTON 4 
@@ -194,9 +194,9 @@ void display_intermediate_button(int win_width, int win_height, Menu* challenges
 void display_expert_button(int win_width, int win_height, Menu* challenges_menu);
 void display_main_menu_button(int win_width, int win_height, Menu* challenges_menu);
 
-void display_help_menu(Menu* help);
-void display_help_screen(Menu* help, int win_width, int win_height);
-void display_back_button(Menu* help, int win_width, int win_height);
+void initialise_help_menu(Menu* help_menu);
+void display_help_screen(Menu* help_menu, int win_width, int win_height);
+void display_back_button(Menu* help_menu, int win_width, int win_height);
 
 void initialise_interface(Menu* main, Interface* interface, Mode mode);
 void display_toolbar(int win_width, int win_height, Interface* interface, Mode mode);
@@ -222,6 +222,6 @@ void display_intermediate_text(Menu* challenges);
 void display_expert_text(Menu* challenges);
 
 void text_align_central(char* centred_string, char* challenge, int textbox_width);
-void make_text(SDL_Win *win, SDL_Rect *location, int r, int g, int b, TTF_Font *font, char* text);
+void make_text(SDL_Win *win, SDL_Rect *location, TTF_Font *font, char* text, int r, int g, int b);
 
 void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);

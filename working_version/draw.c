@@ -71,6 +71,10 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
         SDL_SetRenderDrawColor(interface.window.renderer, 240, 240, 240, 255);
     }
 
+    else if (strcmp(fractal->colour[i-1], "random") == 0) {
+        SDL_SetRenderDrawColor(interface.window.renderer, rand(), rand(), rand(), 255);
+    }
+
     if (strcmp(fractal->shape[i-1], "square") == 0) {
         int x1 = x-(size*sin(angle)/2);
         int y1 = y+(size*cos(angle)/2);
