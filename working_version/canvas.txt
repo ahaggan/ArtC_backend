@@ -2,9 +2,9 @@ run {
    type tree
    iterations 8
    angle 0
-   shape random
+   shape image
    colour random
-   size gargantuan
+   size 500
    linethickness 8
 
    for iterations 0 to iterations 4 {
