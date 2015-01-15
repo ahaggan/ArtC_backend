@@ -68,7 +68,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
     }
 
     else if (strcmp(fractal->colour[i-1], "white") == 0) {
-        SDL_SetRenderDrawColor(interface.window.renderer, 240, 240, 240, 255);
+        SDL_SetRenderDrawColor(interface.window.renderer, 255, 255, 255, 255);
     }
 
     else if (strcmp(fractal->colour[i-1], "random") == 0) {
@@ -111,8 +111,7 @@ void draw_sdl(Interface interface, Draw *fractal, int x, int y, int size, float 
     }
 }
 
-void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, int thickness, float angle)
-{
+void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, int thickness, float angle) {
     float i1=xs, i2=xe;
     float j1 = ys + (-(thickness/2.0)*sin(angle));
     float j2 = ye + (-(thickness/2.0)*sin(angle));

@@ -1,4 +1,5 @@
 run {
+<<<<<<< Updated upstream
    type tree
    iterations 8
    angle 45
@@ -11,8 +12,27 @@ run {
       colour random
    }
 
-
+=======
+   type sierpinski
+   iterations 10
+   shape line
+   colour red
+   angle 180
+   
+   size 2500
+   linethickness thin
 }
+
+
+
+
+
+
+
+
+
+>>>>>>> Stashed changes
+
 
 
 

@@ -4,6 +4,6 @@ run {
     shape line
     type tree
     iterations 1
-    linethickness 1
+    linethickness 2
     angle 0
 }

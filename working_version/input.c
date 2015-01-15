@@ -191,6 +191,7 @@ int Interface_Events(Interface* interface) {
                 if (within_button(x, y, interface->next_button.rect)) {
                     if (interface->challenge_num < LEVEL_NUM - 1) {
                         interface->challenge_num++;
+                        clear_area(&interface->window, interface->canvas);
                         return load_challenge;
                     }
                     printf("%d\n", interface->challenge_num); 
@@ -201,6 +202,7 @@ int Interface_Events(Interface* interface) {
                 if (within_button(x, y, interface->previous_button.rect)) {
                     if (interface->challenge_num > 0) {
                         interface->challenge_num--;
+                        clear_area(&interface->window, interface->canvas);
                         return load_challenge;
                     }
                     printf("%d\n", interface->challenge_num);
