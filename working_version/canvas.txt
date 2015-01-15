@@ -1,18 +1,18 @@
 run {
-   type tree
+   type star
    iterations 8
    angle 0
    shape random
    colour random
-   size gargantuan
-   linethickness 8
-
-   for iterations 0 to iterations 4 {
-      colour random
-   }
-
-
+   size medium
+   linethickness 4
 }
+
+
+
+
+
+
 
 
 
