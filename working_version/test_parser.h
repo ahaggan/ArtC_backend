@@ -14,3 +14,4 @@ int test_check_if(FILE *test_results);
 int test_statement(FILE *test_results);
 int test_conditional(FILE *test_results);
 int test_loop(FILE *test_results);
+int test_for_loop(FILE *test_results);

@@ -85,6 +85,13 @@ void test_parser(void){
         fprintf(test_results, "\nLoop tests FAILED.\n");
     }
     
+    if (test_for_loop(test_results) == PASSED){
+         fprintf(test_results, "\nLoop tests PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nLoop tests FAILED.\n");
+    }
+    
     
     
     fclose(test_results);
@@ -562,19 +569,112 @@ int test_loop(FILE *test_results){
         fprintf(test_results, "\nLoop test 2: Failed");
     }
     
+    no_of_tests += 1;
+    //Tests an empty for loop, incorrect variable used so should return FALSE
+    test_program.current_word = 0;
     
-     if(pass_count == no_of_tests){
+    strcpy(test_program.words[0], "colour");
+    strcpy(test_program.words[1], "blue");
+    strcpy(test_program.words[2], "to");
+    strcpy(test_program.words[3], "colour");
+    strcpy(test_program.words[4], "red");
+    strcpy(test_program.words[5], "{");
+    strcpy(test_program.words[6], "}");
+    
+    if (loop(&test_program) == FALSE){        
+        fprintf(test_results, "\nLoop test 3: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nLoop test 3: Failed");
+    }
+    
+    no_of_tests += 1;
+    //Tests an empty for loop, start is greater than end so should return FALSE
+    test_program.current_word = 0;
+    
+    strcpy(test_program.words[0], "iterations");
+    strcpy(test_program.words[1], "5");
+    strcpy(test_program.words[2], "to");
+    strcpy(test_program.words[3], "iterations");
+    strcpy(test_program.words[4], "4");
+    strcpy(test_program.words[5], "{");
+    strcpy(test_program.words[6], "}");
+    
+    if (loop(&test_program) == FALSE){        
+        fprintf(test_results, "\nLoop test 4: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nLoop test 4: Failed");
+    }
+    
+    if(pass_count == no_of_tests){
         return PASSED;
     }
     return FAILED;
     
+}
+
+int test_for_loop(FILE *test_results){
+    Prog test_program;
+    int pass_count = 0, no_of_tests = 0, start, end;
+    initialise_words_array(&test_program);
+    create_struct_array(test_program.actions);
+    initialise_interpreter_array(&test_program);
+    //Need to pass the program and a start and end value for the loop.
+    //Function is passed the code that would be inside the loop.
+    //So a combination of correct statements.
+    no_of_tests += 1;
+    //Tests an empty for loop, correct syntax so should return TRUE
+    test_program.current_word = 0;
+    
+    strcpy(test_program.words[0], "colour");
+    strcpy(test_program.words[1], "blue");
+    strcpy(test_program.words[2], "shape");
+    strcpy(test_program.words[3], "line");
+    strcpy(test_program.words[4], "}");
+    start = 1;
+    end = 3;
+    if (for_loop(&test_program, start, end) == TRUE){        
+        fprintf(test_results, "\nFor loop test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nFor Loop test 1: Failed");
+    }
+    
+    no_of_tests += 1;
+    //Tests an empty for loop, incorrect syntax so should return FALSE
+    test_program.current_word = 0;
+    
+    strcpy(test_program.words[0], "colour");
+    strcpy(test_program.words[1], "blue");
+    strcpy(test_program.words[2], "colour");
+    strcpy(test_program.words[3], "line");
+    strcpy(test_program.words[4], "}");
+    
+    start = 1;
+    end = 3;
+    if (for_loop(&test_program, start, end) == FALSE){        
+        fprintf(test_results, "\nFor loop test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nFor Loop test 2: Failed");
+    }
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
 }
     /*NEED TO TEST THESE
     If everything works, just a message saying all tests work.
     
     
     test_function - done but very basic, relys on other tests not done yet.
-    test_loop
+    
     test_for_loop
     
 
