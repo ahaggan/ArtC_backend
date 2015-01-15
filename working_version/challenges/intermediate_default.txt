@@ -1,6 +1,6 @@
    
-   type tree
-   iterations 8
+   fractal tree
+   iterations 10
    shape line
    colour purple
    size large

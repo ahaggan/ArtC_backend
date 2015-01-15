@@ -460,59 +460,60 @@ void display_menu_button(int win_width, int win_height,
 }
 
 void display_learn_button(int win_width, int win_height, Interface* interface) {
-   int learn_button_x, learn_button_y, learn_button_w, learn_button_h;
-     char learn_text[CHALLENGE_MODE_TEXTBOX];
+    int learn_button_x, learn_button_y, learn_button_w, learn_button_h;
+    char learn_text[CHALLENGE_MODE_TEXTBOX];
+
+    learn_button_x = interface->menu_button.rect.x + 
+                       interface->menu_button.rect.w; 
+    learn_button_y = 0;
+    learn_button_w = interface->menu_button.rect.w;
+    learn_button_h = interface->menu_button.rect.h;
+
+    make_rect(&interface->window, &interface->learn_button, 
+                learn_button_x, learn_button_y, learn_button_w, learn_button_h, 
+                  240, 240, 240);
+
     text_align_central(learn_text, "Learn", CHALLENGE_MODE_TEXTBOX);
-  
-   learn_button_x = interface->menu_button.rect.x + interface->menu_button.rect.w; 
-                      
-   learn_button_y = 0;
-   learn_button_w = interface->menu_button.rect.w;
-   learn_button_h = interface->menu_button.rect.h;
+    make_text(&interface->window, &interface->learn_button.rect,
+                interface->button_font, learn_text,  
+                  241, 35, 65);
+}
 
-   make_rect(&interface->window, &interface->learn_button, learn_button_x, 
-            learn_button_y, learn_button_w, learn_button_h, 240, 240, 240);
-   make_text(&interface->window, &interface->learn_button.rect,
-            interface->button_font, learn_text,  241, 35, 65);
-   }
+void display_help_button(int win_width, int win_height, 
+                           Interface* interface, Mode mode) {
+    int help_button_x, help_button_y, help_button_w, help_button_h;
+    char help_text[CHALLENGE_MODE_TEXTBOX];
+    char help_text_canvas[CANVAS_MODE_TEXTBOX];
 
-void display_help_button(int win_width, int win_height, Interface* interface, Mode mode) {
-   int help_button_x, help_button_y, help_button_w, help_button_h;
-   char help_text[CHALLENGE_MODE_TEXTBOX];
-   char help_text_canvas[CANVAS_MODE_TEXTBOX];
-   if (mode == challenge_mode){
-         text_align_central(help_text, "Help", CHALLENGE_MODE_TEXTBOX);
-  }
-  else {
-    text_align_central(help_text_canvas, "Help", CANVAS_MODE_TEXTBOX);
-  }
+    if (mode == challenge_mode) {
+        help_button_x = interface->learn_button.rect.x + 
+                          interface->learn_button.rect.w; 
+    }
+    else {
+        help_button_x = interface->menu_button.rect.x + 
+                          interface->menu_button.rect.w + 1;
+    }
 
+    help_button_y = 0;
+    help_button_w = interface->menu_button.rect.w;
+    help_button_h = interface->menu_button.rect.h;
 
-   if (mode == challenge_mode) {
-    help_button_x = interface->learn_button.rect.x + 
-                    interface->learn_button.rect.w; 
-   }
-   else {
-    help_button_x = interface->menu_button.rect.x + 
-                    interface->menu_button.rect.w + 1;
-   }
+    make_rect(&interface->window, &interface->help_button, 
+                help_button_x, help_button_y, help_button_w, help_button_h, 
+                  240, 240, 240);
 
-   help_button_y = 0;
-   help_button_w = interface->menu_button.rect.w;
-   help_button_h = interface->menu_button.rect.h;
-
-   make_rect(&interface->window, &interface->help_button, help_button_x, 
-            help_button_y, help_button_w, help_button_h, 240, 240, 240);
-
-   if (mode == challenge_mode) {
-    make_text(&interface->window, &interface->help_button.rect,
-            interface->button_font, help_text, 241, 35, 65);
-   }
-   else {
-    make_text(&interface->window, &interface->help_button.rect,
-            interface->button_font, help_text_canvas, 241, 35, 65);
-   }
-   
+    if (mode == challenge_mode){
+        text_align_central(help_text, "Help", CHALLENGE_MODE_TEXTBOX);
+        make_text(&interface->window, &interface->help_button.rect,
+                    interface->button_font, help_text, 
+                      241, 35, 65);
+    }
+    else {
+        text_align_central(help_text_canvas, "Help", CANVAS_MODE_TEXTBOX);
+        make_text(&interface->window, &interface->help_button.rect,
+                    interface->button_font, help_text_canvas, 
+                      241, 35, 65);
+    }
 }
 
 void display_canvas(int win_width, int win_height, Interface* interface, Mode mode) {

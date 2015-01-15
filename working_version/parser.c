@@ -182,11 +182,11 @@ int loop(Prog *program){
         return FALSE;
     }
     
-    return for_loop(program, start_iteration, end_iteration);
-    
+    for_loop(program, start_iteration, end_iteration);
+    return TRUE;
 }
 
-int for_loop(Prog *program, int start, int end){
+void for_loop(Prog *program, int start, int end){
     int start_counter = program->current_word;
     int i;
     for(i = start; i <= end; i++){
@@ -198,11 +198,8 @@ int for_loop(Prog *program, int start, int end){
         sprintf(program->interpreter[program->interpreter_index], "%d", i);
         
         program->interpreter_index += 1;
-        if (funclist(program) == FALSE){
-            return FALSE;
-        }
+        funclist(program);
     }
-    return TRUE;
 }
        
         
@@ -285,19 +282,19 @@ int attribute(Prog *program){
                 
                 else if(number != 0){  //MEANS YOU CAN ENTER A NUMERIC VALUE FOR ANY ACTION!
                     if(strings_match(program->words[program->current_word-1], "iterations") && (number > 10)){
-                        fprintf(program->error, "Iterations error: ");
+                        fprintf(program->error, "");
                         return FALSE;
                     }
                     else if(strings_match(program->words[program->current_word-1], "linethickness") && (number > 1000)){
-                        fprintf(program->error, "Line thickness error: ");
+                        fprintf(program->error, "");
                         return FALSE;
                     }
                     else if(strings_match(program->words[program->current_word-1], "size") && (number > 2500)){
-                        fprintf(program->error, "Size error: ");
+                        fprintf(program->error, "");
                         return FALSE;
                     }
                     else if(strings_match(program->words[program->current_word-1], "angle") && (number > 360)){
-                        fprintf(program->error, "Angle error: ");
+                        fprintf(program->error, "");
                         return FALSE;
                     }
                     if(strings_match(program->words[program->current_word-2], "if")){
