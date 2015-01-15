@@ -1,7 +1,7 @@
 #include "interface.h"
 
-#define EMPTY_CELL "¬"
-#define TAB_LENGTH 3
+#define  EMPTY_CELL  "¬"
+#define  TAB_LENGTH  3
 
 int within_button(int x, int y, SDL_Rect button);
 
@@ -27,7 +27,8 @@ int start_column(Coordinates active);
 int end_column(Coordinates active, Interface interface);
 
 
-void handle_overwriting(Coordinates active, Interface* interface, char* overflow);
+void handle_overwriting(Coordinates active, Interface* interface, 
+                          char* overflow);
 void handle_backwriting(Coordinates active, Interface* interface);
 void handle_enter_shuffling(Coordinates active, Interface* interface);
 

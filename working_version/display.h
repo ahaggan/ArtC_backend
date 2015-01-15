@@ -1,46 +1,46 @@
 #include "artc.h"
 #include "manageSDL.h"
 
-#define LEFT_MARGIN 15
-#define TOP_MARGIN 20
+#define  LEFT_MARGIN  15
+#define  TOP_MARGIN  20
 
-#define LOGO_WIDTH 380
-#define LOGO_HEIGHT 131
-#define MENU_BUTTON_WIDTH 237
-#define MENU_BUTTON_HEIGHT 91
-#define MENU_BUTTON_DIST 20
-#define BACK_BUTTON_WIDTH 156
-#define BACK_BUTTON_HEIGHT 60
-#define BACK_BUTTON_MARGIN 60
-#define MENU_POPUP_WIDTH 600
-#define MENU_POPUP_HEIGHT 91
+#define  LOGO_WIDTH  380
+#define  LOGO_HEIGHT  131
+#define  MENU_BUTTON_WIDTH  237
+#define  MENU_BUTTON_HEIGHT  91
+#define  MENU_BUTTON_DIST  20
+#define  BACK_BUTTON_WIDTH  156
+#define  BACK_BUTTON_HEIGHT  60
+#define  BACK_BUTTON_MARGIN  60
+#define  MENU_POPUP_WIDTH  600
+#define  MENU_POPUP_HEIGHT  91
 
-#define BUTTON_HEIGHT 18
-#define BUTTON_FONT_SIZE 40
+#define  BUTTON_HEIGHT  18
+#define  BUTTON_FONT_SIZE  40
 
-#define TEXT_ED_WIDTH 3.015
-#define EDITOR_COLUMNS 100
-#define EDITOR_ROWS 100
+#define  TEXT_ED_WIDTH  3.015
+#define  EDITOR_COLUMNS  100
+#define  EDITOR_ROWS  100
 
-#define MAX_CHALLENGE_LEN 69
-#define MAX_FILE 100
+#define  MAX_CHALLENGE_LEN  69
+#define  MAX_FILE  100
 
-#define CHALLENGE_FONT_SIZE 16
-#define FONT_SIZE 15
+#define  CHALLENGE_FONT_SIZE  16
+#define  FONT_SIZE  15
 
-#define PREV_NEXT_BUTTON 4 
+#define  PREV_NEXT_BUTTON  4 
 
-#define LEVEL_NUM 4
+#define  LEVEL_NUM  4
 
-#define BEGINNER "challenges/beginner_default.txt"
-#define INTERMEDIATE "challenges/intermediate_default.txt"
-#define EXPERT "challenges/expert_default.txt"
+#define  BEGINNER  "challenges/beginner_default.txt"
+#define  INTERMEDIATE  "challenges/intermediate_default.txt"
+#define  EXPERT  "challenges/expert_default.txt"
 
-#define CANVAS_MODE_TEXTBOX 17
-#define CHALLENGE_MODE_TEXTBOX 12
-#define RESET_GENERATE_TEXTBOX 16
-#define PREV_NEXT_TEXTBOX 9
-#define ERROR_TEXTBOX 45
+#define  CANVAS_MODE_TEXTBOX  17
+#define  CHALLENGE_MODE_TEXTBOX  12
+#define  RESET_GENERATE_TEXTBOX  16
+#define  PREV_NEXT_TEXTBOX  9
+#define  ERROR_TEXTBOX  45
 
 typedef enum menu_choice {
     canvas = 1,
@@ -115,7 +115,6 @@ typedef struct interface {
 
     Interface_Action action;
 
-
     Area toolbar;
     Area canvas; 
     Area reset_button;
@@ -187,30 +186,44 @@ void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
 void display_quit_button(int win_width, int win_height, Menu* main_menu);
 
 void initialise_challenges_menu(Menu* challenges_menu);
-void display_challenges_background(int win_width, int win_height, Menu* challenges);
+void display_challenges_background(int win_width, int win_height, 
+                                     Menu* challenges);
 void display_header(int win_width, int win_height, Menu* challenges_menu);
-void display_beginner_button(int win_width, int win_height, Menu* challenges_menu);
-void display_intermediate_button(int win_width, int win_height, Menu* challenges_menu);
-void display_expert_button(int win_width, int win_height, Menu* challenges_menu);
-void display_main_menu_button(int win_width, int win_height, Menu* challenges_menu);
+void display_beginner_button(int win_width, int win_height, 
+                               Menu* challenges_menu);
+void display_intermediate_button(int win_width, int win_height, 
+                                   Menu* challenges_menu);
+void display_expert_button(int win_width, int win_height, 
+                             Menu* challenges_menu);
+void display_main_menu_button(int win_width, int win_height, 
+                                Menu* challenges_menu);
 
 void initialise_help_menu(Menu* help_menu);
 void display_help_screen(Menu* help_menu, int win_width, int win_height);
 void display_back_button(Menu* help_menu, int win_width, int win_height);
 
 void initialise_interface(Menu* main, Interface* interface, Mode mode);
-void display_toolbar(int win_width, int win_height, Interface* interface, Mode mode);
-void display_reset_button(int win_width, int win_height, Interface* interface, Mode mode);
-void display_generate_button(int win_width, int win_height, Interface* interface);
-void display_menu_button(int win_width, int win_height, Interface* interface, Mode mode);
+void display_toolbar(int win_width, int win_height, 
+                       Interface* interface, Mode mode);
+void display_reset_button(int win_width, int win_height, 
+                            Interface* interface, Mode mode);
+void display_generate_button(int win_width, int win_height, 
+                               Interface* interface);
+void display_menu_button(int win_width, int win_height, 
+                           Interface* interface, Mode mode);
 void display_learn_button(int win_width, int win_height, Interface* interface);
-void display_help_button(int win_width, int win_height, Interface* interface, Mode mode);
-void display_canvas(int win_width, int win_height, Interface* interface, Mode mode);
+void display_help_button(int win_width, int win_height, 
+                           Interface* interface, Mode mode);
+void display_canvas(int win_width, int win_height, 
+                      Interface* interface, Mode mode);
 void display_text_editor(int win_width, int win_height, Interface* interface);
-void display_current_challenge(int win_width, int win_height, Interface* interface);
-void display_previous_button(int win_width, int win_height, Interface* interface);
+void display_current_challenge(int win_width, int win_height, 
+                                 Interface* interface);
+void display_previous_button(int win_width, int win_height, 
+                               Interface* interface);
 void display_next_button(int win_width, int win_height, Interface* interface);
-void display_dividers(int win_width, int win_height, Interface* interface, Mode mode);
+void display_dividers(int win_width, int win_height, 
+                        Interface* interface, Mode mode);
 
 void fix_mac_flickering(Interface* interface, Mode mode); // MACS ARE TERRIBLE.
 
@@ -221,7 +234,10 @@ void display_beginner_text(Menu* challenges);
 void display_intermediate_text(Menu* challenges);
 void display_expert_text(Menu* challenges);
 
-void text_align_central(char* centred_string, char* challenge, int textbox_width);
-void make_text(SDL_Win *win, SDL_Rect *location, TTF_Font *font, char* text, int r, int g, int b);
+void text_align_central(char* centred_string, char* challenge, 
+                          int textbox_width);
+void make_text(SDL_Win *win, SDL_Rect *location, TTF_Font *font, char* text, 
+                 int r, int g, int b);
 
-void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, int r, int g, int b);
+void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, 
+                 int r, int g, int b);

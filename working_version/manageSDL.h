@@ -1,10 +1,10 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 
-#define WIN_WIDTH 1366
-#define WIN_HEIGHT 715
-#define MIN_WIDTH 800
-#define MIN_HEIGHT 600
+#define  WIN_WIDTH  1366
+#define  WIN_HEIGHT  715
+#define  MIN_WIDTH  800
+#define  MIN_HEIGHT  600
 
 typedef struct SDL_Win {
     SDL_bool finished;
