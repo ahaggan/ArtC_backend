@@ -542,6 +542,27 @@ int test_loop(FILE *test_results){
         fprintf(test_results, "\nLoop test 1: Failed");
     }
     
+    no_of_tests += 1;
+    //Tests an empty for loop, incorrect syntax so should return FALSE
+    test_program.current_word = 0;
+    
+    strcpy(test_program.words[0], "iterations");
+    strcpy(test_program.words[1], "5");
+    strcpy(test_program.words[2], "to");
+    strcpy(test_program.words[3], "iterations");
+    strcpy(test_program.words[4], "10");
+    strcpy(test_program.words[5], "{");
+    strcpy(test_program.words[6], "NOT_FINISHED");
+    
+    if (loop(&test_program) == FALSE){        
+        fprintf(test_results, "\nLoop test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nLoop test 2: Failed");
+    }
+    
+    
      if(pass_count == no_of_tests){
         return PASSED;
     }

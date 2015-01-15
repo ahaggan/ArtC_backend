@@ -186,8 +186,8 @@ int loop(Prog *program){
         return FALSE;
     }
     
-    for_loop(program, start_iteration, end_iteration);
-    return TRUE;
+    
+    return for_loop(program, start_iteration, end_iteration);
 }
 
 int for_loop(Prog *program, int start, int end){
