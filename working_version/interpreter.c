@@ -3,18 +3,17 @@
 void interpreter(Prog* program){
     int i;
     int end;
-     printf("\nInside interpreter\n");
-    //program->interpreter_index = 0;
+     
+    
     for(i = 0; i < MAX_ITERATIONS; i++){
-        printf("\nInside iterations loop\n");
         program->interpreter_index = 0;
         end = FALSE;
         while(program->interpreter_index < NO_OF_INSTRUCTIONS && end == FALSE){
-            printf("\nInside interpreter loop\n");
+           
             if(strings_match(program->interpreter[program->interpreter_index], "assign")){
-                printf("\nInside assign\n");
+                
                 program->interpreter_index += 1;
-                printf("\nBefore assign value\n");
+                
                 assign_value(program, i);
             }
             else if(strings_match(program->interpreter[program->interpreter_index], "conditional")){
@@ -30,7 +29,7 @@ void interpreter(Prog* program){
             program->interpreter_index += 1;
         }
     }
-    printf("\nEnd of interpreter\n");
+    
 }
 
 int check_condition(Prog* program, int iteration){

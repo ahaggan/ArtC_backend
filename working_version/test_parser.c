@@ -20,7 +20,7 @@ void test_parser(void){
     else{
         fprintf(test_results, "\nInitialise interpreter array test FAILED.\n");
     } 
-    printf("\nBefore calling validate main");
+    
     if (test_validate(test_results) == PASSED){
         fprintf(test_results, "\nValidate tests PASSED.\n");
     }
@@ -28,8 +28,7 @@ void test_parser(void){
         fprintf(test_results, "\nValidate tests FAILED.\n");
     } 
     
-    printf("\nBefore calling funclist main");
-    printf("\nBefore calling funclist main");
+    
     if (test_funclist(test_results) == PASSED){
         fprintf(test_results, "\nFunclist tests PASSED.\n");
     }
@@ -37,14 +36,14 @@ void test_parser(void){
         fprintf(test_results, "\nFunclist tests FAILED.\n");
     } 
     
-    printf("\nBefore calling check action main");
+    
     if (test_check_action(test_results) == PASSED){
         fprintf(test_results, "\nCheck action tests PASSED.\n");
     }
     else{
         fprintf(test_results, "\nCheck action tests FAILED.\n");
     } 
-    printf("\nBefore calling test attributes main");
+    
     
     if (test_attribute(test_results) == PASSED){
         fprintf(test_results, "\nAttribute tests PASSED.\n");
@@ -52,7 +51,7 @@ void test_parser(void){
     else{
         fprintf(test_results, "\nAttribute tests FAILED.\n");
     } 
-    printf("\nBefore calling check if main");
+    
     
     if (test_check_if(test_results) == PASSED){
         fprintf(test_results, "\nCheck if tests PASSED.\n");
@@ -61,7 +60,7 @@ void test_parser(void){
         fprintf(test_results, "\nCheck if tests FAILED.\n");
     }
     
-    printf("\nBefore calling statement main");
+    
     if (test_statement(test_results) == PASSED){
         fprintf(test_results, "\nStatement tests PASSED.\n");
     }
@@ -69,7 +68,7 @@ void test_parser(void){
         fprintf(test_results, "\nStatement tests FAILED.\n");
     }
     
-    printf("\nBefore calling conditional main");
+    
     
     if (test_conditional(test_results) == PASSED){
         fprintf(test_results, "\nConditional tests PASSED.\n");
@@ -92,10 +91,86 @@ void test_parser(void){
         fprintf(test_results, "\nLoop tests FAILED.\n");
     }
     
+    if(test_whole(test_results) == PASSED){
+       fprintf(test_results, "\nFull parser tests PASSED.\n");
+    }
+    else{
+        fprintf(test_results, "\nFull parser tests FAILED.\n");
+    } 
     
     
     fclose(test_results);
     
+}
+
+int test_whole(FILE *test_results){
+    Draw test_fractal;
+    int pass_count = 0, no_of_tests = 0;
+    
+    no_of_tests += 1;
+    //Test basic, correct, program test function should return TRUE
+    if(parser(&test_fractal, "test_parser1.txt") == TRUE){
+        fprintf(test_results, "\nWhole parser test 1: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nWhole parser test 1: Failed");
+    }
+    
+    no_of_tests += 1;
+    //Tests a, correct, program containing a for loop. Function should return TRUE
+    if(parser(&test_fractal, "test_parser2.txt") == TRUE){
+        fprintf(test_results, "\nWhole parser test 2: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nWhole parser test 2: Failed");
+    }
+    
+    no_of_tests += 1;
+    //Tests a, correct, program containing an if statement. Function should return TRUE
+    if(parser(&test_fractal, "test_parser3.txt") == TRUE){
+        fprintf(test_results, "\nWhole parser test 3: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nWhole parser test 3: Failed");
+    }
+    
+    no_of_tests += 1;
+    //Tests an incorrect basic program containing an incorrect statement. Function should return FALSE
+    if(parser(&test_fractal, "test_parser4.txt") == FALSE){
+        fprintf(test_results, "\nWhole parser test 4: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nWhole parser test 4: Failed");
+    }
+    
+    no_of_tests += 1;
+    //Tests a program containing an incorrect for loop. Function should return FALSE
+    if(parser(&test_fractal, "test_parser5.txt") == FALSE){
+        fprintf(test_results, "\nWhole parser test 5: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nWhole parser test 5: Failed");
+    }
+    
+    no_of_tests += 1;
+    //Tests a program containing an incorrect if statement. Function should return FALSE
+    if(parser(&test_fractal, "test_parser6.txt") == FALSE){
+        fprintf(test_results, "\nWhole parser test 6: Passed");
+        pass_count += 1;
+    }
+    else{
+        fprintf(test_results, "\nWhole parser test 6: Failed");
+    }
+    
+    if(pass_count == no_of_tests){
+        return PASSED;
+    }
+    return FAILED;
 }
 
 int test_initialise_words(FILE *test_results){
@@ -104,11 +179,14 @@ int test_initialise_words(FILE *test_results){
     initialise_words_array(&test_program);
     for(i = 0; i < MAX_WORDS; i++){
         if(test_program.words[i][0] != '\0'){
+            
             return FAILED;
         }
     }
     return PASSED;
 }
+
+
 
 int test_initialise_interpreter(FILE *test_results){
     Prog test_program;
@@ -154,6 +232,7 @@ int test_validate(FILE *test_results){
         fprintf(test_results, "\nValidate test 2: Failed");
     }
    printf("\nEnd of Validate");
+   
     if(pass_count == no_of_tests){
         return PASSED;
     }

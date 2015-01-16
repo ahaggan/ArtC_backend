@@ -1,0 +1,12 @@
+run {
+    iterations 8
+    type star
+    colour blue
+    size small
+    linethickness 2
+    shape square
+    if iterations 2 then {
+        colour red
+        shape circle
+    }
+}

@@ -1,0 +1,8 @@
+run {
+    iterations 1
+    type star
+    colour blue
+    size small
+    linethickns 2
+    shape square
+}

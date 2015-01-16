@@ -29,4 +29,5 @@ typedef struct draw{
 } Draw;
 
 void launch_menu();
+int parser(Draw *fractal, char *file_name);
 void test_parser();

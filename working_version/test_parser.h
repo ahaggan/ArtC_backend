@@ -15,3 +15,4 @@ int test_statement(FILE *test_results);
 int test_conditional(FILE *test_results);
 int test_loop(FILE *test_results);
 int test_for_loop(FILE *test_results);
+int test_whole(FILE *test_results);

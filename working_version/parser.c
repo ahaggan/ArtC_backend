@@ -6,7 +6,7 @@
 #include "parser.h"
 //int main(Draw *fractal, char *file_name){     //Use this to pass a file name to the parser function.
 int parser(Draw *fractal, char *file_name){
-    printf("\nParsing begin.\n");
+    
     //test_parser();
     int i;//Used to count through number of words in a program
     FILE *file_pointer;
@@ -29,9 +29,9 @@ int parser(Draw *fractal, char *file_name){
     }
     
     i = 0;
-    printf("\nCurrent word: %d\n", program.current_word);
+   
     while(fscanf(file_pointer, "%s", program.words[i]) == 1 && i < MAX_WORDS && program.words[i] != NULL){
-        printf("\nWord read: %s\n", program.words[i]);
+        
         i++;
     }
     
@@ -42,7 +42,7 @@ int parser(Draw *fractal, char *file_name){
     
     printf("\nParsed OK!\n");
     interpreter(&program);
-    test_interpreter(&program);
+    //test_interpreter(&program);
     fclose(program.error);
     return TRUE;
 }

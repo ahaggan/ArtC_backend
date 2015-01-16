@@ -43,7 +43,7 @@ int interface(Menu* main, Mode mode, char* file_name) {
          /* END */
         // This needs to be an if statement? Parser will return True or False.
          if (parser(&fractal, interface.code_file) == TRUE){
-        
+             
              for (int i = 1; i <= fractal.iterations; i++) {
                 start_time = end_time = clock();
                 
