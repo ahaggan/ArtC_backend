@@ -5,7 +5,7 @@ int iterate(Draw *fractal, Interface interface, Shape shape, int iterations, int
 
 int iterate_carpet(Draw *fractal, Interface interface, Shape shape, int iterations, int limit, char c);
 */
-void carpet(Draw *fractal, Interface interface, int limit) {
+void carpet(Draw *fractal, Interface *interface, int limit) {
  /*   Shape shape;
     make_shape(&shape, fractal->startx, fractal->starty, fractal->size, fractal->height);
 

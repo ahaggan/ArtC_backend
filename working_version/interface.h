@@ -12,7 +12,7 @@ void load_text_into_text_editor(char* file_name, Interface* interface);
 
 
 
-void generate_fractal(Draw *fractal, Interface interface, int i);
+void generate_fractal(Draw *fractal, Interface *interface, int i);
 
 int Interface_Events(Interface* interface);
 

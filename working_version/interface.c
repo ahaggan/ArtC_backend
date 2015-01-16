@@ -49,7 +49,7 @@ int interface(Menu* main, Mode mode, char* file_name) {
              for (int i = 1; i <= fractal.iterations; i++) {
                 start_time = end_time = clock();
                 
-                generate_fractal(&fractal, interface, i);
+                generate_fractal(&fractal, &interface, i);
                 
                 while(((double)end_time - (double)start_time)/(double)CLOCKS_PER_SEC < 0.15) {
                    Interface_Events(&interface); 

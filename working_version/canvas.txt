@@ -5,7 +5,7 @@ run {
    angle 30
    colour green
    shape line
-   size 2500
+   size 250
 }
 
 

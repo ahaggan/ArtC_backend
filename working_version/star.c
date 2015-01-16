@@ -1,9 +1,9 @@
 #include "fractals.h"
 
-void stariterate(Draw *fractal, Interface interface, Shape current, 
+void stariterate(Draw *fractal, Interface *interface, Shape current, 
                      int iterations, int limit, float angle);
 
-void star(Draw *fractal, Interface interface, int limit) {
+void star(Draw *fractal, Interface *interface, int limit) {
     Shape centre;
     make_shape(&centre, fractal->startx, fractal->starty, 
                    fractal->size[0]/2, fractal->height[0]/2, fractal->angle);
@@ -16,11 +16,11 @@ void star(Draw *fractal, Interface interface, int limit) {
 
     stariterate(fractal, interface, centre, iterations, limit, fractal->angle);
   
-    SDL_RenderPresent(interface.window.renderer);
-    SDL_UpdateWindowSurface(interface.window.win);
+    SDL_RenderPresent(interface->window.renderer);
+    SDL_UpdateWindowSurface(interface->window.win);
 }
 
-void stariterate(Draw *fractal, Interface interface, Shape current, 
+void stariterate(Draw *fractal, Interface *interface, Shape current, 
                      int iterations, int limit, float angle) {
     draw_sdl(interface, fractal, current.x, current.y, 
                  current.size, angle, iterations);

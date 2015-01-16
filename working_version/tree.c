@@ -1,9 +1,9 @@
 #include "fractals.h"
 
-void treeiterate(Draw *fractal, Interface interface, Shape current,
+void treeiterate(Draw *fractal, Interface *interface, Shape current,
                      int iterations, int limit, float angle, int bx, int by);
 
-void tree(Draw *fractal, Interface interface, int limit) {
+void tree(Draw *fractal, Interface *interface, int limit) {
     Shape trunk;
     make_shape(&trunk, fractal->startx, fractal->starty - (fractal->size[0]/4), 
                    fractal->size[0]/2, fractal->height[0]/2, fractal->angle);
@@ -24,9 +24,11 @@ void tree(Draw *fractal, Interface interface, int limit) {
 
     treeiterate(fractal, interface, current, iterations, limit, 
                   fractal->angle, bx, by);
+    SDL_RenderPresent(interface->window.renderer);
+    SDL_UpdateWindowSurface(interface->window.win);
 }
 
-void treeiterate(Draw *fractal, Interface interface, Shape current, 
+void treeiterate(Draw *fractal, Interface *interface, Shape current, 
                      int iterations, int limit, float angle, int bx, int by) {
     if(current.size < 2 || iterations == limit) {
         return;
