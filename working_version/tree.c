@@ -16,14 +16,13 @@ void tree(Draw *fractal, Interface interface, int limit) {
 
     fractal->anglerange = 1;
   
-  
     draw_sdl(interface, fractal, current.x, current.y, 
                  current.size/fractal->splits[0], fractal->angle, iterations);
 
-  int bx = current.x + ((current.size*sin(fractal->angle))/fractal->splits[0]);
-  int by = current.y - ((current.size*cos(fractal->angle))/fractal->splits[0]);
+    int bx= current.x + ((current.size*sin(fractal->angle))/fractal->splits[0]);
+    int by= current.y - ((current.size*cos(fractal->angle))/fractal->splits[0]);
 
-  treeiterate(fractal, interface, current, iterations, limit, 
+    treeiterate(fractal, interface, current, iterations, limit, 
                   fractal->angle, bx, by);
 }
 

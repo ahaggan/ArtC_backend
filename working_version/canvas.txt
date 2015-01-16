@@ -1,11 +1,11 @@
 run {
-   type star
-   iterations 1
-   angle 0
-   shape image
-   colour random
-   size large
-   linethickness 4
+   linethickness 7
+   iterations 9
+   type sierpinski
+   angle 30
+   colour green
+   shape line
+   size 2500
 }
 
 

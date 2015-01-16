@@ -43,7 +43,9 @@ int interface(Menu* main, Mode mode, char* file_name) {
          /* END */
         // This needs to be an if statement? Parser will return True or False.
          if (parser(&fractal, interface.code_file) == TRUE){
-             
+//             for(int i=0; i<10; i++) {
+//printf("%d: %d %s %s %d %d %s %d %d %f %f %d %d %d %d %s\n", i, fractal.iterations, fractal.type[i], fractal.colour[i], fractal.size[i], fractal.linethickness[i], fractal.shape[i], fractal.height[i], fractal.splits[i], fractal.angle, fractal.anglerange, fractal.startx, fractal.starty, fractal.endx, fractal.endy, fractal.move);
+//}
              for (int i = 1; i <= fractal.iterations; i++) {
                 start_time = end_time = clock();
                 

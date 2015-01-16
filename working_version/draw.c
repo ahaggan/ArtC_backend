@@ -10,7 +10,6 @@ void draw_colour(Interface interface, Draw *fractal, int i) {
     if(strcmp(fractal->colour[i-1], "random") == 0) {
         write_random_colour(fractal, i);
     }
-
     find_and_set_colour(interface, fractal, i);
 }
 
@@ -111,12 +110,12 @@ void draw_shape(Interface interface, Draw *fractal, int x, int y,
     if(strcmp(fractal->shape[i-1], "random") == 0) {
         write_random_shape(fractal, i);
     }
-
-    find_and_draw_shape(interface, fractal, x, y, size, angle, i);
+/*    find_and_draw_shape(interface, fractal, x, y, size, angle, i);
 }
 
-void find_and_draw_shape(Interface interface, Draw *fractal, int x, int y, 
+void find_and_draw_shape(Interface interface, Draw *fractal, int x, int y,
                            int size, float angle, int i) {
+*/
     if (strcmp(fractal->shape[i-1], "square") == 0) {
         Draw_Square(interface.window.renderer, x, y, size, angle);
     }
