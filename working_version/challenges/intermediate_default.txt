@@ -1,5 +1,5 @@
    
-   fractal tree
+   type tree
    iterations 10
    shape line
    colour purple

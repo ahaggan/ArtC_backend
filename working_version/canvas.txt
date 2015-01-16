@@ -1,6 +1,6 @@
 run {
    type star
-   iterations 8
+   iterations 1
    angle 0
    shape image
    colour random
@@ -8,7 +8,7 @@ run {
    linethickness 4
 }
 
-   
+
 
 
 

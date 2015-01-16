@@ -1,0 +1,52 @@
+
+PARSER TEST
+Below are the test results for this module
+
+Initialise words array test PASSED.
+
+Initialise interpreter array test PASSED.
+
+Validate test 1: Passed
+Validate test 2: Passed
+Validate tests PASSED.
+
+Funclist test 1: Passed
+Funclist test 2: Passed
+Funclist tests PASSED.
+
+Check action test 1: Passed
+Check action test 2: Passed
+Check action test 3: Passed
+Check action tests PASSED.
+
+Attribute test 1: Passed
+Attribute test 2: Passed
+Attribute test 3: Passed
+Attribute test 4: Passed
+Attribute tests PASSED.
+
+Check if test 1: Passed
+Check if test 2: Passed
+Check if test 3: Passed
+Check if tests PASSED.
+
+Statement test 1: Passed
+Statement test 2: Passed
+Statement test 3: Passed
+Statement tests PASSED.
+
+Conditional test 1: Passed
+Conditional test 2: Passed
+Conditional test 3: Passed
+Conditional test 4: Passed
+Conditional tests PASSED.
+
+Loop test 1: Passed
+Loop test 2: Passed
+Loop test 3: Passed
+Loop test 4: Passed
+Loop tests PASSED.
+
+For loop test 1: Passed
+For loop test 2: Passed
+Loop tests PASSED.
