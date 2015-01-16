@@ -90,7 +90,7 @@ void assign_value(Prog* program, int iteration){
             else if(strings_match(program->interpreter[program->interpreter_index], "micro")){
                 program->fractal->size[iteration] = 50;
             }
-            else if(strings_match(program->interpreter[program->interpreter_index], "tidly")){
+            else if(strings_match(program->interpreter[program->interpreter_index], "tiddly")){
                 program->fractal->size[iteration] = 20;
             }
             else if(strings_match(program->interpreter[program->interpreter_index], "gargantuan")){

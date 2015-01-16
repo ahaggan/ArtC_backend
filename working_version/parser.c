@@ -16,12 +16,8 @@ int parser(Draw *fractal, char *file_name){
     
     program.fractal = fractal;
     
+    initialise_arrays(&program);
     
-    initialise_words_array(&program);
-    
-    create_struct_array(program.actions);
-    
-    initialise_interpreter_array(&program);
     if((file_pointer = fopen(file_name, "r")) == NULL){
         fprintf(stderr, "\nCannot open file\n");
         fclose(program.error);
@@ -47,6 +43,13 @@ int parser(Draw *fractal, char *file_name){
     return TRUE;
 }
 
+void initialise_arrays(Prog *program){
+    initialise_words_array(program);
+    
+    create_struct_array(program->actions);
+    
+    initialise_interpreter_array(program);
+}
 void initialise_words_array(Prog *program){
     int i;
     program->error = fopen("error_message.artc", "w");
@@ -64,22 +67,33 @@ void initialise_interpreter_array(Prog *program){
     }
 }
 
-void test_interpreter(Prog *program){
-     //printf("\nInside test\n");
-    for(int i = 0; i < NO_OF_INSTRUCTIONS; i++){
+void create_struct_array(Action *actions){
     
-        printf("\nInterpreter word: %s", program->interpreter[i]);
-    
-    }
-    for(int i = 0; i < MAX_ITERATIONS; i++){
-    
-        printf("\nFractal colour %d: %s", i, program->fractal->colour[i]);
-        printf("\nFractal shape %d: %s", i, program->fractal->shape[i]);
-        printf("\nFractal type %d: %s", i, program->fractal->type[i]);
-    }
+	int i, j, k, l, cnt = 0, array_cnt = 0;
+	char *first_word[ACTION_SIZE]= ACTION;
+	char *second_word[ATTRIBUTE_SIZE]= ATTRIBUTE;
+	
+	for(i = 0; i < ACTION_SIZE && array_cnt < ATTRIBUTE_SIZE; i++){
+		actions[i].name = (char*)malloc(1 * sizeof(char[strlen(first_word[i])]));
+		actions[i].name = first_word[i];
+	
+		for(j = array_cnt; strcmp(second_word[j], "NEXT") != 0; j++){
+				
+				cnt += 1;
+		}
+		array_cnt += cnt;
+		
+		actions[i].instruction = (char**)malloc(cnt * sizeof(char*));
+		
+		for(k = array_cnt - cnt, l = 0; k < array_cnt; k++, l++){
+			
+			actions[i].instruction[l] = (char*)malloc(strlen(second_word[k]) * sizeof(char));
+			strcpy(actions[i].instruction[l], second_word[k]);
+		}
+		cnt = 0;
+		array_cnt += 1;
+	}
 }
-
-    
 
 int validate(Prog *program){
     
@@ -338,30 +352,4 @@ int check_if(char *word){
     return FALSE;
 }
 
-void create_struct_array(Action *actions){
-    
-	int i, j, k, l, cnt = 0, array_cnt = 0;
-	char *first_word[ACTION_SIZE]= ACTION;
-	char *second_word[ATTRIBUTE_SIZE]= ATTRIBUTE;
-	
-	for(i = 0; i < ACTION_SIZE && array_cnt < ATTRIBUTE_SIZE; i++){
-		actions[i].name = (char*)malloc(1 * sizeof(char[strlen(first_word[i])]));
-		actions[i].name = first_word[i];
-	
-		for(j = array_cnt; strcmp(second_word[j], "NEXT") != 0; j++){
-				
-				cnt += 1;
-		}
-		array_cnt += cnt;
-		
-		actions[i].instruction = (char**)malloc(cnt * sizeof(char*));
-		
-		for(k = array_cnt - cnt, l = 0; k < array_cnt; k++, l++){
-			
-			actions[i].instruction[l] = (char*)malloc(strlen(second_word[k]) * sizeof(char));
-			strcpy(actions[i].instruction[l], second_word[k]);
-		}
-		cnt = 0;
-		array_cnt += 1;
-	}
-}
+
