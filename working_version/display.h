@@ -36,7 +36,7 @@
 #define  INTERMEDIATE  "challenges/intermediate_default.txt"
 #define  EXPERT  "challenges/expert_default.txt"
 
-#define  CANVAS_MODE_TEXTBOX  17
+#define  CANVAS_MODE_TEXTBOX  20
 #define  CHALLENGE_MODE_TEXTBOX  12
 #define  RESET_GENERATE_TEXTBOX  16
 #define  PREV_NEXT_TEXTBOX  9
