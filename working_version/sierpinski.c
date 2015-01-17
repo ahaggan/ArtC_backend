@@ -1,9 +1,9 @@
 #include "fractals.h"
 
-void sierpinskiiterate(Draw *fractal, Interface *interface, Shape current, 
+void sierpinskiiterate(Draw *fractal, SDL_Win *window, Shape current, 
                            int iterations, int limit);
 
-void sierpinski(Draw *fractal, Interface *interface, int limit) {
+void sierpinski(Draw *fractal, SDL_Win *window, int limit) {
 fprintf(stderr, "sierpinski %d : ", limit);
     Shape shape;
     make_shape(&shape, fractal->startx, fractal->starty, fractal->size[0],
@@ -11,16 +11,16 @@ fprintf(stderr, "sierpinski %d : ", limit);
 
     int iterations = 1; //One iteration is just the shape.
 
-    sierpinskiiterate(fractal, interface, shape, iterations, limit);
+    sierpinskiiterate(fractal, window, shape, iterations, limit);
 printf("finished %d\n", limit);
-    SDL_RenderPresent(interface->window.renderer);
-    SDL_UpdateWindowSurface(interface->window.win);
+    SDL_RenderPresent(window->renderer);
+    SDL_UpdateWindowSurface(window->win);
 }
 
-void sierpinskiiterate(Draw *fractal, Interface *interface, Shape current, 
+void sierpinskiiterate(Draw *fractal, SDL_Win *window, Shape current, 
                            int iterations, int limit) {
     if (current.size < 2 || iterations == limit) {
-        draw_sdl(interface, fractal, current.x, current.y, 
+        draw_sdl(window, fractal, current.x, current.y, 
                      current.size/2, current.rotation, iterations);
         return;
     }
@@ -43,7 +43,7 @@ void sierpinskiiterate(Draw *fractal, Interface *interface, Shape current,
 
     iterations++;
 
-    sierpinskiiterate(fractal, interface, top, iterations, limit);
-    sierpinskiiterate(fractal, interface, left, iterations, limit);
-    sierpinskiiterate(fractal, interface, right, iterations, limit);
+    sierpinskiiterate(fractal, window, top, iterations, limit);
+    sierpinskiiterate(fractal, window, left, iterations, limit);
+    sierpinskiiterate(fractal, window, right, iterations, limit);
 }

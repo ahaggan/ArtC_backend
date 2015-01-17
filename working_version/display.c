@@ -616,6 +616,8 @@ void display_next_button(int win_width, int win_height, Interface* interface) {
                 next_button_x, next_button_y, next_button_w, next_button_h, 
                   241, 35, 65);
 
+
+
     text_align_central(next_text, "NEXT", PREV_NEXT_TEXTBOX);
     make_text(&interface->window, &interface->next_button.rect,
                 interface->button_font, next_text,  
@@ -829,21 +831,6 @@ void display_expert_text(Menu* challenges) {
     SDL_DestroyTexture(image); 
 }
 
-void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, 
-                 int r, int g, int b) {
-    area->rect.w = w;
-    area->rect.h = h;
-    area->rect.x = x;
-    area->rect.y = y;
-
-    area->col.r = r;
-    area->col.g = g;
-    area->col.b = b;
-
-    SDL_SetRenderDrawColor(win->renderer, r, g, b, 255);
-    SDL_RenderFillRect(win->renderer, &area->rect);
-}
-
 void text_align_central(char* centred_string, char* input_string, 
                           int textbox_width) {
     int length = strlen(input_string);
@@ -878,11 +865,18 @@ void make_text(SDL_Win *win, SDL_Rect *location, TTF_Font *font, char* text,
     SDL_DestroyTexture(texttexture);
 }
 
-void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
-    shape->x = x;
-    shape->y = y;
-    shape->size = size;
-  
-    shape->height = height;
-    shape->rotation = angle;
+void make_rect(SDL_Win *win, Area *area, int x, int y, int w, int h, 
+                 int r, int g, int b) {
+    area->rect.w = w;
+    area->rect.h = h;
+    area->rect.x = x;
+    area->rect.y = y;
+
+    area->col.r = r;
+    area->col.g = g;
+    area->col.b = b;
+
+    SDL_SetRenderDrawColor(win->renderer, r, g, b, 255);
+
+    SDL_RenderFillRect(win->renderer, &area->rect);
 }
