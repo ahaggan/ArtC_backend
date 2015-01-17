@@ -8,11 +8,21 @@ Initialise interpreter array test PASSED.
 
 Validate test 1: Passed
 Validate test 2: Passed
+Validate test 3: Passed
 Validate tests PASSED.
 
 Funclist test 1: Passed
 Funclist test 2: Passed
+Funclist test 3: Passed
 Funclist tests PASSED.
+
+Function test 1: Passed
+Function test 2: Passed
+Function test 3: Passed
+Function test 4: Passed
+Function test 5: Passed
+Function test 6: Passed
+Function tests PASSED.
 
 Check action test 1: Passed
 Check action test 2: Passed
@@ -50,3 +60,11 @@ Loop tests PASSED.
 For loop test 1: Passed
 For loop test 2: Passed
 Loop tests PASSED.
+
+Whole parser test 1: Passed
+Whole parser test 2: Passed
+Whole parser test 3: Passed
+Whole parser test 4: Passed
+Whole parser test 5: Passed
+Whole parser test 6: Passed
+Full parser tests PASSED.

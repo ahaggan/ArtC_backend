@@ -1,26 +1,26 @@
 run {
-   linethickness 7
-   iterations 9
+   linethickness 1
+   iterations 5
    type sierpinski
-   angle 30
-   colour green
-   shape line
-   size 250
+   angle 180
+   colour gold
+   shape circle
+   size 600
+
+   if iterations 1 then {
+      colour white
+   }
+
+   if iterations 3 then {
+      colour black
+   }
+
+   if iterations 5 then {
+      colour white
+   }
+
+   if iterations 7 then {
+      colour black
+   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
