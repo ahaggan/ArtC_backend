@@ -1,7 +1,7 @@
 /* Accesses display.c */
 /* Is accessed by input.c and interface.c */
 
-#include "texteditor.h"
+#include "texteditor.h" 
 
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
@@ -36,7 +36,8 @@ TextNode* make_cell(int width, int height, Coordinates curr, Interface* interfac
         make_middle_cells(curr, interface, text_editor, current);
     }
     else {
-        make_last_cell(curr, interface, text_editor, current);
+        
+        make_last_cell(curr, interface, text_editor, current);   
     }
 
     return &text_editor[curr.row][curr.column];
@@ -131,7 +132,7 @@ TextNode* allocate_text_node(char* text, TextNode* previous_node,
 void update_text_node(TextNode* current, Interface* interface) {
 
     make_rect(&interface->window, &current->box, current->location.column, 
-            current->location.row, current->w, current->h, 43, 43, 39);
+            current->location.row, TEXT_CELL_W, TEXT_CELL_H, 43, 43, 39);
 
     /* if there's no character to render, skip make_text */
     if (!is_empty_cell(current->character)) {
@@ -149,8 +150,6 @@ void set_node_attributes(Interface* interface, int row, int column, TextNode* ne
     new_node->text_cell.column = column;
     new_node->location.row = y;
     new_node->location.column = x;
-    new_node->w = TEXT_CELL_W;
-    new_node->h = TEXT_CELL_H;
 
     make_rect(&interface->window, &interface->text_editor[row][column].box, 
               x, y, TEXT_CELL_W, TEXT_CELL_H, 43, 43, 39);

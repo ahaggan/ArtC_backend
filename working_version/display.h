@@ -96,9 +96,8 @@ typedef struct text_node {
     Area box;
     Coordinates text_cell;
     Coordinates location;
-    int w;
-    int h;
 } TextNode;
+
 typedef TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
 
 typedef enum interface_action {
