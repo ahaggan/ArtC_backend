@@ -19,7 +19,7 @@ int interface(Menu* main, Mode mode, char* file_name) {
     
     
 
-   render_update_clear(interface.window);
+   render_update(interface.window);
 
    while (interface.action != back_to_menu) {
       fix_mac_flickering(&interface, mode); 
@@ -73,7 +73,7 @@ int interface(Menu* main, Mode mode, char* file_name) {
 
 
 
-      render_update_clear(interface.window);
+      render_update(interface.window);
    }
    if (mode == challenge_mode) { 
        FILE* challenge = fopen(interface.code_file, "w");
@@ -193,7 +193,7 @@ void display_error(Interface *interface) {
     make_rect(&interface->window, &text_box_bottom, 0, text_box_top.rect.y + text_box_top.rect.h, interface->text_editor_panel.rect.w, CHALLENGE_FONT_SIZE * 1.45, 255,255,255);
     make_text(&interface->window, &text_box_bottom.rect, interface->challenge_font, aligned_message_bottom, 241, 35, 65);
 
-    render_update_clear(interface->window);
+    render_update(interface->window);
     SDL_PollEvent(&event); 
   } while(event.type != SDL_MOUSEBUTTONDOWN && event.type != SDL_KEYDOWN);
 }

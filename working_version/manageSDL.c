@@ -25,7 +25,7 @@ void SDL_Win_Init(SDL_Win *w, char* win_name) {
     SDL_SetWindowMinimumSize(w->win, MIN_WIDTH, MIN_HEIGHT);
     // Set screen to white.
     SDL_SetRenderDrawColor(w->renderer, 255, 255, 255, 255);
-    render_update_clear(*w);
+    render_update(*w);
 }
 
 void SDL_Handle_Error(char* error) {
@@ -37,13 +37,12 @@ void SDL_Handle_Error(char* error) {
 void clear_area(SDL_Win *window, Area area) {
    SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255);
    SDL_RenderFillRect(window->renderer, &area.rect);  
-   render_update_clear(*window);
+   render_update(*window);
 }
 
-void render_update_clear(SDL_Win window) {
+void render_update(SDL_Win window) {
    SDL_RenderPresent(window.renderer);
    SDL_UpdateWindowSurface(window.win);
-   //SDL_RenderClear(window.renderer);
 }
 
 void SDL_TTF_Init() {
