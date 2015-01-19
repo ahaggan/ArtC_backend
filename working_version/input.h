@@ -29,8 +29,9 @@ int end_column(Coordinates active, Interface interface);
 
 void handle_overwriting(Coordinates active, Interface* interface, 
                           char* overflow);
-void handle_backwriting(Coordinates active, Interface* interface);
-void handle_enter_shuffling(Coordinates active, Interface* interface);
 
-void tab(Coordinates active, Interface* interface, int direction);
+void handle_carriage_return(Coordinates active, Interface* interface);
+void handle_backspace(Coordinates active, Interface* interface);
+void handle_tab(Coordinates active, Interface* interface, int direction);
+
 void wipe_text_editor(Interface* interface);

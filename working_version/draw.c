@@ -79,7 +79,7 @@ void find_and_set_colour(SDL_Win *window, Draw *fractal, int i) {
     }
 
     else if (strcmp(fractal->colour[i-1], "white") == 0) {
-        SDL_SetRenderDrawColor(window->renderer, 240, 240, 240, 255);
+        SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255);
     }
 }
 

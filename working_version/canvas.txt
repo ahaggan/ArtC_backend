@@ -1,26 +1,26 @@
 run {
-   linethickness 1
-   iterations 5
-   type sierpinski
+   linethickness 3
+   iterations 7
+   type star
    angle 180
-   colour gold
+   colour red
    shape circle
-   size 600
+   size large
 
-   if iterations 1 then {
-      colour white
+   if iterations 0 then {
+      colour brown
    }
-
-   if iterations 3 then {
-      colour black
+   for iterations 1 to iterations 2 {
+      colour red
    }
-
-   if iterations 5 then {
-      colour white
+   for iterations 3 to iterations 4 {
+      colour gold
    }
-
-   if iterations 7 then {
-      colour black
-   }
+   
 }
+
+
+
+
+
 
