@@ -2,24 +2,24 @@ run {
    linethickness 3
    iterations 8
    type star
-   angle 180
-   colour blue
-   shape circle
-   size medium
-
-   if iterations 0 then {
-      colour red
-   }
-   for iterations 1 to iterations 2 {
-      colour fuchsia
-      shape line
-   }
-   for iterations 3 to iterations 4 {
-      colour gold
-      shape triangle
-   }
-   
+   angle 0
+   colour random
+   shape random
+   size 200
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

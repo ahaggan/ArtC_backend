@@ -23,8 +23,6 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
                 main_menu->window.finished = 1;
                 return quit;
                 break;
-
-            
                
             case SDL_MOUSEBUTTONDOWN:
                 if (within_button(x, y, main_menu->canvas_button.rect)) {
@@ -115,15 +113,6 @@ int SDL_Help_Menu_Events(Menu* help) {
                     return back;
                 }
             break;
-        }
-    }
-    return 0;
-}
-
-int within_button(int x, int y, SDL_Rect button) {
-    if (x >= button.x && x <=  button.x + button.w) {
-        if (y >= button.y && y <= button.y + button.h) {
-            return 1;
         }
     }
     return 0;
@@ -447,6 +436,15 @@ void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y) {
            
         }
     }
+}
+
+int within_button(int x, int y, SDL_Rect button) {
+    if (x >= button.x && x <=  button.x + button.w) {
+        if (y >= button.y && y <= button.y + button.h) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 void find_previous_cell_on_row(TextNode* current, Interface* interface) {

@@ -185,7 +185,7 @@ void Draw_Tri(SDL_Renderer *renderer, int x, int y, int size, float angle) {
     int c2y = y-((size/2.0)*cos(angle+(M_PI*(2.0/3.0))));
     int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0))));
     int c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
-
+    
     SDL_RenderDrawLine(renderer, c1x, c1y, c2x, c2y);
     SDL_RenderDrawLine(renderer, c2x, c2y, c3x, c3y);
     SDL_RenderDrawLine(renderer, c3x, c3y, c1x, c1y);

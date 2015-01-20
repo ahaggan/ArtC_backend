@@ -1,4 +1,4 @@
-#include "interface.h"
+  #include "interface.h"
 
 int interface(Menu* main, Mode mode, char* file_name) {
    SDL_RenderClear(main->window.renderer);
