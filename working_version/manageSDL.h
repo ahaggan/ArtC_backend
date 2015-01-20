@@ -21,7 +21,7 @@ void SDL_Win_Init(SDL_Win *w, char* win_name);
 void SDL_Handle_Error(char* error);
 
 void clear_area(SDL_Win *window, Area area);
-void render_update_clear(SDL_Win window);
+void render_update(SDL_Win window);
 
 void SDL_TTF_Init();
 void SDL_TTF_Quit(TTF_Font *font);

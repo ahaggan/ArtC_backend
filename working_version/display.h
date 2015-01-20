@@ -224,7 +224,7 @@ void display_next_button(int win_width, int win_height, Interface* interface);
 void display_dividers(int win_width, int win_height, 
                         Interface* interface, Mode mode);
 
-void fix_mac_flickering(Interface* interface, Mode mode); // MACS ARE TERRIBLE.
+void fix_mac_flickering(Interface* interface, Mode mode);
 
 void display_popup_text(Menu* menu);
 void display_canvas_text(Menu* main_menu);
