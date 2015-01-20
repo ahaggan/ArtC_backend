@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "interpreter.h"
 
 void interpreter(Prog* program){
     int i;
