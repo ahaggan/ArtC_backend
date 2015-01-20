@@ -44,19 +44,25 @@ typedef struct prog {
 
 //Calls the functions that initialise the Prog struct's arrays
 void initialise_arrays(Prog *program);
-//Calls the interpreter function that writes the parsed values to the fractal array
+//Calls the interpreter function that writes the parsed values 
+//to the fractal array
 void interpreter(Prog* program);
-//checks that the action used in the if statement is an action an if staement is allowed for
+//checks that the action used in the if statement is an action 
+//that an if staement is allowed for
 int check_if(char* word);
-//Initialises the first char of each word in the words array with the '\0' character - for checking for the end of a given file
+//Initialises the first char of each word in the words array 
+//with the '\0' character - for checking for the end of a given file
 void initialise_words_array(Prog* program);
-//Initialises the first char of each word in the interpreter array with the '\0' character
+//Initialises the first char of each word in the interpreter array 
+//with the '\0' character
 void initialise_interpreter_array(Prog* program);
-//Begins the process of parsing the given program, check for a correct start then passes to the recursive part of parser
+//Begins the process of parsing the given program, check for a correct 
+//start then passes to the recursive part of parser
 int validate(Prog* program);
 //Checks for the end of the program or else calls the function function 
 int funclist(Prog* program);
-//checks the possible options for our grammer( "if", "for" or nothing) and calls the relevant functions
+//checks the possible options for our grammer( "if", "for" or nothing) 
+//and calls the relevant functions
 int function(Prog* program);
 //Checks that "then {" follows your statement from the if function.
 //Then calls funclist to check the contents of the if function

@@ -28,6 +28,9 @@ typedef struct draw{
     char* move;
 } Draw;
 
+
+//Calls function in menu.c and launches the user interface
+
 void launch_menu();
 int parser(Draw *fractal, char *file_name);
 void test_parser();

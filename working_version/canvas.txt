@@ -1,11 +1,12 @@
 run {
-   iterations 7
+
+   linethickness 3
+   iterations 8
    type tree
    angle 0
-   colour red
-   shape circle
-   size 400
-   linethickness 5
+   colour random
+   shape line
+   size 500
 
    for iterations 0 to iterations 1 {
       colour purple

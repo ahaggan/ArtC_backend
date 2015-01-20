@@ -12,10 +12,15 @@ void update_text_editor(int width, int height, Interface* interface);
 void write_text_to_file(Interface* interface, char* file_name);
 void load_text_into_text_editor(char* file_name, Interface* interface);
 
+void generating(Draw *fractal, Interface *interface);
 void generate_fractal(Draw *fractal, SDL_Win *window, int i);
 
 int Interface_Events(Interface* interface);
 
 void set_challenges_based_on_level(char* file_name, Interface* interface);
-void display_error(Interface* interface);
+void beginner_challenges(Interface *interface);
+void intermediate_challenges(Interface *interface);
+void expert_challenges(Interface *interface);
 
+void display_error(Interface* interface);
+void read_write_error(char* align_message_top, char* align_message_bottom);
