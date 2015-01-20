@@ -1,8 +1,5 @@
 #include "fractals.h"
 
-void sierpinskiiterate(Draw *fractal, SDL_Win *window, Shape current, 
-                           int iterations, int limit);
-
 void sierpinski(Draw *fractal, SDL_Win *window, int limit) {
 fprintf(stderr, "sierpinski %d : ", limit);
     Shape shape;

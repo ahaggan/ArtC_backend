@@ -8,9 +8,6 @@ void generate_fractal(Draw *fractal, SDL_Win *window, int i)
     else if(strcmp(fractal->type[i], "tree") == 0){
         tree(fractal, window, i);
     }
-    else if(strcmp(fractal->type[i], "sierpinski_square") == 0){
-        carpet(fractal, window, i);
-    }
     else if(strcmp(fractal->type[i], "star") == 0){
         star(fractal, window, i);
     }
