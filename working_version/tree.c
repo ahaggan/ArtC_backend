@@ -1,8 +1,5 @@
 #include "fractals.h"
 
-void treeiterate(Draw *fractal, SDL_Win *window, Shape current,
-                     int iterations, int limit, float angle, int bx, int by);
-
 void tree(Draw *fractal, SDL_Win *window, int limit) {
     Shape trunk;
     make_shape(&trunk, fractal->startx, fractal->starty - (fractal->size[0]/4), 

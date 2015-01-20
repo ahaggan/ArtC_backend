@@ -1,8 +1,5 @@
 #include "fractals.h"
 
-void stariterate(Draw *fractal, SDL_Win *window, Shape current, 
-                     int iterations, int limit, float angle);
-
 void star(Draw *fractal, SDL_Win *window, int limit) {
     Shape centre;
     make_shape(&centre, fractal->startx, fractal->starty, 
