@@ -12,7 +12,7 @@ int interface(Menu* main, Mode mode, char* file_name) {
     render_update(interface.window);
 
     while(interface.action != back_to_menu) {
-        fix_mac_flickering(&interface, mode); 
+        display_interface(&interface, mode); 
         update_text_editor(interface.editor_columns, interface.editor_rows, 
                                &interface);
         interface.action = Interface_Events(&interface);
@@ -82,7 +82,8 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
     interface->click_location.column = interface->canvas.rect.y + 
                                       (interface->canvas.rect.h/2);
 
-    display_interface(main_menu, interface, mode);
+    SDL_RenderClear(main_menu->window.renderer);
+    display_interface(interface, mode);
 }
 
 void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {

@@ -313,9 +313,8 @@ void display_back_button(Menu* help_menu, int win_width, int win_height) {
 }
 
 /* Interface */
-void display_interface(Menu *main_menu, Interface *interface, Mode mode) {
+void display_interface(Interface *interface, Mode mode) {
     int win_width, win_height;
-    SDL_RenderClear(main_menu->window.renderer);
 
     SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
 
@@ -336,27 +335,6 @@ void display_interface(Menu *main_menu, Interface *interface, Mode mode) {
     }
 
     display_dividers(win_width, win_height, interface, mode);
-}
-
-void fix_mac_flickering(Interface* interface, Mode mode) {
-    int win_width, win_height;
-
-    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
-    
-    display_toolbar(win_width, win_height, interface, mode);
-    display_menu_button(win_width, win_height, interface, mode);
-    display_help_button(win_width, win_height, interface, mode);
-    display_reset_button(win_width, win_height, interface, mode);
-    display_generate_button(win_width, win_height, interface);
-    display_text_editor(win_width, win_height, interface); 
-   
-    if (mode == challenge_mode) {
-        display_learn_button(win_width, win_height, interface);
-        display_previous_button(win_width, win_height, interface);
-        display_current_challenge(win_width, win_height, interface);
-        display_next_button(win_width, win_height, interface);
-    }
-    display_dividers(win_width, win_height, interface, mode);  
 }
 
 void display_toolbar(int win_width, int win_height, 
