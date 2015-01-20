@@ -734,3 +734,46 @@ int last_cell(Coordinates active, Interface interface) {
     }
     return 0;
 }
+
+void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y) {
+    for(int row = 0; row < interface->editor_rows; row++) {
+        for(int column = 0; column < interface->editor_columns; column++) {
+            if(inside_cell(interface->text_editor[row][column], 
+                             mouse_x, mouse_y)) {
+                 //click on a cell with text within? take you directly to that cell
+                if(strcmp(interface->text_editor[row][column].character, 
+                            EMPTY_CELL) != 0) {
+                    SDL_SetTextInputRect(&interface->text_editor[row][column - TAB_LENGTH].box.rect);
+                    set_active_text_cell(row, column, interface);  
+                }
+                //click on a line? take to prev live cell on that row
+                else {
+                    find_previous_cell_on_row(&interface->text_editor[row][column], interface);
+                }
+            }
+        }
+    }
+}
+
+void find_previous_cell_on_row(TextNode* current, Interface* interface) {
+    while(current->text_cell.column != 0 && 
+            strcmp(current->previous->character, EMPTY_CELL) == 0) {
+        current = current->previous;  
+    }
+    int r = current->text_cell.row;
+    int c = current->text_cell.column;
+    SDL_SetTextInputRect(&interface->text_editor[r][c].box.rect);
+    set_active_text_cell(r, c, interface);  
+}
+
+void console_text_editor(Interface interface) {
+    int row, col;
+    row = col = 0;
+    for(row = 0; row <= interface.editor_rows; row++) {
+        for(col = 0; col < interface.editor_columns; col++) {
+            printf("%s", interface.text_editor[row][col].character);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
