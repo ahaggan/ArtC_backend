@@ -130,7 +130,8 @@ void find_and_draw_shape(SDL_Win *window, Draw *fractal, int x, int y,
     }
 
     else if(strcmp(fractal->shape[i-1], "triangle") == 0) {
-        Draw_Tri(window->renderer, x, y, size, angle);
+        Draw_Tri(window->renderer, x, y, 
+                   size, angle, fractal->linethickness[i-1]);
     }
 
     else if(strcmp(fractal->shape[i-1], "image") == 0) {
@@ -177,7 +178,8 @@ void Draw_Circle(SDL_Renderer *renderer, int x, int y, int r) {
 }
 
 // Outline of a triangle centred at (x, y) with side length
-void Draw_Tri(SDL_Renderer *renderer, int x, int y, int size, float angle) {
+void Draw_Tri(SDL_Renderer *renderer, int x, int y, 
+                int size, float angle, int thickness) {
 
     int c1x = x+((size/2.0)*sin(angle));
     int c1y = y-((size/2.0)*cos(angle));
@@ -186,9 +188,9 @@ void Draw_Tri(SDL_Renderer *renderer, int x, int y, int size, float angle) {
     int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0))));
     int c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
     
-    SDL_RenderDrawLine(renderer, c1x, c1y, c2x, c2y);
-    SDL_RenderDrawLine(renderer, c2x, c2y, c3x, c3y);
-    SDL_RenderDrawLine(renderer, c3x, c3y, c1x, c1y);
+    SDL_Line(renderer, c1x, c1y, c2x, c2y, thickness, angle-(M_PI*(2.0/3.0)));
+    SDL_Line(renderer, c2x, c2y, c3x, c3y, thickness, angle);
+    SDL_Line(renderer, c3x, c3y, c1x, c1y, thickness, angle+(M_PI*(2.0/3.0)));
 }
 
 void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, 

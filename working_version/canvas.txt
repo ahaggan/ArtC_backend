@@ -4,10 +4,10 @@ run {
    type star
    angle 0
    colour random
-   shape random
+   shape triangle
    size 200
+   linethickness 20
 }
-
 
 
 

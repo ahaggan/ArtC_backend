@@ -1,11 +1,8 @@
 #include "display.h"
 
 /* Main Menu */
-void initialise_main_menu(Menu* main_menu) {
+void display_main_menu(Menu* main_menu) {
     int win_width, win_height;
-
-    main_menu->menu_font = SDL_Load_Font("font/Edo.ttf", BUTTON_FONT_SIZE);
-    main_menu->state = 0;
 
     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
 
@@ -140,11 +137,8 @@ void display_quit_button(int win_width, int win_height, Menu* main_menu) {
 }
 
 /* Challenges Menu */
-void initialise_challenges_menu(Menu* challenges) {
+void display_challenges_menu(Menu* challenges) {
     int win_width, win_height;
-
-    challenges->state = 0;  
-
     SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
 
     display_challenges_background(win_width, win_height, challenges);
@@ -271,7 +265,7 @@ void display_main_menu_button(int win_width, int win_height, Menu* challenges) {
 }
 
 /* Help Menu */
-void initialise_help_menu(Menu* help_menu) {
+void display_help_menu(Menu* help_menu) {
     int win_width, win_height;
 
     SDL_GetWindowSize(help_menu->window.win, &win_width, &win_height);
@@ -319,17 +313,9 @@ void display_back_button(Menu* help_menu, int win_width, int win_height) {
 }
 
 /* Interface */
-void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
+void display_interface(Menu *main_menu, Interface *interface, Mode mode) {
     int win_width, win_height;
-
-    interface->action = 0;
-    interface->window = main_menu->window;
-    interface->text_ed_font = SDL_Load_Font("font/DroidSansMono.ttf", 
-                                              FONT_SIZE);
-    interface->button_font = main_menu->menu_font;
-    interface->challenge_font = SDL_Load_Font("font/DroidSansMono.ttf", 
-                                              CHALLENGE_FONT_SIZE);
-    interface->mode = mode;
+    SDL_RenderClear(main_menu->window.renderer);
 
     SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
 
@@ -350,11 +336,27 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
     }
 
     display_dividers(win_width, win_height, interface, mode);
+}
 
-    interface->click_location.row = interface->canvas.rect.x + 
-                                      (interface->canvas.rect.w/2);
-    interface->click_location.column = interface->canvas.rect.y + 
-                                      (interface->canvas.rect.h/2);
+void fix_mac_flickering(Interface* interface, Mode mode) {
+    int win_width, win_height;
+
+    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
+    
+    display_toolbar(win_width, win_height, interface, mode);
+    display_menu_button(win_width, win_height, interface, mode);
+    display_help_button(win_width, win_height, interface, mode);
+    display_reset_button(win_width, win_height, interface, mode);
+    display_generate_button(win_width, win_height, interface);
+    display_text_editor(win_width, win_height, interface); 
+   
+    if (mode == challenge_mode) {
+        display_learn_button(win_width, win_height, interface);
+        display_previous_button(win_width, win_height, interface);
+        display_current_challenge(win_width, win_height, interface);
+        display_next_button(win_width, win_height, interface);
+    }
+    display_dividers(win_width, win_height, interface, mode);  
 }
 
 void display_toolbar(int win_width, int win_height, 
@@ -618,6 +620,7 @@ void display_next_button(int win_width, int win_height, Interface* interface) {
 
 
 
+
     text_align_central(next_text, "NEXT", PREV_NEXT_TEXTBOX);
     make_text(&interface->window, &interface->next_button.rect,
                 interface->button_font, next_text,  
@@ -670,27 +673,6 @@ void display_dividers(int win_width, int win_height,
                 interface->next_button.rect.y, 
                 1, interface->next_button.rect.h, 
                   20, 20, 20);
-}
-
-void fix_mac_flickering(Interface* interface, Mode mode) {
-    int win_width, win_height;
-
-    SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
-    
-    display_toolbar(win_width, win_height, interface, mode);
-    display_menu_button(win_width, win_height, interface, mode);
-    display_help_button(win_width, win_height, interface, mode);
-    display_reset_button(win_width, win_height, interface, mode);
-    display_generate_button(win_width, win_height, interface);
-    display_text_editor(win_width, win_height, interface); 
-   
-    if (mode == challenge_mode) {
-        display_learn_button(win_width, win_height, interface);
-        display_previous_button(win_width, win_height, interface);
-        display_current_challenge(win_width, win_height, interface);
-        display_next_button(win_width, win_height, interface);
-    }
-    display_dividers(win_width, win_height, interface, mode);  
 }
 
 void display_popup_text(Menu* menu) {

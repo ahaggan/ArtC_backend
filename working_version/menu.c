@@ -21,24 +21,31 @@ void launch_menu() {
     atexit(SDL_Quit);
 }
 
+void initialise_main_menu(Menu* main_menu) {
+    main_menu->menu_font = SDL_Load_Font("font/Edo.ttf", BUTTON_FONT_SIZE);
+    main_menu->state = 0;
+
+    display_main_menu(main_menu);
+}
+
 /* Act based on whether any buttons in the main menu were pressed */ 
-void main_menu_actions(Menu* menu) {
-    switch (menu->state) {
+void main_menu_actions(Menu* main_menu) {
+    switch (main_menu->state) {
         case canvas: 
-            interface(menu, canvas_mode, "canvas.txt"); 
-            //SDL_RenderClear(menu->window.renderer);
-            //display_main_menu(menu); 
+            interface(main_menu, canvas_mode, "canvas.txt"); 
+            //SDL_RenderClear(main_menu->window.renderer);
+            //display_main_menu(main_menu); 
             break;
         case challenges_menu:
-           challenge_menu(menu);
-           //SDL_RenderClear(menu->window.renderer);
-           //display_main_menu(menu); 
+           challenge_menu(main_menu);
+           //SDL_RenderClear(main_menu->window.renderer);
+           //display_main_menu(main_menu); 
            break;
         case options_menu:
-            help_menu(menu);
+            help_menu(main_menu);
             break;
         case quit:
-            menu->window.finished = 1;
+            main_menu->window.finished = 1;
             break;
         default: 
             return;
@@ -47,6 +54,7 @@ void main_menu_actions(Menu* menu) {
 
 int challenge_menu(Menu* challenges) {
     challenges->hover = 0;
+    challenges->state = 0;
     while(challenges->state != main_menu) {
         initialise_challenges_menu(challenges);
         display_popup_text(challenges);
@@ -55,6 +63,10 @@ int challenge_menu(Menu* challenges) {
         challenge_menu_actions(challenges);
     }
     return 0;
+}
+
+void initialise_challenges_menu(Menu* challenges) {
+    display_challenges_menu(challenges);
 }
 
 void challenge_menu_actions(Menu* challenges) {
@@ -84,6 +96,10 @@ int help_menu(Menu* help) {
         help_menu_actions(help);
     }
     return 0;
+}
+
+void initialise_help_menu(Menu* help) {
+    display_help_menu(help);
 }
 
 void help_menu_actions(Menu* help) {

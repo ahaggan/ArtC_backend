@@ -162,6 +162,7 @@ typedef struct shape {
     float rotation;
 } Shape;
 
+void display_main_menu(Menu* main_menu);
 void display_menu_background(int win_width, int win_height, Menu* main_menu);
 void display_logo(int win_width, int win_height, Menu* main_menu);
 void display_canvas_button(int win_width, int win_height, Menu* main_menu);
@@ -169,6 +170,7 @@ void display_challenges_button(int win_width, int win_height, Menu* main_menu);
 void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
 void display_quit_button(int win_width, int win_height, Menu* main_menu);
 
+void display_challenges_menu(Menu* challenges);
 void display_challenges_background(int win_width, int win_height, 
                                      Menu* challenges);
 void display_header(int win_width, int win_height, Menu* challenges_menu);
@@ -181,6 +183,7 @@ void display_expert_button(int win_width, int win_height,
 void display_main_menu_button(int win_width, int win_height, 
                                 Menu* challenges_menu);
 
+void display_help_menu(Menu* help_menu);
 int help_menu(Menu* help);
 
 void display_popup_text(Menu* menu);
@@ -193,7 +196,7 @@ void display_expert_text(Menu* challenges);
 void display_help_screen(Menu* help_menu, int win_width, int win_height);
 void display_back_button(Menu* help_menu, int win_width, int win_height);
 
-void initialise_interface(Menu* main, Interface* interface, Mode mode);
+void display_interface(Menu *main_menu, Interface *interface, Mode mode);
 void display_toolbar(int win_width, int win_height, 
                        Interface* interface, Mode mode);
 void display_reset_button(int win_width, int win_height, 
