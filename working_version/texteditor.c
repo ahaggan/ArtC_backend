@@ -844,7 +844,6 @@ void keydown_backspace(Interface *interface, Coordinates active) {
         handle_backspace(active, interface);   
        
     }
-    console_text_editor(*interface);
 }
 
 void keydown_return(Interface *interface, Coordinates active) {    
@@ -855,7 +854,6 @@ void keydown_return(Interface *interface, Coordinates active) {
     //move the cursor to the next line
     SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
     set_active_text_cell(active.row + 1, 0, interface);
-    console_text_editor(*interface);
 }
 
 void keydown_tab(Interface *interface, Coordinates active) {
@@ -882,7 +880,6 @@ void keydown_tab(Interface *interface, Coordinates active) {
             set_active_text_cell(active.row, active.column + TAB_LENGTH, interface);
         }
     }
-    console_text_editor(*interface);
 }
 
 void keydown_up(Interface *interface, Coordinates active) {

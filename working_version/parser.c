@@ -53,7 +53,7 @@ void initialise_arrays(Prog *program){
 }
 void initialise_words_array(Prog *program){
     int i;
-    program->error = fopen("error_message.artc", "w");
+    program->error = fopen("program_txt_files/error_message.txt", "w");
     program->current_word = 0;
     for(i = 0; i < MAX_WORDS; i++){
         program->words[i][0] = '\0';

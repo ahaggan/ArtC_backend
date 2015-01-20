@@ -158,15 +158,16 @@ int Interface_Events(Interface* interface) {
 }
 
 int interface_click(int x, int y, Interface *interface) {              
-    if(within_button(x, y, interface->generate_button.rect)) {
-        if(interface->mode  == challenge_mode) {
+    if (within_button(x, y, interface->generate_button.rect)) {
+        if (interface->mode  == challenge_mode) {
             clear_area(&interface->window, interface->canvas);
         }
         return generate_clicked;
     }
-    else if(within_button(x, y, interface->reset_button.rect)) {
-        if(interface->mode == challenge_mode) { 
-            if(interface->challenge_num == 0) {
+
+    else if (within_button(x, y, interface->reset_button.rect)) {
+        if (interface->mode == challenge_mode) { 
+            if (interface->challenge_num == 0) {
                 load_text_into_text_editor(interface->default_file, interface);
             }
             else {
@@ -176,29 +177,37 @@ int interface_click(int x, int y, Interface *interface) {
         clear_area(&interface->window, interface->canvas);
         return 0;
     }
-    else if(within_button(x, y, interface->menu_button.rect)) {
+
+    else if (within_button(x, y, interface->menu_button.rect)) {
         return back_to_menu;
     }
-    else if(within_button(x, y, interface->help_button.rect)) {
+
+    else if (within_button(x, y, interface->help_button.rect)) {
         return load_help;
     }
-    else if(within_button(x, y, interface->next_button.rect)) {
-        if(interface->challenge_num < LEVEL_NUM - 1) {
+
+    else if (within_button(x, y, interface->next_button.rect)) {
+        if (interface->challenge_num < LEVEL_NUM - 1) {
             interface->challenge_num++;
+           
             return load_challenge;
         }
     }
-    else if(within_button(x, y, interface->previous_button.rect)) {
-        if(interface->challenge_num > 0) {
+
+    else if (within_button(x, y, interface->previous_button.rect)) {
+        if (interface->challenge_num > 0) {
             interface->challenge_num--;
+            
             return load_challenge;
         }
     }
-    else if(within_button(x, y, interface->canvas.rect)) {
+
+    else if (within_button(x, y, interface->canvas.rect)) {
         interface->click_location.row = x;
         interface->click_location.column = y;
         return change_position;
     }
+
     return 0;
 }
 
@@ -216,7 +225,6 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
 
         case SDL_MOUSEBUTTONDOWN:  
             mouse_move_to_cell(interface, x, y);
-            console_text_editor(*interface);
             return text_edited;
 
         //textinput case MUST be before keydown; otherwise 'soh' enters the string.

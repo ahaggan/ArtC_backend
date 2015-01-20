@@ -1,6 +1,7 @@
 #include <math.h>
 
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #ifndef  M_PI

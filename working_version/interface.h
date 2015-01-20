@@ -21,6 +21,3 @@ void set_challenges_based_on_level(char* file_name, Interface* interface);
 void beginner_challenges(Interface *interface);
 void intermediate_challenges(Interface *interface);
 void expert_challenges(Interface *interface);
-
-void display_error(Interface* interface);
-void read_write_error(char* align_message_top, char* align_message_bottom);

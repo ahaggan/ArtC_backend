@@ -35,9 +35,9 @@
 
 #define  PREV_NEXT_BUTTON  4 
 
-#define  BEGINNER  "challenges/beginner_default.txt"
-#define  INTERMEDIATE  "challenges/intermediate_default.txt"
-#define  EXPERT  "challenges/expert_default.txt"
+#define  BEGINNER  "program_txt_files/challenges/beginner_default.txt"
+#define  INTERMEDIATE  "program_txt_files/challenges/intermediate_default.txt"
+#define  EXPERT  "program_txt_files/challenges/expert_default.txt"
 
 #define  LEVEL_NUM  4
 
@@ -240,6 +240,9 @@ void display_previous_button(int win_width, int win_height,
 void display_next_button(int win_width, int win_height, Interface* interface);
 void display_dividers(int win_width, int win_height, 
                         Interface* interface, Mode mode);
+
+void display_error_message(Interface* interface);
+void read_write_error(char* align_message_top, char* align_message_bottom);
 
 void text_align_central(char* centred_string, char* challenge, 
                           int textbox_width);
