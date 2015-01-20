@@ -86,18 +86,18 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
 }
 
 void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
-  SDL_GetWindowSize(interface->window.win, &interface->editor_columns, &interface->editor_rows);
+    SDL_GetWindowSize(interface->window.win, &interface->editor_columns, &interface->editor_rows);
 
-  interface->editor_columns /= 27;
-  interface->editor_rows /= 27;
+    interface->editor_columns /= 27;
+    interface->editor_rows /= 27;
 
-  make_text_editor(interface->editor_columns, interface->editor_rows, interface);
+    make_text_editor(interface->editor_columns, interface->editor_rows, interface);
   
-  SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
-  SDL_StartTextInput();
+    SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
+    SDL_StartTextInput();
   
-  printf("%s\n", interface->default_file);
-  load_text_into_text_editor(interface->default_file, interface);    
+    printf("%s\n", interface->default_file);
+    load_text_into_text_editor(interface->default_file, interface);    
   
 }
 

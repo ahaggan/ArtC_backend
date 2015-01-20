@@ -1,4 +1,9 @@
+/*  This module contains all the functions that display created artwork
+    and user interface menus. This module uses the manageSDL functions 
+    to write to the display
+*/
 #include "artc.h"
+//Contains helper functions for displaying SDL
 #include "manageSDL.h"
 
 #define  LEFT_MARGIN  15
@@ -42,11 +47,13 @@
 #define  PREV_NEXT_TEXTBOX  9
 #define  ERROR_TEXTBOX  45
 
+//Refers to where the user is in the program
 typedef enum mode {
     challenge_mode,
     canvas_mode
 } Mode;
 
+//To refer to buttons the user presses
 typedef enum menu_choice {
     canvas = 1,
     challenges_menu,
@@ -59,6 +66,7 @@ typedef enum menu_choice {
     back
 } Menu_Choice;
 
+//Structure contains variables needed when constructing user menus
 typedef struct menu {
     SDL_Win window;
     Menu_Choice state;
@@ -84,11 +92,13 @@ typedef struct menu {
     Area back_button;
 } Menu;
 
+//Contains current position coordinates something 
 typedef struct coordinates {
     int row;
     int column;
 } Coordinates;
 
+//Contains information about a particular cell in the text editor
 typedef struct text_node {
     struct text_node* previous;
     struct text_node* next;
@@ -98,8 +108,10 @@ typedef struct text_node {
     Coordinates location;
 } TextNode;
 
+//WHAT IS THIS DOING??
 typedef TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
 
+//Refers to what the user has clicked in the interface
 typedef enum interface_action {
     generate_clicked = 1,
     text_edited,
@@ -109,11 +121,12 @@ typedef enum interface_action {
     load_help
 } Interface_Action;
 
+//Contains all information related to the user interface display
 typedef struct interface {
     SDL_Win window;
 
     Interface_Action action;
-
+    //Boxes on screen
     Area toolbar;
     Area canvas; 
     Area reset_button;
@@ -133,7 +146,8 @@ typedef struct interface {
     Area reset_generate_top_border;
     Area prev_divider;
     Area next_divider;
-
+    
+    //Text on screen
     Area text_editor_panel;
     TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
     Coordinates click_location;
@@ -145,7 +159,8 @@ typedef struct interface {
     TTF_Font* text_ed_font;
     TTF_Font* button_font;
     TTF_Font* challenge_font;
- 
+    
+    //Information about challenges
     char default_file[MAX_FILE];
     char code_file[MAX_FILE];
     char challenges[LEVEL_NUM][MAX_CHALLENGE_LEN];
@@ -154,6 +169,8 @@ typedef struct interface {
     Mode mode;
 } Interface;	
 
+//Contains information about a particular shape that will be drawn
+//as part of a fractal
 typedef struct shape {
     int x;
     int y;
@@ -162,10 +179,15 @@ typedef struct shape {
     float rotation;
 } Shape;
 
+//Calls the functions that display logos and buttons for the main menu screen
 void display_main_menu(Menu* main_menu);
+//Sets the colour for the background of the main menu
 void display_menu_background(int win_width, int win_height, Menu* main_menu);
+//positions and places logo on the screen
 void display_logo(int win_width, int win_height, Menu* main_menu);
+//Displays the button that links to the canvas screen
 void display_canvas_button(int win_width, int win_height, Menu* main_menu);
+//Displays the button that links to the challenges screen
 void display_challenges_button(int win_width, int win_height, Menu* main_menu);
 void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
 void display_quit_button(int win_width, int win_height, Menu* main_menu);

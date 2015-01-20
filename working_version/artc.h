@@ -29,7 +29,7 @@ typedef struct draw{
     char* move;
 } Draw;
 
-//Calls function in display.c and launches the user interface
+//Calls function in menu.c and launches the user interface
 void launch_menu();
 //Calls test_parser.c and runs automated black and white box testing for this module
 void test_parser();
