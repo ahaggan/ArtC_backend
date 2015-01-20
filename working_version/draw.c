@@ -188,9 +188,9 @@ void Draw_Tri(SDL_Renderer *renderer, int x, int y,
     int c3x = x+((size/2.0)*sin(angle-(M_PI*(2.0/3.0))));
     int c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
     
-    SDL_Line(renderer, c1x, c1y, c2x, c2y, thickness, angle-(M_PI*(2.0/3.0)));
-    SDL_Line(renderer, c2x, c2y, c3x, c3y, thickness, angle);
-    SDL_Line(renderer, c3x, c3y, c1x, c1y, thickness, angle+(M_PI*(2.0/3.0)));
+    SDL_Line(renderer, c1x, c1y, c2x, c2y, thickness, angle+(M_PI*(2.0/3.0)));
+    SDL_Line(renderer, c3x, c3y, c2x, c2y, thickness, angle+(M_PI*(1.0/2.0)));
+    SDL_Line(renderer, c1x, c1y, c3x, c3y, thickness, angle-(M_PI*(2.0/3.0)));
 }
 
 void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye, 

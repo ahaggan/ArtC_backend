@@ -5,8 +5,8 @@ run {
    angle 0
    colour random
    shape triangle
-   size 200
-   linethickness 20
+   size 500
+   linethickness 5
 }
 
 
