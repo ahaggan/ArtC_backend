@@ -39,10 +39,7 @@ typedef enum attribute_word{red, green, blue, pink, purple, brown, up, down, lef
 */
 void initialise_arrays(Prog *program);
 int for_loop(Prog* program, int start, int end);
-int check_condition(Prog* program, int iteration);
-void search_for_end(Prog* program);
 void interpreter(Prog* program);
-void assign_value(Prog* program, int iteration);
 int check_if(char* word);
 void initialise_words_array(Prog* program);
 void test_interpreter(Prog* program);

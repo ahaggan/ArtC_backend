@@ -44,6 +44,14 @@ TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interfac
 
 /* Text Manipulation */
 
+void keydown_backspace(Interface *interface, Coordinates active);
+void keydown_return(Interface *interface, Coordinates active);
+void keydown_tab(Interface *interface, Coordinates active);
+void keydown_up(Interface *interface, Coordinates active);
+void keydown_right(Interface *interface, Coordinates active);
+void keydown_down(Interface *interface, Coordinates active);
+void keydown_left(Interface *interface, Coordinates active);
+
 //Carriage Return
 void shift_row_down(Coordinates active, Coordinates cell, Interface* interface, 
                     char move[interface->editor_columns][3], 

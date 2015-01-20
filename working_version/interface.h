@@ -1,6 +1,6 @@
 #include "display.h"
 #include <unistd.h>
-#include <time.h>
+
 
 #define  ERROR_MAX  100
 

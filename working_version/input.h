@@ -5,7 +5,20 @@
 
 int within_button(int x, int y, SDL_Rect button);
 
+void main_menu_hover(int x, int y, Menu *main_menu);
+int main_menu_click(int x, int y, Menu *main_menu);
+
+void challenges_menu_hover(int x, int y, Menu *challenges);
+int challenges_menu_click(int x, int y, Menu *challenges);
+
+int interface_click(int x, int y, Interface *interface);
+
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface);
+void Text_Editor_mouse_motion(Interface *interface, int x, int y);
+void Text_Editor_text_input(Interface *interface, char* text,
+                                int x, int y, Coordinates active);
+void Text_Editor_keydown(Interface *interface, int key,
+                             int x, int y, Coordinates active);
 
 void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y);
 void find_previous_cell_on_row(TextNode* current, Interface* interface);
@@ -25,7 +38,6 @@ int top_row(Coordinates active);
 int bottom_row(Coordinates active, Interface interface);
 int start_column(Coordinates active);
 int end_column(Coordinates active, Interface interface);
-
 
 void handle_overwriting(Coordinates active, Interface* interface, 
                           char* overflow);

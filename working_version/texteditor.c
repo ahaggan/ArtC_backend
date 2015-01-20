@@ -734,3 +734,218 @@ int last_cell(Coordinates active, Interface interface) {
     }
     return 0;
 }
+
+void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y) {
+    for(int row = 0; row < interface->editor_rows; row++) {
+        for(int column = 0; column < interface->editor_columns; column++) {
+            if(inside_cell(interface->text_editor[row][column], 
+                             mouse_x, mouse_y)) {
+                 //click on a cell with text within? take you directly to that cell
+                if(strcmp(interface->text_editor[row][column].character, 
+                            EMPTY_CELL) != 0) {
+                    SDL_SetTextInputRect(&interface->text_editor[row][column - TAB_LENGTH].box.rect);
+                    set_active_text_cell(row, column, interface);  
+                }
+                //click on a line? take to prev live cell on that row
+                else {
+                    find_previous_cell_on_row(&interface->text_editor[row][column], interface);
+                }
+            }
+        }
+    }
+}
+
+void find_previous_cell_on_row(TextNode* current, Interface* interface) {
+    while(current->text_cell.column != 0 && 
+            strcmp(current->previous->character, EMPTY_CELL) == 0) {
+        current = current->previous;  
+    }
+    int r = current->text_cell.row;
+    int c = current->text_cell.column;
+    SDL_SetTextInputRect(&interface->text_editor[r][c].box.rect);
+    set_active_text_cell(r, c, interface);  
+}
+
+void console_text_editor(Interface interface) {
+    int row, col;
+    row = col = 0;
+    for(row = 0; row <= interface.editor_rows; row++) {
+        for(col = 0; col < interface.editor_columns; col++) {
+            printf("%s", interface.text_editor[row][col].character);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void Text_Editor_text_input(Interface *interface, char* text,
+                                int x, int y, Coordinates active) {
+    if(!last_cell(active, *interface)) {
+        if(strcmp(interface->text_editor[active.row][active.column].character, 
+                    EMPTY_CELL) != 0) {
+            handle_overwriting(active, interface, EMPTY_CELL);
+        }
+    }
+    strcpy(interface->text_editor[active.row][active.column].character, text);
+
+    if(!last_cell(active, *interface)) {
+        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].next->box.rect);
+        set_active_text_cell(interface->text_editor[active.row][active.column].next->text_cell.row, 
+                               interface->text_editor[active.row][active.column].next->text_cell.column, interface);
+    }
+}
+
+void Text_Editor_keydown(Interface *interface, int key,
+                             int x, int y, Coordinates active) {
+    switch(key) {
+
+        case SDLK_BACKSPACE:
+            keydown_backspace(interface, active);
+            break;
+        case SDLK_RETURN:      
+            keydown_return(interface, active);
+            break;
+        case SDLK_TAB:
+            keydown_tab(interface, active);
+            break;
+        case SDLK_UP:
+            keydown_up(interface, active);
+            break;
+        case SDLK_RIGHT: 
+            keydown_right(interface, active);
+            break;
+        case SDLK_DOWN:
+            keydown_down(interface, active);
+            break;
+        case SDLK_LEFT:   
+            keydown_left(interface, active);
+            break;
+
+    }   
+}
+
+void keydown_backspace(Interface *interface, Coordinates active) {
+    if (first_cell(active)) {
+      return;
+    }
+    else if (last_cell(active, *interface)) {
+        strcpy(interface->text_editor[active.row][active.column].character, EMPTY_CELL); 
+        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+    }
+    else if (strcmp(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL) != 0) {
+        //If there's something in the previous cell          
+        strcpy(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL);
+        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].previous->box.rect);
+        set_active_text_cell(interface->text_editor[active.row][active.column].previous->text_cell.row, interface->text_editor[active.row][active.column].previous->text_cell.column, interface);
+        handle_backspace(active, interface);
+    } 
+    else {
+        //If there's nothing in the previous cell
+        handle_backspace(active, interface);   
+       
+    }
+    console_text_editor(*interface);
+}
+
+void keydown_return(Interface *interface, Coordinates active) {    
+    if(bottom_row(active, *interface)) {
+        return;
+    }
+    handle_carriage_return(active, interface);
+    //move the cursor to the next line
+    SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect);
+    set_active_text_cell(active.row + 1, 0, interface);
+    console_text_editor(*interface);
+}
+
+void keydown_tab(Interface *interface, Coordinates active) {
+    if (SDL_GetModState() & KMOD_SHIFT) {
+        if (active.column <= 2) {
+            return;
+        }
+        else {
+            handle_tab(active, interface, 0);
+            SDL_SetTextInputRect(&interface->text_editor[active.row][active.column - TAB_LENGTH].box.rect);
+            set_active_text_cell(active.row, active.column - TAB_LENGTH, interface);   
+        }     
+    }
+    
+    else {
+        if (active.column  >= interface->editor_columns - TAB_LENGTH) {
+            if (!bottom_row(active, *interface)) {
+                return;
+            }
+        }
+        else {
+            handle_tab(active, interface, 1);
+            SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + TAB_LENGTH].box.rect);
+            set_active_text_cell(active.row, active.column + TAB_LENGTH, interface);
+        }
+    }
+    console_text_editor(*interface);
+}
+
+void keydown_up(Interface *interface, Coordinates active) {
+    if (top_row(active)) {
+        return;
+    }
+    SDL_SetTextInputRect(&interface->text_editor[active.row - 1][active.column].box.rect);
+    set_active_text_cell(active.row - 1, active.column, interface);
+}
+
+void keydown_right(Interface *interface, Coordinates active) {
+    if (last_cell(active, *interface) || bottom_row(active, *interface)) {
+        return;
+    }       
+    else if (strcmp(interface->text_editor[active.row][active.column].character, EMPTY_CELL) != 0) {
+        if (end_column(active, *interface)) {
+            SDL_SetTextInputRect(&interface->text_editor[active.row + 1][0].box.rect); 
+            set_active_text_cell(active.row + 1, 0, interface);
+        }
+        else {
+            SDL_SetTextInputRect(&interface->text_editor[active.row][active.column + 1].box.rect); 
+            set_active_text_cell(active.row, active.column + 1, interface);
+        }
+    }
+    else {
+        find_next_active_node(&active, interface);
+        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].box.rect);
+        set_active_text_cell(active.row, active.column, interface);
+    }
+}
+
+void keydown_down(Interface *interface, Coordinates active) {   
+    if (bottom_row(active, *interface)) {
+        return;
+    }  
+    else if (final_active_node(active, *interface)) {
+        return;
+    }   
+    else {
+        SDL_SetTextInputRect(&interface->text_editor[active.row + 1][active.column].box.rect);
+        set_active_text_cell(active.row + 1, active.column, interface);
+    }
+}
+
+void keydown_left(Interface *interface, Coordinates active) {
+    if (first_cell(active)) {
+        return;
+    }
+                        
+    if (strcmp(interface->text_editor[active.row][active.column].previous->character, EMPTY_CELL) != 0) {
+
+        if (start_column(active)) {
+            SDL_SetTextInputRect(&interface->text_editor[active.row - 1][interface->editor_columns-1].box.rect); 
+            set_active_text_cell(active.row - 1, interface->editor_columns-1, interface);
+        }
+        else {
+            SDL_SetTextInputRect(&interface->text_editor[active.row][active.column - 1].box.rect); 
+            set_active_text_cell(active.row, active.column - 1, interface);
+        }
+    }
+    else {
+        find_previous_active_node(&active, interface);
+        SDL_SetTextInputRect(&interface->text_editor[active.row][active.column].box.rect);
+        set_active_text_cell(active.row, active.column, interface);
+    }
+}

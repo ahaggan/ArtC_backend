@@ -30,17 +30,22 @@
 
 #define  PREV_NEXT_BUTTON  4 
 
-#define  LEVEL_NUM  4
-
 #define  BEGINNER  "challenges/beginner_default.txt"
 #define  INTERMEDIATE  "challenges/intermediate_default.txt"
 #define  EXPERT  "challenges/expert_default.txt"
+
+#define  LEVEL_NUM  4
 
 #define  CANVAS_MODE_TEXTBOX  20
 #define  CHALLENGE_MODE_TEXTBOX  12
 #define  RESET_GENERATE_TEXTBOX  16
 #define  PREV_NEXT_TEXTBOX  9
 #define  ERROR_TEXTBOX  45
+
+typedef enum mode {
+    challenge_mode,
+    canvas_mode
+} Mode;
 
 typedef enum menu_choice {
     canvas = 1,
@@ -78,11 +83,6 @@ typedef struct menu {
     Area help_screen;
     Area back_button;
 } Menu;
-
-typedef enum mode {
-    challenge_mode,
-    canvas_mode
-} Mode;
 
 typedef struct coordinates {
     int row;
@@ -162,21 +162,6 @@ typedef struct shape {
     float rotation;
 } Shape;
 
-int SDL_Main_Menu_Events(Menu* main_menu);
-void main_menu_actions(Menu* main);
-
-int SDL_Challenges_Menu_Events(Menu* challenges);
-void challenge_menu_actions(Menu* challenges);
-
-int SDL_Help_Menu_Events(Menu* help);
-void help_menu_actions(Menu* help);
-
-int challenge_menu(Menu* challenges);
-int help_menu(Menu* help);
-
-int interface(Menu* main, Mode mode, char* file_name);
-
-void initialise_main_menu(Menu* main);
 void display_menu_background(int win_width, int win_height, Menu* main_menu);
 void display_logo(int win_width, int win_height, Menu* main_menu);
 void display_canvas_button(int win_width, int win_height, Menu* main_menu);
@@ -184,7 +169,6 @@ void display_challenges_button(int win_width, int win_height, Menu* main_menu);
 void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
 void display_quit_button(int win_width, int win_height, Menu* main_menu);
 
-void initialise_challenges_menu(Menu* challenges_menu);
 void display_challenges_background(int win_width, int win_height, 
                                      Menu* challenges);
 void display_header(int win_width, int win_height, Menu* challenges_menu);
@@ -197,7 +181,15 @@ void display_expert_button(int win_width, int win_height,
 void display_main_menu_button(int win_width, int win_height, 
                                 Menu* challenges_menu);
 
-void initialise_help_menu(Menu* help_menu);
+int help_menu(Menu* help);
+
+void display_popup_text(Menu* menu);
+void display_canvas_text(Menu* main_menu);
+void display_challenges_text(Menu* main_menu);
+void display_beginner_text(Menu* challenges);
+void display_intermediate_text(Menu* challenges);
+void display_expert_text(Menu* challenges);
+
 void display_help_screen(Menu* help_menu, int win_width, int win_height);
 void display_back_button(Menu* help_menu, int win_width, int win_height);
 
@@ -225,13 +217,6 @@ void display_dividers(int win_width, int win_height,
                         Interface* interface, Mode mode);
 
 void fix_mac_flickering(Interface* interface, Mode mode);
-
-void display_popup_text(Menu* menu);
-void display_canvas_text(Menu* main_menu);
-void display_challenges_text(Menu* main_menu);
-void display_beginner_text(Menu* challenges);
-void display_intermediate_text(Menu* challenges);
-void display_expert_text(Menu* challenges);
 
 void text_align_central(char* centred_string, char* challenge, 
                           int textbox_width);
