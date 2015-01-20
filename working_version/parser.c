@@ -1,7 +1,8 @@
-//  This module tests the users program for gramatical accuracy. It will return an error if the input is incorrect. 
+//  This module tests the users program for gramatical accuracy. It will return an error if the input file(containing a program) is incorrect. 
 //
 //  As the program is tested, the correct attributes are assigned to an interpreter array. If the program is written correctly
-//  this array is passed to the intereter module which will assign values from the user to the given fractal
+//  this array is passed to the intereter module which will assign values from the user to the given fractal.
+//  This fractal is then passed back to the interface.
 
 #include "parser.h"
 //int main(Draw *fractal, char *file_name){     //Use this to pass a file name to the parser function.
