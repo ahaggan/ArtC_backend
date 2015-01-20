@@ -1,15 +1,16 @@
-#include <math.h>
+//Module begins the program and runs automated test functions
 
+#include <math.h>
 #include <stdlib.h>
 #include <time.h>
 
 #ifndef  M_PI
  #define M_PI  3.14159265358979323846
 #endif 
-
+//Return value for functions to check they worked correctly
 #define TRUE 1
 #define FALSE 0
-
+//Structure that stores all values needed to draw a fractal
 typedef struct draw{
     int iterations;
     char* type[10];
@@ -28,6 +29,11 @@ typedef struct draw{
     char* move;
 } Draw;
 
+//Calls function in display.c and launches the user interface
 void launch_menu();
-int parser(Draw *fractal, char *file_name);
+//Calls test_parser.c and runs automated black and white box testing for this module
 void test_parser();
+//Fuction in parser.c
+//Is declared here because needs to be called by the test function
+//and also needs to be accessed by interface.c
+int parser(Draw *fractal, char *file_name);
