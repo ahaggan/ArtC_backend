@@ -1,10 +1,10 @@
 run {
    linethickness 3
    iterations 8
-   type star
+   type tree
    angle 0
    colour random
-   shape triangle
+   shape line
    size 500
    linethickness 5
 }

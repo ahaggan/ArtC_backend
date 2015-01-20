@@ -313,7 +313,7 @@ void display_back_button(Menu* help_menu, int win_width, int win_height) {
 }
 
 /* Interface */
-void display_interface(Interface *interface, Mode mode) {
+void display_interface(Interface *interface, Mode mode, int refresh_canvas) {
     int win_width, win_height;
 
     SDL_GetWindowSize(interface->window.win, &win_width, &win_height);
@@ -323,8 +323,11 @@ void display_interface(Interface *interface, Mode mode) {
     display_help_button(win_width, win_height, interface, mode);
     display_reset_button(win_width, win_height, interface, mode);
     display_generate_button(win_width, win_height, interface);
-    display_canvas(win_width, win_height, interface, mode);
     display_text_editor(win_width, win_height, interface); 
+
+    if(refresh_canvas) {
+        display_canvas(win_width, win_height, interface, mode);
+    }
    
     if (mode == challenge_mode) {
         interface->challenge_num = 0;
