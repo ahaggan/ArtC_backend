@@ -13,4 +13,4 @@ void initialise_help_menu(Menu* help);
 int SDL_Help_Menu_Events(Menu* help);
 void help_menu_actions(Menu* help);
 
-int interface(Menu* main, Mode mode, char* file_name);
+int interface(Menu* main_menu, Mode mode, char* file_name);

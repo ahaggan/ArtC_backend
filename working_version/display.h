@@ -218,7 +218,7 @@ void display_expert_text(Menu* challenges);
 void display_help_screen(Menu* help_menu, int win_width, int win_height);
 void display_back_button(Menu* help_menu, int win_width, int win_height);
 
-void display_interface(Menu *main_menu, Interface *interface, Mode mode);
+void display_interface(Interface *interface, Mode mode, int refresh_canvas);
 void display_toolbar(int win_width, int win_height, 
                        Interface* interface, Mode mode);
 void display_reset_button(int win_width, int win_height, 
@@ -240,8 +240,6 @@ void display_previous_button(int win_width, int win_height,
 void display_next_button(int win_width, int win_height, Interface* interface);
 void display_dividers(int win_width, int win_height, 
                         Interface* interface, Mode mode);
-
-void fix_mac_flickering(Interface* interface, Mode mode);
 
 void text_align_central(char* centred_string, char* challenge, 
                           int textbox_width);
