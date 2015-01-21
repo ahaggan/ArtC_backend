@@ -413,6 +413,7 @@ void display_menu_button(int win_width, int win_height,
     char canvas_text[CANVAS_MODE_TEXTBOX];
 
 
+
     menu_button_x = 0;
     menu_button_y = 0;
     menu_button_h = interface->toolbar.rect.h - 1;
@@ -661,7 +662,7 @@ void display_popup_text(Menu* menu) {
         case canvas :
             display_canvas_text(menu);
             break;
-        case challenges_menu :
+        case challenges_menu_choice :
             display_challenges_text(menu);
             break;
         case beginner :

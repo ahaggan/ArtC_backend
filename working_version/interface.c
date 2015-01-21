@@ -11,6 +11,7 @@ int interface(Menu* main_menu, Mode mode, char* file_name) {
                                       (interface.canvas.rect.w/2);
     interface.click_location.column = interface.canvas.rect.y + 
                                       ((3*interface.canvas.rect.h)/4);
+
     initialise_text_editor(&interface, mode, file_name);
     render_update(interface.window);
 
@@ -35,7 +36,7 @@ int interface(Menu* main_menu, Mode mode, char* file_name) {
             }
         }
         else if (interface.action == load_help) {
-            main_menu->state = options_menu;
+            main_menu->state = options_menu_choice;
             help_menu(main_menu);
             clear_area(&interface.window, interface.canvas);
         }
@@ -82,24 +83,6 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
     interface->challenge_num = 0;
     SDL_RenderClear(main_menu->window.renderer);
     display_interface(interface, mode, 1);
-}
-
-void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
-
-    SDL_GetWindowSize(interface->window.win, 
-                        &interface->editor_columns, &interface->editor_rows);
-
-    interface->editor_columns /= 27;
-    interface->editor_rows /= 27;
-
-    make_text_editor(interface->editor_columns, interface->editor_rows, 
-                       interface);
-  
-    SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
-    SDL_StartTextInput();
-
-  
-    load_text_into_text_editor(interface->default_file, interface);    
 }
 
 void set_code_file(Interface *interface, Mode mode, char* file_name) {

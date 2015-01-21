@@ -37,12 +37,12 @@ void main_menu_actions(Menu* main_menu) {
             //SDL_RenderClear(main_menu->window.renderer);
             //display_main_menu(main_menu); 
             break;
-        case challenges_menu:
-           challenge_menu(main_menu);
+        case challenges_menu_choice:
+           challenges_menu(main_menu);
            //SDL_RenderClear(main_menu->window.renderer);
            //display_main_menu(main_menu); 
            break;
-        case options_menu:
+        case options_menu_choice:
             help_menu(main_menu);
             break;
         case quit:
@@ -53,7 +53,7 @@ void main_menu_actions(Menu* main_menu) {
     }
 }
 
-int challenge_menu(Menu* challenges) {
+int challenges_menu(Menu* challenges) {
     challenges->hover = 0;
     challenges->state = 0;
     while(challenges->state != main_menu) {
@@ -61,7 +61,7 @@ int challenge_menu(Menu* challenges) {
         display_popup_text(challenges);
         render_update(challenges->window);
         challenges->state = SDL_Challenges_Menu_Events(challenges);
-        challenge_menu_actions(challenges);
+        challenges_menu_actions(challenges);
     }
     return 0;
 }
@@ -70,7 +70,7 @@ void initialise_challenges_menu(Menu* challenges) {
     display_challenges_menu(challenges);
 }
 
-void challenge_menu_actions(Menu* challenges) {
+void challenges_menu_actions(Menu* challenges) {
     switch (challenges->state) {
         case beginner: 
             interface(challenges, challenge_mode, BEGINNER);
