@@ -820,6 +820,14 @@ void Text_Editor_keydown(Interface *interface, int key,
         case SDLK_LEFT:   
             keydown_left(interface, active);
             break;
+        //ctrl + k wipes the entire text editor 
+        case SDLK_k:
+            if(SDL_GetModState() & KMOD_CTRL) {
+               wipe_text_editor(interface);
+               SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
+               set_active_text_cell(0, 0, interface);
+               break;
+            }
 
     }   
 }

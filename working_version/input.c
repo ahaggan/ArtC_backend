@@ -234,19 +234,9 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
 
         //user presses a key
         case SDL_KEYDOWN:
-            //ctrl + k wipes the entire text editor 
-            case SDLK_k:
-                if(SDL_GetModState() & KMOD_CTRL) {
-                    wipe_text_editor(interface);
-                    SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
-                    set_active_text_cell(0, 0, interface);
-                }
-                break;
-
-            default: 
-                Text_Editor_keydown(interface, event.key.keysym.sym, 
-                                        x, y, active);
-                return text_edited;
+            Text_Editor_keydown(interface, event.key.keysym.sym, 
+                                    x, y, active);
+            return text_edited;
 
     }
     return 0;
