@@ -33,9 +33,7 @@ int parser(Draw *fractal, char *file_name) {
         return FALSE;
     }
     
-    printf("\nParsed OK!\n");
     interpreter(&program);
-    //test_interpreter(&program);
     fclose(program.error);
     return TRUE;
 }
