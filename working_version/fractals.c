@@ -1,5 +1,6 @@
 #include "fractals.h"
 
+//Called from interface.c
 void generate_fractal(Draw *fractal, SDL_Win *window, int i) 
 {
     if(strcmp(fractal->type[i], "sierpinski") == 0){
@@ -187,4 +188,13 @@ void stariterate(Draw *fractal, SDL_Win *window, Shape current,
         stariterate(fractal, window, shapes[i], iterations, limit, newangle);
     }
     free(shapes);
+}
+
+void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
+    shape->x = x;
+    shape->y = y;
+    shape->size = size;
+  
+    shape->height = height;
+    shape->rotation = angle;
 }

@@ -230,11 +230,4 @@ void Draw_Image(SDL_Win *window, int x, int y, int size) {
     SDL_DestroyTexture(image); 
 }
 
-void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
-    shape->x = x;
-    shape->y = y;
-    shape->size = size;
-  
-    shape->height = height;
-    shape->rotation = angle;
-}
+
