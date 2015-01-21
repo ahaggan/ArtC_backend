@@ -22,7 +22,8 @@ void launch_menu() {
 }
 
 void initialise_main_menu(Menu* main_menu) {
-    main_menu->menu_font = SDL_Load_Font("display/font/Edo.ttf", BUTTON_FONT_SIZE);
+    main_menu->menu_font = SDL_Load_Font("display/font/Edo.ttf", 
+                                           BUTTON_FONT_SIZE);
     main_menu->state = 0;
 
     display_main_menu(main_menu);

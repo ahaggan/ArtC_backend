@@ -227,7 +227,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
             mouse_move_to_cell(interface, x, y);
             return text_edited;
 
-        //textinput case MUST be before keydown; otherwise 'soh' enters the string.
+        //textinput case MUST be before keydown
         case SDL_TEXTINPUT:
             Text_Editor_text_input(interface, event.text.text, x, y, active);
             return text_edited;

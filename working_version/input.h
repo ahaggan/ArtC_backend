@@ -21,7 +21,7 @@ void Text_Editor_keydown(Interface *interface, int key,
                              int x, int y, Coordinates active);
 
 void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y);
-void find_previous_cell_on_row(TextNode* current, Interface* interface);
+void find_prev_cell_on_row(TextNode* current, Interface* interface);
 int inside_cell(TextNode current, int mouse_x, int mouse_y);
 
 void find_next_active_node(Coordinates* active, Interface* interface);

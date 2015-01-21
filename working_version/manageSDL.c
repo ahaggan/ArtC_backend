@@ -60,7 +60,7 @@ TTF_Font* SDL_Load_Font(char* font_path, int font_size) {
    TTF_Font *font = TTF_OpenFont(font_path, font_size);
    if (font == NULL) {
       fprintf(stderr, "\nTTF_OpenFont could not open the font: %s\n", 
-              SDL_GetError());
+                SDL_GetError());
       TTF_Quit();
       SDL_Quit();
       exit(1);
@@ -76,11 +76,12 @@ SDL_Texture* surface_to_texture(SDL_Surface* surface, SDL_Win* window) {
     return texture;
 }
 
-//loads a bmp to a surface, then converts that surface to a texture and returns it
+//loads a bmp to a surface, converts that surface to a texture and returns it
 SDL_Texture* load_image(char* filename, SDL_Win* window) {
     SDL_Surface* image = SDL_LoadBMP(filename); 
     if (image == NULL ) {
-        printf( "Unable to load image %s! SDL Error: %s\n", filename, SDL_GetError());
+        fprintf(stderr, "\nUnable to load image %s! SDL Error: %s\n", filename, 
+                SDL_GetError());
     } 
     return surface_to_texture(image, window) ;
 }

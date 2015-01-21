@@ -412,6 +412,7 @@ void display_menu_button(int win_width, int win_height,
     char challenge_text[CHALLENGE_MODE_TEXTBOX];
     char canvas_text[CANVAS_MODE_TEXTBOX];
 
+
     menu_button_x = 0;
     menu_button_y = 0;
     menu_button_h = interface->toolbar.rect.h - 1;
@@ -738,7 +739,8 @@ void display_beginner_text(Menu* challenges) {
     beginner_text_h = MENU_POPUP_HEIGHT;
 
     make_rect(&challenges->window, &challenges->beginner_text, 
-                beginner_text_x, beginner_text_y, beginner_text_w, beginner_text_h, 
+                beginner_text_x, beginner_text_y, 
+                beginner_text_w, beginner_text_h, 
                   230, 230, 230);
 
     SDL_RenderCopy(challenges->window.renderer, image, 

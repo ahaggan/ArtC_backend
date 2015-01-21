@@ -99,7 +99,6 @@ void treeiterate(Draw *fractal, SDL_Win *window, Shape current,
 /* Sierpinski Fractal */
 
 void sierpinski(Draw *fractal, SDL_Win *window, int limit) {
-    fprintf(stderr, "sierpinski %d : ", limit);
     Shape shape;
     make_shape(&shape, fractal->startx, fractal->starty, fractal->size[0],
                    fractal->height[0], fractal->angle);
@@ -107,7 +106,6 @@ void sierpinski(Draw *fractal, SDL_Win *window, int limit) {
     int iterations = 1; //One iteration is just the shape.
 
     sierpinskiiterate(fractal, window, shape, iterations, limit);
-    printf("finished %d\n", limit);
     SDL_RenderPresent(window->renderer);
     SDL_UpdateWindowSurface(window->win);
 }

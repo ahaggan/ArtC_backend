@@ -23,7 +23,7 @@ int interface(Menu* main_menu, Mode mode, char* file_name) {
         if(interface.action == generate_clicked) {
             write_text_to_file(&interface, interface.code_file);
             Draw fractal; 
-            parser(&fractal, "program_txt_files/default.txt"); // Assigns defaults.
+            parser(&fractal, "program_txt_files/default.txt"); //Assign defaults
             fractal.startx = interface.click_location.row;
             fractal.starty = interface.click_location.column;
 
@@ -86,7 +86,8 @@ void initialise_interface(Menu* main_menu, Interface* interface, Mode mode) {
 
 void initialise_text_editor(Interface* interface, Mode mode, char* file_name) {
 
-    SDL_GetWindowSize(interface->window.win, &interface->editor_columns, &interface->editor_rows);
+    SDL_GetWindowSize(interface->window.win, 
+                        &interface->editor_columns, &interface->editor_rows);
 
     interface->editor_columns /= 27;
     interface->editor_rows /= 27;
@@ -123,7 +124,8 @@ void set_challenges_based_on_level(char* file_name, Interface* interface) {
 }
 
 void beginner_challenges(Interface *interface) {
-    strcpy(interface->code_file, "program_txt_files/challenges/beginner_user_code.txt");
+    strcpy(interface->code_file, 
+             "program_txt_files/challenges/beginner_user_code.txt");
     strcpy(interface->challenges[0], "Change the colour variable");  
     strcpy(interface->challenges[1], "Change the shape variable to circle");
     strcpy(interface->challenges[2], "Change the type variable to star");
@@ -131,7 +133,8 @@ void beginner_challenges(Interface *interface) {
 }
 
 void intermediate_challenges(Interface *interface) {
-    strcpy(interface->code_file, "program_txt_files/challenges/intermediate_user_code.txt");
+    strcpy(interface->code_file, 
+             "program_txt_files/challenges/intermediate_user_code.txt");
     strcpy(interface->challenges[0], 
              "Add the missing RUN statement and brackets");  
     strcpy(interface->challenges[1], 
@@ -141,7 +144,8 @@ void intermediate_challenges(Interface *interface) {
     strcpy(interface->challenges[3], "Level Complete!");
 }
 void expert_challenges(Interface *interface) {
-    strcpy(interface->code_file, "program_txt_files/challenges/expert_user_code.txt");
+    strcpy(interface->code_file, 
+             "program_txt_files/challenges/expert_user_code.txt");
     strcpy(interface->challenges[0], 
              "Create a tree fractal from scratch, and use two IF statements");  
     strcpy(interface->challenges[1], 
