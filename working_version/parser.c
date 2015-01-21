@@ -51,6 +51,7 @@ void initialise_arrays(Prog *program){
     
     initialise_interpreter_array(program);
 }
+
 void initialise_words_array(Prog *program){
     int i;
     program->error = fopen("error_message.artc", "w");

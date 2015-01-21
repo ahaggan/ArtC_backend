@@ -178,30 +178,47 @@ typedef struct shape {
     int height;
     float rotation;
 } Shape;
+/*
 
+    Main Menu
+
+*/
 //Calls the functions that display logos and buttons for the main menu screen
 void display_main_menu(Menu* main_menu);
 //Sets the colour for the background of the main menu
 void display_menu_background(int win_width, int win_height, Menu* main_menu);
-//positions and places logo on the screen
+//positions and places "Art.c" logo on the screen
 void display_logo(int win_width, int win_height, Menu* main_menu);
 //Displays the button that links to the canvas screen
 void display_canvas_button(int win_width, int win_height, Menu* main_menu);
 //Displays the button that links to the challenges screen
 void display_challenges_button(int win_width, int win_height, Menu* main_menu);
+//Displays the button that links to the help screen
 void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
+//Displays the button that quits the program
 void display_quit_button(int win_width, int win_height, Menu* main_menu);
+/*
 
+    Challenges Menu
+    
+*/
+//Calls the functions that display the Challenges menu
 void display_challenges_menu(Menu* challenges);
+//Sets the background of the challenges menu
 void display_challenges_background(int win_width, int win_height, 
                                      Menu* challenges);
+//Displays the "Challenges" logo in the corner of the challenges menu
 void display_header(int win_width, int win_height, Menu* challenges_menu);
+//Displays the button that links to the beginner challenges
 void display_beginner_button(int win_width, int win_height, 
                                Menu* challenges_menu);
+//Displays the button that links to the intermediate challenges
 void display_intermediate_button(int win_width, int win_height, 
                                    Menu* challenges_menu);
+//Displays the button that links to the expert challenges
 void display_expert_button(int win_width, int win_height, 
                              Menu* challenges_menu);
+//Displays the button that return the user to the main menu
 void display_main_menu_button(int win_width, int win_height, 
                                 Menu* challenges_menu);
 
