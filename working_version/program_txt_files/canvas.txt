@@ -1,15 +1,11 @@
 run {
-   type tree
+   type sierpinski
    shape line
-   size 375
+   size 375 
    colour red
    linethickness 3
    iterations 5
-   angle 180
-
-   if iterations 0 then {
-      colour white
-   }
+   angle 30
 }
 
 

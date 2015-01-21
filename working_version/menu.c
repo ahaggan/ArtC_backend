@@ -4,8 +4,9 @@
 void launch_menu() {
     Menu menu;
     menu.hover = 0;
-    initialise_main_menu(&menu);
+    display_window_and_initialise_text(&menu);
     do {
+        initialise_main_menu(&menu);
         display_popup_text(&menu);
         render_update(menu.window);
         menu.state = SDL_Main_Menu_Events(&menu);

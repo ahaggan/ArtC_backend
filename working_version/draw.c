@@ -2,18 +2,22 @@
 
 void draw_sdl(SDL_Win *window, Draw *fractal, int x, int y, 
                 int size, float angle, int i) {
-    draw_colour(window, fractal, i);
-    draw_shape(window, fractal, x, y, size, angle, i);
+    if(draw_colour(window, fractal, i)) {
+        draw_shape(window, fractal, x, y, size, angle, i);
+    }
 }
 
-void draw_colour(SDL_Win *window, Draw *fractal, int i) {
+int draw_colour(SDL_Win *window, Draw *fractal, int i) {
     if(strcmp(fractal->colour[i-1], "random") == 0) {
         write_random_colour(fractal, i);
     }
-    find_and_set_colour(window, fractal, i);
+    return find_and_set_colour(window, fractal, i);
 }
 
-void find_and_set_colour(SDL_Win *window, Draw *fractal, int i) {
+int find_and_set_colour(SDL_Win *window, Draw *fractal, int i) {
+    if (strcmp(fractal->colour[i-1], "transparent") == 0) {
+        return 0;
+    }
     if (strcmp(fractal->colour[i-1], "black") == 0) {
         SDL_SetRenderDrawColor(window->renderer, 0, 0, 0, 255);
     }
@@ -81,6 +85,7 @@ void find_and_set_colour(SDL_Win *window, Draw *fractal, int i) {
     else if (strcmp(fractal->colour[i-1], "white") == 0) {
         SDL_SetRenderDrawColor(window->renderer, 255, 255, 255, 255);
     }
+    return 1;
 }
 
 void write_random_colour(Draw *fractal, int i) {

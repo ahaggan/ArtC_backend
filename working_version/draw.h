@@ -6,8 +6,8 @@
 void draw_sdl(SDL_Win *window, Draw *fractal, int x, int y, 
                 int size, float angle, int i);
 
-void draw_colour(SDL_Win *window, Draw *fractal, int i);
-void find_and_set_colour(SDL_Win *window, Draw *fractal, int i);
+int draw_colour(SDL_Win *window, Draw *fractal, int i);
+int find_and_set_colour(SDL_Win *window, Draw *fractal, int i);
 void write_random_colour(Draw *fractal, int i);
 
 void draw_shape(SDL_Win *window, Draw *fractal, int x, int y, 
