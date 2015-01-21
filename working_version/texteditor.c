@@ -855,8 +855,7 @@ void Text_Editor_keydown(Interface *interface, int key,
                set_active_text_cell(0, 0, interface);
                break;
             }
-
-    }   
+    }
 }
 
 void keydown_backspace(Interface *interface, Coordinates active) {
@@ -881,11 +880,10 @@ void keydown_backspace(Interface *interface, Coordinates active) {
                       interface->text_editor[*r][*c].previous->text_cell.column, 
                       interface);
         handle_backspace(active, interface);
-    } 
+    }
     else {
         //If there's nothing in the previous cell
-        handle_backspace(active, interface);   
-       
+        handle_backspace(active, interface);  
     }
 }
 
