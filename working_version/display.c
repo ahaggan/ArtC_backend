@@ -5,7 +5,6 @@ void display_main_menu(Menu* main_menu) {
     int win_width, win_height;
 
     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
-
     display_menu_background(win_width, win_height, main_menu);
     display_logo(win_width, win_height, main_menu);
     display_canvas_button(win_width, win_height, main_menu);
@@ -798,6 +797,18 @@ void display_dividers(int win_width, int win_height,
                   20, 20, 20);
 }
 
+void display_window_and_initialise_text(Menu* menu) {
+    SDL_Win_Init(&menu-> window, "Art.C");
+    SDL_TTF_Init();
+}   
+
+void initialise_main_menu(Menu* main_menu) {
+    main_menu->menu_font = SDL_Load_Font("display/font/Edo.ttf", 
+                                           BUTTON_FONT_SIZE);
+    main_menu->state = 0;
+
+    display_main_menu(main_menu);
+}
 
 
 void display_error_message(Interface *interface) {

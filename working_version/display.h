@@ -183,6 +183,8 @@ typedef struct shape {
     Main Menu
 
 */
+//Initialises a window and SDL_TTF
+void display_window_and_initialise_text(Menu* menu);
 //Calls the functions that display logos and buttons for the main menu screen
 void display_main_menu(Menu* main_menu);
 //Sets the colour for the background of the main menu
