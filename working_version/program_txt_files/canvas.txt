@@ -2,13 +2,13 @@ run {
    type tree
    shape line
    size 375
-   colour white
+   colour red
    linethickness 2
    iterations 5
    angle 180
 
-   if iterations 0 then {
-      colour red
+   if iterations 1 then {
+      colour transparent
    }
 }
 
