@@ -1,11 +1,11 @@
 run {
-   type tree
+   type sierpinski
    shape line
    size 375
-   colour red
+   colour blue
    linethickness 2
    iterations 5
-   angle 180
+   angle 30
 
    if iterations 1 then {
       colour transparent

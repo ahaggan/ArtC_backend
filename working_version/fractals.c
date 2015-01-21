@@ -17,8 +17,10 @@ void generate_fractal(Draw *fractal, SDL_Win *window, int i)
 
 void tree(Draw *fractal, SDL_Win *window, int limit) {
     Shape trunk;
-    make_shape(&trunk, fractal->startx, fractal->starty - (fractal->size[0]/4), 
-                   fractal->size[0]/2, fractal->height[0]/2, fractal->angle);
+    make_shape(&trunk, 
+                 fractal->startx + ((fractal->size[0]/4)*sin(fractal->angle)), 
+                 fractal->starty - ((fractal->size[0]/4)*cos(fractal->angle)), 
+                     fractal->size[0]/2, fractal->height[0]/2, fractal->angle);
     Shape current = trunk;
 
     int iterations = 1;
