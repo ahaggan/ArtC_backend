@@ -13,4 +13,3 @@ void sierpinskiiterate(Draw *fractal, SDL_Win *window, Shape current,
 void star(Draw *fractal, SDL_Win *window, int limit);
 void stariterate(Draw *fractal, SDL_Win *window, Shape current, 
                      int iterations, int limit, float angle);
-
