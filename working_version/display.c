@@ -798,6 +798,15 @@ void display_dividers(int win_width, int win_height,
                   20, 20, 20);
 }
 
+void initialise_main_menu(Menu* main_menu) {
+    SDL_Win_Init(&main_menu-> window, "Art.C");
+    SDL_TTF_Init();
+    main_menu->menu_font = SDL_Load_Font("display/font/Edo.ttf", 
+                                           BUTTON_FONT_SIZE);
+    main_menu->state = 0;
+
+    display_main_menu(main_menu);
+}
 
 
 void display_error_message(Interface *interface) {

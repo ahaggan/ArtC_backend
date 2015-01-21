@@ -3,15 +3,11 @@
 /* Main Menu */
 void launch_menu() {
     Menu menu;
-    SDL_Win_Init(&menu.window, "Art.C");
-    SDL_TTF_Init();
     menu.hover = 0;
-
+    initialise_main_menu(&menu);
     do {
-        initialise_main_menu(&menu);
         display_popup_text(&menu);
         render_update(menu.window);
- 
         menu.state = SDL_Main_Menu_Events(&menu);
         main_menu_actions(&menu);
 
@@ -19,14 +15,6 @@ void launch_menu() {
       } while(!menu.window.finished);
   
     atexit(SDL_Quit);
-}
-
-void initialise_main_menu(Menu* main_menu) {
-    main_menu->menu_font = SDL_Load_Font("display/font/Edo.ttf", 
-                                           BUTTON_FONT_SIZE);
-    main_menu->state = 0;
-
-    display_main_menu(main_menu);
 }
 
 /* Act based on whether any buttons in the main menu were pressed */ 
@@ -57,17 +45,13 @@ int challenges_menu(Menu* challenges) {
     challenges->hover = 0;
     challenges->state = 0;
     while(challenges->state != main_menu) {
-        initialise_challenges_menu(challenges);
+        display_challenges_menu(challenges);
         display_popup_text(challenges);
         render_update(challenges->window);
         challenges->state = SDL_Challenges_Menu_Events(challenges);
         challenges_menu_actions(challenges);
     }
     return 0;
-}
-
-void initialise_challenges_menu(Menu* challenges) {
-    display_challenges_menu(challenges);
 }
 
 void challenges_menu_actions(Menu* challenges) {
@@ -91,16 +75,12 @@ void challenges_menu_actions(Menu* challenges) {
 
 int help_menu(Menu* help) {
     while(help->state != main_menu) {
-        initialise_help_menu(help);
+        display_help_menu(help);
         render_update(help->window);
         help->state = SDL_Help_Menu_Events(help);
         help_menu_actions(help);
     }
     return 0;
-}
-
-void initialise_help_menu(Menu* help) {
-    display_help_menu(help);
 }
 
 void help_menu_actions(Menu* help) {
