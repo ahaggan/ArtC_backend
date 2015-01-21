@@ -3,7 +3,7 @@ run {
    linethickness 3
    iterations 8
    type tree
-   angle 0
+   angle -90
    colour random
    shape line
    size medium
