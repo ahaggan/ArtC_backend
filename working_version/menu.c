@@ -22,7 +22,8 @@ void launch_menu() {
 }
 
 void initialise_main_menu(Menu* main_menu) {
-    main_menu->menu_font = SDL_Load_Font("font/Edo.ttf", BUTTON_FONT_SIZE);
+    main_menu->menu_font = SDL_Load_Font("display/font/Edo.ttf", 
+                                           BUTTON_FONT_SIZE);
     main_menu->state = 0;
 
     display_main_menu(main_menu);
@@ -32,7 +33,7 @@ void initialise_main_menu(Menu* main_menu) {
 void main_menu_actions(Menu* main_menu) {
     switch (main_menu->state) {
         case canvas: 
-            interface(main_menu, canvas_mode, "canvas.txt"); 
+            interface(main_menu, canvas_mode, "program_txt_files/canvas.txt"); 
             //SDL_RenderClear(main_menu->window.renderer);
             //display_main_menu(main_menu); 
             break;

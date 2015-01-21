@@ -84,7 +84,7 @@ void find_and_set_colour(SDL_Win *window, Draw *fractal, int i) {
 }
 
 void write_random_colour(Draw *fractal, int i) {
-    switch(rand()%COLOUR_SIZE) {
+    switch(rand() % COLOUR_SIZE) {
         case 0 : strcpy(fractal->colour[i-1], "black"); break;
         case 1 : strcpy(fractal->colour[i-1], "red"); break;
         case 2 : strcpy(fractal->colour[i-1], "pink"); break;
@@ -107,7 +107,7 @@ void write_random_colour(Draw *fractal, int i) {
 
 void draw_shape(SDL_Win *window, Draw *fractal, int x, int y, 
                   int size, float angle, int i) {
-    if(strcmp(fractal->shape[i-1], "random") == 0) {
+    if (strcmp(fractal->shape[i-1], "random") == 0) {
         write_random_shape(fractal, i);
     }
     find_and_draw_shape(window, fractal, x, y, size, angle, i);
@@ -140,7 +140,7 @@ void find_and_draw_shape(SDL_Win *window, Draw *fractal, int x, int y,
 }
 
 void write_random_shape(Draw *fractal, int i) {
-    switch(rand()%4) {
+    switch(rand() % 4) {
         case 0 : strcpy(fractal->shape[i-1], "square"); break;
         case 1 : strcpy(fractal->shape[i-1], "circle"); break;
         case 2 : strcpy(fractal->shape[i-1], "line"); break;
@@ -189,7 +189,7 @@ void Draw_Tri(SDL_Renderer *renderer, int x, int y,
     int c3y = y-((size/2.0)*cos(angle-(M_PI*(2.0/3.0))));
     
     SDL_Line(renderer, c1x, c1y, c2x, c2y, thickness, angle+(M_PI*(2.0/3.0)));
-    SDL_Line(renderer, c3x, c3y, c2x, c2y, thickness, angle+(M_PI*(1.0/2.0)));
+    SDL_Line(renderer, c3x, c3y, c2x, c2y, thickness, angle-(M_PI*(1.0/2.0)));
     SDL_Line(renderer, c1x, c1y, c3x, c3y, thickness, angle-(M_PI*(2.0/3.0)));
 }
 
@@ -211,7 +211,7 @@ void SDL_Line(SDL_Renderer* renderer, int xs, int ys, int xe, int ye,
 
 void Draw_Image(SDL_Win *window, int x, int y, int size) {
     int image_x, image_y, image_w, image_h;
-    SDL_Texture* image = load_image("ashley_head", window);
+    SDL_Texture* image = load_image("image_path", window);
     Area img;
 
     image_x = x - (size/2);
@@ -223,4 +223,13 @@ void Draw_Image(SDL_Win *window, int x, int y, int size) {
     SDL_RenderCopy(window->renderer, image, 
                      NULL, &img.rect);
     SDL_DestroyTexture(image); 
+}
+
+void make_shape(Shape *shape, int x, int y, int size, int height, float angle) {
+    shape->x = x;
+    shape->y = y;
+    shape->size = size;
+  
+    shape->height = height;
+    shape->rotation = angle;
 }

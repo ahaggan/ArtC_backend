@@ -144,6 +144,10 @@ int Interface_Events(Interface* interface) {
         SDL_Text_Editor_Events(event, interface);   
         switch(event.type) {
 
+            case SDL_MOUSEMOTION:     
+                mouse_motion(interface, x, y);       
+                break;
+
             case SDL_QUIT:
                 SDL_Quit();
                 exit(1);
@@ -158,15 +162,16 @@ int Interface_Events(Interface* interface) {
 }
 
 int interface_click(int x, int y, Interface *interface) {              
-    if(within_button(x, y, interface->generate_button.rect)) {
-        if(interface->mode  == challenge_mode) {
+    if (within_button(x, y, interface->generate_button.rect)) {
+        if (interface->mode  == challenge_mode) {
             clear_area(&interface->window, interface->canvas);
         }
         return generate_clicked;
     }
-    else if(within_button(x, y, interface->reset_button.rect)) {
-        if(interface->mode == challenge_mode) { 
-            if(interface->challenge_num == 0) {
+
+    else if (within_button(x, y, interface->reset_button.rect)) {
+        if (interface->mode == challenge_mode) { 
+            if (interface->challenge_num == 0) {
                 load_text_into_text_editor(interface->default_file, interface);
             }
             else {
@@ -176,29 +181,37 @@ int interface_click(int x, int y, Interface *interface) {
         clear_area(&interface->window, interface->canvas);
         return 0;
     }
-    else if(within_button(x, y, interface->menu_button.rect)) {
+
+    else if (within_button(x, y, interface->menu_button.rect)) {
         return back_to_menu;
     }
-    else if(within_button(x, y, interface->help_button.rect)) {
+
+    else if (within_button(x, y, interface->help_button.rect)) {
         return load_help;
     }
-    else if(within_button(x, y, interface->next_button.rect)) {
-        if(interface->challenge_num < LEVEL_NUM - 1) {
+
+    else if (within_button(x, y, interface->next_button.rect)) {
+        if (interface->challenge_num < LEVEL_NUM - 1) {
             interface->challenge_num++;
+           
             return load_challenge;
         }
     }
-    else if(within_button(x, y, interface->previous_button.rect)) {
-        if(interface->challenge_num > 0) {
+
+    else if (within_button(x, y, interface->previous_button.rect)) {
+        if (interface->challenge_num > 0) {
             interface->challenge_num--;
+            
             return load_challenge;
         }
     }
-    else if(within_button(x, y, interface->canvas.rect)) {
+
+    else if (within_button(x, y, interface->canvas.rect)) {
         interface->click_location.row = x;
         interface->click_location.column = y;
         return change_position;
     }
+
     return 0;
 }
 
@@ -210,44 +223,32 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
  
     switch(event.type) {
 
-        case SDL_MOUSEMOTION:     
-            Text_Editor_mouse_motion(interface, x, y);       
-            break;
-
         case SDL_MOUSEBUTTONDOWN:  
             mouse_move_to_cell(interface, x, y);
-            console_text_editor(*interface);
             return text_edited;
 
-        //textinput case MUST be before keydown; otherwise 'soh' enters the string.
+        //textinput case MUST be before keydown
         case SDL_TEXTINPUT:
             Text_Editor_text_input(interface, event.text.text, x, y, active);
             return text_edited;
 
         //user presses a key
         case SDL_KEYDOWN:
-            //ctrl + k wipes the entire text editor 
-            case SDLK_k:
-                if(SDL_GetModState() & KMOD_CTRL) {
-                    wipe_text_editor(interface);
-                    SDL_SetTextInputRect(&interface->text_editor[0][0].box.rect);
-                    set_active_text_cell(0, 0, interface);
-                }
-                break;
-
-            default: 
-                Text_Editor_keydown(interface, event.key.keysym.sym, 
-                                        x, y, active);
-                return text_edited;
+            Text_Editor_keydown(interface, event.key.keysym.sym, 
+                                    x, y, active);
+            return text_edited;
 
     }
     return 0;
 }
 
-void Text_Editor_mouse_motion(Interface *interface, int x, int y) {
+void mouse_motion(Interface *interface, int x, int y) {
     SDL_Cursor *cursor;
     if(inside_text_editor(interface, x, y)) {
         cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
+    }
+    else if(inside_canvas(interface, x, y)) {
+        cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_CROSSHAIR);
     }
     else {
         cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
@@ -280,6 +281,16 @@ int inside_text_editor(Interface* interface, int mouse_x, int mouse_y) {
            mouse_y >= interface->text_editor_panel.rect.y && 
              mouse_y <= interface->text_editor_panel.rect.y + 
                           interface->text_editor_panel.rect.h) {
+        return 1;
+    }
+    return 0;
+}
+
+int inside_canvas(Interface* interface, int mouse_x, int mouse_y) {
+    if(mouse_x >= interface->canvas.rect.x && 
+        mouse_x <= interface->canvas.rect.x + interface->canvas.rect.w && 
+          mouse_y >= interface->canvas.rect.y && 
+            mouse_y <= interface->canvas.rect.y + interface->canvas.rect.h) {
         return 1;
     }
     return 0;

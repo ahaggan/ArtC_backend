@@ -5,7 +5,7 @@ void test_parser(void){
     FILE *test_results;
     //int test_count= 0;
     printf("\nTEST FUNCTION!!!!\n");
-    test_results = fopen("test_results.txt", "w");
+    test_results = fopen("program_txt_files/testing/test_results.txt", "w");
     fprintf(test_results, "\nPARSER TEST\nBelow are the test results for this module\n");
     if (test_initialise_words(test_results) == PASSED){
         fprintf(test_results, "\nInitialise words array test PASSED.\n");
@@ -62,8 +62,6 @@ void test_parser(void){
     else{
         fprintf(test_results, "\nStatement tests FAILED.\n");
     }
-    
-    
     
     fclose(test_results);
     

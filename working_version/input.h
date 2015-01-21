@@ -14,14 +14,14 @@ int challenges_menu_click(int x, int y, Menu *challenges);
 int interface_click(int x, int y, Interface *interface);
 
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface);
-void Text_Editor_mouse_motion(Interface *interface, int x, int y);
+void mouse_motion(Interface *interface, int x, int y);
 void Text_Editor_text_input(Interface *interface, char* text,
                                 int x, int y, Coordinates active);
 void Text_Editor_keydown(Interface *interface, int key,
                              int x, int y, Coordinates active);
 
 void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y);
-void find_previous_cell_on_row(TextNode* current, Interface* interface);
+void find_prev_cell_on_row(TextNode* current, Interface* interface);
 int inside_cell(TextNode current, int mouse_x, int mouse_y);
 
 void find_next_active_node(Coordinates* active, Interface* interface);
@@ -30,6 +30,7 @@ int final_active_node(Coordinates active, Interface interface);
 void set_active_text_cell(int row, int column, Interface* interface);
 
 int inside_text_editor(Interface* interface, int mouse_x, int mouse_y);
+int inside_canvas(Interface* interface, int mouse_x, int mouse_y);
 void console_text_editor(Interface interface);
 
 int first_cell(Coordinates active);

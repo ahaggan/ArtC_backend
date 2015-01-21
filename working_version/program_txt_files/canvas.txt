@@ -1,0 +1,26 @@
+run {
+
+   linethickness 3
+   iterations 8
+   type tree
+   angle 0
+   colour random
+   shape line
+   size medium
+
+   for iterations 0 to iterations 1 {
+      colour brown
+      shape triangle
+   }
+
+   for iterations 2 to iterations 3 {
+      colour green
+      shape line
+   }
+   if iterations 4 then {
+      colour lime
+      shape line
+   }
+}
+
+

@@ -5,7 +5,7 @@ void test_parser(void){
     FILE *test_results;
     //int test_count= 0;
     printf("\nTEST FUNCTION!!!!\n");
-    test_results = fopen("test_results.txt", "w");
+    test_results = fopen("program_txt_files/testing/test_results.txt", "w");
     fprintf(test_results, "\nPARSER TEST\nBelow are the test results for this module\n");
     if (test_initialise_words(test_results) == PASSED){
         fprintf(test_results, "\nInitialise words array test PASSED.\n");
@@ -115,7 +115,7 @@ int test_whole(FILE *test_results){
     
     no_of_tests += 1;
     //Test basic, correct, program test function should return TRUE
-    if(parser(&test_fractal, "test_parser1.txt") == TRUE){
+    if(parser(&test_fractal, "program_txt_files/testing/test_parser1.txt") == TRUE){
         fprintf(test_results, "\nWhole parser test 1: Passed");
         pass_count += 1;
     }
@@ -125,7 +125,7 @@ int test_whole(FILE *test_results){
     
     no_of_tests += 1;
     //Tests a, correct, program containing a for loop. Function should return TRUE
-    if(parser(&test_fractal, "test_parser2.txt") == TRUE){
+    if(parser(&test_fractal, "program_txt_files/testing/test_parser2.txt") == TRUE){
         fprintf(test_results, "\nWhole parser test 2: Passed");
         pass_count += 1;
     }
@@ -135,7 +135,7 @@ int test_whole(FILE *test_results){
     
     no_of_tests += 1;
     //Tests a, correct, program containing an if statement. Function should return TRUE
-    if(parser(&test_fractal, "test_parser3.txt") == TRUE){
+    if(parser(&test_fractal, "program_txt_files/testing/test_parser3.txt") == TRUE){
         fprintf(test_results, "\nWhole parser test 3: Passed");
         pass_count += 1;
     }
@@ -145,7 +145,7 @@ int test_whole(FILE *test_results){
     
     no_of_tests += 1;
     //Tests an incorrect basic program containing an incorrect statement. Function should return FALSE
-    if(parser(&test_fractal, "test_parser4.txt") == FALSE){
+    if(parser(&test_fractal, "program_txt_files/testing/test_parser4.txt") == FALSE){
         fprintf(test_results, "\nWhole parser test 4: Passed");
         pass_count += 1;
     }
@@ -155,7 +155,7 @@ int test_whole(FILE *test_results){
     
     no_of_tests += 1;
     //Tests a program containing an incorrect for loop. Function should return FALSE
-    if(parser(&test_fractal, "test_parser5.txt") == FALSE){
+    if(parser(&test_fractal, "program_txt_files/testing/test_parser5.txt") == FALSE){
         fprintf(test_results, "\nWhole parser test 5: Passed");
         pass_count += 1;
     }
@@ -165,7 +165,7 @@ int test_whole(FILE *test_results){
     
     no_of_tests += 1;
     //Tests a program containing an incorrect if statement. Function should return FALSE
-    if(parser(&test_fractal, "test_parser6.txt") == FALSE){
+    if(parser(&test_fractal, "program_txt_files/testing/test_parser6.txt") == FALSE){
         fprintf(test_results, "\nWhole parser test 6: Passed");
         pass_count += 1;
     }
