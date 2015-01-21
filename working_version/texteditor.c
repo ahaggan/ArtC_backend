@@ -510,23 +510,6 @@ void find_previous_active_node(Coordinates* active, Interface* interface) {
     }
 }
 
-int final_active_node(Coordinates active, Interface interface) {
-
-    TextNode* current = &interface.text_editor[active.row][active.column];
-    if(current->next == NULL) {
-        return 1;
-    }
-    current = current->next;
-    while(strcmp(current->character, EMPTY_CELL) == 0 && 
-            current->next != NULL) {
-        current = current->next;
-    }
-    if(current->next == NULL) {
-        return 1;
-    }
-    return 0;
-}
-
 /* Carriage Return (Enter) */
 
 void handle_carriage_return(Coordinates active, Interface* interface) {
@@ -1002,6 +985,23 @@ void find_prev_cell_on_row(TextNode* current, Interface* interface) {
     int c = current->text_cell.column;
     SDL_SetTextInputRect(&interface->text_editor[r][c].box.rect);
     set_active_text_cell(r, c, interface);  
+}
+
+int final_active_node(Coordinates active, Interface interface) {
+
+    TextNode* current = &interface.text_editor[active.row][active.column];
+    if(current->next == NULL) {
+        return 1;
+    }
+    current = current->next;
+    while(strcmp(current->character, EMPTY_CELL) == 0 && 
+            current->next != NULL) {
+        current = current->next;
+    }
+    if(current->next == NULL) {
+        return 1;
+    }
+    return 0;
 }
 
 void console_text_editor(Interface interface) {

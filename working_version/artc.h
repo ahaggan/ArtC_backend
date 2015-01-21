@@ -11,6 +11,7 @@
 #define TRUE 1
 #define FALSE 0
 
+// This struct contains all the information about what to draw on the canvas
 typedef struct draw{
     int iterations;
     char* type[10];
@@ -29,9 +30,9 @@ typedef struct draw{
     char* move;
 } Draw;
 
-
 //Calls function in menu.c and launches the user interface
 
 void launch_menu();
+
 int parser(Draw *fractal, char *file_name);
 void test_parser();

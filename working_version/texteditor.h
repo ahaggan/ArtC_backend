@@ -62,7 +62,6 @@ void keydown_left(Interface *interface, Coordinates active);
 void find_prev_cell_on_row(TextNode* current, Interface* interface);
 void find_next_active_node(Coordinates* active, Interface* interface);
 void find_previous_active_node(Coordinates* active, Interface* interface);
-int final_active_node(Coordinates active, Interface interface);
 
 //Carriage Return
 void handle_carriage_return(Coordinates active, Interface* interface);
@@ -134,5 +133,6 @@ int last_cell(Coordinates active, Interface interface);
 int rest_of_row_empty(Coordinates active, Interface* interface);
 int entire_row_empty(int row, Interface* interface);
 int is_empty_cell(char* character);
+int final_active_node(Coordinates active, Interface interface);
 
 void console_text_editor(Interface interface);

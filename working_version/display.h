@@ -3,8 +3,7 @@
     to write to the display
 */
 #include "artc.h"
-//Contains helper functions for displaying SDL
-#include "manageSDL.h"
+#include "manageSDL.h"  //Contains helper functions for displaying SDL
 
 #define  LEFT_MARGIN  15
 #define  TOP_MARGIN  20
@@ -108,8 +107,6 @@ typedef struct text_node {
     Coordinates text_cell;
     Coordinates location;
 } TextNode;
-
-//WHAT IS THIS DOING??
 typedef TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS];
 
 //Refers to what the user has clicked in the interface
@@ -236,18 +233,12 @@ void display_help_menu(Menu* help_menu);
 void display_help_screen(Menu* help_menu, int win_width, int win_height);
 //Displays the back button on the help screen
 void display_back_button(Menu* help_menu, int win_width, int win_height);
-//WHY IS THIS IN DISPLAY.H IT IS IN MENU.H??
+
+//The help menu can be accessed from both the main menu and the canvas
 int help_menu(Menu* help);
 
-/*
-
-    WHERE IS DISPLAY POP UP CALLED FROM?
-    
-*/
-
-
-int help_menu(Menu* help);
-void display_popup_text(Menu* menu);
+//Pop-up text appears when hovering over a menu choice. 
+void display_popup_text(Menu* menu);  // This is called from menu.c
 void display_canvas_text(Menu* main_menu);
 void display_challenges_text(Menu* main_menu);
 void display_beginner_text(Menu* challenges);
@@ -302,8 +293,7 @@ void read_write_error(char* align_message_top, char* align_message_bottom);
 void text_align_central(char* centred_string, char* challenge, 
                           int textbox_width);
          
-         
-//SORRY NOT SURE ON THESE???                 
+//General helper functions for displaying rects and text.                 
 void make_text(SDL_Win *win, SDL_Rect *location, TTF_Font *font, char* text, 
                  int r, int g, int b);
 
