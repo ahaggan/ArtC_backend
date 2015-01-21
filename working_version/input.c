@@ -30,7 +30,7 @@ void main_menu_hover(int x, int y, Menu *main_menu) {
         main_menu->hover = canvas;
     }
     else if(within_button(x, y, main_menu->challenges_button.rect)) {
-        main_menu->hover = challenges_menu;
+        main_menu->hover = challenges_menu_choice;
     }
     else {
         main_menu->hover = 0;
@@ -42,10 +42,10 @@ int main_menu_click(int x, int y, Menu *main_menu) {
         return canvas;
     }
     else if(within_button(x,y, main_menu->challenges_button.rect)) {
-        return challenges_menu;
+        return challenges_menu_choice;
     }
     else if(within_button(x, y, main_menu->menu_help_button.rect)) {
-        return options_menu;
+        return options_menu_choice;
     }
     else if(within_button(x, y, main_menu->quit_button.rect)) {
         return quit;
@@ -145,7 +145,7 @@ int Interface_Events(Interface* interface) {
         switch(event.type) {
 
             case SDL_MOUSEMOTION:     
-                mouse_motion(interface, x, y);       
+                set_cursor(interface, x, y);       
                 break;
 
             case SDL_QUIT:
@@ -242,7 +242,7 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
     return 0;
 }
 
-void mouse_motion(Interface *interface, int x, int y) {
+void set_cursor(Interface *interface, int x, int y) {
     SDL_Cursor *cursor;
     if(inside_text_editor(interface, x, y)) {
         cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);

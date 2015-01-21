@@ -56,8 +56,8 @@ typedef enum mode {
 //To refer to buttons the user presses
 typedef enum menu_choice {
     canvas = 1,
-    challenges_menu,
-    options_menu,
+    challenges_menu_choice,
+    options_menu_choice,
     quit,
     beginner,
     intermediate,
@@ -238,10 +238,12 @@ int help_menu(Menu* help);
 
 /*
 
-    where is display popup called from
+    WHERE IS DISPLAY POP UP CALLED FROM?
     
 */
 
+
+int help_menu(Menu* help);
 void display_popup_text(Menu* menu);
 void display_canvas_text(Menu* main_menu);
 void display_challenges_text(Menu* main_menu);
