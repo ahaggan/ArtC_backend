@@ -3,9 +3,7 @@
 /* Main Menu */
 void launch_menu() {
     Menu menu;
-    SDL_Win_Init(&menu.window, "Art.C");
-    SDL_TTF_Init();
-    menu.hover = 0;
+
     initialise_main_menu(&menu);
 
     do {
@@ -14,7 +12,7 @@ void launch_menu() {
             menu.hover_change = 0;
             render_update(menu.window);
         }
- 
+
         menu.state = SDL_Main_Menu_Events(&menu);
         main_menu_actions(&menu);
 
@@ -25,10 +23,13 @@ void launch_menu() {
 }
 
 void initialise_main_menu(Menu* main_menu) {
+    main_menu->state = 0;
+    main_menu->hover = 0;
+    main_menu->hover_change = 1;
+
+    initialise_SDL(main_menu);
     main_menu->menu_font = SDL_Load_Font("display/font/Edo.ttf", 
                                            BUTTON_FONT_SIZE);
-    main_menu->state = 0;
-    main_menu->hover_change = 1;
 
     display_main_menu(main_menu);
 }
@@ -98,16 +99,12 @@ void challenges_menu_actions(Menu* challenges) {
 
 int help_menu(Menu* help) {
     while(help->state != main_menu) {
-        initialise_help_menu(help);
+        display_help_menu(help);
         render_update(help->window);
         help->state = SDL_Help_Menu_Events(help);
         help_menu_actions(help);
     }
     return 0;
-}
-
-void initialise_help_menu(Menu* help) {
-    display_help_menu(help);
 }
 
 void help_menu_actions(Menu* help) {
