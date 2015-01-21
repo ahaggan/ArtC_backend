@@ -1,9 +1,10 @@
 #include "input.h"
 
+//Function called from menu.c, uses mouse position and manages hovering and clicks
 int SDL_Main_Menu_Events(Menu* main_menu) {
     SDL_Event event;
     int x, y;
-
+    
     SDL_GetMouseState(&x, &y);
 
     main_menu_hover(x, y, main_menu);

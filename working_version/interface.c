@@ -1,5 +1,6 @@
 #include "interface.h"
-
+//Called from menu.c. Runs a loop that checks for user input 
+//and dependant on it will display other menus or generate/delete fractals
 int interface(Menu* main_menu, Mode mode, char* file_name) {
     Interface interface;
 
