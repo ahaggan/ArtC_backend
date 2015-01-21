@@ -20,7 +20,7 @@ int interface(Menu* main_menu, Mode mode, char* file_name) {
                                &interface);
         interface.action = Interface_Events(&interface);
     
-        if(interface.action == generate_clicked) {
+        if (interface.action == generate_clicked) {
             write_text_to_file(&interface, interface.code_file);
             Draw fractal; 
             parser(&fractal, "program_txt_files/default.txt"); //Assign defaults
