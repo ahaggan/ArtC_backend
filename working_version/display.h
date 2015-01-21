@@ -56,8 +56,8 @@ typedef enum mode {
 //To refer to buttons the user presses
 typedef enum menu_choice {
     canvas = 1,
-    challenges_menu,
-    options_menu,
+    challenges_menu_choice,
+    options_menu_choice,
     quit,
     beginner,
     intermediate,
@@ -178,36 +178,72 @@ typedef struct shape {
     int height;
     float rotation;
 } Shape;
+/*
 
+    Main Menu
+
+*/
 //Calls the functions that display logos and buttons for the main menu screen
 void display_main_menu(Menu* main_menu);
 //Sets the colour for the background of the main menu
 void display_menu_background(int win_width, int win_height, Menu* main_menu);
-//positions and places logo on the screen
+//positions and places "Art.c" logo on the screen
 void display_logo(int win_width, int win_height, Menu* main_menu);
 //Displays the button that links to the canvas screen
 void display_canvas_button(int win_width, int win_height, Menu* main_menu);
 //Displays the button that links to the challenges screen
 void display_challenges_button(int win_width, int win_height, Menu* main_menu);
+//Displays the button that links to the help screen
 void display_menu_help_button(int win_width, int win_height, Menu* main_menu);
+//Displays the button that quits the program
 void display_quit_button(int win_width, int win_height, Menu* main_menu);
+/*
 
+    Challenges Menu
+    
+*/
+//Calls the functions that display the Challenges menu
 void display_challenges_menu(Menu* challenges);
+//Sets the background of the challenges menu
 void display_challenges_background(int win_width, int win_height, 
                                      Menu* challenges);
+//Displays the "Challenges" logo in the corner of the challenges menu
 void display_header(int win_width, int win_height, Menu* challenges_menu);
+//Displays the button that links to the beginner challenges
 void display_beginner_button(int win_width, int win_height, 
                                Menu* challenges_menu);
+//Displays the button that links to the intermediate challenges
 void display_intermediate_button(int win_width, int win_height, 
                                    Menu* challenges_menu);
+//Displays the button that links to the expert challenges
 void display_expert_button(int win_width, int win_height, 
                              Menu* challenges_menu);
+//Displays the button that return the user to the main menu
 void display_main_menu_button(int win_width, int win_height, 
                                 Menu* challenges_menu);
+                                
+/*
 
+    Help Menu
+    
+*/
+//Calls functions to display the help menu
 void display_help_menu(Menu* help_menu);
+//Displays the help screen
+void display_help_screen(Menu* help_menu, int win_width, int win_height);
+//Displays the back button on the help screen
+void display_back_button(Menu* help_menu, int win_width, int win_height);
+//WHY IS THIS IN DISPLAY.H IT IS IN MENU.H??
 int help_menu(Menu* help);
 
+/*
+
+    WHERE IS DISPLAY POP UP CALLED FROM?
+    
+*/
+
+
+int help_menu(Menu* help);
 void display_popup_text(Menu* menu);
 void display_canvas_text(Menu* main_menu);
 void display_challenges_text(Menu* main_menu);
@@ -215,12 +251,18 @@ void display_beginner_text(Menu* challenges);
 void display_intermediate_text(Menu* challenges);
 void display_expert_text(Menu* challenges);
 
-void display_help_screen(Menu* help_menu, int win_width, int win_height);
-void display_back_button(Menu* help_menu, int win_width, int win_height);
+/*
 
+    Interface display functions
+
+*/
+//Chooses what mode the user is in and calls the functions to 
+//create the correct display
 void display_interface(Interface *interface, Mode mode, int refresh_canvas);
+//Displays the correct toolbar depending on where the user is
 void display_toolbar(int win_width, int win_height, 
                        Interface* interface, Mode mode);
+//Five functions below descriptions are explicit in names
 void display_reset_button(int win_width, int win_height, 
                             Interface* interface, Mode mode);
 void display_generate_button(int win_width, int win_height, 
@@ -230,22 +272,35 @@ void display_menu_button(int win_width, int win_height,
 void display_learn_button(int win_width, int win_height, Interface* interface);
 void display_help_button(int win_width, int win_height, 
                            Interface* interface, Mode mode);
+
+//Displays the draw surface, changes slighly if in challenge mode
 void display_canvas(int win_width, int win_height, 
                       Interface* interface, Mode mode);
+//Displays the text editor
 void display_text_editor(int win_width, int win_height, Interface* interface);
+
+
+//Displays the current challenge instructions in the toolbar at the top of the screen
 void display_current_challenge(int win_width, int win_height, 
                                  Interface* interface);
+//Displays previous button on challenge toolbar
 void display_previous_button(int win_width, int win_height, 
                                Interface* interface);
+//Displays the next button on the challenge toolbar 
 void display_next_button(int win_width, int win_height, Interface* interface);
+//Displays visual dividers between each section of the user interface
 void display_dividers(int win_width, int win_height, 
                         Interface* interface, Mode mode);
-
+//Displays a descriptive message to the user if there code is incorrect
 void display_error_message(Interface* interface);
+//Function generates the error message and is called from above function
 void read_write_error(char* align_message_top, char* align_message_bottom);
-
+//Function centers a given string into a given text box
 void text_align_central(char* centred_string, char* challenge, 
                           int textbox_width);
+         
+         
+//SORRY NOT SURE ON THESE???                 
 void make_text(SDL_Win *win, SDL_Rect *location, TTF_Font *font, char* text, 
                  int r, int g, int b);
 

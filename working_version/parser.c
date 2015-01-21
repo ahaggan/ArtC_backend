@@ -47,7 +47,9 @@ void initialise_arrays(Prog *program) {
     
     initialise_interpreter_array(program);
 }
+
 void initialise_words_array(Prog *program) {
+
     int i;
     program->error = fopen("program_txt_files/error_message.txt", "w");
     program->current_word = 0;
