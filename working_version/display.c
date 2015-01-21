@@ -28,7 +28,7 @@ void display_menu_background(int win_width, int win_height, Menu* main_menu) {
 
 void display_logo(int win_width, int win_height, Menu* main_menu) {
     int logo_x, logo_y, logo_w, logo_h;
-    SDL_Texture* image = load_image("display/images//artc_logo.bmp", 
+    SDL_Texture* image = load_image("display/images/artc_logo.bmp", 
                                       &main_menu->window);
 
     logo_x = win_width / LEFT_MARGIN;
@@ -48,7 +48,7 @@ void display_logo(int win_width, int win_height, Menu* main_menu) {
 
 void display_canvas_button(int win_width, int win_height, Menu* main_menu) {
     int canvas_button_x, canvas_button_y, canvas_button_w, canvas_button_h;
-    SDL_Texture* image = load_image("display/images//canvas.bmp", 
+    SDL_Texture* image = load_image("display/images/canvas.bmp", 
                                       &main_menu->window);
 
     canvas_button_x = win_width / LEFT_MARGIN;
@@ -71,7 +71,7 @@ void display_canvas_button(int win_width, int win_height, Menu* main_menu) {
 void display_challenges_button(int win_width, int win_height, Menu* main_menu) {
     int challenges_button_x, challenges_button_y;
     int challenges_button_w, challenges_button_h;
-    SDL_Texture* image = load_image("display/images//challenges.bmp", 
+    SDL_Texture* image = load_image("display/images/challenges.bmp", 
                                       &main_menu->window);
 
     challenges_button_x = win_width / LEFT_MARGIN;
@@ -94,7 +94,7 @@ void display_challenges_button(int win_width, int win_height, Menu* main_menu) {
 void display_menu_help_button(int win_width, int win_height, Menu* main_menu) {
     int menu_help_button_x, menu_help_button_y;
     int menu_help_button_w, menu_help_button_h;
-    SDL_Texture* image = load_image("display/images//help.bmp", 
+    SDL_Texture* image = load_image("display/images/help.bmp", 
                                       &main_menu->window);
 
     menu_help_button_x = win_width / LEFT_MARGIN;
@@ -116,7 +116,7 @@ void display_menu_help_button(int win_width, int win_height, Menu* main_menu) {
 
 void display_quit_button(int win_width, int win_height, Menu* main_menu) {
     int quit_button_x, quit_button_y, quit_button_w, quit_button_h;
-    SDL_Texture* image = load_image("display/images//quit.bmp", 
+    SDL_Texture* image = load_image("display/images/quit.bmp", 
                                       &main_menu->window);
 
     quit_button_x = win_width / LEFT_MARGIN;
@@ -164,7 +164,7 @@ void display_challenges_background(int win_width, int win_height,
 
 void display_header(int win_width, int win_height, Menu* challenges) {
     int header_x, header_y, header_w, header_h;
-    SDL_Texture* image = load_image("display/images//challenges_header.bmp", 
+    SDL_Texture* image = load_image("display/images/challenges_header.bmp", 
                                       &challenges->window);
 
     header_w = LOGO_WIDTH;
@@ -183,7 +183,7 @@ void display_header(int win_width, int win_height, Menu* challenges) {
 
 void display_beginner_button(int win_width, int win_height, Menu* challenges) {
     int beginner_x, beginner_y, beginner_w, beginner_h;
-    SDL_Texture* image = load_image("display/images//beginner.bmp", 
+    SDL_Texture* image = load_image("display/images/beginner.bmp", 
                                       &challenges->window);
 
     beginner_x = win_width / LEFT_MARGIN;
@@ -204,7 +204,7 @@ void display_beginner_button(int win_width, int win_height, Menu* challenges) {
 void display_intermediate_button(int win_width, int win_height, 
                                    Menu* challenges) {
     int intermediate_x, intermediate_y, intermediate_w, intermediate_h;
-    SDL_Texture* image = load_image("display/images//intermediate.bmp", 
+    SDL_Texture* image = load_image("display/images/intermediate.bmp", 
                                       &challenges->window);
 
     intermediate_x = win_width / LEFT_MARGIN;
@@ -224,7 +224,7 @@ void display_intermediate_button(int win_width, int win_height,
 
 void display_expert_button(int win_width, int win_height, Menu* challenges) {
     int expert_x, expert_y, expert_w, expert_h;
-    SDL_Texture* image = load_image("display/images//expert.bmp", 
+    SDL_Texture* image = load_image("display/images/expert.bmp", 
                                       &challenges->window);
 
     expert_x = win_width / LEFT_MARGIN;
@@ -245,7 +245,7 @@ void display_expert_button(int win_width, int win_height, Menu* challenges) {
 
 void display_main_menu_button(int win_width, int win_height, Menu* challenges) {
     int main_menu_x, main_menu_y, main_menu_w, main_menu_h;
-    SDL_Texture* image = load_image("display/images//main_menu.bmp", 
+    SDL_Texture* image = load_image("display/images/main_menu.bmp", 
                                       &challenges->window);
 
     main_menu_x = win_width / LEFT_MARGIN;
@@ -275,7 +275,7 @@ void display_help_menu(Menu* help_menu) {
 
 void display_help_screen(Menu* help_menu, int win_width, int win_height) {
     int help_x, help_y, help_w, help_h;
-    SDL_Texture* image = load_image("display/images//help_screen.bmp", 
+    SDL_Texture* image = load_image("display/images/help_screen.bmp", 
                                       &help_menu->window);
 
     help_x = 0;
@@ -294,7 +294,7 @@ void display_help_screen(Menu* help_menu, int win_width, int win_height) {
 
 void display_back_button(Menu* help_menu, int win_width, int win_height) {
     int back_button_x, back_button_y, back_button_w, back_button_h;
-    SDL_Texture* image = load_image("display/images//back.bmp", 
+    SDL_Texture* image = load_image("display/images/back.bmp", 
                                       &help_menu->window);
 
     back_button_x = win_width / BACK_BUTTON_MARGIN;
@@ -337,7 +337,7 @@ void display_popup_text(Menu* menu) {
 void display_canvas_text(Menu* main_menu) {
     int win_width, win_height;
     int canvas_text_x, canvas_text_y, canvas_text_w, canvas_text_h;
-    SDL_Texture* image = load_image("display/images//program_a_work_of_art.bmp", 
+    SDL_Texture* image = load_image("display/images/program_a_work_of_art.bmp", 
                                       &main_menu->window);
 
     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
@@ -360,7 +360,7 @@ void display_challenges_text(Menu* main_menu) {
     int win_width, win_height;
     int challenges_text_x, challenges_text_y;
     int challenges_text_w, challenges_text_h;
-    SDL_Texture* image = load_image("display/images//learn_how_to_code.bmp", 
+    SDL_Texture* image = load_image("display/images/learn_how_to_code.bmp", 
                                       &main_menu->window);
 
     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
@@ -384,7 +384,7 @@ void display_challenges_text(Menu* main_menu) {
 void display_beginner_text(Menu* challenges) {
     int win_width, win_height;
     int beginner_text_x, beginner_text_y, beginner_text_w, beginner_text_h;
-    SDL_Texture* image = load_image("display/images//beginner_text.bmp", 
+    SDL_Texture* image = load_image("display/images/beginner_text.bmp", 
                                       &challenges->window);
 
     SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
@@ -408,7 +408,7 @@ void display_intermediate_text(Menu* challenges) {
     int win_width, win_height;
     int intermediate_text_x, intermediate_text_y;
     int intermediate_text_w, intermediate_text_h;
-    SDL_Texture* image = load_image("display/images//intermediate_text.bmp", 
+    SDL_Texture* image = load_image("display/images/intermediate_text.bmp", 
                                       &challenges->window);
 
     SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
@@ -432,7 +432,7 @@ void display_intermediate_text(Menu* challenges) {
 void display_expert_text(Menu* challenges) {
     int win_width, win_height;
     int expert_text_x, expert_text_y, expert_text_w, expert_text_h;
-    SDL_Texture* image = load_image("display/images//expert_text.bmp", 
+    SDL_Texture* image = load_image("display/images/expert_text.bmp", 
                                       &challenges->window);
 
     SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
