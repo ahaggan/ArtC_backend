@@ -1,26 +1,35 @@
 run {
+<<<<<<< HEAD
 
    linethickness 3
    iterations 8
    type tree
    angle -90
    colour random
+=======
+   type sierpinski
+>>>>>>> 16179645104f4a809a8e0c2c69d2e5d8818391f3
    shape line
-   size medium
+   size 375
+   colour blue
+   linethickness 2
+   iterations 5
+   angle 30
 
-   for iterations 0 to iterations 1 {
-      colour brown
-      shape triangle
-   }
-
-   for iterations 2 to iterations 3 {
-      colour green
-      shape line
-   }
-   if iterations 4 then {
-      colour lime
-      shape line
+   if iterations 1 then {
+      colour transparent
    }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
