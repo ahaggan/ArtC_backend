@@ -144,6 +144,10 @@ int Interface_Events(Interface* interface) {
         SDL_Text_Editor_Events(event, interface);   
         switch(event.type) {
 
+            case SDL_MOUSEMOTION:     
+                mouse_motion(interface, x, y);       
+                break;
+
             case SDL_QUIT:
                 SDL_Quit();
                 exit(1);
@@ -219,10 +223,6 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
  
     switch(event.type) {
 
-        case SDL_MOUSEMOTION:     
-            Text_Editor_mouse_motion(interface, x, y);       
-            break;
-
         case SDL_MOUSEBUTTONDOWN:  
             mouse_move_to_cell(interface, x, y);
             return text_edited;
@@ -242,10 +242,13 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
     return 0;
 }
 
-void Text_Editor_mouse_motion(Interface *interface, int x, int y) {
+void mouse_motion(Interface *interface, int x, int y) {
     SDL_Cursor *cursor;
     if(inside_text_editor(interface, x, y)) {
         cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
+    }
+    else if(inside_canvas(interface, x, y)) {
+        cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_CROSSHAIR);
     }
     else {
         cursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
@@ -278,6 +281,16 @@ int inside_text_editor(Interface* interface, int mouse_x, int mouse_y) {
            mouse_y >= interface->text_editor_panel.rect.y && 
              mouse_y <= interface->text_editor_panel.rect.y + 
                           interface->text_editor_panel.rect.h) {
+        return 1;
+    }
+    return 0;
+}
+
+int inside_canvas(Interface* interface, int mouse_x, int mouse_y) {
+    if(mouse_x >= interface->canvas.rect.x && 
+        mouse_x <= interface->canvas.rect.x + interface->canvas.rect.w && 
+          mouse_y >= interface->canvas.rect.y && 
+            mouse_y <= interface->canvas.rect.y + interface->canvas.rect.h) {
         return 1;
     }
     return 0;
