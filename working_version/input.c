@@ -6,7 +6,6 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
 
     SDL_GetMouseState(&x, &y);
 
-    main_menu->hover = 0;
     main_menu_hover(x, y, main_menu);
 
     while(SDL_PollEvent(&event)) { 
@@ -27,13 +26,19 @@ int SDL_Main_Menu_Events(Menu* main_menu) {
 
 void main_menu_hover(int x, int y, Menu *main_menu) {
     if(within_button(x, y, main_menu->canvas_button.rect)) {
-        main_menu->hover = canvas;
+        if(decide_menu_hover(main_menu, canvas)) {
+            display_main_menu(main_menu);
+        }
     }
     else if(within_button(x, y, main_menu->challenges_button.rect)) {
-        main_menu->hover = challenges_menu_choice;
+        if(decide_menu_hover(main_menu, challenges_menu_choice)) {
+            display_main_menu(main_menu);
+        }
     }
     else {
-        main_menu->hover = 0;
+        if(decide_menu_hover(main_menu, 0)) {
+            display_main_menu(main_menu);
+        }
     }
 }
 
@@ -59,7 +64,6 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
 
     SDL_GetMouseState(&x, &y);
 
-    challenges->hover = 0;
     challenges_menu_hover(x, y, challenges);
 
     while(SDL_PollEvent(&event)) { 
@@ -80,16 +84,24 @@ int SDL_Challenges_Menu_Events(Menu* challenges) {
 
 void challenges_menu_hover(int x, int y, Menu *challenges) {
     if(within_button(x, y, challenges->beginner.rect)) {
-        challenges->hover = beginner;
+        if(decide_menu_hover(challenges, beginner)) {
+            display_challenges_menu(challenges);
+        }
     }
     else if(within_button(x, y, challenges->intermediate.rect)) {
-        challenges->hover = intermediate;
+        if(decide_menu_hover(challenges, intermediate)) {
+            display_challenges_menu(challenges);
+        }
     }
     else if(within_button(x, y, challenges->expert.rect)) {
-        challenges->hover = expert;
+        if(decide_menu_hover(challenges, expert)) {
+            display_challenges_menu(challenges);
+        }
     }
     else {
-        challenges->hover = 0;
+        if(decide_menu_hover(challenges, 0)) {
+            display_challenges_menu(challenges);
+        }
     }
 }
 
@@ -105,6 +117,15 @@ int challenges_menu_click(int x, int y, Menu *challenges) {
     }
     else if(within_button(x, y, challenges->main_menu.rect)) {
         return main_menu;
+    }
+    return 0;
+}
+
+int decide_menu_hover(Menu *menu, Menu_Choice choice) {
+    if(menu->hover != choice) {
+        menu->hover = choice;
+        menu->hover_change = 1;
+        return 1;
     }
     return 0;
 }

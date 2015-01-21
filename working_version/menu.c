@@ -6,11 +6,14 @@ void launch_menu() {
     SDL_Win_Init(&menu.window, "Art.C");
     SDL_TTF_Init();
     menu.hover = 0;
+    initialise_main_menu(&menu);
 
     do {
-        initialise_main_menu(&menu);
-        display_popup_text(&menu);
-        render_update(menu.window);
+        if(menu.hover_change) {
+            display_popup_text(&menu);
+            menu.hover_change = 0;
+            render_update(menu.window);
+        }
  
         menu.state = SDL_Main_Menu_Events(&menu);
         main_menu_actions(&menu);
@@ -25,6 +28,7 @@ void initialise_main_menu(Menu* main_menu) {
     main_menu->menu_font = SDL_Load_Font("display/font/Edo.ttf", 
                                            BUTTON_FONT_SIZE);
     main_menu->state = 0;
+    main_menu->hover_change = 1;
 
     display_main_menu(main_menu);
 }
@@ -34,13 +38,13 @@ void main_menu_actions(Menu* main_menu) {
     switch (main_menu->state) {
         case canvas: 
             interface(main_menu, canvas_mode, "program_txt_files/canvas.txt"); 
-            //SDL_RenderClear(main_menu->window.renderer);
-            //display_main_menu(main_menu); 
+            render_update(main_menu->window);
+            display_main_menu(main_menu); 
             break;
         case challenges_menu_choice:
            challenges_menu(main_menu);
-           //SDL_RenderClear(main_menu->window.renderer);
-           //display_main_menu(main_menu); 
+           render_update(main_menu->window);
+           display_main_menu(main_menu); 
            break;
         case options_menu_choice:
             help_menu(main_menu);
@@ -54,12 +58,12 @@ void main_menu_actions(Menu* main_menu) {
 }
 
 int challenges_menu(Menu* challenges) {
-    challenges->hover = 0;
-    challenges->state = 0;
+    initialise_challenges_menu(challenges);
     while(challenges->state != main_menu) {
-        initialise_challenges_menu(challenges);
-        display_popup_text(challenges);
-        render_update(challenges->window);
+        if(challenges->hover_change) {
+            display_popup_text(challenges);
+            render_update(challenges->window);
+        }
         challenges->state = SDL_Challenges_Menu_Events(challenges);
         challenges_menu_actions(challenges);
     }
@@ -67,6 +71,9 @@ int challenges_menu(Menu* challenges) {
 }
 
 void initialise_challenges_menu(Menu* challenges) {
+    challenges->state = 0;
+    challenges->hover = 0;
+    challenges->hover_change = 1;
     display_challenges_menu(challenges);
 }
 

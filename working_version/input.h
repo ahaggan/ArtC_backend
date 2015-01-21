@@ -6,6 +6,8 @@ int main_menu_click(int x, int y, Menu *main_menu);
 void challenges_menu_hover(int x, int y, Menu *challenges);
 int challenges_menu_click(int x, int y, Menu *challenges);
 
+int decide_menu_hover(Menu *menu, Menu_Choice choice);
+
 int interface_click(int x, int y, Interface *interface);
 
 int SDL_Text_Editor_Events(SDL_Event event, Interface* interface);

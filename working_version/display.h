@@ -71,6 +71,7 @@ typedef struct menu {
     SDL_Win window;
     Menu_Choice state;
     Menu_Choice hover;
+    int hover_change;
     TTF_Font* menu_font; 
     Area background;
     Area logo;

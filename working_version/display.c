@@ -4,6 +4,8 @@
 void display_main_menu(Menu* main_menu) {
     int win_width, win_height;
 
+    render_update(main_menu->window);
+
     SDL_GetWindowSize(main_menu->window.win, &win_width, &win_height);
 
     display_menu_background(win_width, win_height, main_menu);
@@ -139,6 +141,9 @@ void display_quit_button(int win_width, int win_height, Menu* main_menu) {
 /* Challenges Menu */
 void display_challenges_menu(Menu* challenges) {
     int win_width, win_height;
+
+    render_update(challenges->window);
+
     SDL_GetWindowSize(challenges->window.win, &win_width, &win_height);
 
     display_challenges_background(win_width, win_height, challenges);
