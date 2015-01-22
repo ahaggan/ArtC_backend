@@ -253,7 +253,6 @@ int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
         case SDL_TEXTINPUT:
                 Text_Editor_text_input(interface, event.text.text, x, y, active);
                 return text_edited;
-            }
 
         //user presses a key
         case SDL_KEYDOWN:
