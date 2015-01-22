@@ -1,31 +1,26 @@
 run {
-<<<<<<< HEAD
+   type star
+   iterations 7
+   size 400
+   colour transparent
+   shape triangle
+   angle 35
+   linethickness 4
 
-   linethickness 3
-   iterations 8
-   type tree
-   angle -90
-   colour random
-=======
-   type sierpinski
->>>>>>> 16179645104f4a809a8e0c2c69d2e5d8818391f3
-   shape line
-   size 375 
-   colour red
-   linethickness 3
-   iterations 5
-   angle 30
+   if iterations 1 then {
+      colour red
+   }
+
+   if iterations 3 then {
+      colour red
+   }
+
+   if iterations 5 then {
+      colour red
+   }
+
+   if iterations 7 then {
+      colour red
+   }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

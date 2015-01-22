@@ -1,5 +1,7 @@
 /*
-Module contains functions that draw shapes for the fractal functions. It uses values contained in the user generated fractal structure. These functions use functions in the display module to display the shapes in SDL
+Module contains functions that draw shapes for the fractal functions. 
+It uses values contained in the user generated fractal structure. 
+These functions use functions in the display module to display the shapes in SDL.
 */
 
 #include "display.h"
@@ -10,6 +12,7 @@ Module contains functions that draw shapes for the fractal functions. It uses va
 //Calls functions to set the shape colour and draw the shape
 void draw_sdl(SDL_Win *window, Draw *fractal, int x, int y, 
                 int size, float angle, int i);
+
 //If random, calls function to set the random colour. Then sets the colour.
 int draw_colour(SDL_Win *window, Draw *fractal, int i);
 //Called by draw colour - checks which colour the user has chosen and assigns the value to SDL renderer

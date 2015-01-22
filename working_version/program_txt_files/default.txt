@@ -1,9 +1,9 @@
 run { 
-    colour black
+    colour red
     size 200
     shape line
     type tree
     iterations 1
-    linethickness 1
+    linethickness 3
     angle 0
 }

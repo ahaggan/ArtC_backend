@@ -301,7 +301,6 @@ void Text_Editor_text_input(Interface *interface, char* text,
 void Text_Editor_keydown(Interface *interface, int key,
                              int x, int y, Coordinates active) {
     switch(key) {
-
         case SDLK_BACKSPACE:
             keydown_backspace(interface, active);
             break;
