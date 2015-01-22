@@ -777,7 +777,7 @@ void display_dividers(int win_width, int win_height,
                     20, 20, 20);
     
     //Learn/Help divider OR menu/help divider
-    make_rect(&interface->window, &interface->learn_help_divider, 
+    make_rect(&interface->window, &interface->menu_help_divider, 
                 interface->help_button.rect.x - 1, 0,
                 1, interface->menu_button.rect.h, 
                       20, 20, 20);
