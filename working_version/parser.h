@@ -1,7 +1,9 @@
-/*  This module tests the users program for gramatical accuracy. It will return an error if the input file(containing a program) is incorrect. 
+/*  This module tests the users program for gramatical accuracy. 
+    It will return an error if the input file(containing a program) is incorrect. 
 
-    As the program is tested, the correct attributes are assigned to an interpreter array. If the program is written correctly
-    this array is passed to the intereter module which will assign values from the user to the given fractal.
+    As the program is tested, the correct attributes are assigned to an interpreter array. 
+    If the program is written correctly this array is passed to the intereter module which 
+    will assign values from the user to the given fractal.
     This fractal is then passed back to the interface.
 */
 
@@ -43,44 +45,58 @@ typedef struct prog {
 
 //Calls the functions that initialise the Prog struct's arrays
 void initialise_arrays(Prog *program);
+
 //Calls the interpreter function that writes the parsed values 
 //to the fractal array
 void interpreter(Prog* program);
+
 //checks that the action used in the if statement is an action 
 //that an if staement is allowed for
 int check_if(char* word);
+
 //Initialises the first char of each word in the words array 
 //with the '\0' character - for checking for the end of a given file
 void initialise_words_array(Prog* program);
+
 //Initialises the first char of each word in the interpreter array 
 //with the '\0' character
 void initialise_interpreter_array(Prog* program);
+
 //Begins the process of parsing the given program, check for a correct 
 //start then passes to the recursive part of parser
 int validate(Prog* program);
+
 //Checks for the end of the program or else calls the function function 
 int funclist(Prog* program);
+
 //checks the possible options for our grammer( "if", "for" or nothing) 
 //and calls the relevant functions
 int function(Prog* program);
+
 //Checks that "then {" follows your statement from the if function.
 //Then calls funclist to check the contents of the if function
 //and for an end brace.  
 int conditional(Prog* program);
+
 //Checks that the for loop has been written correctly
 //It then calls the for_loop function
 int loop(Prog* program);
+
 //Adds repeated values to the interpreter array when a for loop is used
 //start and end are the numbers defined by the user in their loop
 int for_loop(Prog* program, int start, int end);
+
 //Checks for a valid action attribute statement
 //Calls check_action and attribute to do this
 int statement(Prog* program);
+
 //Checks that the word passed is a correct action word
 int check_action(char* word);
+
 //Checks that the current word is an attribute
 //if the statement isn't part of an if or for it assigns the values to the interpreter array
 int attribute(Prog* program);
+
 //Creates an arrays of action structures with corresponding action and
 //attribute words.
 void create_struct_array(Action* actions);

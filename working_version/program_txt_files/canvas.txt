@@ -1,8 +1,8 @@
 run {
    type star
    iterations 7
-   size 25
-   colour black
+   size 400
+   colour transparent
    shape triangle
    angle 35
    linethickness 4
