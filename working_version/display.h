@@ -169,15 +169,7 @@ typedef struct interface {
     Mode mode;
 } Interface;	
 
-//Contains information about a particular shape that will be drawn
-//as part of a fractal
-typedef struct shape {
-    int x;
-    int y;
-    int size;
-    int height;
-    float rotation;
-} Shape;
+
 /*
 
     Main Menu
