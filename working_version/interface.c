@@ -48,6 +48,7 @@ void interface(Menu* main_menu, Mode mode, char* file_name) {
         FILE* challenge = fopen(interface.code_file, "w");
         fclose(challenge);
     }
+    
 }
 
 void generating(Draw *fractal, Interface *interface) {
