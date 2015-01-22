@@ -39,16 +39,18 @@ void main_menu_actions(Menu* main_menu) {
     switch (main_menu->state) {
         case canvas: 
             interface(main_menu, canvas_mode, "program_txt_files/canvas.txt"); 
-            render_update(main_menu->window);
             display_main_menu(main_menu); 
+            render_update(main_menu->window);
             break;
         case challenges_menu_choice:
-           challenges_menu(main_menu);
-           render_update(main_menu->window);
-           display_main_menu(main_menu); 
-           break;
+            challenges_menu(main_menu);
+            display_main_menu(main_menu); 
+            render_update(main_menu->window);
+            break;
         case options_menu_choice:
             help_menu(main_menu);
+            display_main_menu(main_menu);
+            render_update(main_menu->window);
             break;
         case quit:
             main_menu->window.finished = 1;
