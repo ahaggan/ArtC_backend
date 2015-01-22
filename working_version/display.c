@@ -274,16 +274,16 @@ void display_main_menu_button(int win_width, int win_height, Menu* challenges) {
 }
 
 /* Help Menu */
-void display_help_menu(Menu* help_menu) {
+void display_help_screen(Menu* help_menu) {
     int win_width, win_height;
 
     SDL_GetWindowSize(help_menu->window.win, &win_width, &win_height);
 
-    display_help_screen(help_menu, win_width, win_height);
+    display_help_text(help_menu, win_width, win_height);
     display_back_button(help_menu, win_width, win_height);
 }
 
-void display_help_screen(Menu* help_menu, int win_width, int win_height) {
+void display_help_text(Menu* help_menu, int win_width, int win_height) {
     int help_x, help_y, help_w, help_h;
     SDL_Texture* image = load_image("display/images/help_screen.bmp", 
                                       &help_menu->window);

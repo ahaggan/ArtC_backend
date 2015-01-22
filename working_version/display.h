@@ -56,7 +56,7 @@ typedef enum mode {
 typedef enum menu_choice {
     canvas = 1,
     challenges_menu_choice,
-    options_menu_choice,
+    help_screen_choice,
     quit,
     beginner,
     intermediate,
@@ -167,7 +167,15 @@ typedef struct interface {
     Mode mode;
 } Interface;	
 
-
+//Contains information about a particular shape that will be drawn
+//as part of a fractal
+typedef struct shape {
+    int x;
+    int y;
+    int size;
+    int height;
+    float rotation;
+} Shape;
 /*
 
     Main Menu
@@ -213,22 +221,7 @@ void display_expert_button(int win_width, int win_height,
 //Displays the button that return the user to the main menu
 void display_main_menu_button(int win_width, int win_height, 
                                 Menu* challenges_menu);
-                                
-/*
-
-    Help Menu
-    
-*/
-//Calls functions to display the help menu
-void display_help_menu(Menu* help_menu);
-//Displays the help screen
-void display_help_screen(Menu* help_menu, int win_width, int win_height);
-//Displays the back button on the help screen
-void display_back_button(Menu* help_menu, int win_width, int win_height);
-
-//The help menu can be accessed from both the main menu and the canvas
-int help_menu(Menu* help);
-
+//
 //Pop-up text appears when hovering over a menu choice. 
 void display_popup_text(Menu* menu);  // This is called from menu.c
 void display_canvas_text(Menu* main_menu);
@@ -236,7 +229,19 @@ void display_challenges_text(Menu* main_menu);
 void display_beginner_text(Menu* challenges);
 void display_intermediate_text(Menu* challenges);
 void display_expert_text(Menu* challenges);
+/*
 
+    Help Screen
+    
+*/
+//The help screen can be accessed from both the main menu and the canvas
+void help_screen(Menu* help);
+//Calls functions to display the help menu
+void display_help_screen(Menu* help_menu);
+//Displays the help screen
+void display_help_text(Menu* help_menu, int win_width, int win_height);
+//Displays the back button on the help screen
+void display_back_button(Menu* help_menu, int win_width, int win_height);
 /*
 
     Interface display functions

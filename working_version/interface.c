@@ -1,7 +1,6 @@
 #include "interface.h"
-//Called from menu.c. Runs a loop that checks for user input 
-//and dependant on it will display other menus or generate/delete fractals
-int interface(Menu* main_menu, Mode mode, char* file_name) {
+
+void interface(Menu* main_menu, Mode mode, char* file_name) {
     Interface interface;
 
     strcpy(interface.default_file, file_name);
@@ -37,8 +36,8 @@ int interface(Menu* main_menu, Mode mode, char* file_name) {
             }
         }
         else if (interface.action == load_help) {
-            main_menu->state = options_menu_choice;
-            help_menu(main_menu);
+            main_menu->state = help_screen_choice;
+            help_screen(main_menu);
             clear_area(&interface.window, interface.canvas);
         }
 
@@ -49,7 +48,6 @@ int interface(Menu* main_menu, Mode mode, char* file_name) {
         FILE* challenge = fopen(interface.code_file, "w");
         fclose(challenge);
     }
-    return 0;
 }
 
 void generating(Draw *fractal, Interface *interface) {

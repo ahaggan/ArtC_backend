@@ -13,7 +13,7 @@ void launch_menu() {
             render_update(menu.window);
         }
 
-        menu.state = SDL_Main_Menu_Events(&menu);
+        menu.state = Main_Menu_Events(&menu);
         main_menu_actions(&menu);
 
         //SDL shut_down, TTF shut down, free memory)
@@ -47,8 +47,8 @@ void main_menu_actions(Menu* main_menu) {
             display_main_menu(main_menu); 
             render_update(main_menu->window);
             break;
-        case options_menu_choice:
-            help_menu(main_menu);
+        case help_screen_choice:
+            help_screen(main_menu);
             display_main_menu(main_menu);
             render_update(main_menu->window);
             break;
@@ -60,17 +60,16 @@ void main_menu_actions(Menu* main_menu) {
     }
 }
 
-int challenges_menu(Menu* challenges) {
+void challenges_menu(Menu* challenges) {
     initialise_challenges_menu(challenges);
     while(challenges->state != main_menu) {
         if(challenges->hover_change) {
             display_popup_text(challenges);
             render_update(challenges->window);
         }
-        challenges->state = SDL_Challenges_Menu_Events(challenges);
+        challenges->state = Challenges_Menu_Events(challenges);
         challenges_menu_actions(challenges);
     }
-    return 0;
 }
 
 void initialise_challenges_menu(Menu* challenges) {
@@ -99,22 +98,13 @@ void challenges_menu_actions(Menu* challenges) {
     }
 }
 
-int help_menu(Menu* help) {
+void help_screen(Menu* help) {
+    display_help_screen(help);
+    render_update(help->window);
     while(help->state != main_menu) {
-        display_help_menu(help);
-        render_update(help->window);
-        help->state = SDL_Help_Menu_Events(help);
-        help_menu_actions(help);
-    }
-    return 0;
-}
-
-void help_menu_actions(Menu* help) {
-    switch (help->state) {
-        case back: 
+        help->state = Help_Screen_Events(help);
+        if(help->state == back) {
             help->state = main_menu;
-            break;
-        default: 
-            return;
+        }
     }
 }

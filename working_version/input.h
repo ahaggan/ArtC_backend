@@ -6,18 +6,18 @@ Module contains functions that handle user inputs, such as clicks, hovering and 
 //Function to check where mouse is, if on a button calls functions to display what the button does
 void main_menu_hover(int x, int y, Menu *main_menu);
 //Handles mouse clicks on buttons on the main menu
-int main_menu_click(int x, int y, Menu *main_menu);
+Menu_Choice main_menu_click(int x, int y, Menu *main_menu);
 //Handles which, if any, challenge level button the mouse is hovering over
 void challenges_menu_hover(int x, int y, Menu *challenges);
 //Handles mouse click on buttons when in challenge mode
-int challenges_menu_click(int x, int y, Menu *challenges);
+Menu_Choice challenges_menu_click(int x, int y, Menu *challenges);
 //Assigns menu->hover value if different to current value
 int decide_menu_hover(Menu *menu, Menu_Choice choice);
 //Handles clicks within canvas/text editor mode
-int interface_click(int x, int y, Interface *interface);
+Interface_Action interface_click(int x, int y, Interface *interface);
 
 //Calls functions to handle various user inputs within the text editor
-int SDL_Text_Editor_Events(SDL_Event event, Interface* interface);
+Interface_Action Text_Editor_Events(SDL_Event event, Interface* interface);
 //Calls function in text_editor.c  which handles text input
 void Text_Editor_text_input(Interface *interface, char* text,
                                 int x, int y, Coordinates active);

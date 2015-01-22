@@ -1,10 +1,9 @@
 #include "input.h"
 
-//Function called from menu.c, uses mouse position and manages hovering and clicks
-int SDL_Main_Menu_Events(Menu* main_menu) {
+Menu_Choice Main_Menu_Events(Menu* main_menu) {
     SDL_Event event;
     int x, y;
-    
+
     SDL_GetMouseState(&x, &y);
 
     main_menu_hover(x, y, main_menu);
@@ -43,7 +42,7 @@ void main_menu_hover(int x, int y, Menu *main_menu) {
     }
 }
 
-int main_menu_click(int x, int y, Menu *main_menu) {
+Menu_Choice main_menu_click(int x, int y, Menu *main_menu) {
     if(within_button(x, y, main_menu->canvas_button.rect)) {
         return canvas;
     }
@@ -51,7 +50,7 @@ int main_menu_click(int x, int y, Menu *main_menu) {
         return challenges_menu_choice;
     }
     else if(within_button(x, y, main_menu->menu_help_button.rect)) {
-        return options_menu_choice;
+        return help_screen_choice;
     }
     else if(within_button(x, y, main_menu->quit_button.rect)) {
         return quit;
@@ -59,7 +58,7 @@ int main_menu_click(int x, int y, Menu *main_menu) {
     return 0;
 }
 
-int SDL_Challenges_Menu_Events(Menu* challenges) {
+Menu_Choice Challenges_Menu_Events(Menu* challenges) {
     SDL_Event event;
     int x, y;
 
@@ -106,7 +105,7 @@ void challenges_menu_hover(int x, int y, Menu *challenges) {
     }
 }
 
-int challenges_menu_click(int x, int y, Menu *challenges) {
+Menu_Choice challenges_menu_click(int x, int y, Menu *challenges) {
     if(within_button(x, y, challenges->beginner.rect)) {
         return beginner;
     }
@@ -131,7 +130,7 @@ int decide_menu_hover(Menu *menu, Menu_Choice choice) {
     return 0;
 }
 
-int SDL_Help_Menu_Events(Menu* help) {
+Menu_Choice Help_Screen_Events(Menu* help) {
     SDL_Event event;
     int x, y;
 
@@ -156,14 +155,14 @@ int SDL_Help_Menu_Events(Menu* help) {
     return 0;
 }
 
-int Interface_Events(Interface* interface) {
+Interface_Action Interface_Events(Interface* interface) {
     SDL_Event event;
     int x, y;
 
     SDL_GetMouseState(&x, &y);
    
     while(SDL_PollEvent(&event)) { 
-        SDL_Text_Editor_Events(event, interface);   
+        Text_Editor_Events(event, interface);   
         switch(event.type) {
 
             case SDL_MOUSEMOTION:     
@@ -183,7 +182,7 @@ int Interface_Events(Interface* interface) {
     return 0;
 }
 
-int interface_click(int x, int y, Interface *interface) {              
+Interface_Action interface_click(int x, int y, Interface *interface) {
     if (within_button(x, y, interface->generate_button.rect)) {
         if (interface->mode  == challenge_mode) {
             clear_area(&interface->window, interface->canvas);
@@ -237,7 +236,7 @@ int interface_click(int x, int y, Interface *interface) {
     return 0;
 }
 
-int SDL_Text_Editor_Events(SDL_Event event, Interface* interface) {
+Interface_Action Text_Editor_Events(SDL_Event event, Interface* interface) {
     Coordinates active = interface->active_txt;
     int x, y;
 
