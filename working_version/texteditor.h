@@ -8,7 +8,7 @@
 #define TEXT_CELL_W 9
 #define TEXT_CELL_H 24
 
-#define  EMPTY_CELL  "¬"
+#define  EMPTY_CELL  "~"
 #define  TAB_LENGTH  3
 
 /* Text Editor Data Structure */
