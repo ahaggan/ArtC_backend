@@ -1,7 +1,7 @@
 run {
    type star
    iterations 7
-   size 400
+   size 1000
    colour transparent
    shape triangle
    angle 35
@@ -12,15 +12,15 @@ run {
    }
 
    if iterations 3 then {
-      colour red
+      colour black
    }
 
    if iterations 5 then {
       colour red
    }
 
-   if iterations 7 then {
-      colour red
-   }
-
 }
+
+
+
+

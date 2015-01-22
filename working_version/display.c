@@ -750,9 +750,6 @@ void display_next_button(int win_width, int win_height, Interface* interface) {
                 next_button_x, next_button_y, next_button_w, next_button_h, 
                   241, 35, 65);
 
-
-
-
     text_align_central(next_text, "NEXT", PREV_NEXT_TEXTBOX);
     make_text(&interface->window, &interface->next_button.rect,
                 interface->button_font, next_text,  
@@ -765,18 +762,33 @@ void display_dividers(int win_width, int win_height,
     make_rect(&interface->window, &interface->toolbar_bottom_divider, 
                 0, interface->toolbar.rect.h - 1, interface->toolbar.rect.w, 1, 
                   20, 20, 20);
+
     if (mode == challenge_mode) {
         //Menu/Learn divider
         make_rect(&interface->window, &interface->menu_learn_divider, 
                     interface->learn_button.rect.x - 1, 0, 
                     1, interface->menu_button.rect.h, 
                       20, 20, 20);
+
+      //Learn/Help divider
+       make_rect(&interface->window, &interface->learn_help_divider, 
+                interface->help_button.rect.x - 1, 0,
+                1, interface->menu_button.rect.h, 
+                      20, 20, 20);
+    }
+    else {
+      //menu/help divider
+       make_rect(&interface->window, &interface->menu_help_divider, 
+                interface->help_button.rect.x - 1, 0,
+                1, interface->menu_button.rect.h, 
+                      20, 20, 20);
     }
     //Learn/Help divider OR menu/help divider
     make_rect(&interface->window, &interface->learn_help_divider, 
                 interface->help_button.rect.x - 1, 0,
                 1, interface->menu_button.rect.h, 
-                  20, 20, 20);
+                      20, 20, 20);
+
     //Text Editor/Canvas divider
     make_rect(&interface->window, &interface->toolbar_bottom_divider, 
                 interface->text_editor_panel.rect.w, 0, 1, win_height, 

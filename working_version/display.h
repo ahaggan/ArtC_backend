@@ -142,6 +142,9 @@ typedef struct interface {
     Area toolbar_bottom_divider;
     Area menu_learn_divider;
     Area learn_help_divider;
+
+    Area menu_help_divider;
+
     Area reset_generate_divider;
     Area reset_generate_top_border;
     Area prev_divider;
