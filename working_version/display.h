@@ -281,7 +281,7 @@ void display_canvas(int win_width, int win_height,
 //Displays the text editor
 void display_text_editor(int win_width, int win_height, Interface* interface);
 
-//Displays the current challenge instructions in the toolbar at the top of the screen
+//Displays the current challenge instructions in the toolbar at the top
 void display_current_challenge(int win_width, int win_height, 
                                  Interface* interface);
 

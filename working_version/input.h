@@ -1,9 +1,10 @@
 /*
-Module contains functions that handle user inputs, such as clicks, hovering and key presses
+Module contains functions that handle user inputs, 
+such as clicks, hovering and key presses
 */
 
 #include "interface.h"
-//Checks where the mouse is, if on a button calls functions to display what the button does
+//Checks where the mouse is, if on a button calls functions to act accordingly
 void main_menu_hover(int x, int y, Menu *main_menu);
 
 //Handles mouse clicks on buttons on the main menu
@@ -29,7 +30,7 @@ void Text_Editor_text_input(Interface *interface, char* text,
 void Text_Editor_keydown(Interface *interface, int key,
                              int x, int y, Coordinates active);
 
-//Calls function in text_editor.c which displays chosen .txt file in the text editor
+//Calls function in text_editor.c which displays chosen .txt file in the editor
 void load_text_into_text_editor(char* file_name, Interface* interface);
 void mouse_move_to_cell(Interface* interface, int mouse_x, int mouse_y);
 //Handles the positioning of the cursor in the text editor

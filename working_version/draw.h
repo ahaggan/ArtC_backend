@@ -16,13 +16,15 @@ void draw_sdl(SDL_Win *window, Draw *fractal, int x, int y,
 //If random, calls function to set the random colour. Then sets the colour.
 int draw_colour(SDL_Win *window, Draw *fractal, int i);
 
-//Called by draw colour - checks which colour the user has chosen and assigns the value to SDL renderer
+//Called by draw colour -
+// checks which colour the user has chosen and assigns the value to SDL renderer
 int find_and_set_colour(SDL_Win *window, Draw *fractal, int i);
 
-//Randomly chooses one of the programs possible colours and assigns to the fractal
+//Randomly chooses one of the program's possible colours; assigns to the fractal
 void write_random_colour(Draw *fractal, int i);
 
-//If shape is random calls the function to assign a random shape. Then calls the function to draw said shape
+//If shape is random calls the function to assign a random shape. 
+// It then calls the function to draw said shape
 void draw_shape(SDL_Win *window, Draw *fractal, int x, int y, 
                   int size, float angle, int i);
 

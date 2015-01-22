@@ -11,7 +11,7 @@
 #define TRUE 1
 #define FALSE 0
 
-// This struct contains all the information about the fractal to draw on the canvas
+// Contains all the information about the fractal to draw on the canvas
 typedef struct draw{
     int iterations;
     char* type[10];

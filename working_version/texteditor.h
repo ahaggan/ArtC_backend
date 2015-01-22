@@ -14,8 +14,8 @@
 /* Text Editor Data Structure */
 void make_text_editor(int width, int height, Interface* interface);
 
-TextNode* load_text_into_cell(char c, int* row, int* column, Interface* interface, 
-                                TextNode* current);
+TextNode* load_text_into_cell(char c, int* row, int* column, 
+                                Interface* interface, TextNode* current);
 TextNode* make_cell(int width, int height, Coordinates curr, 
                       Interface* interface, 
                       TextNode text_editor[EDITOR_ROWS][EDITOR_COLUMNS], 
@@ -50,7 +50,7 @@ void write_text_to_cell(Interface* interface, FILE* file_name, int row,
 void wipe_text_editor(Interface* interface);
 
 /* Text Manipulation */
-
+//These functions are called by Events if their respective key has been pressed
 void keydown_backspace(Interface *interface, Coordinates active);
 void keydown_return(Interface *interface, Coordinates active);
 void keydown_tab(Interface *interface, Coordinates active);
@@ -63,7 +63,7 @@ void find_prev_cell_on_row(TextNode* current, Interface* interface);
 void find_next_active_node(Coordinates* active, Interface* interface);
 void find_previous_active_node(Coordinates* active, Interface* interface);
 
-//Carriage Return
+//Carriage Return functions
 void handle_carriage_return(Coordinates active, Interface* interface);
 void shift_row_down(Coordinates active, Coordinates cell, Interface* interface, 
                       char move[interface->editor_columns][3], 
@@ -82,7 +82,7 @@ void shift_rows_down_one(Interface* interface,
                            char move[interface->editor_columns][3], 
                            char copy[interface->editor_columns][3]);
 
-//Backspace
+//Backspace functions
 void handle_backspace(Coordinates active, Interface* interface);
 void shift_row_up(Coordinates active, Coordinates cell, Interface* interface, 
                     char copy[interface->editor_columns][3]);
@@ -100,7 +100,7 @@ void concatenate_to_previous_text(Coordinates active, Coordinates cell,
                                     char copy[interface->editor_columns][3]);
 void shift_rows_back_one(Coordinates active, Interface* interface);
 
-//Tab
+//Tab functions
 void handle_tab(Coordinates active, Interface* interface, int direction);
 void tab_save_row_backup(Interface* interface, 
                            Coordinates active, Coordinates cell, 
@@ -124,6 +124,7 @@ void shuffle_rest_of_line(Coordinates active, Interface interface,
 int shuffle_overflow(Coordinates* over, Interface interface, char* nxt);
 
 /* Helper Functions */
+//These functions check and return whether their condition is true
 int top_row(Coordinates active);
 int bottom_row(Coordinates active, Interface interface);
 int start_column(Coordinates active);
@@ -135,4 +136,5 @@ int entire_row_empty(int row, Interface* interface);
 int is_empty_cell(char* character);
 int final_active_node(Coordinates active, Interface interface);
 
+//Prints the contents of the text editor; for checking correct output
 void console_text_editor(Interface interface);

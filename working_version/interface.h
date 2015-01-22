@@ -1,7 +1,7 @@
 /*
-Module controls general interface commands; it calls parser and fractal functions, 
-taking a users code and, if written correctly, displaying the user's fractal
-on the canvas.
+Module controls general interface commands; 
+it calls parser and fractal functions, taking a users code and, 
+if written correctly, displaying the user's fractal on the canvas.
 */
 
 #include "display.h"

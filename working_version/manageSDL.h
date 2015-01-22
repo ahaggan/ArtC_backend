@@ -27,7 +27,7 @@ void SDL_Handle_Error(char* error);
 //Clears a chosen area of the SDL window
 void clear_area(SDL_Win *window, Area area);
 
-//Updates the window renderer with any changes to the display since this was last called
+//Updates the renderer with any changes to the display since it was last called
 void render_update(SDL_Win window);
 
 //If SDL_TTF doesn't initialise function calls SDL_handle_error
@@ -36,7 +36,8 @@ void SDL_TTF_Init();
 //Closes SDL TTF library
 void SDL_TTF_Quit(TTF_Font *font);
 
-//Loads the chosen font and size to TTF and returns this font, calls error if font in NULL
+//Loads the chosen font and size to TTF and returns this font, 
+// calls error if font in NULL
 TTF_Font* SDL_Load_Font(char* font_path, int font_size);
 
 //creates a texture from a surface and frees the surface

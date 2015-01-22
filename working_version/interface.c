@@ -48,9 +48,7 @@ void interface(Menu* main_menu, Mode mode, char* file_name) {
         FILE* challenge = fopen(interface.code_file, "w");
         fclose(challenge);
     }
-
     SDL_RenderClear(interface.window.renderer);
-
 }
 
 void generating(Draw *fractal, Interface *interface) {

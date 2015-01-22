@@ -1,5 +1,6 @@
 /*
-Module takes an interpreter array, contructed in the parser and assigns values from it to the draw fractal structure. 
+Module takes an interpreter array, contructed in the parser and assigns values 
+from it to the draw fractal structure. 
 This is used to draw the fractal image on the canvas.
 */
 

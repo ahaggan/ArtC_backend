@@ -1,9 +1,10 @@
 /*  This module tests the users program for gramatical accuracy. 
-    It will return an error if the input file(containing a program) is incorrect. 
+    It will return an error if the input file(containing a program) is incorrect
 
-    As the program is tested, the correct attributes are assigned to an interpreter array. 
-    If the program is written correctly this array is passed to the intereter module which 
-    will assign values from the user to the given fractal.
+    As the program is tested, the correct attributes are assigned 
+    to an interpreter array. 
+    If the program is written correctly this array is passed to the 
+    interpreter module which will assign values from the user to the fractal.
     This fractal is then passed back to the interface.
 */
 
@@ -25,14 +26,16 @@
 #define  ATTRIBUTE  {"black", "red", "pink", "fuchsia", "purple", "blue", "navy", "turquoise", "green", "lime", "yellow", "olive", "gold", "orange", "grey", "brown", "white", "random", "transparent", "STOP", "NEXT", "up", "down", "left", "right", "STOP", "NEXT", "small", "medium", "large", "micro", "gargantuan", "tiddly", "0", "STOP", "NEXT", "circle", "triangle", "square", "line", "image", "random", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "sierpinski", "tree", "star", "STOP", "NEXT", "0", "STOP", "NEXT", "thin", "thick", "0", "STOP", "NEXT", "0", "STOP", "NEXT", "0", "STOP", "NEXT"}
 #define  ATTRIBUTE_SIZE  75
 
-//Struct contains an action and all instructions/attributes that are valid with said action
+//Struct contains an action and all instructions/attributes 
+// that are valid with said action
 typedef struct action {
     char* name;
     char** instruction;
 } Action;
 
-//Contains the current program(copied from a file), an array of valid actions and an interpreter array.
-//This contains all the information needed to parse and interpret any program given.
+//Contains the current program(copied from a file), 
+// and an array of valid actions and an interpreter array.
+//This contains all the information needed to parse and interpret any given file
 typedef struct prog {
     char words[MAX_WORDS][WORD_LENGTH];
     int current_word;
@@ -93,8 +96,8 @@ int statement(Prog* program);
 //Checks that the word passed is a correct action word
 int check_action(char* word);
 
-//Checks that the current word is an attribute
-//if the statement isn't part of an if or for it assigns the values to the interpreter array
+//Checks that the current word is an attribute; if the statement isn't 
+// part of an if or for it assigns the values to the interpreter array
 int attribute(Prog* program);
 
 //Creates an arrays of action structures with corresponding action and

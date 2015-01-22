@@ -17,13 +17,13 @@ typedef struct shape {
 } Shape;
 
 
-//Called by each of the fractal drawing functions to create the shape it is about to draw.
+//Called by each of the fractal functions to create the shape it wants to draw.
 void make_shape(Shape *shape, int x, int y, int size, int height, float angle);
 
 /*
-The following functions contain the logic to draw their specific fractal; each function 
-draws the first iteration of the fractal and then calls the respective iterate function 
-to produce the other iterations of the fractal
+The following functions contain the logic to draw their specific fractal; 
+each function draws the first iteration of the fractal and then calls the 
+respective iterate function to produce the other iterations of the fractal
 */
 void tree(Draw *fractal, SDL_Win *window, int limit);
 void sierpinski(Draw *fractal, SDL_Win *window, int limit);
